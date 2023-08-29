@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Civil-Data/OnlineMeetingSchedule/issues"
   },
-  "homepage": "https://github.com/Civil-Data/OnlineMeetingSchedule#readme"
+  "homepage": "https://github.com/Civil-Data/OnlineMeetingSchedule#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }

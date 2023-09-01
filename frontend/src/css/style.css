@@ -5,6 +5,7 @@ body {
     text-align: center;
     background-color: #282c34;
     color: white;
+    margin: 0;
 }
 
 h1,
@@ -18,20 +19,128 @@ h2 {
 }
 
 a {
+    text-decoration: none;
+}
+
+.login_area > a {
     padding: 15px;
     color: white;
     font-size: 30px;
     background: linear-gradient(90deg, #000000, goldenrod, #000000);
-    text-decoration: none;
     border-radius: 15px;
     max-width: fit-content;
     margin-bottom: 20px;
 }
 
-div {
+a:hover {
+    color: black;
+}
+
+div.login_area {
     margin-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+video {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    filter: blur(3px);
+}
+
+.fade_transition {
+    animation: fade-in 1.5s ease-in forwards;
+}
+
+#email-container {
+    opacity: 0;
+    display: none;
+    transition: all 1s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (min-aspect-ratio: 16/9) {
+    video {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    video {
+        width: auto;
+        height: 100%;
+    }
+}
+
+.typing-effect {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #000;
+    white-space: nowrap;
+    animation: typing 3s steps(20) infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+b {
+    font-size: 30px;
+    color: red;
+}
+
+#confirmation_btn {
+    border-radius: 5px;
+    padding: 10px;
+    background-color: transparent;
+    color: goldenrod;
+    border: goldenrod 2px solid;
+    font-size: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-family: "Raleway", sans-serif;
+    font-weight: bold;
+}
+
+#confirmation_btn:hover {
+    background-color: goldenrod;
+    color: black;
+}
+
+input {
+    border: rgb(255, 187, 14) 2px solid;
+    margin: 10px 0 40px 0;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: rgb(218, 208, 186);
+    border-radius: 3px;
+    outline-style: none;
+}
+
+label {
+    font-size: 30px;
+}
+
+#typing-element {
+    margin: 0 0 100px;
 }

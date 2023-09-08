@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from "react";
 
-const TypingEffect = ({ textToType }) => {
-    const [text, setText] = useState("");
-    const typingSpeed = 25; // Adjust typing speed (milliseconds per character)
-    let charIndex = 0;
+const TypingEffect = ({ text, delay }) => {
+    const [currentText, setCurrentText] = useState("");
+    const [charIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        const typingInterval = setInterval(() => {
-            if (charIndex < textToType.length) {
-                console.log(textToType[charIndex]);
-                setText((prevText) => prevText + textToType.charAt(charIndex));
-                charIndex++;
-            } else {
-                clearInterval(typingInterval); // Stop the typing animation when done
-                const emailContainer =
-                    document.getElementById("email-container");
-                if (emailContainer) {
-                    emailContainer.style.display = "block";
-                    emailContainer.classList.add("fade_transition");
-                }
+        if (charIndex < text.length) {
+            const timeout = setTimeout(() => {
+                setCurrentText((prevText) => prevText + text[charIndex]);
+                setCurrentIndex((prevIndex) => prevIndex + 1);
+            }, delay);
+
+            return () => clearTimeout(timeout);
+        } else {
+            const emailContainer = document.getElementById("email-container");
+            if (emailContainer) {
+                emailContainer.style.display = "block";
+                emailContainer.classList.add("fade_transition");
             }
-        }, typingSpeed);
+        }
+    }, [charIndex, delay, text]);
 
-        return () => {
-            clearInterval(typingInterval); // Clean up the interval on component unmount
-        };
-    }, [textToType, charIndex]);
-
-    return <p>{text}</p>;
+    return <p>{currentText}</p>;
 };
 
 export default TypingEffect;

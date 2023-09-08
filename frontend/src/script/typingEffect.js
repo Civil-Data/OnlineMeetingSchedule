@@ -6,15 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let charIndex = 0;
 
     function typeNextCharacter() {
-        if (document.title == "Login") {
+        if (document.title === "Login") {
             textToType = "Welcome back! Please login to your account.";
-        } else if (document.title == "Registration page") {
+        } else if (document.title === "Registration page") {
             textToType =
                 "Welcome to our registration site! Let's create your account!";
-        } else if (document.title == "Online Meeting Scheduler") {
+        } else if (document.title === "Online Meeting Scheduler") {
             textToType =
                 "Here you can schedule meetings with your friends and colleagues.";
-        } else if (document.title == "Profile page") {
+        } else if (document.title === "Profile page") {
             textToType = "Here you can view and edit your profile.";
         }
         if (charIndex < textToType.length) {

@@ -7,7 +7,10 @@ const Login = () => {
     return (
         <div>
             <h1>Login page</h1>
-            <TypingEffect textToType="Welcome back! Please login to your account." />
+            <TypingEffect
+                text="Welcome back! Please login to your account."
+                delay={25}
+            />
             <div id="email-container" data-step-state="active">
                 <AuthInput message="Enter your email" type="email" />
                 <AuthInput message="Enter your password" type="password" />

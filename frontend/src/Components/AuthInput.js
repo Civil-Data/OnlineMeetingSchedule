@@ -1,5 +1,3 @@
-import React from "react";
-
 const AuthInput = ({ message, type }) => {
     return (
         <div>

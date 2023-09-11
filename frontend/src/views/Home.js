@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import BackgroundAnimation from "../Components/BackgroundAnimation";
-import "../css/App.css";
+import TypingEffect from "../Components/TypingEffect";
 
 const Home = () => {
     return (
@@ -11,7 +10,10 @@ const Home = () => {
             <h1>Welcome to our meeting scheduling site!</h1>
 
             <h3>
-                <p id="typing-element"></p>
+                <TypingEffect
+                    text="Here you can schedule meetings with your friends and colleagues."
+                    delay={25}
+                />
             </h3>
 
             <h2>Please Login or Sign up here!</h2>

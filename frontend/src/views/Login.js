@@ -1,4 +1,3 @@
-// import React from "react";
 import { Link } from "react-router-dom";
 import AuthInput from "../Components/AuthInput";
 import TypingEffect from "../Components/TypingEffect";

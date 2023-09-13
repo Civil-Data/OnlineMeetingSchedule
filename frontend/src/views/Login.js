@@ -16,12 +16,10 @@ const Login = () => {
                 <Link
                     id="confirmation_btn"
                     className="links"
-                    to="/confirmation"
-                    // to="/booking"
+                    to="/booking"
                     type="button"
                 >
-                    Confirmation_Test
-                    {/* Login */}
+                    Login
                 </Link>
             </div>
         </div>

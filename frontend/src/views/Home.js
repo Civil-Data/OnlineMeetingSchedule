@@ -1,25 +1,32 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import BackgroundAnimation from "../Components/BackgroundAnimation";
-import "../css/App.css";
+import TypingEffect from "../Components/TypingEffect";
 
 const Home = () => {
-    return (
-        <>
-            <BackgroundAnimation />
+	return (
+		<>
+			<BackgroundAnimation />
 
-            <h1>Welcome to our meeting scheduling site!</h1>
+			<h1>Welcome to our meeting scheduling site!</h1>
 
-            <h3>
-                <p id="typing-element"></p>
-            </h3>
+			<h3>
+				<TypingEffect
+					text="Here you can schedule meetings with your friends and colleagues."
+					delay={25}
+				/>
+			</h3>
 
-            <h2>Please Login or Sign up here!</h2>
-            <div className="login_area">
-                <a href="register.html">Click here to register!</a>
-                <a href="login.html">Click here to login!</a>
-            </div>
-        </>
-    );
+			<h2>Please Login or Sign up here!</h2>
+			<div className="login_area">
+				<Link to="/Register" className="links">
+					Click here to register!
+				</Link>
+				<Link to="/login" className="links">
+					Click here to login!
+				</Link>
+			</div>
+		</>
+	);
 };
 
 export default Home;

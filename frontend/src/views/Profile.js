@@ -1,5 +1,8 @@
 // import TypingEffect from "../Components/TypingEffect";
 
+import ProfileInformation from "../Components/Profile/ProfileInformation";
+import ProfileTab from "../Components/Profile/ProfileTab";
+
 const Profile = () => {
     return (
         <>
@@ -16,32 +19,33 @@ const Profile = () => {
                 </div>
 
                 <div className="tab_area">
-                    <span className="tab active">Your information</span>
-                    <span className="tab">Contacts</span>
+                    <ProfileTab tab_name="Profile information" is_active={true} />
+                    <ProfileTab tab_name="Contacts" />
+                    {/* <span className="tab active">Profile information</span>
+                    <span className="tab">Contacts</span> */}
                 </div>
 
-                <div className="bottom_section">
+                <ProfileInformation />
+                {/* <div className="bottom_section">
                     <div className="profile_info">
-                        {/* <div className="right_float"> */}
+                        {/* <di
                         <label className="user_info_label">Name:</label>
-                        <p>Martin Nilsson</p>
+                        <span>Martin Nilsson</span>
                         <label className="user_info_label">Gender:</label>
-                        <p>Male</p>
+                        <span>Male</span>
                         <label className="user_info_label">Role:</label>
-                        <p>Student</p>
+                        <span>Student</span>
                         <label className="user_info_label">Email:</label>
-                        <p>example@gmail.com</p>
+                        <span>example@gmail.com</span>
                         <label className="user_info_label">Telephone number:</label>
-                        {/* </div> */}
-                        {/* <div className="user_info_values"> */}
-                        <p>070-48289637</p>
-                        {/* </div> */}
+                        <span>070-48289637</span>
+                        
                     </div>
                     <div className="user_about">
                         <h3>Here is a description about me:</h3>
                         <p>I am a student at JU and studying Civil engieneer in Data science.</p>
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     );

@@ -135,6 +135,9 @@ input {
 .input_label {
     font-size: 30px;
 }
+.input_label > b {
+    color: red;
+}
 
 #typing-element {
     margin: 0 0 100px;
@@ -158,7 +161,9 @@ input {
 }
 
 .tab_area {
+    min-width: 330px;
     margin-top: 5vh;
+    margin-bottom: 30px;
     display: flex;
     justify-content: space-evenly;
     border-bottom: 2px solid goldenrod;
@@ -166,6 +171,7 @@ input {
 
 .tab {
     padding: 10px;
+    border-radius: 2px 2px 0 0;
 }
 
 .tab:hover {
@@ -187,19 +193,17 @@ p {
 }
 
 .profile_info {
+    text-wrap: nowrap;
     font-size: 20px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, 30px);
-    /* background-color: red; */
-    column-gap: 10px;
+    gap: 10px 15px;
 }
 .profile_info > .user_info_label {
     text-align: end;
 }
 
-.bottom_section {
-    margin-top: 30px;
+.user_information {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;

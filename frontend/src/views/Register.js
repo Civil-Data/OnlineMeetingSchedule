@@ -1,6 +1,4 @@
 import Title from "../Components/Title";
-import React from "react";
-import "../css/App.css";
 import { Link } from "react-router-dom";
 import AuthInput from "../Components/AuthInput";
 import TypingEffect from "../Components/TypingEffect";

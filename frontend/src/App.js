@@ -5,12 +5,14 @@ import Home from "./views/Home";
 import Register from "./views/Register";
 import Login from "./views/Login";
 import Booking from "./views/Booking";
+import NavigationBar from "./Components/NavigationBar";
 // import Confirmation from "./views/Confirmation";
 import Profile from "./views/Profile";
 
 function App() {
     return (
         <>
+            <NavigationBar />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />

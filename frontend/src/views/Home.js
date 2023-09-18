@@ -1,13 +1,14 @@
+import Title from "../Components/Title";
 import { Link } from "react-router-dom";
 import BackgroundAnimation from "../Components/BackgroundAnimation";
 import TypingEffect from "../Components/TypingEffect";
 
 const Home = () => {
     return (
-        <>
+        <div className="titles">
             <BackgroundAnimation />
 
-            <h1>Welcome to our meeting scheduling site!</h1>
+            <Title title="Welcome to our meeting scheduling site!" />
 
             <h3>
                 <TypingEffect
@@ -25,7 +26,7 @@ const Home = () => {
                     Click here to login!
                 </Link>
             </div>
-        </>
+        </div>
     );
 };
 

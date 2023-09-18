@@ -2,7 +2,6 @@
 
 body {
     font-family: "Raleway", sans-serif;
-    text-align: center;
     background-color: #282c34;
     color: white;
     margin: 0;
@@ -59,6 +58,7 @@ video {
 }
 
 #email-container {
+    margin-top: 50px;
     opacity: 0;
     display: none;
     transition: all 1s;
@@ -104,11 +104,6 @@ video {
     }
 }
 
-b {
-    font-size: 30px;
-    color: red;
-}
-
 #confirmation_btn {
     border-radius: 5px;
     padding: 10px;
@@ -137,14 +132,147 @@ input {
     outline-style: none;
 }
 
-label {
+.input_label {
     font-size: 30px;
+}
+.input_label > b {
+    color: red;
 }
 
 #typing-element {
     margin: 0 0 100px;
 }
 
+<<<<<<< HEAD
 confirmation_table {
     font-size: 10px;  
+=======
+#navigationBar {
+    font-family: Raleway, sans-serif;
+    border-bottom: goldenrod 10px solid;
+    background-color: #282c34;
+    padding: 10px;
+    position: top;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* space-between */
+}
+
+.nav-buttons > span {
+    font-size: 20px;
+    border-radius: 5px;
+    border-color: goldenrod;
+    max-width: fit-content;
+    border-style: solid;
+    padding: 5px 5px 5px 5px;
+}
+
+.nav-buttons > i {
+    font-size: 20px;
+    border-radius: 5px;
+    border-color: goldenrod;
+    max-width: fit-content;
+    border-style: solid;
+    padding: 5px 5px 5px 5px;
+}
+
+.nav-buttons {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-buttons > i:hover {
+    background-color: goldenrod;
+    cursor: pointer;
+}
+
+.nav-buttons > span:hover {
+    background-color: goldenrod;
+    cursor: pointer;
+}
+
+.flex-se {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 10%;
+}
+
+.flex-se#navButtons {
+    width: 15%;
+}
+
+.profile_container {
+    /* background-color: rgb(251, 251, 251); */
+    border-radius: 5px;
+    margin: 40px;
+    height: 90vh;
+}
+
+.top_section {
+    /* color: black; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.top_section > span {
+    font-size: 20pt;
+}
+
+.tab_area {
+    min-width: 330px;
+    margin-top: 5vh;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 2px solid goldenrod;
+}
+
+.tab {
+    padding: 10px;
+    border-radius: 2px 2px 0 0;
+}
+
+.tab:hover {
+    background-color: rgba(218, 165, 32, 1);
+    /* border-radius: 3px; */
+    cursor: pointer;
+}
+.tab.active {
+    background-color: rgba(218, 165, 32, 1);
+}
+
+p {
+    margin: 0;
+}
+
+.user_info_label {
+    color: goldenrod;
+    margin: 0;
+}
+
+.profile_info {
+    text-wrap: nowrap;
+    font-size: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 15px;
+}
+.profile_info > .user_info_label {
+    text-align: end;
+}
+
+.user_information {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+}
+
+.user_about {
+    text-align: center;
+}
+
+.titles {
+    text-align: center;
+>>>>>>> 733b23f3b4465379e7b1e26fb50850be9bdfae23
 }

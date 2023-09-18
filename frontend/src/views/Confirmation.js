@@ -5,7 +5,7 @@ import TypingEffect from "../Components/TypingEffect";
 const Confirmation = () => {
     return (
         <>
-        <div>
+        <div className="titles">
             <h1>Your meeting is now scheduled!</h1>
             <h3>
                 <p/>
@@ -20,7 +20,7 @@ const Confirmation = () => {
             </div>
 
             <div className="login_area">
-                <Link to="/login" className="links">
+                <Link to="/booking" className="links">
                     soon_to_be_return_to_calendar{/* Return to Calendar */}
                 </Link>
             </div>

@@ -143,10 +143,6 @@ input {
     margin: 0 0 100px;
 }
 
-<<<<<<< HEAD
-confirmation_table {
-    font-size: 10px;  
-=======
 #navigationBar {
     font-family: Raleway, sans-serif;
     border-bottom: goldenrod 10px solid;
@@ -274,5 +270,4 @@ p {
 
 .titles {
     text-align: center;
->>>>>>> 733b23f3b4465379e7b1e26fb50850be9bdfae23
 }

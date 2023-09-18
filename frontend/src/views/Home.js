@@ -17,23 +17,6 @@ const Home = () => {
                 />
             </h3>
 
-<<<<<<< HEAD
-			<h2>Please Login or Sign up here!</h2>
-			<div className="login_area">
-				<Link to="/Register" className="links">
-					Click here to register!
-				</Link>
-				<Link to="/login" className="links">
-					Click here to login!
-				</Link>
-				<Link to="/confirmation" className="links">
-					confirmation_page_test
-				</Link>
-
-			</div>
-		</>
-	);
-=======
             <h2>Please Login or Sign up here!</h2>
             <div className="login_area">
                 <Link to="/register" className="links">
@@ -45,7 +28,6 @@ const Home = () => {
             </div>
         </div>
     );
->>>>>>> 733b23f3b4465379e7b1e26fb50850be9bdfae23
 };
 
 export default Home;

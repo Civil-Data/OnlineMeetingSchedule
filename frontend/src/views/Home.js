@@ -24,6 +24,10 @@ const Home = () => {
 				<Link to="/login" className="links">
 					Click here to login!
 				</Link>
+				<Link to="/confirmation" className="links">
+					confirmation_page_test
+				</Link>
+
 			</div>
 		</>
 	);

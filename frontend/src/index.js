@@ -5,7 +5,6 @@ import { BrowserRouter } from "react-router-dom";
 import "./css/App.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import Confirmation from "./views/Confirmation";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

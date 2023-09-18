@@ -1,9 +1,14 @@
 // import TypingEffect from "../Components/TypingEffect";
+import { useState } from "react";
 
-import ProfileInformation from "../Components/Profile/ProfileInformation";
+import ProfileContacts from "../Components/Profile/ProfileContacts";
+// import ProfileInformation from "../Components/Profile/ProfileInformation";
 import ProfileTab from "../Components/Profile/ProfileTab";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 
 const Profile = () => {
+    const [displayContacts, setDisplayContacts] = useState(false);
     return (
         <>
             {/* <h1>Profile page</h1> */}
@@ -15,17 +20,32 @@ const Profile = () => {
             <div className="profile_container">
                 <div className="top_section">
                     <span>Martin Nilsson</span>
-                    <button>Edit</button>
+                    {displayContacts ? <EditIcon /> : <PersonAddSharpIcon />}
                 </div>
 
                 <div className="tab_area">
-                    <ProfileTab tab_name="Profile information" is_active={true} />
-                    <ProfileTab tab_name="Contacts" />
+                    <ProfileTab
+                        tab_name="Profile information"
+                        is_active={!displayContacts}
+                        onClick={() => {
+                            setDisplayContacts(false);
+                            console.log(displayContacts);
+                        }}
+                    />
+                    <ProfileTab
+                        tab_name="Contacts"
+                        is_active={displayContacts}
+                        onClick={() => {
+                            setDisplayContacts(true);
+                            console.log(displayContacts);
+                        }}
+                    />
                     {/* <span className="tab active">Profile information</span>
                     <span className="tab">Contacts</span> */}
                 </div>
 
-                <ProfileInformation />
+                {/* <ProfileInformation /> */}
+                <ProfileContacts />
                 {/* <div className="bottom_section">
                     <div className="profile_info">
                         {/* <di

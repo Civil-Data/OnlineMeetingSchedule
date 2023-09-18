@@ -2,7 +2,6 @@
 
 body {
     font-family: "Raleway", sans-serif;
-    /* text-align: center; */
     background-color: #282c34;
     color: white;
     margin: 0;
@@ -59,6 +58,7 @@ video {
 }
 
 #email-container {
+    margin-top: 50px;
     opacity: 0;
     display: none;
     transition: all 1s;
@@ -143,6 +143,61 @@ input {
     margin: 0 0 100px;
 }
 
+#navigationBar {
+    font-family: Raleway, sans-serif;
+    border-bottom: goldenrod 10px solid;
+    background-color: #282c34;
+    padding: 10px;
+    position: top;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* space-between */
+}
+
+.nav-buttons > span {
+    font-size: 20px;
+    border-radius: 5px;
+    border-color: goldenrod;
+    max-width: fit-content;
+    border-style: solid;
+    padding: 5px;
+}
+
+.nav-buttons > i {
+    font-size: 20px;
+    border-radius: 5px;
+    border-color: goldenrod;
+    max-width: fit-content;
+    border-style: solid;
+    padding: 5px;
+}
+
+.nav-buttons {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-buttons > i:hover {
+    background-color: goldenrod;
+    cursor: pointer;
+}
+
+.nav-buttons > span:hover {
+    background-color: goldenrod;
+    cursor: pointer;
+}
+
+.flex-se {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 10%;
+}
+
+.flex-se#navButtons {
+    width: 15%;
+}
+
 .profile_container {
     /* background-color: rgb(251, 251, 251); */
     border-radius: 5px;
@@ -210,5 +265,9 @@ p {
 }
 
 .user_about {
+    text-align: center;
+}
+
+.titles {
     text-align: center;
 }

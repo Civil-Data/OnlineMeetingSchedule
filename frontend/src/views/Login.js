@@ -1,11 +1,13 @@
+import Title from "../Components/Title";
 import { Link } from "react-router-dom";
 import AuthInput from "../Components/AuthInput";
 import TypingEffect from "../Components/TypingEffect";
 
 const Login = () => {
     return (
-        <div>
-            <h1>Login page</h1>
+        <div className="titles">
+            <Title title="Login page" />
+
             <TypingEffect
                 text="Welcome back! Please login to your account."
                 delay={25}

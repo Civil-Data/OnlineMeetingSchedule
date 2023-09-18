@@ -2,7 +2,7 @@ const AuthInput = ({ message, type }) => {
     return (
         <div>
             <div>
-                <label htmlFor={type}>
+                <label htmlFor={type} className="input_label">
                     {message}
                     <b>*</b>
                 </label>

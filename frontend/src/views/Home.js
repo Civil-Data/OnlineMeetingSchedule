@@ -1,21 +1,23 @@
+import Title from "../Components/Title";
 import { Link } from "react-router-dom";
 import BackgroundAnimation from "../Components/BackgroundAnimation";
 import TypingEffect from "../Components/TypingEffect";
 
 const Home = () => {
-	return (
-		<>
-			<BackgroundAnimation />
+    return (
+        <div className="titles">
+            <BackgroundAnimation />
 
-			<h1>Welcome to our meeting scheduling site!</h1>
+            <Title title="Welcome to our meeting scheduling site!" />
 
-			<h3>
-				<TypingEffect
-					text="Here you can schedule meetings with your friends and colleagues."
-					delay={25}
-				/>
-			</h3>
+            <h3>
+                <TypingEffect
+                    text="Here you can schedule meetings with your friends and colleagues."
+                    delay={25}
+                />
+            </h3>
 
+<<<<<<< HEAD
 			<h2>Please Login or Sign up here!</h2>
 			<div className="login_area">
 				<Link to="/Register" className="links">
@@ -31,6 +33,19 @@ const Home = () => {
 			</div>
 		</>
 	);
+=======
+            <h2>Please Login or Sign up here!</h2>
+            <div className="login_area">
+                <Link to="/register" className="links">
+                    Click here to register!
+                </Link>
+                <Link to="/login" className="links">
+                    Click here to login!
+                </Link>
+            </div>
+        </div>
+    );
+>>>>>>> 733b23f3b4465379e7b1e26fb50850be9bdfae23
 };
 
 export default Home;

@@ -160,7 +160,7 @@ input {
     border-color: goldenrod;
     max-width: fit-content;
     border-style: solid;
-    padding: 5px;
+    padding: 5px 5px 5px 5px;
 }
 
 .nav-buttons > i {
@@ -169,7 +169,7 @@ input {
     border-color: goldenrod;
     max-width: fit-content;
     border-style: solid;
-    padding: 5px;
+    padding: 5px 5px 5px 5px;
 }
 
 .nav-buttons {

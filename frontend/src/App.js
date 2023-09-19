@@ -6,8 +6,7 @@ import Register from "./views/Register";
 import Login from "./views/Login";
 import Booking from "./views/Booking";
 import NavigationBar from "./Components/NavigationBar";
-// import Confirmation from "./views/Confirmation";
-import Profile from "./views/Profile";
+import { ProfileProvider } from "./contexts/ProfileContext";
 
 function App() {
     return (
@@ -18,8 +17,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/booking" element={<Booking />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<Profile />} />
-                {/* <Route path="/confirmation" element={<Confirmation />} /> */}
+                <Route path="/profile" element={<ProfileProvider />} />
             </Routes>
         </>
     );

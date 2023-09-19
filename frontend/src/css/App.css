@@ -208,6 +208,7 @@ input {
 .nav-buttons {
 	color: white;
 	text-decoration: none;
+	white-space: nowrap;
 }
 
 .nav-buttons > i:hover {
@@ -317,4 +318,21 @@ p {
 .dates {
 	background-color: rgb(49, 49, 49);
 	color: goldenrod;
+}
+
+.contact_list {
+	margin: 0 40px;
+	padding: 20px;
+}
+
+.list_item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px;
+	border-radius: 10px;
+	border: 1px solid goldenrod;
+	list-style: none;
+	margin-bottom: 20px;
+	white-space: no-wrap;
 }

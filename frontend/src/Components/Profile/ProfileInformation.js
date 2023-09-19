@@ -1,4 +1,5 @@
 import React from "react";
+import TypingEffect from "../TypingEffect";
 
 const ProfileInformation = () => {
     return (
@@ -17,7 +18,7 @@ const ProfileInformation = () => {
             </div>
             <div className="user_about">
                 <h3>Here is a description about me:</h3>
-                <p>I am a student at Jönköping University</p>
+                <TypingEffect text="I am a student at Jönköping University." delay={25} />
             </div>
         </div>
     );

@@ -1,6 +1,5 @@
 // import TypingEffect from "../Components/TypingEffect";
 import React from "react";
-// import React from "react";
 
 import ProfileContacts from "../Components/Profile/ProfileContacts";
 import ProfileInformation from "../Components/Profile/ProfileInformation";
@@ -8,7 +7,7 @@ import ProfileTab from "../Components/Profile/ProfileTab";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 // import { useTabContext } from "../contexts/ProfileContext";
-import { ProfileProvider, useTabContext } from "../contexts/ProfileContext";
+import { useTabContext } from "../contexts/ProfileContext";
 
 // let isOpen;
 const Profile = () => {
@@ -21,13 +20,7 @@ const Profile = () => {
     // }, []);
 
     return (
-        <ProfileProvider>
-            {/* <h1>Profile page</h1> */}
-            {/* <TypingEffect
-                text="Welcome to the profile page! Please enter your profile information."
-                delay={25}
-            /> */}
-
+        <>
             <div className="profile_container">
                 <div className="top_section">
                     <span>Martin Nilsson</span>
@@ -37,16 +30,14 @@ const Profile = () => {
                 <div className="tab_area">
                     <ProfileTab
                         tab_text="Profile information"
-                        is_active={tabContext === "info" ? true : false}
+                        is_active={tabContext === "info"}
                         tab_name="info"
                     />
                     <ProfileTab
                         tab_text="Contacts"
-                        is_active={tabContext === "contacts" ? true : false}
+                        is_active={tabContext === "contacts"}
                         tab_name="contacts"
                     />
-                    {/* <span className="tab active">Profile information</span>
-                    <span className="tab">Contacts</span> */}
                 </div>
                 {tabContext === "info" ? <ProfileInformation /> : <ProfileContacts />}
 
@@ -71,7 +62,8 @@ const Profile = () => {
                     </div>
                 </div> */}
             </div>
-        </ProfileProvider>
+            {/* </ProfileProvider> */}
+        </>
     );
 };
 

@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
+import { useTabUpdate } from "../../contexts/ProfileContext";
 
-const ProfileTab = ({ tab_name, is_active }) => {
-    const [displayContacts, setDisplayContacts] = useState(false);
+const ProfileTab = ({ tab_text, is_active, tab_name }) => {
+    const updateTabContext = useTabUpdate();
+    // const [displayContacts, setDisplayContacts] = useState(false);
     return (
         <span
             onClick={() => {
-                setDisplayContacts(true);
-                console.log(displayContacts);
+                updateTabContext(tab_name);
+
+                console.log(tab_name);
+                // console.log(displayContacts);
             }}
             className={`tab ${is_active ? "active" : ""}`}
         >
-            {tab_name}
+            {tab_text}
         </span>
     );
 };

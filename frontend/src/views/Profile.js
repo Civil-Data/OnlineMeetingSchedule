@@ -1,16 +1,27 @@
 // import TypingEffect from "../Components/TypingEffect";
-import { useState } from "react";
+import React from "react";
+// import React from "react";
 
 import ProfileContacts from "../Components/Profile/ProfileContacts";
-// import ProfileInformation from "../Components/Profile/ProfileInformation";
+import ProfileInformation from "../Components/Profile/ProfileInformation";
 import ProfileTab from "../Components/Profile/ProfileTab";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
+// import { useTabContext } from "../contexts/ProfileContext";
+import { ProfileProvider, useTabContext } from "../contexts/ProfileContext";
 
+// let isOpen;
 const Profile = () => {
-    const [displayContacts, setDisplayContacts] = useState(false);
+    // const [displayContacts, setDisplayContacts] = useState(false);
+    const tabContext = useTabContext();
+    // console.log(tabContext);
+
+    // useEffect(() => {
+    //     // isOpen = tabContext;
+    // }, []);
+
     return (
-        <>
+        <ProfileProvider>
             {/* <h1>Profile page</h1> */}
             {/* <TypingEffect
                 text="Welcome to the profile page! Please enter your profile information."
@@ -20,32 +31,25 @@ const Profile = () => {
             <div className="profile_container">
                 <div className="top_section">
                     <span>Martin Nilsson</span>
-                    {displayContacts ? <EditIcon /> : <PersonAddSharpIcon />}
+                    {tabContext === "info" ? <EditIcon /> : <PersonAddSharpIcon />}
                 </div>
 
                 <div className="tab_area">
                     <ProfileTab
-                        tab_name="Profile information"
-                        is_active={!displayContacts}
-                        onClick={() => {
-                            setDisplayContacts(false);
-                            console.log(displayContacts);
-                        }}
+                        tab_text="Profile information"
+                        is_active={tabContext === "info" ? true : false}
+                        tab_name="info"
                     />
                     <ProfileTab
-                        tab_name="Contacts"
-                        is_active={displayContacts}
-                        onClick={() => {
-                            setDisplayContacts(true);
-                            console.log(displayContacts);
-                        }}
+                        tab_text="Contacts"
+                        is_active={tabContext === "contacts" ? true : false}
+                        tab_name="contacts"
                     />
                     {/* <span className="tab active">Profile information</span>
                     <span className="tab">Contacts</span> */}
                 </div>
+                {tabContext === "info" ? <ProfileInformation /> : <ProfileContacts />}
 
-                {/* <ProfileInformation /> */}
-                <ProfileContacts />
                 {/* <div className="bottom_section">
                     <div className="profile_info">
                         {/* <di
@@ -67,7 +71,7 @@ const Profile = () => {
                     </div>
                 </div> */}
             </div>
-        </>
+        </ProfileProvider>
     );
 };
 

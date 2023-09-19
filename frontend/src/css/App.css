@@ -160,12 +160,6 @@ input {
 	margin-bottom: 50px;
 }
 
-/* .item {
-	min-height: 100px;
-	border-right: 2px solid rgba(11, 11, 11, 0.5);
-	border-bottom: 2px solid rgba(11, 11, 11, 0.5);
-	gap: 0px 0px;
-} */
 .month {
 	grid-column: 1/8;
 	font-size: 200%;
@@ -319,7 +313,8 @@ p {
 	color: goldenrod;
 	width: 100%;
 	height: 100%;
-	border: 2px goldenrod;
+	border: 1px rgba(218, 165, 32, 0.469);
+	border-style: solid;
 }
 
 .contact_list {
@@ -352,7 +347,33 @@ p {
 }
 
 .dayView {
-	background-color: white;
-	width: 50%;
-	height: 50%;
+	background-color: beige;
+	width: 250px;
+	height: 500px;
+}
+
+.day {
+	color: goldenrod;
+	/* text-align: center; */
+	/* margin-top: 10px; */
+}
+
+.time button {
+	color: #282c34;
+	text-align: center;
+	margin-top: 30px;
+	display: block;
+	margin-left: 40%;
+	box-shadow: 0 2px #999;
+}
+
+.time button:active {
+	background-color: #4c4d4f;
+}
+
+.calendarDate {
+	color: #282c34;
+	font-size: xx-large;
+	text-align: center;
+	margin-top: 10px;
 }

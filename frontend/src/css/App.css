@@ -150,28 +150,29 @@ input {
 .grid-container {
 	display: inline-grid;
 	margin-top: 50px;
-	grid-template-columns: repeat(7, 103px);
-	grid-template-rows: 45px 25px repeat(6, 1fr);
-	grid-gap: 1px;
+	grid-template-columns: repeat(7, 155px);
+	grid-template-rows: 45px 25px repeat(5, 1fr);
+	/* grid-gap: 1px; */
+	border: 1px solid goldenrod;
+	border-radius: 10px;
+	background-color: rgb(49, 49, 49);
+	color: goldenrod;
+	margin-bottom: 50px;
 }
 
 .item {
 	min-height: 100px;
-	background-color: #eee;
-	color: goldenrod;
+	border-right: 2px solid rgba(11, 11, 11, 0.5);
+	border-bottom: 2px solid rgba(11, 11, 11, 0.5);
 	gap: 0px 0px;
 }
-.item0 {
-	background-color: #eee;
+.month {
 	grid-column: 1/8;
-	color: goldenrod;
 	font-size: 200%;
 }
 
-.item1 {
-	background-color: #eee;
+.day {
 	max-height: 50px;
-	color: goldenrod;
 	gap: 0px 0px;
 }
 
@@ -302,4 +303,18 @@ p {
 
 .titles {
 	text-align: center;
+}
+
+.calender_area {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+	text-align: center;
+}
+
+.dates {
+	background-color: rgb(49, 49, 49);
+	color: goldenrod;
 }

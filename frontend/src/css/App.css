@@ -278,6 +278,17 @@ p {
     padding: 20px;
 }
 
+.meeting_list {
+    margin: 0 10px;
+    padding: 20px;
+    align-items: center;
+    width: 100%;
+    display: table;
+    background-color: gray;
+    border: 12px groove salmon;
+    border-radius: 10px;
+}
+
 .list_item {
     display: flex;
     align-items: center;

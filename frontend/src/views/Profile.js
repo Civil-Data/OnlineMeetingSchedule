@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 // import { useTabContext } from "../contexts/ProfileContext";
 import { useTabContext } from "../contexts/ProfileContext";
+import ProfileMeetings from "../Components/Profile/ProfileMeetings";
 
 // let isOpen;
 const Profile = () => {
@@ -38,8 +39,19 @@ const Profile = () => {
                         is_active={tabContext === "contacts"}
                         tab_name="contacts"
                     />
+                    <ProfileTab
+                        tab_text="My Meetings"
+                        is_active={tabContext === "my_meetings"}
+                        tab_name="my_meetings"
+                    />
                 </div>
-                {tabContext === "info" ? <ProfileInformation /> : <ProfileContacts />}
+
+                {tabContext === "info" && <ProfileInformation/>}
+                {tabContext === "contacts" && <ProfileContacts/>}
+                {tabContext === "my_meetings" && <ProfileMeetings/>}
+                
+                {/* {tabContext === "info" ? <ProfileInformation /> : <ProfileContacts />} */}
+
 
                 {/* <div className="bottom_section">
                     <div className="profile_info">
@@ -66,5 +78,6 @@ const Profile = () => {
         </>
     );
 };
+
 
 export default Profile;

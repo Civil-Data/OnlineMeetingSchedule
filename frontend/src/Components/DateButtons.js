@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const DateButtons = () => {
-	const dateLabels = Array.from({ length: 31 }, (_, index) => index + 1);
-
+const DateButtons = ({ date }) => {
+	const [dayView, setDayView] = useState(false);
+	// const dateLabels = Array.from({ length: 31 }, (_, index) => index + 1);
+	function dayOverview() {
+		<div className="shadowBooking"></div>;
+	}
+	useEffect(() => {}, [dayView]);
 	return (
-		<div>
-			{dateLabels.map((date) => (
-				<button key={date} className="dates">
-					{date}
-				</button>
-			))}
+		<div
+			key={date}
+			className="dates"
+			onClick={() => {
+				setDayView((view) => !view);
+			}}
+		>
+			{date}
 		</div>
 	);
 };

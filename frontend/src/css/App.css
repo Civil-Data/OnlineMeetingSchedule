@@ -272,3 +272,20 @@ p {
 .titles {
     text-align: center;
 }
+
+.contact_list {
+    margin: 0 40px;
+    padding: 20px;
+}
+
+.list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid goldenrod;
+    list-style: none;
+    margin-bottom: 20px;
+    white-space: no-wrap;
+}

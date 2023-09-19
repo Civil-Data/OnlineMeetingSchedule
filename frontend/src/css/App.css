@@ -175,6 +175,7 @@ input {
 .nav-buttons {
     color: white;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .nav-buttons > i:hover {

@@ -1,7 +1,7 @@
 import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
 
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import DateButtons from "../Components/DateButtons";
 
 const Booking = () => {
@@ -13,9 +13,18 @@ const Booking = () => {
 	// const [day, setDay] = useState(false);
 	return (
 		<>
-			<div class="viewShadow">
-				<div class="dayView"></div>
-			</div>
+			{/* <div class="viewShadow">
+				<div class="dayView">
+					<div className="calendarDate"> Monday 1st</div>
+					<div className="time">
+						<button>8:00</button>
+						<button>9:00</button>
+						<button>10:30</button>
+						<button>12:00</button>
+						<button>14:45</button>
+					</div>
+				</div>
+			</div> */}
 			<div>
 				<div className="titles">
 					<Title title="Booking page" className="titles" />

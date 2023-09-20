@@ -1,9 +1,6 @@
 import Title from "../Components/Title";
-import { Link } from "react-router-dom";
-import AuthInput from "../Components/AuthInput";
 import TypingEffect from "../Components/TypingEffect";
-import LoginForm from "../Components/LoginForm";
-import Validation from "../Components/Validation";
+import Validation from "../Components/LoginValidation";
 
 const Login = () => {
     return (
@@ -15,12 +12,7 @@ const Login = () => {
                 delay={25}
             />
             <div id="email-container" data-step-state="active">
-                <LoginForm />
-                {/* <LoginForm type="email" message="Enter your email" /> */}
-                {/* <LoginForm type="password" message="Enter your password" /> */}
-                {/* <Validation /> */}
-                {/* <AuthInput message="Enter your email" type="email" />
-                <AuthInput message="Enter your password" type="password" /> */}
+                <Validation />
             </div>
         </div>
     );

@@ -1,28 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginValidation = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const [emailConfirm, setEmailConfirm] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handleEmailConfirmChange = (e) => {
-        setEmailConfirm(e.target.value);
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handlePasswordConfirmChange = (e) => {
-        setPasswordConfirm(e.target.value);
-    };
+    const navigate = useNavigate();
 
     // Email validation function
     const validateEmail = (email) => {
@@ -60,7 +44,9 @@ const LoginValidation = () => {
         return true;
     };
 
-    const handleSignUp = () => {
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        // Check if email and password are valid
         if (
             (validateEmail(email) &&
                 validatePassword(password) &&
@@ -71,7 +57,7 @@ const LoginValidation = () => {
             (email === "felix@ju.se" && password === "Password123!") ||
             (email === "matilda@ju.se" && password === "Password123!")
         ) {
-            setError("OK");
+            navigate("/profile");
         } else {
             // Display an error message for invalid email or password
             alert("Invalid email address or password");
@@ -80,65 +66,65 @@ const LoginValidation = () => {
 
     return (
         <>
-            <div>
-                <label htmlFor="email" className="input_label">
-                    Enter your email
-                    <b>*</b>
-                </label>
-            </div>
-            <input
-                type="email"
-                placeholder="email"
-                value={email}
-                onChange={(e) => handleEmailChange(e)}
-            />
-            <div>
-                <label htmlFor="email" className="input_label">
-                    Confirm your email
-                    <b>*</b>
-                </label>
-            </div>
-            <input
-                type="email"
-                placeholder="confrim email"
-                value={emailConfirm}
-                onChange={(e) => handleEmailConfirmChange(e)}
-            />
-            <div>
-                <label htmlFor="password" className="input_label">
-                    Enter your password
-                    <b>*</b>
-                </label>
-            </div>
-            <input
-                type="password"
-                placeholder="password"
-                value={password}
-                onChange={(e) => handlePasswordChange(e)}
-            />
-            <div>
-                <label htmlFor="password" className="input_label">
-                    Confirm your password
-                    <b>*</b>
-                </label>
-            </div>
-            <input
-                type="password"
-                placeholder="confirm password"
-                value={passwordConfirm}
-                onChange={(e) => handlePasswordConfirmChange(e)}
-            />
-            <div>
-                <Link
-                    id="confirmation_btn"
-                    className="links"
-                    to={error === "OK" ? "/profile" : "/register"}
-                    type="button"
-                    onClick={handleSignUp}
-                >
-                    Register account
-                </Link>
-            </div>
+            <form onSubmit={handleSignUp}>
+                <div>
+                    <label htmlFor="email" className="input_label">
+                        Enter your email
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    type="email"
+                    placeholder="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <div>
+                    <label htmlFor="email" className="input_label">
+                        Confirm your email
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    type="email"
+                    placeholder="confirm email"
+                    value={emailConfirm}
+                    onChange={(e) => setEmailConfirm(e.target.value)}
+                />
+                <div>
+                    <label htmlFor="password" className="input_label">
+                        Enter your password
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    type="password"
+                    placeholder="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <div>
+                    <label htmlFor="password" className="input_label">
+                        Confirm your password
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    type="password"
+                    placeholder="confirm password"
+                    value={passwordConfirm}
+                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                />
+                <div>
+                    <button
+                        type="submit"
+                        id="confirmation_btn"
+                        className="links"
+                    >
+                        Register account
+                    </button>
+                </div>
+            </form>
         </>
     );
 };

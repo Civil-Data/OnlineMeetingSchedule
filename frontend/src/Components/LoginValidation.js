@@ -1,18 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginValidation = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
+    const navigate = useNavigate();
 
     // Email validation function
     const validateEmail = (email) => {
@@ -50,17 +42,16 @@ const LoginValidation = () => {
         return true;
     };
 
-    const handleSignUp = () => {
+    const handleSignUp = (e) => {
+        e.preventDefault();
         if (
-            (validateEmail(email) &&
-                validatePassword(password)(
-                    email === "joel@ju.se" && password === "Password123!"
-                )) ||
+            (validateEmail(email) && validatePassword(password)) ||
+            (email === "joel@ju.se" && password === "Password123!") ||
             (email === "martin@ju.se" && password === "Password123!") ||
             (email === "felix@ju.se" && password === "Password123!") ||
             (email === "matilda@ju.se" && password === "Password123!")
         ) {
-            setError("OK");
+            navigate("/booking");
         } else {
             // Display an error message for invalid email or password
             alert("Invalid email address or password");
@@ -69,42 +60,42 @@ const LoginValidation = () => {
 
     return (
         <>
-            <div>
-                <label htmlFor="email" className="input_label">
-                    Enter your email
-                    <b>*</b>
-                </label>
-            </div>
-            <input
-                type="email"
-                placeholder="email"
-                value={email}
-                onChange={(e) => handleEmailChange(e)}
-            />
+            <form onSubmit={handleSignUp}>
+                <div>
+                    <label htmlFor="email" className="input_label">
+                        Enter your email
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    type="email"
+                    placeholder="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
 
-            <div>
-                <label htmlFor="password" className="input_label">
-                    Enter your password
-                    <b>*</b>
-                </label>
-            </div>
-            <input
-                type="password"
-                placeholder="password"
-                value={password}
-                onChange={(e) => handlePasswordChange(e)}
-            />
-            <div>
-                <Link
-                    id="confirmation_btn"
-                    className="links"
-                    to={error === "OK" ? "/booking" : "/login"}
-                    type="button"
-                    onClick={handleSignUp}
-                >
-                    Login
-                </Link>
-            </div>
+                <div>
+                    <label htmlFor="password" className="input_label">
+                        Enter your password
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    type="password"
+                    placeholder="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <div>
+                    <button
+                        type="submit"
+                        id="confirmation_btn"
+                        className="links"
+                    >
+                        Login
+                    </button>
+                </div>
+            </form>
         </>
     );
 };

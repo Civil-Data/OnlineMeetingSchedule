@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Login from "../views/Login";
 
 const LoginStatusContext = React.createContext();
 const UpdateLoginStatusContext = React.createContext();
@@ -12,7 +11,7 @@ export function useUpdateLoginStatus() {
 }
 
 export const LoginProvider = ({ children }) => {
-    const [loginStatus, setLoginStatus] = useState("martin@ju.se");
+    const [loginStatus, setLoginStatus] = useState("");
 
     function updateLoginContext(status) {
         setLoginStatus(status);
@@ -22,7 +21,6 @@ export const LoginProvider = ({ children }) => {
         <LoginStatusContext.Provider value={loginStatus}>
             <UpdateLoginStatusContext.Provider value={updateLoginContext}>
                 {children}
-                <Login />
             </UpdateLoginStatusContext.Provider>
         </LoginStatusContext.Provider>
     );

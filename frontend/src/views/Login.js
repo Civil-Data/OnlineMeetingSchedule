@@ -1,6 +1,6 @@
 import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
-import Validation from "../Components/LoginValidation";
+import LoginValidation from "../Components/LoginValidation";
 
 const Login = () => {
     return (
@@ -12,7 +12,7 @@ const Login = () => {
                 delay={25}
             />
             <div id="email-container" data-step-state="active">
-                <Validation />
+                <LoginValidation />
             </div>
         </div>
     );

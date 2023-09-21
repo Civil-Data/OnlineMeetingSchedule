@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import ConfirmButton from "./ConfirmButton";
+// import Confirmation from "./Confirmation";
 
-const DateButtons = ({ date }) => {
+const DateButtons = ({ date, confirm }) => {
 	const [dayView, setDayView] = useState(false);
+
 	// const dateLabels = Array.from({ length: 31 }, (_, index) => index + 1);
 	// function dayOverview() {}
 	// useEffect(() => {}, [dayView]);
@@ -24,7 +27,7 @@ const DateButtons = ({ date }) => {
 			key={date}
 			className="dates"
 			onClick={() => {
-				setDayView((view) => !view);
+				setDayView((view) => true);
 			}}
 		>
 			{date}
@@ -39,6 +42,7 @@ const DateButtons = ({ date }) => {
 							<button>12:00</button>
 							<button>14:45</button>
 						</div>
+						<ConfirmButton></ConfirmButton>
 					</div>
 				</div>
 			)}

@@ -111,12 +111,9 @@ video {
 	color: goldenrod;
 	border: goldenrod 2px solid;
 	font-size: 20px;
-	margin-top: 70px;
 	cursor: pointer;
 	font-family: "Raleway", sans-serif;
 	font-weight: bold;
-	justify-content: center;
-	align-items: center;
 }
 
 #confirmation_btn:hover {

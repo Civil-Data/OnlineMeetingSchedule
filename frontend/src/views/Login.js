@@ -1,6 +1,6 @@
 import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
-import LoginValidation from "../Components/Login/LoginValidation";
+import LoginValidation from "../Components/LoginValidation";
 
 const Login = () => {
     return (

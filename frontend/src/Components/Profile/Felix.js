@@ -1,23 +1,12 @@
 import React from "react";
-// import { useLoginStatusContext } from "../../contexts/LoginContext";
-// import Martin from "./Martin";
-// import Joel from "./Joel";
-// import Matilda from "./Matilda";
-// import Felix from "./Felix";
 import TypingEffect from "../TypingEffect";
 
-const ProfileInformation = () => {
-    // const loginStatusContext = useLoginStatusContext();
-
+const Martin = () => {
     return (
         <div className="user_information">
-            {/* {loginStatusContext === "martin@ju.se" && <Martin />}
-            {loginStatusContext === "joel@ju.se" && <Joel />}
-            {loginStatusContext === "matilda@ju.se" && <Matilda />}
-            {loginStatusContext === "felix@ju.se" && <Felix />} */}
             <div className="profile_info">
                 <label className="user_info_label">Name:</label>
-                <span>Martin Nilsson</span>
+                <span>Felix Stockinger</span>
                 <label className="user_info_label">Gender:</label>
                 <span>Male</span>
                 <label className="user_info_label">Role:</label>
@@ -38,4 +27,4 @@ const ProfileInformation = () => {
     );
 };
 
-export default ProfileInformation;
+export default Martin;

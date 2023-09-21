@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+    useLoginStatusContext,
+    useUpdateLoginStatus,
+} from "../../contexts/LoginContext";
 
 const LoginValidation = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    // const loginStatusContext = useLoginStatusContext();
+    const updateLoginStatusContext = useUpdateLoginStatus();
+    console.log(updateLoginStatusContext);
 
     // Email validation function
     const validateEmail = (email) => {
@@ -51,6 +58,9 @@ const LoginValidation = () => {
             (email === "felix@ju.se" && password === "Password123!") ||
             (email === "matilda@ju.se" && password === "Password123!")
         ) {
+            // loginStatusContext(email);
+            updateLoginStatusContext(email);
+            console.log(updateLoginStatusContext);
             navigate("/booking");
         } else {
             // Display an error message for invalid email or password
@@ -60,6 +70,14 @@ const LoginValidation = () => {
 
     return (
         <>
+            {/* <span
+                onClick={() => {
+                    updateTabContext(tab_name);
+                }}
+                className={`tab ${is_active ? "active" : ""}`}
+            >
+                {tab_text}
+            </span> */}
             <form onSubmit={handleSignUp}>
                 <div>
                     <label htmlFor="email" className="input_label">

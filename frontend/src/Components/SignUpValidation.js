@@ -52,12 +52,25 @@ const LoginValidation = () => {
                 validatePassword(password) &&
                 email === emailConfirm &&
                 password === passwordConfirm) ||
-            (email === "joel@ju.se" && password === "Password123!") ||
-            (email === "martin@ju.se" && password === "Password123!") ||
-            (email === "felix@ju.se" && password === "Password123!") ||
-            (email === "matilda@ju.se" && password === "Password123!")
+            (email === "joel@ju.se" &&
+                password === "Password123!" &&
+                email === emailConfirm &&
+                password === passwordConfirm) ||
+            (email === "martin@ju.se" &&
+                password === "Password123!" &&
+                email === emailConfirm &&
+                password === passwordConfirm) ||
+            (email === "felix@ju.se" &&
+                password === "Password123!" &&
+                email === emailConfirm &&
+                password === passwordConfirm) ||
+            (email === "matilda@ju.se" &&
+                password === "Password123!" &&
+                email === emailConfirm &&
+                password === passwordConfirm)
         ) {
             navigate("/profile");
+            // updateLoginContext(true);
         } else {
             // Display an error message for invalid email or password
             alert("Invalid email address or password");

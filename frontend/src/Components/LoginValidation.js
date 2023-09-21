@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUpdateLoginStatus } from "../contexts/LoginContext";
 
 const LoginValidation = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const updateLoginStatusContext = useUpdateLoginStatus();
 
     // Email validation function
     const validateEmail = (email) => {
@@ -51,6 +53,7 @@ const LoginValidation = () => {
             (email === "felix@ju.se" && password === "Password123!") ||
             (email === "matilda@ju.se" && password === "Password123!")
         ) {
+            updateLoginStatusContext(email);
             navigate("/booking");
         } else {
             // Display an error message for invalid email or password

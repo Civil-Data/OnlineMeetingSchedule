@@ -10,11 +10,12 @@ body {
 h1,
 h2 {
 	color: goldenrod;
-	font-size: 50px;
-	margin-top: 50px;
+	font-size: 20px;
+	/* margin-top: 50px; */
 }
-h2 {
-	font-size: 30px;
+h3 {
+	font-size: 10px;
+	margin-top: 0px;
 }
 
 .links {
@@ -114,6 +115,7 @@ video {
 	cursor: pointer;
 	font-family: "Raleway", sans-serif;
 	font-weight: bold;
+	margin-top: 15px;
 }
 
 #confirmation_btn:hover {
@@ -265,7 +267,8 @@ input {
 }
 
 p {
-	margin: 0;
+	font-size: 10px;
+	margin-top: 0px;
 }
 
 .user_info_label {
@@ -348,7 +351,7 @@ p {
 .dayView {
 	background-color: beige;
 	width: 250px;
-	height: 500px;
+	height: 550px;
 	position: relative;
 	text-align: center;
 }
@@ -361,19 +364,27 @@ p {
 .time {
 	display: inline-block;
 	text-align: left;
+	margin-top: 20px;
+	font-size: large;
 }
 
 .time button {
-	color: #282c34;
 	text-align: center;
-	margin-top: 30px;
 	display: block;
-
-	box-shadow: 0 2px #999;
+	border-radius: 2px;
+	padding: 5px;
+	background-color: transparent;
+	color: black;
+	border: goldenrod 2px solid;
+	font-size: 15px;
+	cursor: pointer;
+	font-family: "Raleway", sans-serif;
+	font-weight: bold;
+	margin-top: 15px;
 }
 
-.time button:active {
-	background-color: #4c4d4f;
+.time button:focus {
+	background-color: #acadb0;
 }
 
 .calendarDate {
@@ -382,6 +393,11 @@ p {
 	text-align: center;
 	margin-top: 10px;
 }
-.confirmaionText {
-	color: black;
+/* .confirmationText {
+	color: goldenrod;
+	font-size: small;
+} */
+
+.MuiSvgIcon-root {
+	margin-right: 90%;
 }

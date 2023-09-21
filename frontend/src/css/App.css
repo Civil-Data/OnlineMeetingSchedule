@@ -111,10 +111,12 @@ video {
 	color: goldenrod;
 	border: goldenrod 2px solid;
 	font-size: 20px;
-	margin-top: 20px;
+	margin-top: 70px;
 	cursor: pointer;
 	font-family: "Raleway", sans-serif;
 	font-weight: bold;
+	justify-content: center;
+	align-items: center;
 }
 
 #confirmation_btn:hover {
@@ -350,6 +352,8 @@ p {
 	background-color: beige;
 	width: 250px;
 	height: 500px;
+	position: relative;
+	text-align: center;
 }
 
 .day {
@@ -357,13 +361,17 @@ p {
 	/* text-align: center; */
 	/* margin-top: 10px; */
 }
+.time {
+	display: inline-block;
+	text-align: left;
+}
 
 .time button {
 	color: #282c34;
 	text-align: center;
 	margin-top: 30px;
 	display: block;
-	margin-left: 40%;
+
 	box-shadow: 0 2px #999;
 }
 
@@ -376,4 +384,7 @@ p {
 	font-size: xx-large;
 	text-align: center;
 	margin-top: 10px;
+}
+.confirmaionText {
+	color: black;
 }

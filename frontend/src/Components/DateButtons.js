@@ -54,8 +54,7 @@ const DateButtons = ({ date }) => {
 			{dayView && (
 				<div className="viewShadow">
 					<div className="dayView">
-						<ClearIcon></ClearIcon>
-
+						<ClearIcon />
 						<div className="calendarDate">Monday {date}</div>
 						<div className="time">
 							<button>8:00</button>

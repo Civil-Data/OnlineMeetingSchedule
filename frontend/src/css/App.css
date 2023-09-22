@@ -271,9 +271,10 @@ input {
     background-color: rgba(218, 165, 32, 1);
 }
 
-.confirmationText > p {
-    font-size: 10px;
+.confirmationText {
+    font-size: 14px;
     margin-top: 0px;
+    color: goldenrod;
 }
 
 .user_info_label {
@@ -409,6 +410,7 @@ input {
 
 .MuiSvgIcon-root {
     margin-right: 90%;
+    color: goldenrod;
 }
 
 .grey_dates {

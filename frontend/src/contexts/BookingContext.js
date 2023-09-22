@@ -1,34 +1,36 @@
 import React, { useContext, useState } from "react";
-// import Booking from "../views/Booking";
+import Booking from "../views/Booking";
 
 const DayViewToggleContext = React.createContext();
+const DayViewContext = React.createContext();
 
 export function useDayViewUpdate() {
-	return useContext(DayViewToggleContext);
+    return useContext(DayViewToggleContext);
+}
+
+export function useDayView() {
+    return useContext(DayViewContext);
 }
 
 export const BookingProvider = ({ children }) => {
-	const [dayView, setDayView] = useState(false);
-	let num = 0;
+    const [dayView, setDayView] = useState(false);
+    const [date, setDate] = useState("0");
 
-	function closeDayView() {
-		console.log(num++);
-		console.log("Close view");
-		setDayView(false);
-	}
+    function closeDayView() {
+        setDayView(false);
+    }
 
-	function openDayView() {
-		console.log(num++);
-		console.log("Open view");
-		setDayView(true);
-	}
+    function openDayView(dateNum) {
+        setDate(dateNum);
+        setDayView(true);
+    }
 
-	return (
-		<DayViewToggleContext.Provider
-			value={{ dayView, openDayView, closeDayView }}
-		>
-			{children}
-			{/* <Booking /> */}
-		</DayViewToggleContext.Provider>
-	);
+    return (
+        <DayViewContext.Provider value={{ dayView, date }}>
+            <DayViewToggleContext.Provider value={{ openDayView, closeDayView }}>
+                {children}
+                <Booking />
+            </DayViewToggleContext.Provider>
+        </DayViewContext.Provider>
+    );
 };

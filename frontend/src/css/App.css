@@ -324,6 +324,13 @@ input {
     /* width: 100%;
     height: 100%;
     border: 1px solid rgba(218, 165, 32, 0.469); */
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+.dates:hover {
+    box-shadow: 0px 0px 7px 4px goldenrod;
+    transform: scale(1.1);
 }
 
 .date_info {

@@ -6,6 +6,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ConfirmButton from "../Components/ConfirmButton";
 import DateButtons from "../Components/DateButtons";
 import { useDayViewUpdate, useDayView } from "../contexts/BookingContext";
+import { v4 as uuidv4 } from "uuid";
 
 const Booking = () => {
     const { dayView, date } = useDayView();
@@ -24,7 +25,7 @@ const Booking = () => {
             dateNum = 1;
         }
         dateIdx++;
-        dateLabels.push(<DateButtons date={dateNum} theme={bgd} />);
+        dateLabels.push(<DateButtons key={uuidv4()} date={dateNum} theme={bgd} />);
     }
     // const [day, setDay] = useState(false);
     return (
@@ -33,7 +34,7 @@ const Booking = () => {
                 <div className="viewShadow">
                     <div className="dayView">
                         <div
-                            style={{ cursor: "pointer", width: "fit-content" }}
+                            className="cross"
                             onClick={() => {
                                 closeDayView();
                             }}

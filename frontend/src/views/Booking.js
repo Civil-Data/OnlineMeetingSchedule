@@ -1,20 +1,27 @@
+import React from "react";
+// import React, { useState } from "react";
 import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
 
-// import React, { useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import ConfirmButton from "../Components/ConfirmButton";
 import DateButtons from "../Components/DateButtons";
 import { useDayViewUpdate, useDayView } from "../contexts/BookingContext";
 import { v4 as uuidv4 } from "uuid";
+import { useDateContext } from "../contexts/DateContext";
 
 const Booking = () => {
     const { dayView, date } = useDayView();
     const { closeDayView } = useDayViewUpdate();
+    const { getDate, getDaysInMonth } = useDateContext();
+    // console.log(getDate);
     // const [a, b] = [1, 2];
 
+    // const [monthToDisplay, setMonthToDisplay] = useState(getDate.month);
+
     const dateLabels = [];
-    const dates = 31;
+    // const dates = 31;
+    const dates = getDaysInMonth();
     let bgd = "dark";
     let dateIdx = 0;
     for (let index = 0; index < 35; index++) {
@@ -30,6 +37,8 @@ const Booking = () => {
     // const [day, setDay] = useState(false);
     return (
         <>
+            <button onClick={() => getDate()}>Click for date</button>
+            {/* <p>{dateString.toString()}</p> */}
             {dayView && (
                 <div className="viewShadow">
                     <div className="dayView">

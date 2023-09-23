@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import ConfirmButton from "./ConfirmButton";
-import ClearIcon from "@mui/icons-material/Clear";
-// import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useDayViewUpdate } from "../contexts/BookingContext";
 
 const DateButtons = ({ date, confirm, theme }) => {
-    const [dayView, setDayView] = useState(false);
+    const { openDayView } = useDayViewUpdate();
+
+    // # TODO: FIGURE OUT HOW TO GET GRID COLUMN INDEX AND PASS IT AS PROP TO DATEBUTTON COMPONENT. #
+    // # THEN GET THE CORRECT DAY BY THAT INDEX #
 
     // const dateLabels = Array.from({ length: 31 }, (_, index) => index + 1);
     // function dayOverview() {}
@@ -28,27 +29,11 @@ const DateButtons = ({ date, confirm, theme }) => {
             key={date}
             className={`dates ${theme === "grey" ? "grey_dates" : ""}`}
             onClick={() => {
-                setDayView(view => true);
+                openDayView(date);
             }}
         >
             {date}
             <div className="date_info">Meeting 9:00am</div>
-            {dayView && (
-                <div className="viewShadow">
-                    <div className="dayView">
-                        <ClearIcon />
-                        <div className="calendarDate">Monday {date}</div>
-                        <div className="time">
-                            <button>8:00</button>
-                            <button>9:00</button>
-                            <button>10:30</button>
-                            <button>12:00</button>
-                            <button>14:45</button>
-                        </div>
-                        <ConfirmButton></ConfirmButton>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

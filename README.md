@@ -10,3 +10,6 @@ Teams clone
 
 # Database
 * MongoDB/Mongoose
+
+# Login
+Right now you need to specify martin@ju.se as email and Password123! as password to be able to login and sign up.

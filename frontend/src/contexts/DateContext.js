@@ -32,7 +32,7 @@ export const DateProvider = ({ children }) => {
 
             year: date.getFullYear(),
             month: date.getMonth(),
-            daysInMonth: date.getDate(),
+            daysInMonth: getDaysInMonth(),
             monthString: monthString[0].toUpperCase() + monthString.slice(1),
             day: date.getDay(),
             time: date.toLocaleTimeString().slice(0, 5),

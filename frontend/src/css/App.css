@@ -114,7 +114,7 @@ video {
     cursor: pointer;
     font-family: "Raleway", sans-serif;
     font-weight: bold;
-    margin-top: 15px;
+    margin: 15px 0;
 }
 
 #confirmation_btn:hover {
@@ -404,10 +404,12 @@ input {
 .dayView {
     background-color: beige;
     width: 250px;
-    height: 550px;
+    /* height: 550px; */
     position: relative;
     text-align: center;
     z-index: 6;
+    border-radius: 3px;
+    padding: 10px;
 }
 
 .day {
@@ -455,8 +457,12 @@ input {
 }
 
 .MuiSvgIcon-root {
-    margin-right: 90%;
     color: goldenrod;
+}
+
+.cross {
+    cursor: pointer;
+    width: fit-content;
 }
 
 .grey_dates {

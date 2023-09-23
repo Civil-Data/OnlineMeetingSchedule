@@ -26,7 +26,6 @@ const DateButtons = ({ date, confirm, theme }) => {
     // };
     return (
         <div
-            key={date}
             className={`dates ${theme === "grey" ? "grey_dates" : ""}`}
             onClick={() => {
                 openDayView(date);

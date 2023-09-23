@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import Confirmation from "./Confirmation";
-
-function ConfirmButton() {
+import { useDayViewUpdate } from "../contexts/BookingContext";
+function ConfirmButton({ selectedTime }) {
     const [showComponent, setShowComponent] = useState(false);
     const [buttonText, setButtonText] = useState("Confirm booking");
+    const { closeDayView } = useDayViewUpdate();
 
-    const toggleComponent = () => {
-        setShowComponent((prevState) => !prevState);
-        setButtonText((prevStateText) => {
-            return prevStateText === "Confirm booking"
-                ? "Back to booking"
-                : "Confirm booking";
-        });
+    const toggleComponent = e => {
+        const text = e.target.innerText;
+        if (text === "Back to booking") {
+            closeDayView();
+        } else {
+            setShowComponent(prevState => !prevState);
+            setButtonText("Back to booking");
+        }
     };
 
     return (
         <div>
-            <button id="confirmation_btn" onClick={toggleComponent}>
+            <button id="confirmation_btn" onClick={e => toggleComponent(e)}>
                 {buttonText}
             </button>
-            {showComponent ? (
-                <Confirmation />
-            ) : (
-                <p>Original content goes here</p>
-            )}
+            {showComponent && <Confirmation />}
         </div>
     );
 }

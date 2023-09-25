@@ -1,15 +1,11 @@
 import TypingEffect from "../Components/TypingEffect";
-
-// import React, { useState } from "react";
-import ClearIcon from "@mui/icons-material/Clear";
 import ConfirmButton from "../Components/ConfirmButton";
 import DateButtons from "../Components/DateButtons";
-import { useDayViewUpdate, useDayView } from "../contexts/BookingContext";
+import { useDayView } from "../contexts/BookingContext"; //useDayViewUpdate,
+import PopUp from "../Components/PopUp";
 
 const Booking = () => {
     const { dayView, date } = useDayView();
-    const { closeDayView } = useDayViewUpdate();
-    // const [a, b] = [1, 2];
 
     const dateLabels = [];
     const dates = 31;
@@ -25,20 +21,12 @@ const Booking = () => {
         dateIdx++;
         dateLabels.push(<DateButtons date={dateNum} theme={bgd} />);
     }
-    // const [day, setDay] = useState(false);
+
     return (
         <>
             {dayView && (
-                <div className="viewShadow">
-                    <div className="dayView">
-                        <div
-                            style={{ cursor: "pointer", width: "fit-content" }}
-                            onClick={() => {
-                                closeDayView();
-                            }}
-                        >
-                            <ClearIcon />
-                        </div>
+                <div>
+                    <PopUp>
                         <div className="calendarDate">Monday {date}</div>
                         <div className="time">
                             <button>8:00</button>
@@ -46,9 +34,9 @@ const Booking = () => {
                             <button>10:30</button>
                             <button>12:00</button>
                             <button>14:45</button>
+                            <ConfirmButton></ConfirmButton>
                         </div>
-                        <ConfirmButton></ConfirmButton>
-                    </div>
+                    </PopUp>
                 </div>
             )}
 

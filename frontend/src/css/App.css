@@ -352,6 +352,38 @@ input {
     padding: 20px;
 }
 
+.meeting_list {
+    /* margin: 0 10px;
+    margin-left: 10px;
+    margin-right: 10px; */
+    padding: 20px;
+    align-items: center;
+    width: 100%;
+    display: table;
+    background-color: gray;
+    border: 6px ridge goldenrod;
+    border-radius: 0px;
+}
+
+.meeting_list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid goldenrod;
+    list-style: none;
+    margin-bottom: 20px;
+    white-space: no-wrap;
+}
+.meeting_list_sub_item {
+    margin-left: 3px;
+    margin-right: 3px;
+    border-left: 1px solid goldenrod;
+    border-right: 1px solid goldenrod;
+    padding-left: 3px;
+    padding-right: 3px;
+}
 .list_item {
     display: flex;
     align-items: center;
@@ -376,7 +408,7 @@ input {
     align-items: center;
 }
 
-.dayView {
+.popUp {
     background-color: beige;
     width: 250px;
     height: 550px;

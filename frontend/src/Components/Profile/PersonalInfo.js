@@ -13,13 +13,6 @@ const PersonalInfo = ({ name, gender, email, telNum }) => {
                 <label className="user_info_label">Telephone number:</label>
                 <span className="numbers">{telNum}</span>
             </div>
-            {/* <div className="user_about">
-                <h3>Here is a description about me:</h3>
-                <TypingEffect
-                    text="I am a student at Jönköping University."
-                    delay={25}
-                />
-            </div> */}
         </div>
     );
 };

@@ -7,6 +7,9 @@ import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 import { useTabContext } from "../contexts/ProfileContext";
 import { useLoginStatusContext } from "../contexts/LoginContext";
 import ProfileMeetings from "../Components/Profile/ProfileMeetings";
+// import PopUp from "../Components/PopUp";
+import AddIcon from "@mui/icons-material/Add";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
     const loginStatusContext = useLoginStatusContext();
@@ -28,10 +31,18 @@ const Profile = () => {
                     {loginStatusContext === "joel@ju.se" && (
                         <span>Joel Scarinius</span>
                     )}
-                    {tabContext === "info" ? (
-                        <EditIcon />
-                    ) : (
-                        <PersonAddSharpIcon />
+                    {tabContext === "info" && <EditIcon />}
+                    {tabContext === "contacts" && <PersonAddSharpIcon />}
+                    {tabContext === "my_meetings" && (
+                        <>
+                            <Link
+                                className="nav-buttons"
+                                to="/booking"
+                                type="button"
+                            >
+                                <AddIcon />
+                            </Link>
+                        </>
                     )}
                 </div>
                 <div className="tab_area">

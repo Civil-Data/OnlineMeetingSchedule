@@ -159,7 +159,9 @@ input {
     background-color: goldenrod;
     overflow: hidden;
     color: goldenrod;
-    margin-bottom: 50px;
+    width: fit-content;
+    margin: 30px 0 100px;
+    /* margin-bottom: 50px; */
 }
 
 .grid-container > * {
@@ -308,12 +310,13 @@ input {
 }
 
 .calender_area {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     margin-top: 20px;
     text-align: center;
+    width: fit-content;
 }
 
 .dates {
@@ -470,4 +473,9 @@ input {
     /* background-color: rgb(129, 17, 17); */
     /* background-color: rgb(77, 77, 77); */
     color: black;
+}
+
+.meeting_options {
+    display: flex;
+    justify-content: center;
 }

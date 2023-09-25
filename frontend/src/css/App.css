@@ -424,8 +424,8 @@ input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     /* text-align: left; */
+    padding: 15px;
     margin-top: 20px;
     font-size: large;
 }

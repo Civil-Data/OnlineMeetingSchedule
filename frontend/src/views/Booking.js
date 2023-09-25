@@ -1,19 +1,29 @@
-import Title from "../Components/Title";
+import React from "react";
+// import React, { useState } from "react";
 import TypingEffect from "../Components/TypingEffect";
 
-// import React, { useState } from "react";
-import ClearIcon from "@mui/icons-material/Clear";
+import PopUp from "../Components/PopUp";
+
+// import ClearIcon from "@mui/icons-material/Clear";
 import ConfirmButton from "../Components/ConfirmButton";
 import DateButtons from "../Components/DateButtons";
-import { useDayViewUpdate, useDayView } from "../contexts/BookingContext";
+import { useDayView } from "../contexts/BookingContext";
+import { v4 as uuidv4 } from "uuid";
+import { useDateContext } from "../contexts/DateContext";
 
 const Booking = () => {
     const { dayView, date } = useDayView();
-    const { closeDayView } = useDayViewUpdate();
+    const { getDate, getDaysInMonth } = useDateContext();
+    // console.log(getDate);
+
     // const [a, b] = [1, 2];
 
+    // const [monthToDisplay, setMonthToDisplay] = useState(getDate.month);
+
     const dateLabels = [];
-    const dates = 31;
+    // const dates = 31;
+    const dates = getDaysInMonth(2023, 3);
+    console.log(dates);
     let bgd = "dark";
     let dateIdx = 0;
     for (let index = 0; index < 35; index++) {
@@ -24,22 +34,16 @@ const Booking = () => {
             dateNum = 1;
         }
         dateIdx++;
-        dateLabels.push(<DateButtons date={dateNum} theme={bgd} />);
+        dateLabels.push(<DateButtons key={uuidv4()} date={dateNum} theme={bgd} />);
     }
-    // const [day, setDay] = useState(false);
+
     return (
         <>
+            <button onClick={() => getDate()}>Click for date</button>
+            {/* <p>{dateString.toString()}</p> */}
             {dayView && (
-                <div className="viewShadow">
-                    <div className="dayView">
-                        <div
-                            style={{ cursor: "pointer", width: "fit-content" }}
-                            onClick={() => {
-                                closeDayView();
-                            }}
-                        >
-                            <ClearIcon />
-                        </div>
+                <div>
+                    <PopUp>
                         <div className="calendarDate">Monday {date}</div>
                         <div className="time">
                             <button>8:00</button>
@@ -47,30 +51,30 @@ const Booking = () => {
                             <button>10:30</button>
                             <button>12:00</button>
                             <button>14:45</button>
+                            <ConfirmButton></ConfirmButton>
                         </div>
-                        <ConfirmButton></ConfirmButton>
-                    </div>
+                    </PopUp>
                 </div>
             )}
 
             <div>
-                <div className="titles">
-                    <Title title="Booking page" className="titles" />
-                    <TypingEffect
-                        text="Welcome to the booking page! Please choose length of the meeting and choose a valid day to book a meeting."
-                        delay={25}
-                    />
-                </div>
                 <div className="calender_area">
-                    <div>
-                        <label htmlFor="dropdown"> Please choose lenght: </label>
+                    <div className="titles">
+                        <h1>Booking Page</h1>
+                        <TypingEffect
+                            text="Welcome to the booking page! Please choose length of the meeting and choose a valid day to book a meeting."
+                            delay={25}
+                        />
+                    </div>
+                    <div className="meeting_options">
+                        <label htmlFor="dropdown">Please choose lenght:</label>
                         <select id="dropdown">
                             <option value="30 minutes"> 30 Minutes</option>
                             <option value="45min"> 45 Minutes</option>
                             <option value="1h"> 1 Hour</option>
                             <option value="2h"> 2 Hours</option>
                         </select>
-                        <label htmlFor="dropdown"> Please choose person: </label>
+                        <label htmlFor="dropdown">Please choose person:</label>
                         <select id="dropdown">
                             <option value="Martin"> Martin</option>
                             <option value="Joel"> Joel</option>

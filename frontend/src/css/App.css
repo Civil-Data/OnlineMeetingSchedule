@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 
 body {
     font-family: "Raleway", sans-serif;
     background-color: #282c34;
     color: white;
     margin: 0;
+    margin-top: 53px;
 }
 
 h1,
@@ -114,7 +116,7 @@ video {
     cursor: pointer;
     font-family: "Raleway", sans-serif;
     font-weight: bold;
-    margin-top: 15px;
+    margin: 15px 0;
 }
 
 #confirmation_btn:hover {
@@ -159,7 +161,10 @@ input {
     background-color: goldenrod;
     overflow: hidden;
     color: goldenrod;
-    margin-bottom: 50px;
+    width: fit-content;
+    margin: 100px;
+    margin-top: 30px;
+    /* margin-bottom: 50px; */
 }
 
 .grid-container > * {
@@ -180,10 +185,18 @@ input {
     border-bottom: goldenrod 10px solid;
     background-color: #282c34;
     padding: 10px;
-    position: top;
+    position: fixed;
+    left: 0;
+    top: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* space-between */
+    justify-content: space-between;
+    width: 100%;
+    z-index: 1;
+}
+
+#icons > .nav-buttons {
+    display: initial;
 }
 
 .nav-buttons > span {
@@ -208,6 +221,7 @@ input {
     color: white;
     text-decoration: none;
     white-space: nowrap;
+    margin-right: 20px;
 }
 
 .nav-buttons > i:hover {
@@ -224,18 +238,29 @@ input {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    width: 10%;
 }
 
 .flex-se#navButtons {
-    width: 15%;
+    width: fit-content;
+}
+
+#logged_in {
+    font-size: 20px;
+    color: goldenrod;
+    margin-right: 20px;
 }
 
 .profile_container {
     /* background-color: rgb(251, 251, 251); */
     border-radius: 5px;
     margin: 40px;
+    margin-top: 100px;
     height: 90vh;
+}
+
+.numbers {
+    font-size: 20px;
+    font-family: "open sans", sans-serif;
 }
 
 .top_section {
@@ -305,15 +330,21 @@ input {
 
 .titles {
     text-align: center;
+    margin-top: 80px;
+}
+
+.titles > h1 {
+    font-size: 40px;
 }
 
 .calender_area {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     margin-top: 20px;
     text-align: center;
+    width: fit-content;
 }
 
 .dates {
@@ -324,10 +355,20 @@ input {
     /* width: 100%;
     height: 100%;
     border: 1px solid rgba(218, 165, 32, 0.469); */
+    font-family: "open sans", sans-serif;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.dates:hover {
+    box-shadow: 0px 0px 7px 4px goldenrod;
+    transform: scale(1.1);
+    z-index: 2;
 }
 
 .date_info {
-    display: flex;
+    /* display: flex; */
     padding: 3px;
 }
 
@@ -336,6 +377,38 @@ input {
     padding: 20px;
 }
 
+.meeting_list {
+    /* margin: 0 10px;
+    margin-left: 10px;
+    margin-right: 10px; */
+    padding: 20px;
+    align-items: center;
+    width: 100%;
+    display: table;
+    background-color: gray;
+    border: 6px ridge goldenrod;
+    border-radius: 0px;
+}
+
+.meeting_list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid goldenrod;
+    list-style: none;
+    margin-bottom: 20px;
+    white-space: no-wrap;
+}
+.meeting_list_sub_item {
+    margin-left: 3px;
+    margin-right: 3px;
+    border-left: 1px solid goldenrod;
+    border-right: 1px solid goldenrod;
+    padding-left: 3px;
+    padding-right: 3px;
+}
 .list_item {
     display: flex;
     align-items: center;
@@ -358,14 +431,18 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 5;
 }
 
-.dayView {
+.popUp {
     background-color: beige;
-    width: 250px;
-    height: 550px;
+    width: fit-content;
+    padding: 20px;
     position: relative;
     text-align: center;
+    z-index: 6;
+    border-radius: 3px;
+    padding: 10px;
 }
 
 .day {
@@ -376,9 +453,13 @@ input {
     margin-left: -1px;
 }
 .time {
-    display: inline-block;
-    text-align: left;
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* text-align: left; */
+    padding: 0 10px;
+    /* margin-top: 20px; */
     font-size: large;
 }
 
@@ -405,12 +486,16 @@ input {
     color: #282c34;
     font-size: xx-large;
     text-align: center;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 .MuiSvgIcon-root {
-    margin-right: 90%;
     color: goldenrod;
+}
+
+.cross {
+    cursor: pointer;
+    width: fit-content;
 }
 
 .grey_dates {
@@ -419,3 +504,15 @@ input {
     /* background-color: rgb(77, 77, 77); */
     color: black;
 }
+
+.meeting_options {
+    display: flex;
+    justify-content: center;
+}
+/* .userFields {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+} */

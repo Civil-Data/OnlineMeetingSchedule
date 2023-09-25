@@ -1,11 +1,10 @@
-import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
 import SignUpValidation from "../Components/SignUpValidation";
 
 const Register = () => {
     return (
         <div className="titles">
-            <Title title="Register page" className="titles" />
+            <h1>Register page</h1>
 
             <TypingEffect
                 text="Please enter your email and a password to sign up."

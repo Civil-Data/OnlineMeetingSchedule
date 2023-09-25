@@ -10,7 +10,7 @@ const PopUp = ({ children }) => {
 
     return (
         <div className="viewShadow">
-            <div className="popUp">
+            <div className="dayView">
                 <div
                     style={{ cursor: "pointer", width: "fit-content" }}
                     onClick={() => {

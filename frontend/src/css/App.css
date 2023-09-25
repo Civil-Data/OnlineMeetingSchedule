@@ -392,10 +392,10 @@ input {
     align-items: center;
 }
 
-.dayView {
+.popUp {
     background-color: beige;
-    width: 250px;
-    height: 550px;
+    width: fit-content;
+    padding: 20px;
     position: relative;
     text-align: center;
 }

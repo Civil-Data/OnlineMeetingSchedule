@@ -23,7 +23,8 @@ const Booking = () => {
 
     const dateLabels = [];
     // const dates = 31;
-    const dates = getDaysInMonth();
+    const dates = getDaysInMonth(2023, 3);
+    console.log(dates);
     let bgd = "dark";
     let dateIdx = 0;
     for (let index = 0; index < 35; index++) {
@@ -68,21 +69,15 @@ const Booking = () => {
                     />
                 </div>
                 <div className="calender_area">
-                    <div>
-                        <label htmlFor="dropdown">
-                            {" "}
-                            Please choose lenght:{" "}
-                        </label>
+                    <div className="meeting_options">
+                        <label htmlFor="dropdown">Please choose lenght:</label>
                         <select id="dropdown">
                             <option value="30 minutes"> 30 Minutes</option>
                             <option value="45min"> 45 Minutes</option>
                             <option value="1h"> 1 Hour</option>
                             <option value="2h"> 2 Hours</option>
                         </select>
-                        <label htmlFor="dropdown">
-                            {" "}
-                            Please choose person:{" "}
-                        </label>
+                        <label htmlFor="dropdown">Please choose person:</label>
                         <select id="dropdown">
                             <option value="Martin"> Martin</option>
                             <option value="Joel"> Joel</option>

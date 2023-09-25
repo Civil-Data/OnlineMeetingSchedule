@@ -17,7 +17,7 @@ export const DateProvider = ({ children }) => {
     function getDaysInMonth(year, month) {
         // JavaScript months are 0-based, so we subtract 1 from the month
         const lastDayOfMonth = new Date(year, month, 0);
-        console.log(lastDayOfMonth);
+        //console.log(lastDayOfMonth);
         return lastDayOfMonth.getDate();
     }
 

@@ -6,14 +6,17 @@ import "./css/App.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { LoginProvider } from "./contexts/LoginContext";
+import { DateProvider } from "./contexts/DateContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <LoginProvider>
-                <App />
-            </LoginProvider>
+            <DateProvider>
+                <LoginProvider>
+                    <App />
+                </LoginProvider>
+            </DateProvider>
         </BrowserRouter>
     </React.StrictMode>
 );

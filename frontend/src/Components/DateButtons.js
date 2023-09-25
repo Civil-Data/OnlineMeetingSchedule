@@ -1,8 +1,11 @@
 import React from "react";
 import { useDayViewUpdate } from "../contexts/BookingContext";
+// import { useDateContext } from "../contexts/DateContext";
 
-const DateButtons = ({ date, confirm, theme }) => {
+const DateButtons = ({ date, dayString, theme }) => {
     const { openDayView } = useDayViewUpdate();
+    // console.log(dayString);
+    // const { getDate } = useDateContext();
 
     // # TODO: FIGURE OUT HOW TO GET GRID COLUMN INDEX AND PASS IT AS PROP TO DATEBUTTON COMPONENT. #
     // # THEN GET THE CORRECT DAY BY THAT INDEX #
@@ -28,7 +31,7 @@ const DateButtons = ({ date, confirm, theme }) => {
         <div
             className={`dates ${theme === "grey" ? "grey_dates" : ""}`}
             onClick={() => {
-                openDayView(date);
+                openDayView(date, dayString);
             }}
         >
             {date}

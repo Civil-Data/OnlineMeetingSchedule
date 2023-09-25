@@ -2,7 +2,7 @@ const Confirmation = () => {
     return (
         <>
             <div className="confirmationText">
-                <h1>Your meeting is now scheduled!</h1>
+                <h2>Your meeting is now scheduled!</h2>
                 <div>
                     <p>Name : Take username from login</p>
                     <p>Date : Take date from booking page</p>

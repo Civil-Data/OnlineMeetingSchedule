@@ -114,7 +114,7 @@ video {
     cursor: pointer;
     font-family: "Raleway", sans-serif;
     font-weight: bold;
-    margin-top: 15px;
+    margin: 15px 0;
 }
 
 #confirmation_btn:hover {
@@ -324,10 +324,18 @@ input {
     /* width: 100%;
     height: 100%;
     border: 1px solid rgba(218, 165, 32, 0.469); */
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+.dates:hover {
+    box-shadow: 0px 0px 7px 4px goldenrod;
+    transform: scale(1.1);
+    z-index: 2;
 }
 
 .date_info {
-    display: flex;
+    /* display: flex; */
     padding: 3px;
 }
 
@@ -390,6 +398,7 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 5;
 }
 
 .popUp {
@@ -398,6 +407,9 @@ input {
     padding: 20px;
     position: relative;
     text-align: center;
+    z-index: 6;
+    border-radius: 3px;
+    padding: 10px;
 }
 
 .day {
@@ -408,8 +420,12 @@ input {
     margin-left: -1px;
 }
 .time {
-    display: inline-block;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* text-align: left; */
     margin-top: 20px;
     font-size: large;
 }
@@ -441,8 +457,12 @@ input {
 }
 
 .MuiSvgIcon-root {
-    margin-right: 90%;
     color: goldenrod;
+}
+
+.cross {
+    cursor: pointer;
+    width: fit-content;
 }
 
 .grey_dates {

@@ -1,20 +1,29 @@
+import React from "react";
+// import React, { useState } from "react";
 import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
 
-// import React, { useState } from "react";
+import PopUp from "../Components/PopUp";
+
 // import ClearIcon from "@mui/icons-material/Clear";
 import ConfirmButton from "../Components/ConfirmButton";
 import DateButtons from "../Components/DateButtons";
-import { useDayView } from "../contexts/BookingContext"; //useDayViewUpdate,
-import PopUp from "../Components/PopUp";
+import { useDayView } from "../contexts/BookingContext";
+import { v4 as uuidv4 } from "uuid";
+import { useDateContext } from "../contexts/DateContext";
 
 const Booking = () => {
     const { dayView, date } = useDayView();
-    // const { closeDayView } = useDayViewUpdate();
+    const { getDate, getDaysInMonth } = useDateContext();
+    // console.log(getDate);
+
     // const [a, b] = [1, 2];
 
+    // const [monthToDisplay, setMonthToDisplay] = useState(getDate.month);
+
     const dateLabels = [];
-    const dates = 31;
+    // const dates = 31;
+    const dates = getDaysInMonth();
     let bgd = "dark";
     let dateIdx = 0;
     for (let index = 0; index < 35; index++) {
@@ -25,11 +34,15 @@ const Booking = () => {
             dateNum = 1;
         }
         dateIdx++;
-        dateLabels.push(<DateButtons date={dateNum} theme={bgd} />);
+        dateLabels.push(
+            <DateButtons key={uuidv4()} date={dateNum} theme={bgd} />
+        );
     }
     // const [day, setDay] = useState(false);
     return (
         <>
+            <button onClick={() => getDate()}>Click for date</button>
+            {/* <p>{dateString.toString()}</p> */}
             {dayView && (
                 <div>
                     <PopUp>

@@ -10,19 +10,23 @@ import DateButtons from "../Components/DateButtons";
 import { useDayView } from "../contexts/BookingContext";
 import { v4 as uuidv4 } from "uuid";
 import { useDateContext } from "../contexts/DateContext";
+import Dropdown from "../Components/Booking/Dropdown";
 
 const Booking = () => {
-    const { dayView, date } = useDayView();
-    const { getDate, getDaysInMonth } = useDateContext();
+    const { dayView, date, dayString } = useDayView();
+    const { getDate } = useDateContext();
     // console.log(getDate);
-
-    // const [a, b] = [1, 2];
 
     // const [monthToDisplay, setMonthToDisplay] = useState(getDate.month);
 
     const dateLabels = [];
     // const dates = 31;
-    const dates = getDaysInMonth(2023, 3);
+    const dateObj = getDate(2023, 9, 0);
+    console.log(dateObj);
+    // const month = dateObj.month + 1;
+    // const year = dateObj.year;
+    const dates = dateObj.daysInMonth;
+    // const dates = getDaysInMonth(year, month);
     console.log(dates);
     let bgd = "dark";
     let dateIdx = 0;
@@ -34,17 +38,40 @@ const Booking = () => {
             dateNum = 1;
         }
         dateIdx++;
-        dateLabels.push(<DateButtons key={uuidv4()} date={dateNum} theme={bgd} />);
+
+        dateLabels.push(
+            <DateButtons
+                key={uuidv4()}
+                date={dateNum}
+                dayString={getDate(dateObj.year, dateObj.month, dateNum).dayString}
+                theme={bgd}
+            />
+        );
     }
+
+    const selectOptions = [
+        {
+            labelText: "Please choose lenght:",
+            options: ["30 min", "45 min", "1h", "2h"],
+        },
+        {
+            labelText: "Please choose person:",
+            options: ["Martin", "Joel", "Matilda", "Felix"],
+        },
+        {
+            labelText: "Filter participants by country:",
+            options: ["Sweden", "Norway", "Denmark", "Finland"],
+        },
+    ];
 
     return (
         <>
-            <button onClick={() => getDate()}>Click for date</button>
-            {/* <p>{dateString.toString()}</p> */}
             {dayView && (
-                <div>
+                <>
                     <PopUp>
-                        <div className="calendarDate">Monday {date}</div>
+                        <div className="calendarDate">
+                            {dayString} {date}
+                        </div>
                         <div className="time">
                             <button>8:00</button>
                             <button>9:00</button>
@@ -54,7 +81,7 @@ const Booking = () => {
                             <ConfirmButton></ConfirmButton>
                         </div>
                     </PopUp>
-                </div>
+                </>
             )}
 
             <div>
@@ -67,23 +94,19 @@ const Booking = () => {
                         />
                     </div>
                     <div className="meeting_options">
-                        <label htmlFor="dropdown">Please choose lenght:</label>
-                        <select id="dropdown">
-                            <option value="30 minutes"> 30 Minutes</option>
-                            <option value="45min"> 45 Minutes</option>
-                            <option value="1h"> 1 Hour</option>
-                            <option value="2h"> 2 Hours</option>
-                        </select>
-                        <label htmlFor="dropdown">Please choose person:</label>
-                        <select id="dropdown">
-                            <option value="Martin"> Martin</option>
-                            <option value="Joel"> Joel</option>
-                            <option value="Matilda"> Matilda</option>
-                            <option value="Felix"> Felix</option>
-                        </select>
+                        {selectOptions.map(dropdown => {
+                            return (
+                                <Dropdown
+                                    key={uuidv4()}
+                                    id={selectOptions.indexOf(dropdown)}
+                                    labelText={dropdown.labelText}
+                                    selectOptions={dropdown.options}
+                                />
+                            );
+                        })}
                     </div>
                     <div className="grid-container">
-                        <div className="month">Month Year</div>
+                        <div className="month">{dateObj.monthString}</div>
                         <div className="day">Monday</div>
                         <div className="day">Tuesday</div>
                         <div className="day">Wednesday</div>

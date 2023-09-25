@@ -15,18 +15,20 @@ export function useDayView() {
 export const BookingProvider = ({ children }) => {
     const [dayView, setDayView] = useState(false);
     const [date, setDate] = useState("0");
+    const [dayString, setDayString] = useState("");
 
     function closeDayView() {
         setDayView(false);
     }
 
-    function openDayView(dateNum) {
+    function openDayView(dateNum, dayString) {
         setDate(dateNum);
+        setDayString(dayString);
         setDayView(true);
     }
 
     return (
-        <DayViewContext.Provider value={{ dayView, date }}>
+        <DayViewContext.Provider value={{ dayView, date, dayString }}>
             <DayViewToggleContext.Provider value={{ openDayView, closeDayView }}>
                 {children}
                 <Booking />

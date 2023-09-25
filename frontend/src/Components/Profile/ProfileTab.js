@@ -2,7 +2,7 @@ import React from "react";
 import { useProfileUpdate } from "../../contexts/ProfileContext";
 
 const ProfileTab = ({ tab_text, is_active, tab_name }) => {
-    const updateTabContext = useProfileUpdate();
+    const { updateTabContext } = useProfileUpdate();
     return (
         <span
             onClick={() => {

@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 
+:root {
+    --iconSize: 20px;
+}
+
 body {
     font-family: "Raleway", sans-serif;
     background-color: #282c34;
@@ -195,9 +199,9 @@ input {
     z-index: 1;
 }
 
-#icons > .nav-buttons {
+/* #icons > .nav-buttons {
     display: initial;
-}
+} */
 
 .nav-buttons > span {
     font-size: 20px;
@@ -311,9 +315,14 @@ input {
     text-wrap: nowrap;
     font-size: 20px;
     display: grid;
+    align-items: center;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px 15px;
 }
+/* .profile_info:nth-child(odd) {
+    place-items: end;
+} */
+
 .profile_info > .user_info_label {
     text-align: end;
 }
@@ -516,3 +525,27 @@ input {
     align-items: center;
     margin-top: 20px;
 } */
+
+.profile_info > input {
+    margin: 0;
+}
+
+/* .cursor_pointer {
+} */
+
+.icon {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    width: var(--iconSize);
+    height: var(--iconSize);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+}
+
+.icon:hover {
+    border: 2px solid goldenrod;
+}

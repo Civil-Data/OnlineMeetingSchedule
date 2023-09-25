@@ -28,19 +28,30 @@ const Profile = () => {
                     {tabContext === "info" && (
                         <>
                             {clickedIcon ? (
-                                <div
-                                    onClick={() => {
-                                        updateClickedIcon(false);
-                                    }}
-                                >
-                                    <SaveIcon />
-                                    <ClearIcon />
+                                <div style={{ display: "flex" }}>
+                                    <div
+                                        onClick={() => {
+                                            updateClickedIcon(false);
+                                        }}
+                                        className="icon"
+                                    >
+                                        <SaveIcon />
+                                    </div>
+                                    <div
+                                        onClick={() => {
+                                            updateClickedIcon(false);
+                                        }}
+                                        className="icon"
+                                    >
+                                        <ClearIcon />
+                                    </div>
                                 </div>
                             ) : (
                                 <div
                                     onClick={() => {
                                         updateClickedIcon(true);
                                     }}
+                                    className="icon"
                                 >
                                     <EditIcon />
                                 </div>

@@ -17,12 +17,12 @@ function ConfirmButton({ selectedTime }) {
     };
 
     return (
-        <div>
+        <>
             <button id="confirmation_btn" onClick={e => toggleComponent(e)}>
                 {buttonText}
             </button>
             {showComponent && <Confirmation />}
-        </div>
+        </>
     );
 }
 

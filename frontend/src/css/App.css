@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 
 body {
     font-family: "Raleway", sans-serif;
     background-color: #282c34;
     color: white;
     margin: 0;
+    margin-top: 53px;
 }
 
 h1,
@@ -160,7 +162,8 @@ input {
     overflow: hidden;
     color: goldenrod;
     width: fit-content;
-    margin: 30px 0 100px;
+    margin: 100px;
+    margin-top: 30px;
     /* margin-bottom: 50px; */
 }
 
@@ -182,10 +185,18 @@ input {
     border-bottom: goldenrod 10px solid;
     background-color: #282c34;
     padding: 10px;
-    position: top;
+    position: fixed;
+    left: 0;
+    top: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* space-between */
+    justify-content: space-between;
+    width: 100%;
+    z-index: 1;
+}
+
+#icons > .nav-buttons {
+    display: initial;
 }
 
 .nav-buttons > span {
@@ -210,6 +221,7 @@ input {
     color: white;
     text-decoration: none;
     white-space: nowrap;
+    margin-right: 20px;
 }
 
 .nav-buttons > i:hover {
@@ -226,18 +238,29 @@ input {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    width: 10%;
 }
 
 .flex-se#navButtons {
-    width: 15%;
+    width: fit-content;
+}
+
+#logged_in {
+    font-size: 20px;
+    color: goldenrod;
+    margin-right: 20px;
 }
 
 .profile_container {
     /* background-color: rgb(251, 251, 251); */
     border-radius: 5px;
     margin: 40px;
+    margin-top: 100px;
     height: 90vh;
+}
+
+.numbers {
+    font-size: 20px;
+    font-family: "open sans", sans-serif;
 }
 
 .top_section {
@@ -307,6 +330,11 @@ input {
 
 .titles {
     text-align: center;
+    margin-top: 80px;
+}
+
+.titles > h1 {
+    font-size: 40px;
 }
 
 .calender_area {
@@ -327,10 +355,12 @@ input {
     /* width: 100%;
     height: 100%;
     border: 1px solid rgba(218, 165, 32, 0.469); */
+    font-family: "open sans", sans-serif;
     text-align: center;
     cursor: pointer;
     transition: all 0.1s;
 }
+
 .dates:hover {
     box-shadow: 0px 0px 7px 4px goldenrod;
     transform: scale(1.1);
@@ -428,8 +458,8 @@ input {
     align-items: center;
     justify-content: center;
     /* text-align: left; */
-    padding: 15px;
-    margin-top: 20px;
+    padding: 0 10px;
+    /* margin-top: 20px; */
     font-size: large;
 }
 
@@ -456,7 +486,7 @@ input {
     color: #282c34;
     font-size: xx-large;
     text-align: center;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 .MuiSvgIcon-root {

@@ -11,13 +11,13 @@ const LoginValidation = () => {
     const updateLoginStatusContext = useUpdateLoginStatus();
 
     // Email validation function
-    const validateEmail = (email) => {
+    const validateEmail = email => {
         const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return regex.test(email);
     };
 
     // Password validation function
-    const validatePassword = (password) => {
+    const validatePassword = password => {
         // Check if password is at least 8 characters long
         if (password.length < 8) {
             return false;
@@ -46,7 +46,7 @@ const LoginValidation = () => {
         return true;
     };
 
-    const handleSignUp = (e) => {
+    const handleSignUp = e => {
         e.preventDefault();
         // Check if email and password are valid
         if (
@@ -89,10 +89,11 @@ const LoginValidation = () => {
                     </label>
                 </div>
                 <input
+                    className="input_margin"
                     type="email"
                     placeholder="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                 />
                 <div>
                     <label htmlFor="email" className="input_label">
@@ -101,10 +102,11 @@ const LoginValidation = () => {
                     </label>
                 </div>
                 <input
+                    className="input_margin"
                     type="email"
                     placeholder="confirm email"
                     value={emailConfirm}
-                    onChange={(e) => setEmailConfirm(e.target.value)}
+                    onChange={e => setEmailConfirm(e.target.value)}
                 />
                 <div>
                     <label htmlFor="password" className="input_label">
@@ -113,10 +115,11 @@ const LoginValidation = () => {
                     </label>
                 </div>
                 <input
+                    className="input_margin"
                     type="password"
                     placeholder="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={e => setPassword(e.target.value)}
                 />
                 <div>
                     <label htmlFor="password" className="input_label">
@@ -125,17 +128,14 @@ const LoginValidation = () => {
                     </label>
                 </div>
                 <input
+                    className="input_margin"
                     type="password"
                     placeholder="confirm password"
                     value={passwordConfirm}
-                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                    onChange={e => setPasswordConfirm(e.target.value)}
                 />
                 <div>
-                    <button
-                        type="submit"
-                        id="confirmation_btn"
-                        className="links"
-                    >
+                    <button type="submit" id="confirmation_btn" className="links">
                         Register account
                     </button>
                 </div>

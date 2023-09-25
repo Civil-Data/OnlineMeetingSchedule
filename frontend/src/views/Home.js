@@ -8,28 +8,29 @@ const Home = () => {
     updateLoginStatusContext("");
 
     return (
-        <div className="titles">
+        <>
             <BackgroundAnimation />
+            <div className="titles">
+                <h1>Welcome to our meeting scheduling site!</h1>
 
-            <h1>Welcome to our meeting scheduling site!</h1>
+                <h3>
+                    <TypingEffect
+                        text="Here you can schedule meetings with your friends and colleagues."
+                        delay={25}
+                    />
+                </h3>
 
-            <h3>
-                <TypingEffect
-                    text="Here you can schedule meetings with your friends and colleagues."
-                    delay={25}
-                />
-            </h3>
-
-            <h2>Please Login or Sign up here!</h2>
-            <div className="login_area">
-                <Link to="/register" className="links">
-                    Click here to register!
-                </Link>
-                <Link to="/login" className="links">
-                    Click here to login!
-                </Link>
+                <h2>Please Login or Sign up here!</h2>
+                <div className="login_area">
+                    <Link to="/register" className="links">
+                        Click here to register!
+                    </Link>
+                    <Link to="/login" className="links">
+                        Click here to login!
+                    </Link>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -8,18 +8,21 @@ import NavigationBar from "./Components/NavigationBar";
 import { ProfileProvider } from "./contexts/ProfileContext";
 import Login from "./views/Login";
 import { BookingProvider } from "./contexts/BookingContext";
+import Pages from "./Components/Pages";
 
 function App() {
     return (
         <>
             <NavigationBar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/booking" element={<BookingProvider />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<ProfileProvider />} />
-            </Routes>
+            <Pages>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/booking" element={<BookingProvider />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/profile" element={<ProfileProvider />} />
+                </Routes>
+            </Pages>
         </>
     );
 }

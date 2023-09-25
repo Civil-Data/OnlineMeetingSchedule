@@ -58,13 +58,17 @@ const Profile = () => {
                             )}
                         </>
                     )}
-                    {tabContext === "contacts" && <PersonAddSharpIcon />}
+                    {tabContext === "contacts" && (
+                        <div className="icon">
+                            <PersonAddSharpIcon />
+                        </div>
+                    )}
                     {tabContext === "my_meetings" && (
-                        <>
+                        <div className="icon">
                             <Link to="/booking" type="button">
                                 <AddIcon />
                             </Link>
-                        </>
+                        </div>
                     )}
                 </div>
                 <div className="tab_area">

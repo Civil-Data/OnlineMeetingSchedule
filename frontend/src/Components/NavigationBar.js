@@ -10,7 +10,7 @@ const NavigationBar = () => {
 
     return (
         <div id="navigationBar">
-            <div id="icons">
+            <div id="left">
                 {loginStatusContext !== "" && (
                     <>
                         <Link className="nav-buttons" to="/profile" type="button">
@@ -34,7 +34,7 @@ const NavigationBar = () => {
             loginStatusContext === "joel@ju.se" ||
             loginStatusContext === "matilda@ju.se" ||
             loginStatusContext === "felix@ju.se" ? (
-                <div id="navButtons" className="flex-se">
+                <div id="navButtons" className="flex-se right">
                     <span id="logged_in">{loginStatusContext}</span>
 
                     <Link className="nav-buttons" to="/" type="button">
@@ -42,7 +42,7 @@ const NavigationBar = () => {
                     </Link>
                 </div>
             ) : (
-                <div id="navButtons" className="flex-se">
+                <div id="navButtons" className="flex-se right">
                     <Link className="nav-buttons" to="/register" type="button">
                         <i>Sign up</i>
                     </Link>

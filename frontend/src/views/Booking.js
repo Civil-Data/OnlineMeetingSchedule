@@ -1,4 +1,3 @@
-import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
 
 // import React, { useState } from "react";
@@ -55,7 +54,7 @@ const Booking = () => {
 
             <div>
                 <div className="titles">
-                    <Title title="Booking page" className="titles" />
+                    <h1>Booking Page</h1>
                     <TypingEffect
                         text="Welcome to the booking page! Please choose length of the meeting and choose a valid day to book a meeting."
                         delay={25}
@@ -63,14 +62,20 @@ const Booking = () => {
                 </div>
                 <div className="calender_area">
                     <div>
-                        <label htmlFor="dropdown"> Please choose lenght: </label>
+                        <label htmlFor="dropdown">
+                            {" "}
+                            Please choose lenght:{" "}
+                        </label>
                         <select id="dropdown">
                             <option value="30 minutes"> 30 Minutes</option>
                             <option value="45min"> 45 Minutes</option>
                             <option value="1h"> 1 Hour</option>
                             <option value="2h"> 2 Hours</option>
                         </select>
-                        <label htmlFor="dropdown"> Please choose person: </label>
+                        <label htmlFor="dropdown">
+                            {" "}
+                            Please choose person:{" "}
+                        </label>
                         <select id="dropdown">
                             <option value="Martin"> Martin</option>
                             <option value="Joel"> Joel</option>

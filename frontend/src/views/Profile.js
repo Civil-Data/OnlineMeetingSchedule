@@ -8,9 +8,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 // import { useTabContext } from "../contexts/ProfileContext";
 import { useTabContext } from "../contexts/ProfileContext";
+import { useLoginStatusContext } from "../contexts/LoginContext";
 
 // let isOpen;
 const Profile = () => {
+    const loginStatusContext = useLoginStatusContext();
     // const [displayContacts, setDisplayContacts] = useState(false);
     const tabContext = useTabContext();
     // console.log(tabContext);
@@ -23,8 +25,23 @@ const Profile = () => {
         <>
             <div className="profile_container">
                 <div className="top_section">
-                    <span>Martin Nilsson</span>
-                    {tabContext === "info" ? <EditIcon /> : <PersonAddSharpIcon />}
+                    {loginStatusContext === "martin@ju.se" && (
+                        <span>Martin Nilsson</span>
+                    )}
+                    {loginStatusContext === "matilda@ju.se" && (
+                        <span>Matilda Ronder</span>
+                    )}
+                    {loginStatusContext === "felix@ju.se" && (
+                        <span>Felix Stockinger</span>
+                    )}
+                    {loginStatusContext === "joel@ju.se" && (
+                        <span>Joel Scarinius</span>
+                    )}
+                    {tabContext === "info" ? (
+                        <EditIcon />
+                    ) : (
+                        <PersonAddSharpIcon />
+                    )}
                 </div>
 
                 <div className="tab_area">
@@ -39,7 +56,11 @@ const Profile = () => {
                         tab_name="contacts"
                     />
                 </div>
-                {tabContext === "info" ? <ProfileInformation /> : <ProfileContacts />}
+                {tabContext === "info" ? (
+                    <ProfileInformation />
+                ) : (
+                    <ProfileContacts />
+                )}
 
                 {/* <div className="bottom_section">
                     <div className="profile_info">

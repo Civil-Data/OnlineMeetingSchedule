@@ -1,4 +1,3 @@
-import Title from "../Components/Title";
 import { Link } from "react-router-dom";
 import BackgroundAnimation from "../Components/BackgroundAnimation";
 import TypingEffect from "../Components/TypingEffect";
@@ -12,7 +11,7 @@ const Home = () => {
         <div className="titles">
             <BackgroundAnimation />
 
-            <Title title="Welcome to our meeting scheduling site!" />
+            <h1>Welcome to our meeting scheduling site!</h1>
 
             <h3>
                 <TypingEffect

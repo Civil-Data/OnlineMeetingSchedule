@@ -1,11 +1,10 @@
-import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
 import LoginValidation from "../Components/LoginValidation";
 
 const Login = () => {
     return (
         <div className="titles">
-            <Title title="Login page" />
+            <h1>Login page</h1>
 
             <TypingEffect
                 text="Welcome back! Please login to your account."

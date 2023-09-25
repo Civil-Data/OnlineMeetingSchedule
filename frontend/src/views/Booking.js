@@ -1,6 +1,5 @@
 import React from "react";
 // import React, { useState } from "react";
-import Title from "../Components/Title";
 import TypingEffect from "../Components/TypingEffect";
 
 import PopUp from "../Components/PopUp";
@@ -35,11 +34,9 @@ const Booking = () => {
             dateNum = 1;
         }
         dateIdx++;
-        dateLabels.push(
-            <DateButtons key={uuidv4()} date={dateNum} theme={bgd} />
-        );
+        dateLabels.push(<DateButtons key={uuidv4()} date={dateNum} theme={bgd} />);
     }
-    // const [day, setDay] = useState(false);
+
     return (
         <>
             <button onClick={() => getDate()}>Click for date</button>
@@ -61,14 +58,14 @@ const Booking = () => {
             )}
 
             <div>
-                <div className="titles">
-                    <Title title="Booking page" className="titles" />
-                    <TypingEffect
-                        text="Welcome to the booking page! Please choose length of the meeting and choose a valid day to book a meeting."
-                        delay={25}
-                    />
-                </div>
                 <div className="calender_area">
+                    <div className="titles">
+                        <h1>Booking Page</h1>
+                        <TypingEffect
+                            text="Welcome to the booking page! Please choose length of the meeting and choose a valid day to book a meeting."
+                            delay={25}
+                        />
+                    </div>
                     <div className="meeting_options">
                         <label htmlFor="dropdown">Please choose lenght:</label>
                         <select id="dropdown">

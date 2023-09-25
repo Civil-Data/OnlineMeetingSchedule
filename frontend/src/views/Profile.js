@@ -4,16 +4,18 @@ import ProfileInformation from "../Components/Profile/ProfileInformation";
 import ProfileTab from "../Components/Profile/ProfileTab";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
-import { useTabContext } from "../contexts/ProfileContext";
+import { useProfileUpdate, useTabContext } from "../contexts/ProfileContext";
 import { useLoginStatusContext } from "../contexts/LoginContext";
 import ProfileMeetings from "../Components/Profile/ProfileMeetings";
-// import PopUp from "../Components/PopUp";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
+import SaveIcon from "@mui/icons-material/Save";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const Profile = () => {
     const loginStatusContext = useLoginStatusContext();
     const tabContext = useTabContext();
+    const { updateClickedIcon, clickedIcon } = useProfileUpdate();
 
     return (
         <>
@@ -23,7 +25,28 @@ const Profile = () => {
                     {loginStatusContext === "matilda@ju.se" && <span>Matilda Ronder</span>}
                     {loginStatusContext === "felix@ju.se" && <span>Felix Stockinger</span>}
                     {loginStatusContext === "joel@ju.se" && <span>Joel Scarinius</span>}
-                    {tabContext === "info" && <EditIcon />}
+                    {tabContext === "info" && (
+                        <>
+                            {clickedIcon ? (
+                                <div
+                                    onClick={() => {
+                                        updateClickedIcon(false);
+                                    }}
+                                >
+                                    <SaveIcon />
+                                    <ClearIcon />
+                                </div>
+                            ) : (
+                                <div
+                                    onClick={() => {
+                                        updateClickedIcon(true);
+                                    }}
+                                >
+                                    <EditIcon />
+                                </div>
+                            )}
+                        </>
+                    )}
                     {tabContext === "contacts" && <PersonAddSharpIcon />}
                     {tabContext === "my_meetings" && (
                         <>

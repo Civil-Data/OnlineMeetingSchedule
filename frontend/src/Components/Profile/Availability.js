@@ -53,6 +53,7 @@ export default function Availability() {
     return (
         <Box sx={{ height: "100%", width: "100%" }}>
             <DataGrid
+                sx={{ color: "white" }}
                 rows={rows}
                 columns={columns}
                 initialState={{

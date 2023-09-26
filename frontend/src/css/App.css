@@ -406,6 +406,7 @@ input.input_margin {
 	border-right: 1px solid goldenrod; */
 	padding-left: 3px;
 	padding-right: 3px;
+	text-overflow: wrap;
 }
 .list_item {
 	display: flex;
@@ -545,5 +546,9 @@ input.input_margin {
 	height: 250px;
 	width: 220px;
 	color: #000;
+	text-align: center;
+}
+
+.participants {
 	text-align: center;
 }

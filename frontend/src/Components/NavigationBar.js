@@ -13,14 +13,22 @@ const NavigationBar = () => {
             <div id="left">
                 {loginStatusContext !== "" && (
                     <>
-                        <Link className="nav-buttons" to="/profile" type="button">
+                        <Link
+                            className="nav-buttons"
+                            to="/profile"
+                            type="button"
+                        >
                             <AccountCircleIcon
                                 fontSize="large"
                                 sx={{ color: "#daa520", height: iconSize }}
                                 titleAccess="Profile Page"
                             />
                         </Link>
-                        <Link className="nav-buttons" to="/booking" type="button">
+                        <Link
+                            className="nav-buttons"
+                            to="/booking"
+                            type="button"
+                        >
                             <AddIcon
                                 fontSize="large"
                                 sx={{ color: "#daa520", height: iconSize }}

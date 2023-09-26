@@ -242,6 +242,20 @@ input.input_margin {
 	cursor: pointer;
 }
 
+.nav-buttons > .MuiSvgIcon-root {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 2px;
+    box-sizing: unset;
+}
+
+.nav-buttons > .MuiSvgIcon-root:hover {
+    border: 2px solid goldenrod;
+    border-radius: 5px;
+    padding: 2px;
+    box-sizing: unset;
+}
+
 .flex-se {
 	display: flex;
 	align-items: center;

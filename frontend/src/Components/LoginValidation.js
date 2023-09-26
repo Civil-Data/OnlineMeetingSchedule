@@ -9,13 +9,13 @@ const LoginValidation = () => {
     const updateLoginStatusContext = useUpdateLoginStatus();
 
     // Email validation function
-    const validateEmail = (email) => {
+    const validateEmail = email => {
         const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return regex.test(email);
     };
 
     // Password validation function
-    const validatePassword = (password) => {
+    const validatePassword = password => {
         // Check if password is at least 8 characters long
         if (password.length < 8) {
             return false;
@@ -44,7 +44,7 @@ const LoginValidation = () => {
         return true;
     };
 
-    const handleSignUp = (e) => {
+    const handleSignUp = e => {
         e.preventDefault();
         if (
             (validateEmail(email) && validatePassword(password)) ||
@@ -71,10 +71,11 @@ const LoginValidation = () => {
                     </label>
                 </div>
                 <input
+                    className="input_margin"
                     type="email"
                     placeholder="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                 />
 
                 <div>
@@ -84,17 +85,14 @@ const LoginValidation = () => {
                     </label>
                 </div>
                 <input
+                    className="input_margin"
                     type="password"
                     placeholder="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={e => setPassword(e.target.value)}
                 />
                 <div>
-                    <button
-                        type="submit"
-                        id="confirmation_btn"
-                        className="links"
-                    >
+                    <button type="submit" id="confirmation_btn" className="links">
                         Login
                     </button>
                 </div>

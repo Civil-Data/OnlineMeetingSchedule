@@ -14,9 +14,9 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Availability from "../Components/Profile/Availability";
 
 const Profile = () => {
-	const loginStatusContext = useLoginStatusContext();
-	const tabContext = useTabContext();
-	const { updateClickedIcon, clickedIcon } = useProfileUpdate();
+    const loginStatusContext = useLoginStatusContext();
+    const tabContext = useTabContext();
+    const { updateClickedIcon, clickedIcon } = useProfileUpdate();
 
     return (
         <>
@@ -106,9 +106,10 @@ const Profile = () => {
                 {tabContext === "contacts" && <ProfileContacts />}
                 {tabContext === "my_meetings" && <ProfileMeetings />}
                 {tabContext === "my_meetings" && <ProfileMeetings />}
-				        {tabContext === "my_meetings" && <ProfileMeetings />}
+                {tabContext === "my_meetings" && <ProfileMeetings />}
                 {tabContext === "availability" && <Availability />}
             </div>
         </>
     );
+};
 export default Profile;

@@ -11,6 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import SaveIcon from "@mui/icons-material/Save";
 import ClearIcon from "@mui/icons-material/Clear";
+import Availability from "../Components/Profile/Availability";
 
 const Profile = () => {
     const loginStatusContext = useLoginStatusContext();
@@ -21,10 +22,18 @@ const Profile = () => {
         <>
             <div className="profile_container">
                 <div className="top_section">
-                    {loginStatusContext === "martin@ju.se" && <span>Martin Nilsson</span>}
-                    {loginStatusContext === "matilda@ju.se" && <span>Matilda Ronder</span>}
-                    {loginStatusContext === "felix@ju.se" && <span>Felix Stockinger</span>}
-                    {loginStatusContext === "joel@ju.se" && <span>Joel Scarinius</span>}
+                    {loginStatusContext === "martin@ju.se" && (
+                        <span>Martin Nilsson</span>
+                    )}
+                    {loginStatusContext === "matilda@ju.se" && (
+                        <span>Matilda Ronder</span>
+                    )}
+                    {loginStatusContext === "felix@ju.se" && (
+                        <span>Felix Stockinger</span>
+                    )}
+                    {loginStatusContext === "joel@ju.se" && (
+                        <span>Joel Scarinius</span>
+                    )}
                     {tabContext === "info" && (
                         <>
                             {clickedIcon ? (
@@ -35,7 +44,7 @@ const Profile = () => {
                                         }}
                                         className="icon"
                                     >
-                                        <SaveIcon />
+                                        <SaveIcon titleAccess="Save" />
                                     </div>
                                     <div
                                         onClick={() => {
@@ -43,7 +52,7 @@ const Profile = () => {
                                         }}
                                         className="icon"
                                     >
-                                        <ClearIcon />
+                                        <ClearIcon titleAccess="Exit" />
                                     </div>
                                 </div>
                             ) : (
@@ -53,7 +62,7 @@ const Profile = () => {
                                     }}
                                     className="icon"
                                 >
-                                    <EditIcon />
+                                    <EditIcon titleAccess="Edit" />
                                 </div>
                             )}
                         </>
@@ -66,7 +75,7 @@ const Profile = () => {
                     {tabContext === "my_meetings" && (
                         <div className="icon">
                             <Link to="/booking" type="button">
-                                <AddIcon />
+                                <AddIcon titleAccess="Add Booking" />
                             </Link>
                         </div>
                     )}
@@ -87,10 +96,16 @@ const Profile = () => {
                         is_active={tabContext === "my_meetings"}
                         tab_name="my_meetings"
                     />
+                    <ProfileTab
+                        tab_text="Availability"
+                        is_active={tabContext === "availability"}
+                        tab_name="availability"
+                    />
                 </div>
                 {tabContext === "info" && <ProfileInformation />}
                 {tabContext === "contacts" && <ProfileContacts />}
                 {tabContext === "my_meetings" && <ProfileMeetings />}
+                {tabContext === "availability" && <Availability />}
             </div>
         </>
     );

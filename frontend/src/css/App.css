@@ -1,7 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
+
+:root {
+    --iconSize: 20px;
+}
+
+* {
+    box-sizing: border-box;
+}
 
 body {
     font-family: "Raleway", sans-serif;
+    /* font-family: "open sans", sans-serif; */
     background-color: #282c34;
     color: white;
     margin: 0;
@@ -10,11 +20,13 @@ body {
 h1,
 h2 {
     color: goldenrod;
-    font-size: 20px;
 }
 h3 {
-    /* font-size: 10px; */
     margin-top: 0px;
+}
+
+.page {
+    padding-top: 70px;
 }
 
 .links {
@@ -105,6 +117,7 @@ video {
 }
 
 #confirmation_btn {
+    font-family: "Raleway", sans-serif;
     border-radius: 5px;
     padding: 10px;
     background-color: transparent;
@@ -112,9 +125,8 @@ video {
     border: goldenrod 2px solid;
     font-size: 20px;
     cursor: pointer;
-    font-family: "Raleway", sans-serif;
     font-weight: bold;
-    margin-top: 15px;
+    margin: 15px 0;
 }
 
 #confirmation_btn:hover {
@@ -124,12 +136,17 @@ video {
 
 input {
     border: rgb(255, 187, 14) 2px solid;
-    margin: 10px 0 40px 0;
     font-size: 30px;
     font-weight: bold;
     background-color: rgb(218, 208, 186);
     border-radius: 3px;
     outline-style: none;
+}
+input.input_margin {
+    margin: 10px 0 40px 0;
+}
+.profile_info > input {
+    font-size: 25px;
 }
 
 .input_label {
@@ -152,14 +169,15 @@ input {
     margin-top: 50px;
     grid-template-columns: repeat(7, 155px);
     grid-template-rows: 45px 25px repeat(5, 100px);
-    grid-gap: 1px;
+    grid-gap: 2px;
     border: 1px solid goldenrod;
     border-radius: 10px;
-    /* background-color: rgb(49, 49, 49); */
     background-color: goldenrod;
     overflow: hidden;
     color: goldenrod;
-    margin-bottom: 50px;
+    width: fit-content;
+    margin: 100px;
+    margin-top: 30px;
 }
 
 .grid-container > * {
@@ -171,19 +189,22 @@ input {
     font-size: 200%;
 }
 
-/* .day {
-	/* max-height: 50px; */
-/* gap: 0px 0px; */
-
 #navigationBar {
-    font-family: Raleway, sans-serif;
     border-bottom: goldenrod 10px solid;
     background-color: #282c34;
     padding: 10px;
-    position: top;
+    position: fixed;
+    left: 0;
+    top: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* space-between */
+    justify-content: space-between;
+    width: 100%;
+    z-index: 1;
+}
+
+.right > .nav-buttons {
+    padding: 8px 0;
 }
 
 .nav-buttons > span {
@@ -208,6 +229,7 @@ input {
     color: white;
     text-decoration: none;
     white-space: nowrap;
+    margin-right: 25px;
 }
 
 .nav-buttons > i:hover {
@@ -224,22 +246,25 @@ input {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    width: 10%;
 }
 
-.flex-se#navButtons {
-    width: 15%;
+#logged_in {
+    font-size: 20px;
+    color: goldenrod;
+    margin-right: 20px;
 }
 
 .profile_container {
-    /* background-color: rgb(251, 251, 251); */
     border-radius: 5px;
     margin: 40px;
-    height: 90vh;
+}
+
+.numbers {
+    font-size: 20px;
+    font-family: "open sans", sans-serif;
 }
 
 .top_section {
-    /* color: black; */
     display: flex;
     justify-content: space-between;
 }
@@ -264,7 +289,6 @@ input {
 
 .tab:hover {
     background-color: rgba(218, 165, 32, 1);
-    /* border-radius: 3px; */
     cursor: pointer;
 }
 .tab.active {
@@ -286,9 +310,11 @@ input {
     text-wrap: nowrap;
     font-size: 20px;
     display: grid;
+    align-items: center;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px 15px;
 }
+
 .profile_info > .user_info_label {
     text-align: end;
 }
@@ -307,27 +333,34 @@ input {
     text-align: center;
 }
 
+.titles > h1 {
+    font-size: 40px;
+}
+
 .calender_area {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     margin-top: 20px;
     text-align: center;
 }
 
+.calendarDate {
+    font-family: "open sans", sans-serif;
+}
+
 .dates {
     font-size: small;
-    /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; */
-    /* background-color: rgb(49, 49, 49); */
-    /* color: goldenrod; */
-    /* width: 100%;
-    height: 100%;
-    border: 1px solid rgba(218, 165, 32, 0.469); */
+    font-family: "open sans", sans-serif;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.dates:hover {
+    box-shadow: 0px 0px 7px 4px goldenrod;
+    transform: scale(1.1);
+    z-index: 2;
 }
 
 .date_info {
-    display: flex;
     padding: 3px;
 }
 
@@ -336,13 +369,42 @@ input {
     padding: 20px;
 }
 
+.meeting_list {
+    padding: 20px;
+    align-items: center;
+    width: 100%;
+    display: table;
+    background-color: gray;
+    border: 6px ridge goldenrod;
+    border-radius: 0px;
+}
+
+.meeting_list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid goldenrod;
+    list-style: none;
+    margin-bottom: 20px;
+    white-space: no-wrap;
+}
+.meeting_list_sub_item {
+    margin-left: 3px;
+    margin-right: 3px;
+    border-left: 1px solid goldenrod;
+    border-right: 1px solid goldenrod;
+    padding-left: 3px;
+    padding-right: 3px;
+}
 .list_item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid goldenrod;
+    border: 2px solid goldenrod;
     list-style: none;
     margin-bottom: 20px;
     white-space: no-wrap;
@@ -358,33 +420,36 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 5;
 }
 
-.dayView {
+.popUp {
+    /* font-family: "open sans", sans-serif; */
     background-color: beige;
-    width: 250px;
-    height: 550px;
+    width: fit-content;
+    padding: 20px;
     position: relative;
     text-align: center;
+    z-index: 6;
+    border-radius: 3px;
+    padding: 10px;
 }
 
 .day {
-    /* color: goldenrod; */
-    /* text-align: center; */
-    margin-top: -1px;
-    width: 156px;
-    margin-left: -1px;
+    margin-top: -2px;
+    width: 157px;
+    margin-left: -2px;
 }
 .time {
-    display: inline-block;
-    text-align: left;
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
     font-size: large;
 }
 
 .time button {
-    text-align: center;
-    display: block;
     border-radius: 2px;
     padding: 5px;
     background-color: transparent;
@@ -392,7 +457,7 @@ input {
     border: goldenrod 2px solid;
     font-size: 15px;
     cursor: pointer;
-    font-family: "Raleway", sans-serif;
+    /* font-family: "Raleway", sans-serif; */
     font-weight: bold;
     margin-top: 15px;
 }
@@ -405,17 +470,63 @@ input {
     color: #282c34;
     font-size: xx-large;
     text-align: center;
-    margin-top: 10px;
 }
 
 .MuiSvgIcon-root {
-    margin-right: 90%;
     color: goldenrod;
+}
+
+.cross {
+    cursor: pointer;
+    width: fit-content;
 }
 
 .grey_dates {
     background-color: rgb(119, 87, 5);
-    /* background-color: rgb(129, 17, 17); */
     /* background-color: rgb(77, 77, 77); */
     color: black;
+}
+
+.meeting_options {
+    display: flex;
+    justify-content: center;
+}
+
+.dropdown {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12pt;
+    /* font-family: "Raleway", sans-serif; */
+    font-family: "open sans", sans-serif;
+}
+
+.meeting_options > div > label {
+    margin-right: 5px;
+}
+
+.meeting_options > div:nth-child(2),
+.meeting_options > div:nth-child(3) {
+    margin-left: 50px;
+}
+
+.profile_info > input {
+    margin: 0;
+}
+
+.icon {
+    cursor: pointer;
+    padding: 15px;
+    /* padding: 5px; */
+    border-radius: 5px;
+    border: 2px solid transparent;
+    width: var(--iconSize);
+    height: var(--iconSize);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+}
+
+.icon:hover {
+    border: 2px solid goldenrod;
 }

@@ -2,244 +2,244 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 
 :root {
-    --iconSize: 20px;
+	--iconSize: 20px;
 }
 
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-    font-family: "Raleway", sans-serif;
-    /* font-family: "open sans", sans-serif; */
-    background-color: #282c34;
-    color: white;
-    margin: 0;
+	font-family: "Raleway", sans-serif;
+	/* font-family: "open sans", sans-serif; */
+	background-color: #282c34;
+	color: white;
+	margin: 0;
 }
 
 h1,
 h2 {
-    color: goldenrod;
+	color: goldenrod;
 }
 h3 {
-    margin-top: 0px;
+	margin-top: 0px;
 }
 
 .page {
-    padding-top: 70px;
+	padding-top: 70px;
 }
 
 .links {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .login_area > .links {
-    padding: 15px;
-    color: white;
-    font-size: 30px;
-    background: linear-gradient(90deg, #000000, goldenrod, #000000);
-    border-radius: 15px;
-    max-width: fit-content;
-    margin-bottom: 20px;
+	padding: 15px;
+	color: white;
+	font-size: 30px;
+	background: linear-gradient(90deg, #000000, goldenrod, #000000);
+	border-radius: 15px;
+	max-width: fit-content;
+	margin-bottom: 20px;
 }
 
 .links:hover {
-    color: black;
+	color: black;
 }
 
 div.login_area {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 video {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    filter: blur(3px);
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	filter: blur(3px);
 }
 
 .fade_transition {
-    animation: fade-in 1.5s ease-in forwards;
+	animation: fade-in 1.5s ease-in forwards;
 }
 
 #email-container {
-    margin-top: 50px;
-    opacity: 0;
-    display: none;
-    transition: all 1s;
+	margin-top: 50px;
+	opacity: 0;
+	display: none;
+	transition: all 1s;
 }
 
 @keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @media (min-aspect-ratio: 16/9) {
-    video {
-        width: 100%;
-        height: auto;
-    }
+	video {
+		width: 100%;
+		height: auto;
+	}
 }
 
 @media (max-aspect-ratio: 16/9) {
-    video {
-        width: auto;
-        height: 100%;
-    }
+	video {
+		width: auto;
+		height: 100%;
+	}
 }
 
 .typing-effect {
-    display: inline-block;
-    overflow: hidden;
-    border-right: 2px solid #000;
-    white-space: nowrap;
-    animation: typing 3s steps(20) infinite;
+	display: inline-block;
+	overflow: hidden;
+	border-right: 2px solid #000;
+	white-space: nowrap;
+	animation: typing 3s steps(20) infinite;
 }
 
 @keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%;
-    }
+	from {
+		width: 0;
+	}
+	to {
+		width: 100%;
+	}
 }
 
 #confirmation_btn {
-    font-family: "Raleway", sans-serif;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: transparent;
-    color: goldenrod;
-    border: goldenrod 2px solid;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    margin: 15px 0;
+	font-family: "Raleway", sans-serif;
+	border-radius: 5px;
+	padding: 10px;
+	background-color: transparent;
+	color: goldenrod;
+	border: goldenrod 2px solid;
+	font-size: 20px;
+	cursor: pointer;
+	font-weight: bold;
+	margin: 15px 0;
 }
 
 #confirmation_btn:hover {
-    background-color: goldenrod;
-    color: black;
+	background-color: goldenrod;
+	color: black;
 }
 
 input {
-    border: rgb(255, 187, 14) 2px solid;
-    font-size: 30px;
-    font-weight: bold;
-    background-color: rgb(218, 208, 186);
-    border-radius: 3px;
-    outline-style: none;
+	border: rgb(255, 187, 14) 2px solid;
+	font-size: 30px;
+	font-weight: bold;
+	background-color: rgb(218, 208, 186);
+	border-radius: 3px;
+	outline-style: none;
 }
 input.input_margin {
-    margin: 10px 0 40px 0;
+	margin: 10px 0 40px 0;
 }
 .profile_info > input {
-    font-size: 25px;
+	font-size: 25px;
 }
 
 .input_label {
-    font-size: 30px;
+	font-size: 30px;
 }
 .input_label > b {
-    color: red;
+	color: red;
 }
 
 #typing-element {
-    margin: 0 0 100px;
+	margin: 0 0 100px;
 }
 
 .meetingLabel {
-    font-size: small;
+	font-size: small;
 }
 
 .grid-container {
-    display: inline-grid;
-    margin-top: 50px;
-    grid-template-columns: repeat(7, 155px);
-    grid-template-rows: 45px 25px repeat(5, 100px);
-    grid-gap: 2px;
-    border: 1px solid goldenrod;
-    border-radius: 10px;
-    background-color: goldenrod;
-    overflow: hidden;
-    color: goldenrod;
-    width: fit-content;
-    margin: 100px;
-    margin-top: 30px;
+	display: inline-grid;
+	margin-top: 50px;
+	grid-template-columns: repeat(7, 155px);
+	grid-template-rows: 45px 25px repeat(5, 100px);
+	grid-gap: 2px;
+	border: 1px solid goldenrod;
+	border-radius: 10px;
+	background-color: goldenrod;
+	overflow: hidden;
+	color: goldenrod;
+	width: fit-content;
+	margin: 100px;
+	margin-top: 30px;
 }
 
 .grid-container > * {
-    background-color: rgb(49, 49, 49);
+	background-color: rgb(49, 49, 49);
 }
 
 .month {
-    grid-column: 1/8;
-    font-size: 200%;
+	grid-column: 1/8;
+	font-size: 200%;
 }
 
 #navigationBar {
-    border-bottom: goldenrod 10px solid;
-    background-color: #282c34;
-    padding: 10px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    z-index: 1;
+	border-bottom: goldenrod 10px solid;
+	background-color: #282c34;
+	padding: 10px;
+	position: fixed;
+	left: 0;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	z-index: 1;
 }
 
 .right > .nav-buttons {
-    padding: 8px 0;
+	padding: 8px 0;
 }
 
 .nav-buttons > span {
-    font-size: 20px;
-    border-radius: 5px;
-    border-color: goldenrod;
-    max-width: fit-content;
-    border-style: solid;
-    padding: 5px 5px 5px 5px;
+	font-size: 20px;
+	border-radius: 5px;
+	border-color: goldenrod;
+	max-width: fit-content;
+	border-style: solid;
+	padding: 5px 5px 5px 5px;
 }
 
 .nav-buttons > i {
-    font-size: 20px;
-    border-radius: 5px;
-    border-color: goldenrod;
-    max-width: fit-content;
-    border-style: solid;
-    padding: 5px 5px 5px 5px;
+	font-size: 20px;
+	border-radius: 5px;
+	border-color: goldenrod;
+	max-width: fit-content;
+	border-style: solid;
+	padding: 5px 5px 5px 5px;
 }
 
 .nav-buttons {
-    color: white;
-    text-decoration: none;
-    white-space: nowrap;
-    margin-right: 25px;
+	color: white;
+	text-decoration: none;
+	white-space: nowrap;
+	margin-right: 25px;
 }
 
 .nav-buttons > i:hover {
-    background-color: goldenrod;
-    cursor: pointer;
+	background-color: goldenrod;
+	cursor: pointer;
 }
 
 .nav-buttons > span:hover {
-    background-color: goldenrod;
-    cursor: pointer;
+	background-color: goldenrod;
+	cursor: pointer;
 }
 
 .nav-buttons > .MuiSvgIcon-root {
@@ -257,290 +257,312 @@ input.input_margin {
 }
 
 .flex-se {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
 }
 
 #logged_in {
-    font-size: 20px;
-    color: goldenrod;
-    margin-right: 20px;
+	font-size: 20px;
+	color: goldenrod;
+	margin-right: 20px;
 }
 
 .profile_container {
-    border-radius: 5px;
-    margin: 40px;
+	border-radius: 5px;
+	margin: 40px;
 }
 
 .numbers {
-    font-size: 20px;
-    font-family: "open sans", sans-serif;
+	font-size: 20px;
+	font-family: "open sans", sans-serif;
 }
 
 .top_section {
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .top_section > span {
-    font-size: 20pt;
+	font-size: 20pt;
 }
 
 .tab_area {
-    min-width: 330px;
-    margin-top: 5vh;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-evenly;
-    border-bottom: 2px solid goldenrod;
+	min-width: 330px;
+	margin-top: 5vh;
+	margin-bottom: 30px;
+	display: flex;
+	justify-content: space-evenly;
+	border-bottom: 2px solid goldenrod;
 }
 
 .tab {
-    padding: 10px;
-    border-radius: 2px 2px 0 0;
+	padding: 10px;
+	border-radius: 2px 2px 0 0;
 }
 
 .tab:hover {
-    background-color: rgba(218, 165, 32, 1);
-    cursor: pointer;
+	background-color: rgba(218, 165, 32, 1);
+	cursor: pointer;
 }
 .tab.active {
-    background-color: rgba(218, 165, 32, 1);
+	background-color: rgba(218, 165, 32, 1);
 }
 
 .confirmationText {
-    font-size: 14px;
-    margin-top: 0px;
-    color: goldenrod;
+	font-size: 14px;
+	margin-top: 0px;
+	color: goldenrod;
 }
 
 .user_info_label {
-    color: goldenrod;
-    margin: 0;
+	color: goldenrod;
+	margin: 0;
 }
 
 .profile_info {
-    text-wrap: nowrap;
-    font-size: 20px;
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 15px;
+	text-wrap: nowrap;
+	font-size: 20px;
+	display: grid;
+	align-items: center;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px 15px;
 }
 
 .profile_info > .user_info_label {
-    text-align: end;
+	text-align: end;
 }
 
 .user_information {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 20px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	column-gap: 20px;
 }
 
 .user_about {
-    text-align: center;
+	text-align: center;
 }
 
 .titles {
-    text-align: center;
+	text-align: center;
 }
 
 .titles > h1 {
-    font-size: 40px;
+	font-size: 40px;
 }
 
 .calender_area {
-    margin-top: 20px;
-    text-align: center;
+	margin-top: 20px;
+	text-align: center;
 }
 
 .calendarDate {
-    font-family: "open sans", sans-serif;
+	font-family: "open sans", sans-serif;
 }
 
 .dates {
-    font-size: small;
-    font-family: "open sans", sans-serif;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.1s;
+	font-size: small;
+	font-family: "open sans", sans-serif;
+	text-align: center;
+	cursor: pointer;
+	transition: all 0.1s;
 }
 
 .dates:hover {
-    box-shadow: 0px 0px 7px 4px goldenrod;
-    transform: scale(1.1);
-    z-index: 2;
+	box-shadow: 0px 0px 7px 4px goldenrod;
+	transform: scale(1.1);
+	z-index: 2;
 }
 
 .date_info {
-    padding: 3px;
+	padding: 3px;
 }
 
 .contact_list {
-    margin: 0 40px;
-    padding: 20px;
+	margin: 0 40px;
+	padding: 20px;
 }
 
 .meeting_list {
-    padding: 20px;
-    align-items: center;
-    width: 100%;
-    display: table;
-    background-color: gray;
-    border: 6px ridge goldenrod;
-    border-radius: 0px;
+	padding: 20px;
+	align-items: center;
+	width: 100%;
+	display: table;
+	background-color: gray;
+	border: 6px ridge goldenrod;
+	border-radius: 0px;
+	margin-top: 25px;
+}
+
+.details {
+	text-align: end;
+	align-items: center;
+	/* margin-bottom: 10px; */
 }
 
 .meeting_list_item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid goldenrod;
-    list-style: none;
-    margin-bottom: 20px;
-    white-space: no-wrap;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	/* padding: 10px; */
+	border-radius: 10px;
+	/* border: 1px solid goldenrod; */
+	list-style: none;
+	margin-bottom: 45px;
+	white-space: no-wrap;
+	text-decoration: underline;
+	font-weight: bold;
 }
 .meeting_list_sub_item {
-    margin-left: 3px;
-    margin-right: 3px;
-    border-left: 1px solid goldenrod;
-    border-right: 1px solid goldenrod;
-    padding-left: 3px;
-    padding-right: 3px;
+	margin-left: 3px;
+	margin-right: 3px;
+	/* border-left: 1px solid goldenrod;
+	border-right: 1px solid goldenrod; */
+	padding-left: 3px;
+	padding-right: 3px;
+	text-overflow: wrap;
 }
 .list_item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px solid goldenrod;
-    list-style: none;
-    margin-bottom: 20px;
-    white-space: no-wrap;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px;
+	border-radius: 10px;
+	border: 2px solid goldenrod;
+	list-style: none;
+	margin-bottom: 20px;
+	white-space: no-wrap;
 }
 
 .viewShadow {
-    position: fixed;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.31);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
+	position: fixed;
+	top: 0px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.31);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 5;
 }
 
 .popUp {
-    /* font-family: "open sans", sans-serif; */
-    background-color: beige;
-    width: fit-content;
-    padding: 20px;
-    position: relative;
-    text-align: center;
-    z-index: 6;
-    border-radius: 3px;
-    padding: 10px;
+	/* font-family: "open sans", sans-serif; */
+	background-color: beige;
+	width: fit-content;
+	padding: 20px;
+	position: relative;
+	text-align: center;
+	z-index: 6;
+	border-radius: 3px;
+	padding: 10px;
 }
 
 .day {
-    margin-top: -2px;
-    width: 157px;
-    margin-left: -2px;
+	margin-top: -2px;
+	width: 157px;
+	margin-left: -2px;
 }
 .time {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 10px;
-    font-size: large;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0 10px;
+	font-size: large;
 }
 
 .time button {
-    border-radius: 2px;
-    padding: 5px;
-    background-color: transparent;
-    color: black;
-    border: goldenrod 2px solid;
-    font-size: 15px;
-    cursor: pointer;
-    /* font-family: "Raleway", sans-serif; */
-    font-weight: bold;
-    margin-top: 15px;
+	border-radius: 2px;
+	padding: 5px;
+	background-color: transparent;
+	color: black;
+	border: goldenrod 2px solid;
+	font-size: 15px;
+	cursor: pointer;
+	/* font-family: "Raleway", sans-serif; */
+	font-weight: bold;
+	margin-top: 15px;
 }
 
 .time button:focus {
-    background-color: #acadb0;
+	background-color: #acadb0;
 }
 
 .calendarDate {
-    color: #282c34;
-    font-size: xx-large;
-    text-align: center;
+	color: #282c34;
+	font-size: xx-large;
+	text-align: center;
 }
 
 .MuiSvgIcon-root {
-    color: goldenrod;
+	color: goldenrod;
 }
 
 .cross {
-    cursor: pointer;
-    width: fit-content;
+	cursor: pointer;
+	width: fit-content;
 }
 
 .grey_dates {
-    background-color: rgb(119, 87, 5);
-    /* background-color: rgb(77, 77, 77); */
-    color: black;
+	background-color: rgb(119, 87, 5);
+	/* background-color: rgb(77, 77, 77); */
+	color: black;
 }
 
 .meeting_options {
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .dropdown {
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 12pt;
-    /* font-family: "Raleway", sans-serif; */
-    font-family: "open sans", sans-serif;
+	padding: 5px;
+	border-radius: 5px;
+	font-size: 12pt;
+	/* font-family: "Raleway", sans-serif; */
+	font-family: "open sans", sans-serif;
 }
 
 .meeting_options > div > label {
-    margin-right: 5px;
+	margin-right: 5px;
 }
 
 .meeting_options > div:nth-child(2),
 .meeting_options > div:nth-child(3) {
-    margin-left: 50px;
+	margin-left: 50px;
 }
 
 .profile_info > input {
-    margin: 0;
+	margin: 0;
 }
 
 .icon {
-    cursor: pointer;
-    padding: 15px;
-    /* padding: 5px; */
-    border-radius: 5px;
-    border: 2px solid transparent;
-    width: var(--iconSize);
-    height: var(--iconSize);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5px;
+	cursor: pointer;
+	padding: 15px;
+	/* padding: 5px; */
+	border-radius: 5px;
+	border: 2px solid transparent;
+	width: var(--iconSize);
+	height: var(--iconSize);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 5px;
 }
 
 .icon:hover {
-    border: 2px solid goldenrod;
+	border: 2px solid goldenrod;
+}
+
+.myMeeting {
+	background-color: white;
+	height: 250px;
+	width: 220px;
+	color: #000;
+	text-align: center;
+}
+
+.participants {
+	text-align: center;
 }

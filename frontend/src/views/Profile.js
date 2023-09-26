@@ -13,87 +13,97 @@ import SaveIcon from "@mui/icons-material/Save";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const Profile = () => {
-    const loginStatusContext = useLoginStatusContext();
-    const tabContext = useTabContext();
-    const { updateClickedIcon, clickedIcon } = useProfileUpdate();
+	const loginStatusContext = useLoginStatusContext();
+	const tabContext = useTabContext();
+	const { updateClickedIcon, clickedIcon } = useProfileUpdate();
 
-    return (
-        <>
-            <div className="profile_container">
-                <div className="top_section">
-                    {loginStatusContext === "martin@ju.se" && <span>Martin Nilsson</span>}
-                    {loginStatusContext === "matilda@ju.se" && <span>Matilda Ronder</span>}
-                    {loginStatusContext === "felix@ju.se" && <span>Felix Stockinger</span>}
-                    {loginStatusContext === "joel@ju.se" && <span>Joel Scarinius</span>}
-                    {tabContext === "info" && (
-                        <>
-                            {clickedIcon ? (
-                                <div style={{ display: "flex" }}>
-                                    <div
-                                        onClick={() => {
-                                            updateClickedIcon(false);
-                                        }}
-                                        className="icon"
-                                    >
-                                        <SaveIcon />
-                                    </div>
-                                    <div
-                                        onClick={() => {
-                                            updateClickedIcon(false);
-                                        }}
-                                        className="icon"
-                                    >
-                                        <ClearIcon />
-                                    </div>
-                                </div>
-                            ) : (
-                                <div
-                                    onClick={() => {
-                                        updateClickedIcon(true);
-                                    }}
-                                    className="icon"
-                                >
-                                    <EditIcon />
-                                </div>
-                            )}
-                        </>
-                    )}
-                    {tabContext === "contacts" && (
-                        <div className="icon">
-                            <PersonAddSharpIcon />
-                        </div>
-                    )}
-                    {tabContext === "my_meetings" && (
-                        <div className="icon">
-                            <Link to="/booking" type="button">
-                                <AddIcon />
-                            </Link>
-                        </div>
-                    )}
-                </div>
-                <div className="tab_area">
-                    <ProfileTab
-                        tab_text="Profile information"
-                        is_active={tabContext === "info"}
-                        tab_name="info"
-                    />
-                    <ProfileTab
-                        tab_text="Contacts"
-                        is_active={tabContext === "contacts"}
-                        tab_name="contacts"
-                    />
-                    <ProfileTab
-                        tab_text="My Meetings"
-                        is_active={tabContext === "my_meetings"}
-                        tab_name="my_meetings"
-                    />
-                </div>
-                {tabContext === "info" && <ProfileInformation />}
-                {tabContext === "contacts" && <ProfileContacts />}
-                {tabContext === "my_meetings" && <ProfileMeetings />}
-            </div>
-        </>
-    );
+	return (
+		<>
+			<div className="profile_container">
+				<div className="top_section">
+					{loginStatusContext === "martin@ju.se" && (
+						<span>Martin Nilsson</span>
+					)}
+					{loginStatusContext === "matilda@ju.se" && (
+						<span>Matilda Ronder</span>
+					)}
+					{loginStatusContext === "felix@ju.se" && (
+						<span>Felix Stockinger</span>
+					)}
+					{loginStatusContext === "joel@ju.se" && (
+						<span>Joel Scarinius</span>
+					)}
+					{tabContext === "info" && (
+						<>
+							{clickedIcon ? (
+								<div style={{ display: "flex" }}>
+									<div
+										onClick={() => {
+											updateClickedIcon(false);
+										}}
+										className="icon"
+									>
+										<SaveIcon />
+									</div>
+									<div
+										onClick={() => {
+											updateClickedIcon(false);
+										}}
+										className="icon"
+									>
+										<ClearIcon />
+									</div>
+								</div>
+							) : (
+								<div
+									onClick={() => {
+										updateClickedIcon(true);
+									}}
+									className="icon"
+								>
+									<EditIcon />
+								</div>
+							)}
+						</>
+					)}
+					{tabContext === "contacts" && (
+						<div className="icon">
+							<PersonAddSharpIcon />
+						</div>
+					)}
+					{tabContext === "my_meetings" && (
+						<div className="icon">
+							<Link to="/booking" type="button">
+								<AddIcon />
+							</Link>
+						</div>
+					)}
+				</div>
+				<div className="tab_area">
+					<ProfileTab
+						tab_text="Profile information"
+						is_active={tabContext === "info"}
+						tab_name="info"
+					/>
+					<ProfileTab
+						tab_text="Contacts"
+						is_active={tabContext === "contacts"}
+						tab_name="contacts"
+					/>
+					<ProfileTab
+						tab_text="My Meetings"
+						is_active={tabContext === "my_meetings"}
+						tab_name="my_meetings"
+					/>
+				</div>
+				{tabContext === "info" && <ProfileInformation />}
+				{tabContext === "contacts" && <ProfileContacts />}
+				{tabContext === "my_meetings" && <ProfileMeetings />}
+				{tabContext === "my_meetings" && <ProfileMeetings />}
+				{tabContext === "my_meetings" && <ProfileMeetings />}
+			</div>
+		</>
+	);
 };
 
 export default Profile;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
@@ -14,7 +14,7 @@ import axios from "axios";
 const Booking = () => {
     const { dayView, date, dayString } = useDayView();
     const { getDate } = useDateContext();
-
+    const [errorMessage, setErrorMessage] = useState("");
     const handleTitleChange = (event) => {
         setMeetingDetails({ ...meetingDetails, title: event.target.value });
     };
@@ -33,6 +33,28 @@ const Booking = () => {
     const handleEndDateChange = (event) => {
         setMeetingDetails({ ...meetingDetails, endDate: event.target.value });
     };
+
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+    useEffect(() => {
+        // Check if all required fields have valid values
+        if (
+            meetingDetails.title &&
+            meetingDetails.location &&
+            meetingDetails.startTime &&
+            meetingDetails.endTime &&
+            meetingDetails.startDate &&
+            meetingDetails.endDate
+        ) {
+            // Enable the button if all fields are filled
+            setIsButtonDisabled(false);
+            setErrorMessage("");
+        } else {
+            // Disable the button if any field is empty
+            setIsButtonDisabled(true);
+        }
+    }, [meetingDetails]);
+
     // State for booking meeting details
     const [meetingDetails, setMeetingDetails] = useState({
         date: null,
@@ -71,6 +93,7 @@ const Booking = () => {
             // You can add more logic here, like showing a success message
         } catch (error) {
             // Handle error (e.g., show an error message)
+            setErrorMessage("An error occurred while booking the meeting.");
         }
     };
 
@@ -217,7 +240,10 @@ const Booking = () => {
                                 }}
                             />
                         </div>
-                        <ConfirmButton onClick={bookMeeting} />
+                        <ConfirmButton
+                            onClick={bookMeeting}
+                            disabled={isButtonDisabled}
+                        />
                     </PopUp>
                 </>
             )}

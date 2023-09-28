@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import React, { useState } from "react";
 import TypingEffect from "../Components/TypingEffect";
 
@@ -11,13 +11,50 @@ import { useDayView } from "../contexts/BookingContext";
 import { v4 as uuidv4 } from "uuid";
 import { useDateContext } from "../contexts/DateContext";
 import Dropdown from "../Components/Booking/Dropdown";
-
+import axios from "axios";
 const Booking = () => {
     const { dayView, date, dayString } = useDayView();
     const { getDate } = useDateContext();
     // console.log(getDate);
 
     // const [monthToDisplay, setMonthToDisplay] = useState(getDate.month);
+
+    // State for booking meeting details
+    const [meetingDetails, setMeetingDetails] = useState({
+        date: null,
+        time: "",
+        attendees: [],
+        title: "",
+        location: "",
+    });
+
+    // Function to handle booking confirmation
+    const bookMeeting = async () => {
+        try {
+            // Set the date and time in the meeting details
+            setMeetingDetails({
+                ...meetingDetails,
+                date: date,
+                time: meetingDetails.time,
+            });
+
+            // Send a POST request to your Node.js backend to save the meeting details
+            await axios.post("/api/meetings", meetingDetails);
+
+            // Close the popup and clear the meeting details
+            setMeetingDetails({
+                date: null,
+                time: "",
+                attendees: [],
+                title: "",
+                location: "",
+            });
+
+            // You can add more logic here, like showing a success message
+        } catch (error) {
+            // Handle error (e.g., show an error message)
+        }
+    };
 
     const dateLabels = [];
     // const dates = 31;
@@ -43,7 +80,9 @@ const Booking = () => {
             <DateButtons
                 key={uuidv4()}
                 date={dateNum}
-                dayString={getDate(dateObj.year, dateObj.month, dateNum).dayString}
+                dayString={
+                    getDate(dateObj.year, dateObj.month, dateNum).dayString
+                }
                 theme={bgd}
             />
         );
@@ -51,16 +90,20 @@ const Booking = () => {
 
     const selectOptions = [
         {
-            labelText: "Please choose lenght:",
-            options: ["30 min", "45 min", "1h", "2h"],
+            labelText: "Filter by day:",
+            options: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "FriJAAY",
+                "Saturday",
+                "Sunday",
+            ],
         },
         {
-            labelText: "Please choose person:",
+            labelText: "Filter by person:",
             options: ["Martin", "Joel", "Matilda", "Felix"],
-        },
-        {
-            labelText: "Filter participants by country:",
-            options: ["Sweden", "Norway", "Denmark", "Finland"],
         },
     ];
 
@@ -72,14 +115,7 @@ const Booking = () => {
                         <div className="calendarDate">
                             {dayString} {date}
                         </div>
-                        <div className="time">
-                            <button>8:00</button>
-                            <button>9:00</button>
-                            <button>10:30</button>
-                            <button>12:00</button>
-                            <button>14:45</button>
-                            <ConfirmButton></ConfirmButton>
-                        </div>
+                        <ConfirmButton></ConfirmButton>
                     </PopUp>
                 </>
             )}
@@ -94,7 +130,7 @@ const Booking = () => {
                         />
                     </div>
                     <div className="meeting_options">
-                        {selectOptions.map(dropdown => {
+                        {selectOptions.map((dropdown) => {
                             return (
                                 <Dropdown
                                     key={uuidv4()}

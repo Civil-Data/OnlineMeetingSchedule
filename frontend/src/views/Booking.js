@@ -1,24 +1,38 @@
 import React, { useState } from "react";
-// import React, { useState } from "react";
-import TypingEffect from "../Components/TypingEffect";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import PopUp from "../Components/PopUp";
-
-// import ClearIcon from "@mui/icons-material/Clear";
 import ConfirmButton from "../Components/ConfirmButton";
 import DateButtons from "../Components/DateButtons";
 import { useDayView } from "../contexts/BookingContext";
 import { v4 as uuidv4 } from "uuid";
 import { useDateContext } from "../contexts/DateContext";
-import Dropdown from "../Components/Booking/Dropdown";
+
 import axios from "axios";
+
 const Booking = () => {
     const { dayView, date, dayString } = useDayView();
     const { getDate } = useDateContext();
-    // console.log(getDate);
 
-    // const [monthToDisplay, setMonthToDisplay] = useState(getDate.month);
+    const handleTitleChange = (event) => {
+        setMeetingDetails({ ...meetingDetails, title: event.target.value });
+    };
 
+    const handleLocationChange = (event) => {
+        setMeetingDetails({ ...meetingDetails, location: event.target.value });
+    };
+
+    const handleAttendeesChange = (event, values) => {
+        setMeetingDetails({ ...meetingDetails, attendees: values });
+    };
+    const handleStartDateChange = (event) => {
+        setMeetingDetails({ ...meetingDetails, startDate: event.target.value });
+    };
+
+    const handleEndDateChange = (event) => {
+        setMeetingDetails({ ...meetingDetails, endDate: event.target.value });
+    };
     // State for booking meeting details
     const [meetingDetails, setMeetingDetails] = useState({
         date: null,
@@ -26,6 +40,8 @@ const Booking = () => {
         attendees: [],
         title: "",
         location: "",
+        startTime: "", // Add startTime
+        endTime: "", // Add endTime
     });
 
     // Function to handle booking confirmation
@@ -48,6 +64,8 @@ const Booking = () => {
                 attendees: [],
                 title: "",
                 location: "",
+                startTime: "",
+                endTime: "", // Clear startTime and endTime
             });
 
             // You can add more logic here, like showing a success message
@@ -57,14 +75,8 @@ const Booking = () => {
     };
 
     const dateLabels = [];
-    // const dates = 31;
     const dateObj = getDate(2023, 9, 0);
-    console.log(dateObj);
-    // const month = dateObj.month + 1;
-    // const year = dateObj.year;
     const dates = dateObj.daysInMonth;
-    // const dates = getDaysInMonth(year, month);
-    console.log(dates);
     let bgd = "dark";
     let dateIdx = 0;
     for (let index = 0; index < 35; index++) {
@@ -90,57 +102,128 @@ const Booking = () => {
 
     const selectOptions = [
         {
-            labelText: "Filter by day:",
+            labelText: "Filter events by day:",
             options: [
                 "Monday",
                 "Tuesday",
                 "Wednesday",
                 "Thursday",
-                "FriJAAY",
+                "FriJAY",
                 "Saturday",
                 "Sunday",
             ],
         },
         {
-            labelText: "Filter by person:",
+            labelText: "Filter events by person:",
             options: ["Martin", "Joel", "Matilda", "Felix"],
         },
     ];
+
+    const muiInputStyle = {
+        marginBottom: "6px",
+    };
 
     return (
         <>
             {dayView && (
                 <>
                     <PopUp>
-                        <div className="calendarDate">
+                        <div className="calendarDate" style={muiInputStyle}>
                             {dayString} {date}
                         </div>
-                        <ConfirmButton></ConfirmButton>
+                        <div>
+                            <TextField
+                                sx={muiInputStyle}
+                                label="Meeting Title"
+                                value={meetingDetails.title}
+                                onChange={handleTitleChange}
+                            />
+                            <TextField
+                                sx={muiInputStyle}
+                                label="Location"
+                                value={meetingDetails.location}
+                                onChange={handleLocationChange}
+                            />
+                            <TextField
+                                sx={muiInputStyle}
+                                className="calendar_choose_time"
+                                label="Start Time" // Add Start Time field
+                                value={meetingDetails.startTime}
+                                onChange={(event) =>
+                                    setMeetingDetails({
+                                        ...meetingDetails,
+                                        startTime: event.target.value,
+                                    })
+                                }
+                                type="time"
+                                InputLabelProps={{
+                                    shrink: true,
+                                    style: {
+                                        transform:
+                                            "translate(14px,-6px) scale(0.75)",
+                                    },
+                                }}
+                            />
+                            <TextField
+                                sx={muiInputStyle}
+                                label="End Time" // Add End Time field
+                                value={meetingDetails.endTime}
+                                onChange={(event) =>
+                                    setMeetingDetails({
+                                        ...meetingDetails,
+                                        endTime: event.target.value,
+                                    })
+                                }
+                                type="time"
+                                InputLabelProps={{
+                                    shrink: true,
+                                    style: {
+                                        transform:
+                                            "translate(14px,-6px) scale(0.75)",
+                                    },
+                                }}
+                            />
+                            <Autocomplete
+                                sx={muiInputStyle}
+                                multiple
+                                id="attendees"
+                                options={[]} // Add your list of attendees here
+                                value={meetingDetails.attendees}
+                                onChange={handleAttendeesChange}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Attendees"
+                                        placeholder="Select attendees"
+                                    />
+                                )}
+                            />
+                            <TextField
+                                label="Start Date"
+                                type="date"
+                                value={meetingDetails.startDate}
+                                onChange={handleStartDateChange}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                label="End Date"
+                                type="date"
+                                value={meetingDetails.endDate}
+                                onChange={handleEndDateChange}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </div>
+                        <ConfirmButton onClick={bookMeeting} />
                     </PopUp>
                 </>
             )}
 
             <div>
                 <div className="calender_area">
-                    <div className="titles">
-                        <h1>Booking Page</h1>
-                        <TypingEffect
-                            text="Welcome to the booking page! Please choose length of the meeting and choose a valid day to book a meeting."
-                            delay={25}
-                        />
-                    </div>
-                    <div className="meeting_options">
-                        {selectOptions.map((dropdown) => {
-                            return (
-                                <Dropdown
-                                    key={uuidv4()}
-                                    id={selectOptions.indexOf(dropdown)}
-                                    labelText={dropdown.labelText}
-                                    selectOptions={dropdown.options}
-                                />
-                            );
-                        })}
-                    </div>
                     <div className="grid-container">
                         <div className="month">{dateObj.monthString}</div>
                         <div className="day">Monday</div>

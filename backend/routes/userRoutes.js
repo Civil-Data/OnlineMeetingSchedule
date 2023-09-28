@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/userModel");
+const User = require("../schemas/userSchema");
+const bcrypt = require("bcrypt");
 
 // Create a new user
 router.post("/users", async (req, res) => {
@@ -13,13 +14,77 @@ router.post("/users", async (req, res) => {
     }
 });
 
-// Retrieve all users
 router.get("/users", async (req, res) => {
+    // console.log(req);
+    // console.log(res);
     try {
         const users = await User.find();
         res.json(users);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+// Retrieve one user matching email
+router.get("/users/:email", async (req, res) => {
+    try {
+        console.log(req);
+        console.log(res);
+        //     const { email } = req.body;
+
+        //     // Check if the username or email is already in use
+        //     const existingUser = await User.findOne({
+        //         email: email,
+        //     });
+        //     if (existingUser) {
+        //         return res.status(400).json({ message: "Email is already in use" });
+        //     }
+        // } catch (error) {
+        //     console.error("Registration error:", error);
+        //     res.status(500).json({
+        //         message: "Registration failed YOU DUMB ASS!!!!",
+        //     });
+    } catch {}
+});
+
+// Insert one user in DB
+router.post("/users", async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(res);
+        // const { email } = req.body;
+
+        //     // Check if the username or email is already in use
+        //     const existingUser = await User.findOne({
+        //         email: email,
+        //     });
+        //     if (existingUser) {
+        //         return res.status(400).json({ message: "Email is already in use" });
+        //     }
+        // } catch (error) {
+        //     console.error("Registration error:", error);
+        //     res.status(500).json({
+        //         message: "Registration failed YOU DUMB ASS!!!!",
+        //     });
+
+        // Hash the password before saving it
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create a new user document
+        const newUser = new User({
+            username,
+            email,
+            password: hashedPassword,
+        });
+
+        await newUser.save();
+
+        res.status(201).json({ message: "User registered successfully" });
+    } catch (error) {
+        console.error("Registration error:", error);
+        res.status(500).json({
+            message: "Registration failed YOU DUMB ASS!!!!",
+        });
     }
 });
 

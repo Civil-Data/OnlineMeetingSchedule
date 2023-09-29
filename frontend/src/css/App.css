@@ -185,8 +185,12 @@ input.input_margin {
 }
 
 .month {
+    font-family: "open sans", sans-serif;
     grid-column: 1/8;
     font-size: 200%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 #navigationBar {

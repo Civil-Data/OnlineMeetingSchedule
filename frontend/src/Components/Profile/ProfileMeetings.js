@@ -25,9 +25,13 @@ const ProfileMeetings = () => {
 			</div>
 			<div className="profile_container">
 				<div className="top_section">
-					{details === "upcoming" ? <MeetingItem /> : null}
+					{details === "upcoming" ? (
+						<MeetingItem showVoteButton={false} />
+					) : null}
 
-					{details === "pending" ? <MeetingItem /> : null}
+					{details === "pending" ? (
+						<MeetingItem showVoteButton={true} />
+					) : null}
 				</div>
 			</div>
 		</>

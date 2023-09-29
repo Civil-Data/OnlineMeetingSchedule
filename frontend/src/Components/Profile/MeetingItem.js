@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 // import { useProfileUpdate } from "../../contexts/ProfileContext";
 
-const MeetingItem = () => {
+const MeetingItem = ({ showVoteButton }) => {
 	// const { updateClickedIcon } = useProfileUpdate();
 	const [detailIcon, setdetailIcon] = useState(false);
 	const toggleState = () => {
@@ -15,9 +15,11 @@ const MeetingItem = () => {
 				<div className="meeting_list_sub_item">When?</div>
 				<div className="meeting_list_sub_item">Where?</div>
 			</div>
-			<div className="vote">
-				<button>Vote!</button>
-			</div>
+			{showVoteButton && (
+				<div className="vote">
+					<button>Vote!</button>
+				</div>
+			)}
 
 			<div
 				className="details"

@@ -12,14 +12,8 @@ export function useDateContext() {
 // }
 
 export const DateProvider = ({ children }) => {
-    // const [dayView, setDayView] = useState(false);
-    // const [daysInMonth, setDaysInMonth] = useState();
-
     function getDaysInMonth(year, month) {
-        // JavaScript months are 0-based, so we subtract 1 from the month
         const lastDayOfMonth = new Date(year, month + 1, 0);
-        // setDaysInMonth(lastDayOfMonth);
-        //console.log(lastDayOfMonth);
         return lastDayOfMonth.getDate();
     }
 
@@ -50,34 +44,28 @@ export const DateProvider = ({ children }) => {
     function getDate(year = getCurrentYear(), month = getCurrentMonth(), day = 0) {
         let date;
         if (day === 0) {
-            // month--;
             date = new Date(year, month);
         } else {
             date = new Date(year, month, day);
-            // month;
         }
-        // const date = new Date();
 
         const dayString = date.toLocaleDateString("en-us", { weekday: "long" });
         const monthString = date.toLocaleDateString("en-us", { month: "long" });
 
         const dateObj = {
             dateString: date.toLocaleDateString(),
-            // dayString: getDayString(year, month, day),
             dayString: dayString[0].toUpperCase() + dayString.slice(1),
-            startDayOfMoth: getStartDayOfMonth(year, month),
+            startDayOfMonth: getStartDayOfMonth(year, month),
 
             year: year,
             month: month,
+            daysInPrevMonth: getDaysInMonth(year, month - 1),
             daysInMonth: getDaysInMonth(year, month),
             monthString: monthString[0].toUpperCase() + monthString.slice(1),
             day: date.getDay(),
             time: date.toLocaleTimeString().slice(0, 5),
         };
-        // console.log(dayString);
-        // setDaysInMonth(getDaysInMonth(dateObj.year, dateObj.month + 1));
 
-        // console.log(dateObj);
         return dateObj;
     }
 

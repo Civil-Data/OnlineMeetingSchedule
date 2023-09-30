@@ -17,17 +17,16 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const Booking = () => {
     const { dayView, date, dayString } = useDayView();
     const { getDate } = useDateContext();
-    // console.log(getDate);
+    // console.log(getDate());
 
     const [monthToDisplay, setMonthToDisplay] = useState(getDate().month);
     const [yearToDisplay, setYearToDisplay] = useState(getDate().year);
     const [monthString, setMonthString] = useState(
         getDate(yearToDisplay, monthToDisplay).monthString
     );
-    // const [dateObj, setDateObj] = useState();
+    const [rows, setRows] = useState(0);
     const [dateLabels, setDateLabels] = useState([]);
 
-    // let dateObj;
     function updateMonth(monthStep) {
         if (monthToDisplay === 0 && monthStep < 0) {
             setYearToDisplay(year => year - 1);
@@ -40,56 +39,79 @@ const Booking = () => {
         }
     }
 
-    // const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
     const renderDates = useCallback(() => {
-        // function renderDates() {
+        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         const dateObj = getDate(yearToDisplay, monthToDisplay);
-        // setDateObj(dateObj);
         setMonthString(dateObj.monthString);
-        // const dates = 31;
-        // console.log(dateObj);
-        console.log(dateObj);
-        // const month = dateObj.month + 1;
-        // const year = dateObj.year;
         const dates = dateObj.daysInMonth;
-        // const startDay = dateObj.startDayOfMonth;
-        // let startOfGreyDays;
-        // for (let i = 0; i < days.length; i++) {
-        //     if (startDay === days[i]) {
-        //         // startOfGreyDays = i;
-        //     }
-        // }
+        const startDay = dateObj.startDayOfMonth;
 
-        // for (let i = 0; i < startOfGreyDays; i++) {
+        const startOfGreyDays = days.findIndex(day => day === startDay);
 
-        // }
+        let dateBlocks = 35;
 
-        // const dates = getDaysInMonth(year, month);
+        if (startOfGreyDays + dates > 35) {
+            setRows(6);
+            dateBlocks = 42;
+        } else setRows(5);
+
         const dateLabels = [];
         let dateIdx = 0;
-        for (let index = 0; index < 35; index++) {
-            let bgd = "dark";
-            let dateNum = dateIdx + 1;
-            if (dateNum > dates) {
-                bgd = "grey";
-                dateIdx = 0;
-                dateNum = 1;
-            }
-            dateIdx++;
+        let month;
 
-            // ...prevDatelbl,
+        if (startOfGreyDays > 0) month = -1;
+        else {
+            month = 0;
+            dateIdx = 1;
+        }
+
+        for (let i = 0; i < dateBlocks; i++) {
+            let switch_month = false;
+            let bgd;
+            let dateNum;
+
+            switch (month) {
+                case -1:
+                    bgd = "grey";
+                    dateNum = dateObj.daysInPrevMonth - startOfGreyDays + 1 + i;
+                    if (dateNum === dateObj.daysInPrevMonth) {
+                        switch_month = true;
+                    }
+                    break;
+
+                case 0:
+                    bgd = "dark";
+                    dateNum = dateIdx;
+                    if (dateNum === dates) {
+                        switch_month = true;
+                    }
+                    break;
+
+                case 1:
+                    bgd = "grey";
+                    dateNum = dateIdx;
+                    break;
+
+                default:
+                    break;
+            }
+
             dateLabels.push(
                 <DateButtons
                     key={uuidv4()}
                     date={dateNum}
-                    dayString={getDate(dateObj.year, dateObj.month, dateNum).dayString}
+                    dayString={getDate(dateObj.year, dateObj.month + month, dateNum).dayString}
                     theme={bgd}
                 />
             );
+
+            if (switch_month) {
+                month++;
+                dateIdx = 0;
+            }
+            dateIdx++;
         }
         setDateLabels(dateLabels);
-        // }
     }, [getDate, monthToDisplay, yearToDisplay]);
 
     const selectOptions = [
@@ -110,8 +132,6 @@ const Booking = () => {
     useEffect(() => {
         renderDates();
     }, [monthToDisplay, renderDates]);
-
-    // const arrowStlye = {};
 
     return (
         <>
@@ -154,16 +174,19 @@ const Booking = () => {
                             );
                         })}
                     </div>
-                    <div className="grid-container">
+                    <div
+                        className="grid-container"
+                        style={{ gridTemplateRows: `auto 25px repeat(${rows}, 100px)` }}
+                    >
                         <div className="month">
                             <div className="arrowBox" onClick={() => updateMonth(-1)}>
-                                <ArrowBackIosNewIcon sx={{ cursor: "pointer" }} />
+                                <ArrowBackIosNewIcon />
                             </div>
                             <div style={{ width: "300px" }}>
                                 {monthString} {yearToDisplay}
                             </div>
                             <div className="arrowBox" onClick={() => updateMonth(1)}>
-                                <ArrowForwardIosIcon sx={{ cursor: "pointer" }} />
+                                <ArrowForwardIosIcon />
                             </div>
                         </div>
                         <div className="day">Monday</div>

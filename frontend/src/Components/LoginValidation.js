@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-// import "../css/Toast.css";
 
 const Login = () => {
+    const PORT = 5000;
+
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         email: "",
@@ -12,7 +13,7 @@ const Login = () => {
     });
     const { email, password } = inputValue;
 
-    const handleOnChange = (e) => {
+    const handleOnChange = e => {
         const { name, value } = e.target;
         setInputValue({
             ...inputValue,
@@ -20,22 +21,23 @@ const Login = () => {
         });
     };
 
-    const handleError = (err) =>
+    const handleError = err =>
         toast.error(err, {
             position: "bottom-left",
         });
 
-    const handleSuccess = (msg) =>
+    const handleSuccess = msg =>
         toast.success(msg, {
             position: "bottom-left",
         });
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
 
         try {
             const { data } = await axios.post(
-                "http://localhost:1337/login",
+                // "/login",
+                `http://localhost:${PORT}/login`,
                 {
                     ...inputValue,
                 },
@@ -54,11 +56,11 @@ const Login = () => {
         } catch (error) {
             console.log(error);
         }
-        setInputValue({
-            ...inputValue,
-            email: "",
-            password: "",
-        });
+        // setInputValue({
+        //     ...inputValue,
+        //     email: "",
+        //     password: "",
+        // });
     };
 
     return (
@@ -97,17 +99,12 @@ const Login = () => {
                     onChange={handleOnChange}
                 />
                 <div>
-                    <button
-                        type="submit"
-                        id="confirmation_btn"
-                        className="links"
-                    >
+                    <button type="submit" id="confirmation_btn" className="links">
                         Login
                     </button>
                 </div>
                 <span>
-                    Already have an account?{" "}
-                    <Link to={"/register"}>Signup</Link>
+                    Already have an account? <Link to={"/register"}>Signup</Link>
                 </span>
             </form>
             <ToastContainer />

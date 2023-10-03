@@ -7,7 +7,8 @@ import { ProfileProvider } from "./contexts/ProfileContext";
 import Login from "./views/Login";
 import { BookingProvider } from "./contexts/BookingContext";
 import Pages from "./Components/Pages";
-import "./css/App.css";
+// import "./css/App.css";
+// import "./css/Toast.css";
 
 function App() {
     return (

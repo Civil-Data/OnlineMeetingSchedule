@@ -52,20 +52,20 @@ router.post("/users", async (req, res) => {
     try {
         console.log(req.body);
         console.log(res);
-        // const { email } = req.body;
+        const { email } = req.body;
 
-        //     // Check if the username or email is already in use
-        //     const existingUser = await User.findOne({
-        //         email: email,
-        //     });
-        //     if (existingUser) {
-        //         return res.status(400).json({ message: "Email is already in use" });
-        //     }
-        // } catch (error) {
-        //     console.error("Registration error:", error);
-        //     res.status(500).json({
-        //         message: "Registration failed YOU DUMB ASS!!!!",
-        //     });
+        // Check if the username or email is already in use
+        const existingUser = await User.findOne({
+            email: email,
+        });
+        if (existingUser) {
+            return res.status(400).json({ message: "Email is already in use" });
+        }
+    } catch (error) {
+        console.error("Registration error:", error);
+        res.status(500).json({
+            message: "Registration failed YOU DUMB ASS!!!!",
+        });
 
         // Hash the password before saving it
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -80,12 +80,13 @@ router.post("/users", async (req, res) => {
         await newUser.save();
 
         res.status(201).json({ message: "User registered successfully" });
-    } catch (error) {
-        console.error("Registration error:", error);
-        res.status(500).json({
-            message: "Registration failed YOU DUMB ASS!!!!",
-        });
     }
+    // } catch (error) {
+    //     console.error("Registration error:", error);
+    //     res.status(500).json({
+    //         message: "Registration failed YOU DUMB ASS!!!!",
+    //     });
+    // }
 });
 
 // Update a user by ID

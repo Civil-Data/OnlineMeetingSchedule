@@ -110,18 +110,20 @@ const env = require("dotenv");
 env.config({ path: "./.env" });
 const cookieParser = require("cookie-parser");
 const authRoute = require("./routes/AuthRoute");
-const { DB_USER, DB_PASSWORD, PORT } = process.env;
+const { DB_USER, DB_PASSWORD, SERVER_PORT } = process.env;
+
+const PORT = SERVER_PORT || 5000;
 
 mongoose
     .connect(
-        `mongodb+srv://${DB_USER}:${DB_PASSWORD}@meetingapp.9r6ez1j.mongodb.net/?retryWrites=true&w=majority`,
+        `mongodb+srv://${DB_USER}:${DB_PASSWORD}@meetingapp.9r6ez1j.mongodb.net/OnlineMeetingSchedulingAppDB?retryWrites=true&w=majority`,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         }
     )
-    .then(() => console.log("MongoDB is  connected successfully"))
-    .catch((err) => console.error(err));
+    .then(() => console.log("MongoDB is connected successfully \n"))
+    .catch(err => console.error(err));
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);

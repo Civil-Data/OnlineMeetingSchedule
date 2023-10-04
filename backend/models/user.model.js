@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        default: "The description is of me should be here!",
     },
     age: {
         type: Number,

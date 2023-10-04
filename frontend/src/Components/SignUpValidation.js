@@ -1,257 +1,185 @@
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useUpdateLoginStatus } from "../contexts/LoginContext";
-// import axios from "axios";
-
-// const LoginValidation = async () => {
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [emailConfirm, setEmailConfirm] = useState("");
-//     const [passwordConfirm, setPasswordConfirm] = useState("");
-//     const navigate = useNavigate();
-//     const updateLoginStatusContext = useUpdateLoginStatus();
-//     const [formData, setFormData] = useState({
-//         username: "",
-//         email: "",
-//         password: "",
-//     });
-
-//     // Event handler to update formData
-//     const handleInputChange = (event) => {
-//         const { name, value } = event.target;
-//         setFormData({
-//             ...formData,
-//             [name]: value,
-//         });
-//     };
-
-//     try {
-//         const newUser = {
-//             username: formData.username,
-//             email: formData.email,
-//             password: formData.password,
-//         };
-
-//         const response = await axios.post("/api/register", newUser);
-//         console.log("User registered:", response.data);
-//         // You can redirect the user to a login page or display a success message here
-//     } catch (error) {
-//         console.error("Registration failed:", error.response.data);
-//         // Display an error message to the user
-//     }
-
-//     // Email validation function
-//     const validateEmail = (email) => {
-//         const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//         return regex.test(email);
-//     };
-
-//     // Password validation function
-//     const validatePassword = (password) => {
-//         // Check if password is at least 8 characters long
-//         if (password.length < 8) {
-//             return false;
-//         }
-
-//         // Check if password contains at least one uppercase letter
-//         if (!/[A-Z]/.test(password)) {
-//             return false;
-//         }
-
-//         // Check if password contains at least one lowercase letter
-//         if (!/[a-z]/.test(password)) {
-//             return false;
-//         }
-
-//         // Check if password contains at least one digit
-//         if (!/\d/.test(password)) {
-//             return false;
-//         }
-
-//         // Check if password contains at least one special character
-//         if (!/[!"#¤%&/()=?`@£${}\\´ +^~*'[\]]/.test(password)) {
-//             return false;
-//         }
-
-//         return true;
-//     };
-
-//     const handleSignUp = (e) => {
-//         e.preventDefault();
-//         // Check if email and password are valid
-//         if (
-//             (validateEmail(email) &&
-//                 validatePassword(password) &&
-//                 email === emailConfirm &&
-//                 password === passwordConfirm) ||
-//             (email === "joel@ju.se" &&
-//                 password === "Password123!" &&
-//                 email === emailConfirm &&
-//                 password === passwordConfirm) ||
-//             (email === "martin@ju.se" &&
-//                 password === "Password123!" &&
-//                 email === emailConfirm &&
-//                 password === passwordConfirm) ||
-//             (email === "felix@ju.se" &&
-//                 password === "Password123!" &&
-//                 email === emailConfirm &&
-//                 password === passwordConfirm) ||
-//             (email === "matilda@ju.se" &&
-//                 password === "Password123!" &&
-//                 email === emailConfirm &&
-//                 password === passwordConfirm)
-//         ) {
-//             updateLoginStatusContext(email);
-//             navigate("/profile");
-//         } else {
-//             // Display an error message for invalid email or password
-//             alert("Invalid email address or password");
-//         }
-//     };
-
-//     return (
-//         <>
-//             <form onSubmit={handleSignUp}>
-//                 <div>
-//                     <label htmlFor="username" className="input_label">
-//                         Enter your username
-//                         <b>*</b>
-//                     </label>
-//                 </div>
-//                 <input
-//                     type="text"
-//                     name="username"
-//                     placeholder="Username"
-//                     value={formData.username}
-//                     onChange={handleInputChange}
-//                 />
-//                 <div>
-//                     <label htmlFor="email" className="input_label">
-//                         Enter your email
-//                         <b>*</b>
-//                     </label>
-//                 </div>
-//                 <input
-//                     className="input_margin"
-//                     type="email"
-//                     placeholder="email"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                 />
-//                 <div>
-//                     <label htmlFor="email" className="input_label">
-//                         Confirm your email
-//                         <b>*</b>
-//                     </label>
-//                 </div>
-//                 <input
-//                     className="input_margin"
-//                     type="email"
-//                     placeholder="confirm email"
-//                     value={emailConfirm}
-//                     onChange={(e) => setEmailConfirm(e.target.value)}
-//                 />
-//                 <div>
-//                     <label htmlFor="password" className="input_label">
-//                         Enter your password
-//                         <b>*</b>
-//                     </label>
-//                 </div>
-//                 <input
-//                     className="input_margin"
-//                     type="password"
-//                     placeholder="password"
-//                     value={password}
-//                     onChange={(e) => setPassword(e.target.value)}
-//                 />
-//                 <div>
-//                     <label htmlFor="password" className="input_label">
-//                         Confirm your password
-//                         <b>*</b>
-//                     </label>
-//                 </div>
-//                 <input
-//                     className="input_margin"
-//                     type="password"
-//                     placeholder="confirm password"
-//                     value={passwordConfirm}
-//                     onChange={(e) => setPasswordConfirm(e.target.value)}
-//                 />
-//                 <div>
-//                     <button
-//                         type="submit"
-//                         id="confirmation_btn"
-//                         className="links"
-//                     >
-//                         Register account
-//                     </button>
-//                 </div>
-//             </form>
-//         </>
-//     );
-// };
-
-// export default LoginValidation;
-
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function RegistrationForm() {
-    const [formData, setFormData] = useState({
-        username: "",
+const Signup = () => {
+    const PORT = 5000;
+
+    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState({
+        name: "",
+        // username: "",
         email: "",
+        confirmEmail: "",
         password: "",
+        confirmPassword: "",
     });
-
-    // Event handler to update formData
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
+    const { name, email, confirmEmail, password, confirmPassword } = inputValue;
+    const handleOnChange = e => {
+        const { name, value } = e.target;
+        setInputValue({
+            ...inputValue,
             [name]: value,
         });
     };
 
-    // Function to handle form submission
-    const handleRegistration = async () => {
-        try {
-            // Access formData.username, formData.email, formData.password here
-            // Send a POST request to your server with this data
-        } catch (error) {
-            console.error("Registration failed:", error);
-            // Display an error message to the user
+    const handleError = err =>
+        toast.error(err, {
+            position: "bottom-left",
+        });
+    const handleSuccess = msg =>
+        toast.success(msg, {
+            position: "bottom-right",
+        });
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+
+        if (email !== confirmEmail) {
+            return handleError("Emails do not match");
         }
+        if (password !== confirmPassword) {
+            return handleError("Passwords do not match");
+        }
+
+        try {
+            const { data } = await axios.post(
+                `http://localhost:${PORT}/register`,
+
+                { name, email, password },
+                { withCredentials: true }
+            );
+            const { success, message } = data;
+            if (success) {
+                handleSuccess(message);
+                setTimeout(() => {
+                    navigate("/profile");
+                }, 1000);
+            } else {
+                handleError(message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setInputValue({
+            ...inputValue,
+            name: "",
+            // username: "",
+            email: "",
+            confirmEmail: "",
+            password: "",
+            confirmPassword: "",
+        });
     };
 
     return (
-        <div>
-            <form>
+        <>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="name" className="input_label">
+                        Enter your name
+                        <b>*</b>
+                    </label>
+                </div>
                 <input
+                    className="input_margin"
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    autoComplete="name"
+                    value={name}
+                    onChange={handleOnChange}
+                />
+                {/* <div>
+                    <label htmlFor="username" className="input_label">
+                        Enter your username
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    className="input_margin"
                     type="text"
                     name="username"
                     placeholder="Username"
-                    value={formData.username}
-                    onChange={handleInputChange}
-                />
+                    autoComplete="Username"
+                    value={username}
+                    onChange={handleOnChange}
+                /> */}
+                <div>
+                    <label htmlFor="email" className="input_label">
+                        Enter your email
+                        <b>*</b>
+                    </label>
+                </div>
                 <input
-                    type="text"
+                    className="input_margin"
+                    type="email"
                     name="email"
                     placeholder="Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
+                    autoComplete="Email"
+                    value={email}
+                    onChange={handleOnChange}
                 />
+                <div>
+                    <label htmlFor="Confirm email" className="input_label">
+                        Confirm your email
+                        <b>*</b>
+                    </label>
+                </div>
                 <input
+                    className="input_margin"
+                    type="email"
+                    name="confirmEmail"
+                    placeholder="Confirm email"
+                    autoComplete="Confirm email"
+                    value={confirmEmail}
+                    onChange={handleOnChange}
+                />
+                <div>
+                    <label htmlFor="password" className="input_label">
+                        Enter your password
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    className="input_margin"
                     type="password"
                     name="password"
                     placeholder="Password"
-                    value={formData.password}
-                    onChange={handleInputChange}
+                    autoComplete="Password"
+                    value={password}
+                    onChange={handleOnChange}
                 />
-                <button type="button" onClick={handleRegistration}>
-                    Register
-                </button>
-            </form>
-        </div>
-    );
-}
+                <div>
+                    <label htmlFor="Confirm password" className="input_label">
+                        Confirm your password
+                        <b>*</b>
+                    </label>
+                </div>
 
-export default RegistrationForm;
+                <input
+                    className="input_margin"
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm password"
+                    autoComplete="Confirm Password"
+                    value={confirmPassword}
+                    onChange={handleOnChange}
+                />
+                <div>
+                    <button id="confirmation_btn" className="links" type="submit">
+                        Register
+                    </button>
+                </div>
+                <span>
+                    Already have an account? <Link to={"/login"}>Login</Link>
+                </span>
+            </form>
+            <ToastContainer />
+        </>
+    );
+};
+
+export default Signup;

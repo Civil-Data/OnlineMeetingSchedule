@@ -14,7 +14,8 @@ export function useProfileUpdate() {
 export const ProfileProvider = ({ children }) => {
     const [openTab, setOpenTab] = useState("info");
     const [clickedIcon, setClickedIcon] = useState(false);
-    const [details, setDetails] = useState(false);
+    const [details, setDetails] = useState("upcoming");
+    // const [status, setStatus] = useState(false);
 
     function updateTabContext(tab) {
         setOpenTab(tab);
@@ -24,9 +25,13 @@ export const ProfileProvider = ({ children }) => {
         setClickedIcon(clickedIcon);
     }
 
-    function updateMyMeetings(details) {
+    function updateSubTabContext(details) {
         setDetails(details);
     }
+
+    // function updateMeetingStatus(status) {
+    // 	setStatus(status);
+    // }
 
     return (
         <TabContext.Provider value={openTab}>
@@ -36,7 +41,9 @@ export const ProfileProvider = ({ children }) => {
                     updateClickedIcon,
                     clickedIcon,
                     details,
-                    updateMyMeetings,
+                    // updateMyMeetings,
+                    // status,
+                    updateSubTabContext,
                 }}
             >
                 {children}

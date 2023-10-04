@@ -7,7 +7,7 @@ const Register = () => {
             <h1>Register page</h1>
 
             <TypingEffect
-                text="Please enter your email and a password to sign up."
+                text="Please enter your credentials to sign up."
                 delay={25}
             />
             <div id="email-container" data-step-state="active">

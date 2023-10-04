@@ -1,8 +1,5 @@
-const port = 5000;
+const PORT = 5000;
 
-// Or use a configuration file
-// config.js
-const serverUrl = `https://127.0.0.1:${port}`;
-// process.env. || "https://127.0.0.1:${port}";
+const serverUrl = `http://localhost:${PORT}`;
 
 export default serverUrl;

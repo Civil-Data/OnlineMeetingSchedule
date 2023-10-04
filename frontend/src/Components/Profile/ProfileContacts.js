@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // You may need to install axios if you haven't already
 import serverUrl from "../../utils/config";
+import res from "express/lib/response";
 
 const ProfileContacts = () => {
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
-		const fetchData = async () => {
+		const contacts = async () => {
 			try {
 				const res = await axios.get(serverUrl + "/users");
 				setUsers(res.data);
@@ -14,8 +15,6 @@ const ProfileContacts = () => {
 				console.error("Error fetching user data:", error);
 			}
 		};
-
-		fetchData();
 	}, []);
 
 	return (

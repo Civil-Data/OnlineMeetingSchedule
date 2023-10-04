@@ -12,7 +12,7 @@ const Login = () => {
         password: "",
     });
     const { email, password } = inputValue;
-    const { updateEmail, updateLoginStatus } = useUpdateUserContext();
+    const { saveUser, updateLoginStatus } = useUpdateUserContext();
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +37,6 @@ const Login = () => {
 
         try {
             const { data } = await axios.post(
-                // `http://localhost:${PORT}/login`,
                 serverUrl + "/login",
                 {
                     ...inputValue,
@@ -48,7 +47,7 @@ const Login = () => {
             const { success, message } = data;
             if (success) {
                 handleSuccess(message);
-                updateEmail(email);
+                saveUser(data.user);
                 updateLoginStatus(true);
                 setTimeout(() => {
                     navigate("/booking");

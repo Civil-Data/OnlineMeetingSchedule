@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
+    // _id: new mongoose.Types.ObjectId(),
     name: {
         type: String,
         required: [true, "Your name is required"],
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: new Date(),
+        default: new Date().toLocaleDateString(),
     },
 });
 

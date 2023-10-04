@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-// import React, { useState } from "react";
-import TypingEffect from "../Components/TypingEffect";
 
 import PopUp from "../Components/PopUp";
 import ConfirmButton from "../Components/ConfirmButton";
@@ -13,6 +11,8 @@ import axios from "axios";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Autocomplete, Box, TextField } from "@mui/material";
+
+import serverUrl from "../utils/config";
 
 const Booking = () => {
     const { dayView, date, dayString } = useDayView();
@@ -29,13 +29,14 @@ const Booking = () => {
     // State for booking meeting details
     const [meetingDetails, setMeetingDetails] = useState({
         time: "",
-        attendees: [],
+        organizer: null, // add function to automatically add organizer throug logged in user
+        participants: [],
         title: "",
         location: "",
         startDate: "",
         endDate: "",
-        startTime: "", // Add startTime
-        endTime: "", // Add endTime
+        startTime: "",
+        endTime: "",
         description: "",
     });
 
@@ -51,7 +52,7 @@ const Booking = () => {
         }
     }
 
-    const [errorMessage, setErrorMessage] = useState("");
+    // const [errorMessage, setErrorMessage] = useState("");
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -70,7 +71,7 @@ const Booking = () => {
         ) {
             // Enable the button if all fields are filled
             setIsButtonDisabled(false);
-            setErrorMessage("");
+            // setErrorMessage("");
         } else {
             // Disable the button if any field is empty
             setIsButtonDisabled(true);
@@ -80,20 +81,14 @@ const Booking = () => {
     // Function to handle booking confirmation
     const bookMeeting = async () => {
         try {
-            // // Set the date and time in the meeting details
-            // setMeetingDetails({
-            //     ...meetingDetails,
-            //     date: date,
-            //     time: meetingDetails.time,
-            // });
-
             // Send a POST request to your Node.js backend to save the meeting details
-            await axios.post("/api/meetings", meetingDetails);
+            await axios.post(serverUrl + "/meetings/create", meetingDetails);
 
             // Close the popup and clear the meeting details
             setMeetingDetails({
                 time: "",
-                attendees: [],
+                organizer: null,
+                participants: [],
                 title: "",
                 location: "",
                 startDate: "",
@@ -104,7 +99,8 @@ const Booking = () => {
             });
         } catch (error) {
             // Handle error
-            setErrorMessage("An error occurred while booking the meeting.");
+            console.error("An error occurred while booking the meeting.");
+            // setErrorMessage("An error occurred while booking the meeting.");
         }
     };
 
@@ -119,7 +115,6 @@ const Booking = () => {
             "Sunday",
         ];
         const dateObj = getDate(yearToDisplay, monthToDisplay);
-        console.log(dateObj);
         setMonthString(dateObj.monthString);
         const dates = dateObj.daysInMonth;
         const startDay = dateObj.startDayOfMonth;
@@ -280,31 +275,24 @@ const Booking = () => {
                         <Autocomplete
                             sx={muiInputStyle}
                             multiple
-                            id="attendees"
-                            options={["Martin", "Noel"]} // Add your list of attendees here
+                            id="participants"
+                            options={["Martin", "Noel"]} // Add your list of participants here
                             value={
-                                Array.isArray(meetingDetails.attendees)
-                                    ? meetingDetails.attendees
+                                Array.isArray(meetingDetails.participants)
+                                    ? meetingDetails.participants
                                     : []
                             }
                             onChange={(event, newValue) =>
                                 setMeetingDetails({
                                     ...meetingDetails,
-                                    attendees: newValue, // newValue will be an array of selected attendees
+                                    participants: newValue, // newValue will be an array of selected participants
                                 })
                             }
-                            // value={meetingDetails.attendees}
-                            // onChange={(event) =>
-                            //     setMeetingDetails({
-                            //         ...meetingDetails,
-                            //         attendees: event.target.value,
-                            //     })
-                            // }
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    label="Attendees"
-                                    placeholder="Select attendees"
+                                    label="Participants"
+                                    placeholder="Select participants"
                                 />
                             )}
                         />
@@ -356,6 +344,7 @@ const Booking = () => {
                         />
                     </div>
 
+                    {/* {errorMessage} */}
                     <ConfirmButton
                         onClick={bookMeeting}
                         isDisabled={isButtonDisabled}

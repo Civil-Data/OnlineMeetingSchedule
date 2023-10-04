@@ -1,87 +1,112 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useUpdateLoginStatus } from "../contexts/LoginContext";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const LoginValidation = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [emailConfirm, setEmailConfirm] = useState("");
-    const [passwordConfirm, setPasswordConfirm] = useState("");
+const Signup = () => {
+    const PORT = 5000;
+
     const navigate = useNavigate();
-    const updateLoginStatusContext = useUpdateLoginStatus();
-
-    // Email validation function
-    const validateEmail = email => {
-        const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        return regex.test(email);
+    const [inputValue, setInputValue] = useState({
+        name: "",
+        // username: "",
+        email: "",
+        confirmEmail: "",
+        password: "",
+        confirmPassword: "",
+    });
+    const { name, email, confirmEmail, password, confirmPassword } = inputValue;
+    const handleOnChange = e => {
+        const { name, value } = e.target;
+        setInputValue({
+            ...inputValue,
+            [name]: value,
+        });
     };
 
-    // Password validation function
-    const validatePassword = password => {
-        // Check if password is at least 8 characters long
-        if (password.length < 8) {
-            return false;
-        }
+    const handleError = err =>
+        toast.error(err, {
+            position: "bottom-left",
+        });
+    const handleSuccess = msg =>
+        toast.success(msg, {
+            position: "bottom-right",
+        });
 
-        // Check if password contains at least one uppercase letter
-        if (!/[A-Z]/.test(password)) {
-            return false;
-        }
-
-        // Check if password contains at least one lowercase letter
-        if (!/[a-z]/.test(password)) {
-            return false;
-        }
-
-        // Check if password contains at least one digit
-        if (!/\d/.test(password)) {
-            return false;
-        }
-
-        // Check if password contains at least one special character
-        if (!/[!"#¤%&/()=?`@£${}\\´ +^~*'[\]]/.test(password)) {
-            return false;
-        }
-
-        return true;
-    };
-
-    const handleSignUp = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        // Check if email and password are valid
-        if (
-            (validateEmail(email) &&
-                validatePassword(password) &&
-                email === emailConfirm &&
-                password === passwordConfirm) ||
-            (email === "joel@ju.se" &&
-                password === "Password123!" &&
-                email === emailConfirm &&
-                password === passwordConfirm) ||
-            (email === "martin@ju.se" &&
-                password === "Password123!" &&
-                email === emailConfirm &&
-                password === passwordConfirm) ||
-            (email === "felix@ju.se" &&
-                password === "Password123!" &&
-                email === emailConfirm &&
-                password === passwordConfirm) ||
-            (email === "matilda@ju.se" &&
-                password === "Password123!" &&
-                email === emailConfirm &&
-                password === passwordConfirm)
-        ) {
-            updateLoginStatusContext(email);
-            navigate("/profile");
-        } else {
-            // Display an error message for invalid email or password
-            alert("Invalid email address or password");
+
+        if (email !== confirmEmail) {
+            return handleError("Emails do not match");
         }
+        if (password !== confirmPassword) {
+            return handleError("Passwords do not match");
+        }
+
+        try {
+            const { data } = await axios.post(
+                `http://localhost:${PORT}/register`,
+
+                { name, email, password },
+                { withCredentials: true }
+            );
+            const { success, message } = data;
+            if (success) {
+                handleSuccess(message);
+                setTimeout(() => {
+                    navigate("/profile");
+                }, 1000);
+            } else {
+                handleError(message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setInputValue({
+            ...inputValue,
+            name: "",
+            // username: "",
+            email: "",
+            confirmEmail: "",
+            password: "",
+            confirmPassword: "",
+        });
     };
 
     return (
         <>
-            <form onSubmit={handleSignUp}>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="name" className="input_label">
+                        Enter your name
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    className="input_margin"
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    autoComplete="name"
+                    value={name}
+                    onChange={handleOnChange}
+                />
+                {/* <div>
+                    <label htmlFor="username" className="input_label">
+                        Enter your username
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    className="input_margin"
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    autoComplete="Username"
+                    value={username}
+                    onChange={handleOnChange}
+                /> */}
                 <div>
                     <label htmlFor="email" className="input_label">
                         Enter your email
@@ -91,12 +116,14 @@ const LoginValidation = () => {
                 <input
                     className="input_margin"
                     type="email"
-                    placeholder="email"
+                    name="email"
+                    placeholder="Email"
+                    autoComplete="Email"
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={handleOnChange}
                 />
                 <div>
-                    <label htmlFor="email" className="input_label">
+                    <label htmlFor="Confirm email" className="input_label">
                         Confirm your email
                         <b>*</b>
                     </label>
@@ -104,9 +131,11 @@ const LoginValidation = () => {
                 <input
                     className="input_margin"
                     type="email"
-                    placeholder="confirm email"
-                    value={emailConfirm}
-                    onChange={e => setEmailConfirm(e.target.value)}
+                    name="confirmEmail"
+                    placeholder="Confirm email"
+                    autoComplete="Confirm email"
+                    value={confirmEmail}
+                    onChange={handleOnChange}
                 />
                 <div>
                     <label htmlFor="password" className="input_label">
@@ -117,31 +146,40 @@ const LoginValidation = () => {
                 <input
                     className="input_margin"
                     type="password"
-                    placeholder="password"
+                    name="password"
+                    placeholder="Password"
+                    autoComplete="Password"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={handleOnChange}
                 />
                 <div>
-                    <label htmlFor="password" className="input_label">
+                    <label htmlFor="Confirm password" className="input_label">
                         Confirm your password
                         <b>*</b>
                     </label>
                 </div>
+
                 <input
                     className="input_margin"
                     type="password"
-                    placeholder="confirm password"
-                    value={passwordConfirm}
-                    onChange={e => setPasswordConfirm(e.target.value)}
+                    name="confirmPassword"
+                    placeholder="Confirm password"
+                    autoComplete="Confirm Password"
+                    value={confirmPassword}
+                    onChange={handleOnChange}
                 />
                 <div>
-                    <button type="submit" id="confirmation_btn" className="links">
-                        Register account
+                    <button id="confirmation_btn" className="links" type="submit">
+                        Register
                     </button>
                 </div>
+                <span>
+                    Already have an account? <Link to={"/login"}>Login</Link>
+                </span>
             </form>
+            <ToastContainer />
         </>
     );
 };
 
-export default LoginValidation;
+export default Signup;

@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import serverUrl from "../utils/config";
+import { useUpdateUserContext } from "../contexts/LoginContext";
 
 const Signup = () => {
-    const PORT = 5000;
-
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         name: "",
@@ -17,7 +17,9 @@ const Signup = () => {
         confirmPassword: "",
     });
     const { name, email, confirmEmail, password, confirmPassword } = inputValue;
-    const handleOnChange = e => {
+    const { saveUser, updateLoginStatus } = useUpdateUserContext();
+
+    const handleOnChange = (e) => {
         const { name, value } = e.target;
         setInputValue({
             ...inputValue,
@@ -25,16 +27,16 @@ const Signup = () => {
         });
     };
 
-    const handleError = err =>
+    const handleError = (err) =>
         toast.error(err, {
             position: "bottom-left",
         });
-    const handleSuccess = msg =>
+    const handleSuccess = (msg) =>
         toast.success(msg, {
             position: "bottom-right",
         });
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (email !== confirmEmail) {
@@ -46,7 +48,7 @@ const Signup = () => {
 
         try {
             const { data } = await axios.post(
-                `http://localhost:${PORT}/register`,
+                serverUrl + "/register",
 
                 { name, email, password },
                 { withCredentials: true }
@@ -54,6 +56,8 @@ const Signup = () => {
             const { success, message } = data;
             if (success) {
                 handleSuccess(message);
+                updateLoginStatus(true);
+                saveUser(data.user);
                 setTimeout(() => {
                     navigate("/profile");
                 }, 1000);
@@ -169,7 +173,11 @@ const Signup = () => {
                     onChange={handleOnChange}
                 />
                 <div>
-                    <button id="confirmation_btn" className="links" type="submit">
+                    <button
+                        id="confirmation_btn"
+                        className="links"
+                        type="submit"
+                    >
                         Register
                     </button>
                 </div>

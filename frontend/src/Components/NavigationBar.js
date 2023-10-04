@@ -5,7 +5,7 @@ import { useUserContext, useUpdateUserContext } from "../contexts/LoginContext";
 
 const NavigationBar = () => {
     const { loginStatus, user } = useUserContext();
-    // const { updateLoginStatus } = useUpdateUserContext();
+    const { updateLoginStatus } = useUpdateUserContext();
 
     const iconSize = "27px";
 
@@ -44,8 +44,9 @@ const NavigationBar = () => {
                     <span id="logged_in">{user.name}</span>
 
                     <Link className="nav-buttons" to="/" type="button">
-                        {/* <span onClick={updateLoginStatus(false)}>Log out</span> */}
-                        <span>Log out</span>
+                        <span onClick={() => updateLoginStatus(false)}>
+                            Log out
+                        </span>
                     </Link>
                 </div>
             ) : (

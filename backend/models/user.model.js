@@ -20,6 +20,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Your password is required"],
     },
+    telephone: {
+        type: String,
+    },
+    gender: {
+        type: String,
+    },
+    description: {
+        type: String,
+        default: "The description is of me should be here!",
+    },
+    age: {
+        type: Number,
+    },
     createdAt: {
         type: Date,
         default: new Date().toLocaleDateString(),

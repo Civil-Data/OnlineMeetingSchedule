@@ -17,7 +17,7 @@ const Signup = () => {
         confirmPassword: "",
     });
     const { name, email, confirmEmail, password, confirmPassword } = inputValue;
-    const { updateEmail, updateLoginStatus } = useUpdateUserContext();
+    const { saveUser, updateLoginStatus } = useUpdateUserContext();
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -48,7 +48,6 @@ const Signup = () => {
 
         try {
             const { data } = await axios.post(
-                // `http://localhost:${PORT}/register`,
                 serverUrl + "/register",
 
                 { name, email, password },
@@ -57,8 +56,8 @@ const Signup = () => {
             const { success, message } = data;
             if (success) {
                 handleSuccess(message);
-                updateEmail(email);
                 updateLoginStatus(true);
+                saveUser(data.user);
                 setTimeout(() => {
                     navigate("/profile");
                 }, 1000);

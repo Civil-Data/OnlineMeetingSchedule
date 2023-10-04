@@ -12,6 +12,7 @@ import { useDateContext } from "../contexts/DateContext";
 import axios from "axios";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Autocomplete, Box, TextField, TextareaAutosize } from "@mui/material";
 
 const Booking = () => {
     const { dayView, date, dayString } = useDayView();
@@ -25,34 +26,29 @@ const Booking = () => {
     );
     const [rows, setRows] = useState(0);
     const [dateLabels, setDateLabels] = useState([]);
+    // State for booking meeting details
+    const [meetingDetails, setMeetingDetails] = useState({
+        date: null,
+        time: "",
+        attendees: [],
+        title: "",
+        location: "",
+        startTime: "", // Add startTime
+        endTime: "", // Add endTime
+    });
 
     function updateMonth(monthStep) {
         if (monthToDisplay === 0 && monthStep < 0) {
-            setYearToDisplay(year => year - 1);
+            setYearToDisplay((year) => year - 1);
             setMonthToDisplay(11);
         } else if (monthToDisplay === 11 && monthStep > 0) {
-            setYearToDisplay(year => year + 1);
+            setYearToDisplay((year) => year + 1);
             setMonthToDisplay(0);
         } else {
-            setMonthToDisplay(month => month + monthStep);
+            setMonthToDisplay((month) => month + monthStep);
         }
     }
 
-    const renderDates = useCallback(() => {
-        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        const dateObj = getDate(yearToDisplay, monthToDisplay);
-        setMonthString(dateObj.monthString);
-        const dates = dateObj.daysInMonth;
-        const startDay = dateObj.startDayOfMonth;
-
-        const startOfGreyDays = days.findIndex(day => day === startDay);
-
-        let dateBlocks = 35;
-
-        if (startOfGreyDays + dates > 35) {
-            setRows(6);
-            dateBlocks = 42;
-        } else setRows(5);
     const [errorMessage, setErrorMessage] = useState("");
     const handleTitleChange = (event) => {
         setMeetingDetails({ ...meetingDetails, title: event.target.value });
@@ -94,17 +90,6 @@ const Booking = () => {
         }
     }, [meetingDetails]);
 
-    // State for booking meeting details
-    const [meetingDetails, setMeetingDetails] = useState({
-        date: null,
-        time: "",
-        attendees: [],
-        title: "",
-        location: "",
-        startTime: "", // Add startTime
-        endTime: "", // Add endTime
-    });
-
     // Function to handle booking confirmation
     const bookMeeting = async () => {
         try {
@@ -136,22 +121,33 @@ const Booking = () => {
         }
     };
 
-    const dateLabels = [];
-    const dateObj = getDate(2023, 9, 0);
-    const dates = dateObj.daysInMonth;
-    let bgd = "dark";
-    let dateIdx = 0;
-    for (let index = 0; index < 35; index++) {
-        let dateNum = dateIdx + 1;
-        if (dateNum > dates) {
-            bgd = "grey";
-            dateIdx = 0;
-            dateNum = 1;
-        }
-        dateIdx++;
+    const renderDates = useCallback(() => {
+        const days = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ];
+        const dateObj = getDate(yearToDisplay, monthToDisplay);
+        console.log(dateObj);
+        setMonthString(dateObj.monthString);
+        const dates = dateObj.daysInMonth;
+        const startDay = dateObj.startDayOfMonth;
+
+        const startOfGreyDays = days.findIndex((day) => day === startDay);
+
+        let dateBlocks = 35;
         const dateLabels = [];
         let dateIdx = 0;
         let month;
+
+        if (startOfGreyDays + dates > 35) {
+            setRows(6);
+            dateBlocks = 42;
+        } else setRows(5);
 
         if (startOfGreyDays > 0) month = -1;
         else {
@@ -195,8 +191,9 @@ const Booking = () => {
                     key={uuidv4()}
                     date={dateNum}
                     dayString={
-                    getDate(dateObj.year, dateObj.month + month, dateNum).dayString
-                }
+                        getDate(dateObj.year, dateObj.month + month, dateNum)
+                            .dayString
+                    }
                     theme={bgd}
                 />
             );
@@ -244,146 +241,150 @@ const Booking = () => {
     return (
         <>
             {dayView && (
-                <>
-                    <PopUp>
-                        <div className="calendarDate" style={muiInputStyle}>
-                            {dayString} {date}
-                        </div>
-                        <div>
+                <PopUp>
+                    <div className="calendarDate" style={muiInputStyle}>
+                        {dayString} {date}
+                    </div>
+                    <div>
+                        <TextField
+                            sx={muiInputStyle}
+                            label="Meeting Title"
+                            value={meetingDetails.title}
+                            onChange={handleTitleChange}
+                        />
+                        <TextField
+                            sx={muiInputStyle}
+                            label="Location"
+                            value={meetingDetails.location}
+                            onChange={handleLocationChange}
+                        />
+                        <TextField
+                            sx={muiInputStyle}
+                            className="calendar_choose_time"
+                            label="Start Time" // Add Start Time field
+                            value={meetingDetails.startTime}
+                            onChange={(event) =>
+                                setMeetingDetails({
+                                    ...meetingDetails,
+                                    startTime: event.target.value,
+                                })
+                            }
+                            type="time"
+                            InputLabelProps={{
+                                shrink: true,
+                                style: {
+                                    transform:
+                                        "translate(14px,-6px) scale(0.75)",
+                                },
+                            }}
+                        />
+                        <TextField
+                            sx={muiInputStyle}
+                            label="End Time" // Add End Time field
+                            value={meetingDetails.endTime}
+                            onChange={(event) =>
+                                setMeetingDetails({
+                                    ...meetingDetails,
+                                    endTime: event.target.value,
+                                })
+                            }
+                            type="time"
+                            InputLabelProps={{
+                                shrink: true,
+                                style: {
+                                    transform:
+                                        "translate(14px,-6px) scale(0.75)",
+                                },
+                            }}
+                        />
+                        {/* <Autocomplete/> */}
+                        <Box>
                             <TextField
-                                sx={muiInputStyle}
-                                label="Meeting Title"
-                                value={meetingDetails.title}
-                                onChange={handleTitleChange}
-                            />
-                            <TextField
-                                sx={muiInputStyle}
-                                label="Location"
-                                value={meetingDetails.location}
-                                onChange={handleLocationChange}
-                            />
-                            <TextField
-                                sx={muiInputStyle}
-                                className="calendar_choose_time"
-                                label="Start Time" // Add Start Time field
-                                value={meetingDetails.startTime}
-                                onChange={(event) =>
-                                    setMeetingDetails({
-                                        ...meetingDetails,
-                                        startTime: event.target.value,
-                                    })
-                                }
-                                type="time"
-                                InputLabelProps={{
-                                    shrink: true,
-                                    style: {
-                                        transform:
-                                            "translate(14px,-6px) scale(0.75)",
-                                    },
-                                }}
-                            />
-                            <TextField
-                                sx={muiInputStyle}
-                                label="End Time" // Add End Time field
-                                value={meetingDetails.endTime}
-                                onChange={(event) =>
-                                    setMeetingDetails({
-                                        ...meetingDetails,
-                                        endTime: event.target.value,
-                                    })
-                                }
-                                type="time"
-                                InputLabelProps={{
-                                    shrink: true,
-                                    style: {
-                                        transform:
-                                            "translate(14px,-6px) scale(0.75)",
-                                    },
-                                }}
-                            />
-                            <Autocomplete
-                                sx={muiInputStyle}
-                                multiple
-                                id="attendees"
-                                options={[]} // Add your list of attendees here
-                                value={meetingDetails.attendees}
-                                onChange={handleAttendeesChange}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Attendees"
-                                        placeholder="Select attendees"
-                                    />
-                                )}
-                            />
-                            <TextField
-                                label="Start Date"
-                                type="date"
+                                label="Description"
+                                type="description"
                                 value={meetingDetails.startDate}
                                 onChange={handleStartDateChange}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                             />
-                            <TextField
-                                label="End Date"
-                                type="date"
-                                value={meetingDetails.endDate}
-                                onChange={handleEndDateChange}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </div>
-                        <ConfirmButton
-                            onClick={bookMeeting}
-                            disabled={isButtonDisabled}
+                        </Box>
+
+                        <Autocomplete
+                            sx={muiInputStyle}
+                            multiple
+                            id="attendees"
+                            options={[]} // Add your list of attendees here
+                            value={meetingDetails.attendees}
+                            onChange={handleAttendeesChange}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Attendees"
+                                    placeholder="Select attendees"
+                                />
+                            )}
                         />
-                    </PopUp>
-                </>
+
+                        <TextField
+                            label="Start Date"
+                            type="date"
+                            value={meetingDetails.startDate}
+                            onChange={handleStartDateChange}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                        <TextField
+                            label="End Date"
+                            type="date"
+                            value={meetingDetails.endDate}
+                            onChange={handleEndDateChange}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </div>
+                    <ConfirmButton
+                        onClick={bookMeeting}
+                        disabled={isButtonDisabled}
+                    />
+                </PopUp>
             )}
 
-            <div>
-                <div className="calender_area">
-                    <div
-                        className="grid-container"
-                        style={{ gridTemplateRows: `auto 25px repeat(${rows}, 100px)` }}
-                    >
-                        <div className="month">
-                            <div className="arrowBox" onClick={() => updateMonth(-1)}>
-                                <ArrowBackIosNewIcon />
-                            </div>
-                            <div style={{ width: "300px" }}>
-                                {monthString} {yearToDisplay}
-                            </div>
-                            <div className="arrowBox" onClick={() => updateMonth(1)}>
-                                <ArrowForwardIosIcon />
-                            </div>
+            {/* <div> */}
+            <div className="calender_area">
+                <div
+                    className="grid-container"
+                    style={{
+                        gridTemplateRows: `auto 25px repeat(${rows}, 100px)`,
+                    }}
+                >
+                    <div className="month">
+                        <div
+                            className="arrowBox"
+                            onClick={() => updateMonth(-1)}
+                        >
+                            <ArrowBackIosNewIcon />
+                        </div>
+                        <div style={{ width: "300px" }}>
+                            {monthString} {yearToDisplay}
                         </div>
                         <div
-                        className="grid-container"
-                        style={{ gridTemplateRows: `auto 25px repeat(${rows}, 100px)` }}
-                    >
-                        <div className="month">
-                            <div className="arrowBox" onClick={() => updateMonth(-1)}>
-                                <ArrowBackIosNewIcon />
-                            </div>
-                            <div style={{ width: "300px" }}>
-                                {monthString} {yearToDisplay}
-                            </div>
-                            <div className="arrowBox" onClick={() => updateMonth(1)}>
-                                <ArrowForwardIosIcon />
-                            </div>
+                            className="arrowBox"
+                            onClick={() => updateMonth(1)}
+                        >
+                            <ArrowForwardIosIcon />
                         </div>
-                        <div className="day">Monday</div>
-                        <div className="day">Tuesday</div>
-                        <div className="day">Wednesday</div>
-                        <div className="day">Thursday</div>
-                        <div className="day">Friday</div>
-                        <div className="day">Saturday</div>
-                        <div className="day">Sunday</div>
-                        {dateLabels}
                     </div>
+                    <div className="day">Monday</div>
+                    <div className="day">Tuesday</div>
+                    <div className="day">Wednesday</div>
+                    <div className="day">Thursday</div>
+                    <div className="day">Friday</div>
+                    <div className="day">Saturday</div>
+                    <div className="day">Sunday</div>
+                    {dateLabels}
                 </div>
             </div>
         </>

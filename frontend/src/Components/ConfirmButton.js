@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Confirmation from "./Confirmation";
 import { useDayViewUpdate } from "../contexts/BookingContext";
 
-function ConfirmButton({ selectedTime, isDisabled }) {
+function ConfirmButton({ isDisabled }) {
     const [showComponent, setShowComponent] = useState(false);
     const [buttonText, setButtonText] = useState("Send Invite");
     const { closeDayView } = useDayViewUpdate();

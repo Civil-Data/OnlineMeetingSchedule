@@ -12,7 +12,7 @@ const Login = () => {
         password: "",
     });
     const { email, password } = inputValue;
-    const { updateUserContext, updateLoginStatus } = useUpdateUserContext();
+    const { updateEmail, updateLoginStatus } = useUpdateUserContext();
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -48,7 +48,7 @@ const Login = () => {
             const { success, message } = data;
             if (success) {
                 handleSuccess(message);
-                updateUserContext(email);
+                updateEmail(email);
                 updateLoginStatus(true);
                 setTimeout(() => {
                     navigate("/booking");

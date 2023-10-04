@@ -25,47 +25,51 @@ export const LoginProvider = ({ children }) => {
     });
     const [loginStatus, setLoginStatus] = useState(false);
 
-    function updateUserContext(email) {
+    function updateEmail(email) {
         setUserEmail(email);
     }
 
     function updateLoginStatus(status) {
         setLoginStatus(status);
-        // if (status === true) {
-        //     getUser();
-        // }
+        if (status) {
+            getUser();
+        }
     }
 
     async function getUser() {
         try {
-            const { name, email, age, telephone, gender, description } =
-                await axios.get(
+            const user =
+                // const { name, email, age, telephone, gender, description } =
+                await axios.post(
                     serverUrl + "/user",
                     {
                         userEmail,
                     },
                     { withCredentials: true }
                 );
-            if (userEmail === email) {
-                setUser({
-                    name: name,
-                    email: email,
-                    age: age,
-                    telephone: telephone,
-                    gender: gender,
-                    description: description,
-                });
-            } else {
-            }
+
+            console.log(user);
+
+            // if (userEmail === email) {
+            //     setUser({
+            //         name: name,
+            //         email: email,
+            //         age: age,
+            //         telephone: telephone,
+            //         gender: gender,
+            //         description: description,
+            //     });
+            // } else {
+            // }
         } catch (error) {
             console.log(error);
         }
     }
 
     return (
-        <userContext.Provider value={(user, loginStatus)}>
+        <userContext.Provider value={{ user, loginStatus }}>
             <updateUserContext.Provider
-                value={(updateUserContext, updateLoginStatus)}
+                value={{ updateEmail, updateLoginStatus }}
             >
                 {children}
             </updateUserContext.Provider>

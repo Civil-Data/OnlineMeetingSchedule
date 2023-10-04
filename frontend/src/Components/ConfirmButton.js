@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Confirmation from "./Confirmation";
 import { useDayViewUpdate } from "../contexts/BookingContext";
-function ConfirmButton({ selectedTime }) {
+
+function ConfirmButton({ selectedTime, isDisabled }) {
     const [showComponent, setShowComponent] = useState(false);
     const [buttonText, setButtonText] = useState("Send Invite");
     const { closeDayView } = useDayViewUpdate();
@@ -18,7 +19,11 @@ function ConfirmButton({ selectedTime }) {
 
     return (
         <>
-            <button id="confirmation_btn" onClick={(e) => toggleComponent(e)}>
+            <button
+                disabled={isDisabled}
+                id="confirmation_btn"
+                onClick={(e) => toggleComponent(e)}
+            >
                 {buttonText}
             </button>
             {showComponent && <Confirmation />}

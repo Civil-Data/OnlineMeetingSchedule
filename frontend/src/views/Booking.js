@@ -12,7 +12,7 @@ import { useDateContext } from "../contexts/DateContext";
 import axios from "axios";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Autocomplete, Box, TextField, TextareaAutosize } from "@mui/material";
+import { Autocomplete, Box, TextField } from "@mui/material";
 
 const Booking = () => {
     const { dayView, date, dayString } = useDayView();
@@ -28,13 +28,15 @@ const Booking = () => {
     const [dateLabels, setDateLabels] = useState([]);
     // State for booking meeting details
     const [meetingDetails, setMeetingDetails] = useState({
-        date: null,
         time: "",
         attendees: [],
         title: "",
         location: "",
+        startDate: "",
+        endDate: "",
         startTime: "", // Add startTime
         endTime: "", // Add endTime
+        description: "",
     });
 
     function updateMonth(monthStep) {
@@ -50,24 +52,6 @@ const Booking = () => {
     }
 
     const [errorMessage, setErrorMessage] = useState("");
-    const handleTitleChange = (event) => {
-        setMeetingDetails({ ...meetingDetails, title: event.target.value });
-    };
-
-    const handleLocationChange = (event) => {
-        setMeetingDetails({ ...meetingDetails, location: event.target.value });
-    };
-
-    const handleAttendeesChange = (event, values) => {
-        setMeetingDetails({ ...meetingDetails, attendees: values });
-    };
-    const handleStartDateChange = (event) => {
-        setMeetingDetails({ ...meetingDetails, startDate: event.target.value });
-    };
-
-    const handleEndDateChange = (event) => {
-        setMeetingDetails({ ...meetingDetails, endDate: event.target.value });
-    };
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -79,7 +63,10 @@ const Booking = () => {
             meetingDetails.startTime &&
             meetingDetails.endTime &&
             meetingDetails.startDate &&
-            meetingDetails.endDate
+            meetingDetails.endDate &&
+            meetingDetails.description &&
+            meetingDetails.endDate >= meetingDetails.startDate &&
+            meetingDetails.endTime > meetingDetails.startTime
         ) {
             // Enable the button if all fields are filled
             setIsButtonDisabled(false);
@@ -93,30 +80,30 @@ const Booking = () => {
     // Function to handle booking confirmation
     const bookMeeting = async () => {
         try {
-            // Set the date and time in the meeting details
-            setMeetingDetails({
-                ...meetingDetails,
-                date: date,
-                time: meetingDetails.time,
-            });
+            // // Set the date and time in the meeting details
+            // setMeetingDetails({
+            //     ...meetingDetails,
+            //     date: date,
+            //     time: meetingDetails.time,
+            // });
 
             // Send a POST request to your Node.js backend to save the meeting details
             await axios.post("/api/meetings", meetingDetails);
 
             // Close the popup and clear the meeting details
             setMeetingDetails({
-                date: null,
                 time: "",
                 attendees: [],
                 title: "",
                 location: "",
-                startTime: "",
-                endTime: "", // Clear startTime and endTime
+                startDate: "",
+                endDate: "",
+                startTime: "", // Add startTime
+                endTime: "", // Add endTime
+                description: "",
             });
-
-            // You can add more logic here, like showing a success message
         } catch (error) {
-            // Handle error (e.g., show an error message)
+            // Handle error
             setErrorMessage("An error occurred while booking the meeting.");
         }
     };
@@ -207,35 +194,16 @@ const Booking = () => {
         setDateLabels(dateLabels);
     }, [getDate, monthToDisplay, yearToDisplay]);
 
-    const selectOptions = [
-        {
-            labelText: "Filter events by day:",
-            options: [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "FriJAY",
-                "Saturday",
-                "Sunday",
-            ],
-        },
-        {
-            labelText: "Filter events by person:",
-            options: ["Martin", "Joel", "Matilda", "Felix"],
-        },
-        {
-            labelText: "Filter participants by country:",
-            options: ["Sweden", "Norway", "Denmark", "Finland"],
-        },
-    ];
-
     useEffect(() => {
         renderDates();
     }, [monthToDisplay, renderDates]);
 
     const muiInputStyle = {
         marginBottom: "6px",
+    };
+    const muiInputStyleDescription = {
+        marginBottom: "6px",
+        width: "100%",
     };
 
     return (
@@ -250,13 +218,23 @@ const Booking = () => {
                             sx={muiInputStyle}
                             label="Meeting Title"
                             value={meetingDetails.title}
-                            onChange={handleTitleChange}
+                            onChange={(event) =>
+                                setMeetingDetails({
+                                    ...meetingDetails,
+                                    title: event.target.value,
+                                })
+                            }
                         />
                         <TextField
                             sx={muiInputStyle}
                             label="Location"
                             value={meetingDetails.location}
-                            onChange={handleLocationChange}
+                            onChange={(event) =>
+                                setMeetingDetails({
+                                    ...meetingDetails,
+                                    location: event.target.value,
+                                })
+                            }
                         />
                         <TextField
                             sx={muiInputStyle}
@@ -298,25 +276,30 @@ const Booking = () => {
                             }}
                         />
                         {/* <Autocomplete/> */}
-                        <Box>
-                            <TextField
-                                label="Description"
-                                type="description"
-                                value={meetingDetails.startDate}
-                                onChange={handleStartDateChange}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </Box>
 
                         <Autocomplete
                             sx={muiInputStyle}
                             multiple
                             id="attendees"
-                            options={[]} // Add your list of attendees here
-                            value={meetingDetails.attendees}
-                            onChange={handleAttendeesChange}
+                            options={["Martin", "Noel"]} // Add your list of attendees here
+                            value={
+                                Array.isArray(meetingDetails.attendees)
+                                    ? meetingDetails.attendees
+                                    : []
+                            }
+                            onChange={(event, newValue) =>
+                                setMeetingDetails({
+                                    ...meetingDetails,
+                                    attendees: newValue, // newValue will be an array of selected attendees
+                                })
+                            }
+                            // value={meetingDetails.attendees}
+                            // onChange={(event) =>
+                            //     setMeetingDetails({
+                            //         ...meetingDetails,
+                            //         attendees: event.target.value,
+                            //     })
+                            // }
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
@@ -325,12 +308,34 @@ const Booking = () => {
                                 />
                             )}
                         />
-
+                        <Box>
+                            {/* <div> */}
+                            <TextField
+                                sx={muiInputStyleDescription}
+                                label="Description"
+                                type="description"
+                                value={meetingDetails.description}
+                                onChange={(event) =>
+                                    setMeetingDetails({
+                                        ...meetingDetails,
+                                        description: event.target.value,
+                                    })
+                                }
+                                multiline
+                                rows={3}
+                            />
+                            {/* </div> */}
+                        </Box>
                         <TextField
                             label="Start Date"
                             type="date"
                             value={meetingDetails.startDate}
-                            onChange={handleStartDateChange}
+                            onChange={(event) =>
+                                setMeetingDetails({
+                                    ...meetingDetails,
+                                    startDate: event.target.value,
+                                })
+                            }
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -339,15 +344,21 @@ const Booking = () => {
                             label="End Date"
                             type="date"
                             value={meetingDetails.endDate}
-                            onChange={handleEndDateChange}
+                            onChange={(event) =>
+                                setMeetingDetails({
+                                    ...meetingDetails,
+                                    endDate: event.target.value,
+                                })
+                            }
                             InputLabelProps={{
                                 shrink: true,
                             }}
                         />
                     </div>
+
                     <ConfirmButton
                         onClick={bookMeeting}
-                        disabled={isButtonDisabled}
+                        isDisabled={isButtonDisabled}
                     />
                 </PopUp>
             )}

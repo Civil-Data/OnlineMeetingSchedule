@@ -5,7 +5,7 @@ import ProfileTab from "../Components/Profile/ProfileTab";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 import { useProfileUpdate, useTabContext } from "../contexts/ProfileContext";
-import { useLoginStatusContext } from "../contexts/LoginContext";
+import { useUserContext } from "../contexts/LoginContext";
 import ProfileMeetings from "../Components/Profile/ProfileMeetings";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Availability from "../Components/Profile/Availability";
 
 const Profile = () => {
-    const loginStatusContext = useLoginStatusContext();
+    const { user, loginStatus } = useUserContext();
     const tabContext = useTabContext();
     const { updateClickedIcon, clickedIcon } = useProfileUpdate();
 
@@ -22,18 +22,7 @@ const Profile = () => {
         <>
             <div className="profile_container">
                 <div className="top_section">
-                    {loginStatusContext === "martin@ju.se" && (
-                        <span>Martin Nilsson</span>
-                    )}
-                    {loginStatusContext === "matilda@ju.se" && (
-                        <span>Matilda Ronder</span>
-                    )}
-                    {loginStatusContext === "felix@ju.se" && (
-                        <span>Felix Stockinger</span>
-                    )}
-                    {loginStatusContext === "joel@ju.se" && (
-                        <span>Joel Scarinius</span>
-                    )}
+                    {loginStatus && <span>{user.name}</span>}
                     {tabContext === "info" && (
                         <>
                             {clickedIcon ? (

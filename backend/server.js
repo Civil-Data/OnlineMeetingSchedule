@@ -26,13 +26,13 @@ app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
 
-// app.use(
-//     cors({
-//         origin: [`http://localhost:${CLIENT_PORT}`],
-//         methods: ["GET", "POST", "PUT", "DELETE"],
-//         credentials: true,
-//     })
-// );
+app.use(
+    cors({
+        origin: [`http://localhost:${CLIENT_PORT}`],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
+    })
+);
 
 // Enable CORS for specific origin (http://localhost:3000) and allow credentials
 app.use((req, res, next) => {

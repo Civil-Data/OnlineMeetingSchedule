@@ -1,69 +1,72 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useUpdateLoginStatus } from "../contexts/LoginContext";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
-const LoginValidation = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const Login = () => {
+    const PORT = 5000;
+
     const navigate = useNavigate();
-    const updateLoginStatusContext = useUpdateLoginStatus();
+    const [inputValue, setInputValue] = useState({
+        email: "",
+        password: "",
+    });
+    const { email, password } = inputValue;
 
-    // Email validation function
-    const validateEmail = email => {
-        const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        return regex.test(email);
+    const handleOnChange = e => {
+        const { name, value } = e.target;
+        setInputValue({
+            ...inputValue,
+            [name]: value,
+        });
     };
 
-    // Password validation function
-    const validatePassword = password => {
-        // Check if password is at least 8 characters long
-        if (password.length < 8) {
-            return false;
-        }
+    const handleError = err =>
+        toast.error(err, {
+            position: "bottom-left",
+        });
 
-        // Check if password contains at least one uppercase letter
-        if (!/[A-Z]/.test(password)) {
-            return false;
-        }
+    const handleSuccess = msg =>
+        toast.success(msg, {
+            position: "bottom-left",
+        });
 
-        // Check if password contains at least one lowercase letter
-        if (!/[a-z]/.test(password)) {
-            return false;
-        }
-
-        // Check if password contains at least one digit
-        if (!/\d/.test(password)) {
-            return false;
-        }
-
-        // Check if password contains at least one special character
-        if (!/[!"#¤%&/()=?`@£${}\\´ +^~*'[\]]/.test(password)) {
-            return false;
-        }
-
-        return true;
-    };
-
-    const handleSignUp = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        if (
-            (validateEmail(email) && validatePassword(password)) ||
-            (email === "joel@ju.se" && password === "Password123!") ||
-            (email === "martin@ju.se" && password === "Password123!") ||
-            (email === "felix@ju.se" && password === "Password123!") ||
-            (email === "matilda@ju.se" && password === "Password123!")
-        ) {
-            updateLoginStatusContext(email);
-            navigate("/booking");
-        } else {
-            // Display an error message for invalid email or password
-            alert("Invalid email address or password");
+
+        try {
+            const { data } = await axios.post(
+                // "/login",
+                `http://localhost:${PORT}/login`,
+                {
+                    ...inputValue,
+                },
+                { withCredentials: true }
+            );
+            console.log(data);
+            const { success, message } = data;
+            if (success) {
+                handleSuccess(message);
+                setTimeout(() => {
+                    navigate("/booking");
+                }, 1000);
+            } else {
+                handleError(message);
+            }
+        } catch (error) {
+            console.log(error);
         }
+        // setInputValue({
+        //     ...inputValue,
+        //     email: "",
+        //     password: "",
+        // });
     };
 
     return (
-        <>
-            <form onSubmit={handleSignUp}>
+        // <>
+        <div className="form_container">
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email" className="input_label">
                         Enter your email
@@ -72,10 +75,12 @@ const LoginValidation = () => {
                 </div>
                 <input
                     className="input_margin"
+                    name="email"
                     type="email"
-                    placeholder="email"
+                    placeholder="Email"
+                    autoComplete="email"
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={handleOnChange}
                 />
 
                 <div>
@@ -86,19 +91,26 @@ const LoginValidation = () => {
                 </div>
                 <input
                     className="input_margin"
+                    name="password"
                     type="password"
-                    placeholder="password"
+                    placeholder="Password"
+                    autoComplete="password"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={handleOnChange}
                 />
                 <div>
                     <button type="submit" id="confirmation_btn" className="links">
                         Login
                     </button>
                 </div>
+                <span>
+                    Already have an account? <Link to={"/register"}>Signup</Link>
+                </span>
             </form>
-        </>
+            <ToastContainer />
+        </div>
+        // {/* </> */}
     );
 };
 
-export default LoginValidation;
+export default Login;

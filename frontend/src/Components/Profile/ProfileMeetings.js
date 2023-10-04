@@ -1,76 +1,41 @@
 import React from "react";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+// import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { useProfileUpdate } from "../../contexts/ProfileContext";
-
-// import PopUp from "../PopUp";
+import ProfileTab from "./ProfileTab";
+import MeetingItem from "./MeetingItem";
 
 const ProfileMeetings = () => {
-    const { updateMyMeetings, details } = useProfileUpdate();
+	const { details, updateSubTabContext } = useProfileUpdate();
 
-    return (
-        <>
-            <div className="profile_container">
-                <div className="top_section">
-                    {/* {tabContext === "myMeetings" && ( */}
-                    <>
-                        {details ? (
-                            <div className="meeting_list">
-                                <div className="meeting_list_item  ">
-                                    <div className="meeting_list_sub_item">
-                                        Event name
-                                    </div>
-                                    <div className="meeting_list_sub_item">
-                                        When?
-                                    </div>
-                                    <div className="meeting_list_sub_item">
-                                        Where?
-                                    </div>
-                                </div>
-                                <div
-                                    className="details"
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() => {
-                                        updateMyMeetings(false);
-                                    }}
-                                >
-                                    <ArrowRightIcon />
-                                    Details
-                                </div>
-                                <div className="participants">
-                                    Participants: Martin, Joel, Felix, Matilda
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="meeting_list">
-                                <div className="meeting_list_item  ">
-                                    <div className="meeting_list_sub_item">
-                                        Event name
-                                    </div>
-                                    <div className="meeting_list_sub_item">
-                                        When?
-                                    </div>
-                                    <div className="meeting_list_sub_item">
-                                        Where?
-                                    </div>
-                                </div>
-                                <div
-                                    className="details"
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() => {
-                                        updateMyMeetings(true);
-                                    }}
-                                >
-                                    <ArrowRightIcon />
-                                    Details
-                                </div>
-                            </div>
-                        )}
-                    </>
-                    {/* )} */}
-                </div>
-            </div>
-        </>
-    );
+	return (
+		<>
+			<div className="tab_area">
+				<ProfileTab
+					tab_text="Upcoming"
+					is_active={details === "upcoming"}
+					tab_name="upcoming"
+					toggleFunc={updateSubTabContext}
+				/>
+				<ProfileTab
+					tab_text="Pending"
+					is_active={details === "pending"}
+					tab_name="pending"
+					toggleFunc={updateSubTabContext}
+				/>
+			</div>
+			<div className="profile_container">
+				<div className="top_section">
+					{details === "upcoming" ? (
+						<MeetingItem showVoteButton={false} />
+					) : null}
+
+					{details === "pending" ? (
+						<MeetingItem showVoteButton={true} />
+					) : null}
+				</div>
+			</div>
+		</>
+	);
 };
 
 export default ProfileMeetings;

@@ -29,7 +29,9 @@ export const BookingProvider = ({ children }) => {
 
     return (
         <DayViewContext.Provider value={{ dayView, date, dayString }}>
-            <DayViewToggleContext.Provider value={{ openDayView, closeDayView }}>
+            <DayViewToggleContext.Provider
+                value={{ openDayView, closeDayView }}
+            >
                 {children}
                 <Booking />
             </DayViewToggleContext.Provider>

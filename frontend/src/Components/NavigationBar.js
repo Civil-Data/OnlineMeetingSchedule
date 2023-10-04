@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useLoginStatusContext } from "../contexts/LoginContext";
+import { useUserContext, useUpdateUserContext } from "../contexts/LoginContext";
 
 const NavigationBar = () => {
-    const loginStatusContext = useLoginStatusContext();
+    const { loginStatus, user } = useUserContext();
+    // const { updateLoginStatus } = useUpdateUserContext();
 
     const iconSize = "27px";
 
     return (
         <div id="navigationBar">
             <div id="left">
-                {loginStatusContext !== "" && (
+                {loginStatus && (
                     <>
                         <Link
                             className="nav-buttons"
@@ -38,14 +39,12 @@ const NavigationBar = () => {
                     </>
                 )}
             </div>
-            {loginStatusContext === "martin@ju.se" ||
-            loginStatusContext === "joel@ju.se" ||
-            loginStatusContext === "matilda@ju.se" ||
-            loginStatusContext === "felix@ju.se" ? (
+            {loginStatus ? (
                 <div id="navButtons" className="flex-se right">
-                    <span id="logged_in">{loginStatusContext}</span>
+                    <span id="logged_in">{user.name}</span>
 
                     <Link className="nav-buttons" to="/" type="button">
+                        {/* <span onClick={updateLoginStatus(false)}>Log out</span> */}
                         <span>Log out</span>
                     </Link>
                 </div>

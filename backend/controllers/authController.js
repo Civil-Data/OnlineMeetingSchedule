@@ -67,3 +67,27 @@ module.exports.Login = async (req, res, next) => {
 		console.error(error);
 	}
 };
+
+module.exports.User = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        console.log(email);
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.json({ message: "Incorrect email" });
+        }
+
+        const token = createSecretToken(user._id);
+        res.cookie("token", token, {
+            withCredentials: true,
+            httpOnly: false,
+        });
+
+        res.status(201).json(user);
+
+        next();
+    } catch (error) {
+        console.error(error);
+    }
+};

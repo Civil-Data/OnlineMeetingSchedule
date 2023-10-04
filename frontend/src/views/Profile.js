@@ -5,7 +5,7 @@ import ProfileTab from "../Components/Profile/ProfileTab";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 import { useProfileUpdate, useTabContext } from "../contexts/ProfileContext";
-import { useLoginStatusContext } from "../contexts/LoginContext";
+import { useUserContext } from "../contexts/LoginContext";
 import ProfileMeetings from "../Components/Profile/ProfileMeetings";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
@@ -14,29 +14,15 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Availability from "../Components/Profile/Availability";
 
 const Profile = () => {
-	const loginStatusContext = useLoginStatusContext();
+	const { user, loginStatus } = useUserContext();
 	const tabContext = useTabContext();
-	const { updateClickedIcon, clickedIcon, updateTabContext } =
-		useProfileUpdate();
-
-	// const { updateTabContext } = updateTabContext();
+	const { updateClickedIcon, clickedIcon } = useProfileUpdate();
 
 	return (
 		<>
 			<div className="profile_container">
 				<div className="top_section">
-					{loginStatusContext === "martin@ju.se" && (
-						<span>Martin Nilsson</span>
-					)}
-					{loginStatusContext === "matilda@ju.se" && (
-						<span>Matilda Ronder</span>
-					)}
-					{loginStatusContext === "felix@ju.se" && (
-						<span>Felix Stockinger</span>
-					)}
-					{loginStatusContext === "joel@ju.se" && (
-						<span>Joel Scarinius</span>
-					)}
+					{loginStatus && <span>{user.name}</span>}
 					{tabContext === "info" && (
 						<>
 							{clickedIcon ? (
@@ -88,35 +74,29 @@ const Profile = () => {
 						tab_text="Profile information"
 						is_active={tabContext === "info"}
 						tab_name="info"
-						toggleFunc={updateTabContext}
 					/>
 					<ProfileTab
 						tab_text="Contacts"
 						is_active={tabContext === "contacts"}
 						tab_name="contacts"
-						toggleFunc={updateTabContext}
 					/>
 					<ProfileTab
 						tab_text="My Meetings"
 						is_active={tabContext === "my_meetings"}
 						tab_name="my_meetings"
-						toggleFunc={updateTabContext}
 					/>
 					<ProfileTab
 						tab_text="Availability"
 						is_active={tabContext === "availability"}
 						tab_name="availability"
-						toggleFunc={updateTabContext}
 					/>
 				</div>
 				{tabContext === "info" && <ProfileInformation />}
 				{tabContext === "contacts" && <ProfileContacts />}
 				{tabContext === "my_meetings" && <ProfileMeetings />}
-				{/* {tabContext === "my_meetings" && <ProfileMeetings />}
-                {tabContext === "my_meetings" && <ProfileMeetings />} */}
+				{tabContext === "my_meetings" && <ProfileMeetings />}
+				{tabContext === "my_meetings" && <ProfileMeetings />}
 				{tabContext === "availability" && <Availability />}
-				{tabContext === "upcoming" && <ProfileMeetings />}
-				{tabContext === "pending" && <ProfileMeetings />}
 			</div>
 		</>
 	);

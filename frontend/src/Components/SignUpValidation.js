@@ -17,7 +17,7 @@ const Signup = () => {
         confirmPassword: "",
     });
     const { name, email, confirmEmail, password, confirmPassword } = inputValue;
-    const { updateUserContext, updateLoginStatus } = useUpdateUserContext();
+    const { updateEmail, updateLoginStatus } = useUpdateUserContext();
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -57,7 +57,7 @@ const Signup = () => {
             const { success, message } = data;
             if (success) {
                 handleSuccess(message);
-                updateUserContext(email);
+                updateEmail(email);
                 updateLoginStatus(true);
                 setTimeout(() => {
                     navigate("/profile");

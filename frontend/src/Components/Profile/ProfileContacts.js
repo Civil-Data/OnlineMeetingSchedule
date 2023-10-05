@@ -18,12 +18,12 @@ const ProfileContacts = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className="contacts">
 			{/* <h2>User List</h2> */}
 			<ul>
 				{users.map((user) => (
 					<li key={user._id}>
-						Name: {user.name}
+						{user.name}
 						{/* Add other user properties as needed */}
 					</li>
 				))}

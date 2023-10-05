@@ -12,7 +12,8 @@ const ProfileInformation = () => {
         <div className="user_information">
             {loginStatus && (
                 <PersonalInfo
-                    name={user.name}
+                    firstName={user.firstName}
+                    lastName={user.lastName}
                     gender={user.gender}
                     email={user.email}
                     telephone={user.telephone}

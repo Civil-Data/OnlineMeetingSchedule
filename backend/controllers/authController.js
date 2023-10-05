@@ -4,13 +4,14 @@ const bcrypt = require("bcryptjs");
 
 module.exports.Register = async (req, res, next) => {
     try {
-        const { name, email, password, createdAt } = req.body;
+        const { firstName, lastName, email, password, createdAt } = req.body;
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
             return res.json({ message: "User already exists" });
         }
 
-        if (!name || !email || !password) {
+        if (!firstName || !lastName || !email || !password) {
             return res.json({ message: "All fields are required" });
         }
 
@@ -25,7 +26,8 @@ module.exports.Register = async (req, res, next) => {
         }
 
         const user = await User.create({
-            name,
+            firstName,
+            lastName,
             email,
             password,
             createdAt,

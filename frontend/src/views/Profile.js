@@ -75,11 +75,6 @@ const Profile = () => {
                         is_active={tabContext === "my_meetings"}
                         tab_name="my_meetings"
                     />
-                    <ProfileTab
-                        tab_text="Availability"
-                        is_active={tabContext === "availability"}
-                        tab_name="availability"
-                    />
                 </div>
                 {tabContext === "info" && <ProfileInformation />}
                 {tabContext === "contacts" && <ProfileContacts />}

@@ -5,17 +5,26 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import serverUrl from "../utils/config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
+import { isAlpha } from "validator";
 
 const Signup = () => {
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
-        name: "",
+        firstName: "",
+        lastName: "",
         email: "",
         confirmEmail: "",
         password: "",
         confirmPassword: "",
     });
-    const { name, email, confirmEmail, password, confirmPassword } = inputValue;
+    const {
+        firstName,
+        lastName,
+        email,
+        confirmEmail,
+        password,
+        confirmPassword,
+    } = inputValue;
     const { saveUser, updateLoginStatus } = useUpdateUserContext();
 
     const handleOnChange = (e) => {
@@ -38,6 +47,10 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!isAlpha(firstName) || !isAlpha(lastName)) {
+            return handleError("First name and last name should be letters");
+        }
+
         if (email !== confirmEmail) {
             return handleError("Emails do not match");
         }
@@ -46,7 +59,14 @@ const Signup = () => {
             return handleError("Passwords do not match");
         }
 
-        if (!name || !email || !password || !confirmEmail || !confirmPassword) {
+        if (
+            !firstName ||
+            !lastName ||
+            !email ||
+            !password ||
+            !confirmEmail ||
+            !confirmPassword
+        ) {
             return handleError("All fields are required");
         }
 
@@ -62,7 +82,7 @@ const Signup = () => {
             const { data } = await axios.post(
                 serverUrl + "/register",
 
-                { name, email, password },
+                { firstName, lastName, email, password },
                 { withCredentials: true }
             );
             const { success, message } = data;
@@ -81,9 +101,6 @@ const Signup = () => {
         }
         setInputValue({
             ...inputValue,
-            name: "",
-            email: "",
-            confirmEmail: "",
             password: "",
             confirmPassword: "",
         });
@@ -94,17 +111,32 @@ const Signup = () => {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="name" className="input_label">
-                        Enter your name
+                        Enter your first name
                         <b>*</b>
                     </label>
                 </div>
                 <input
                     className="input_margin"
                     type="text"
-                    name="name"
-                    placeholder="Name"
-                    autoComplete="name"
-                    value={name}
+                    name="firstName"
+                    placeholder="FirstName"
+                    autoComplete="firstName"
+                    value={firstName}
+                    onChange={handleOnChange}
+                />
+                <div>
+                    <label htmlFor="name" className="input_label">
+                        Enter your last name
+                        <b>*</b>
+                    </label>
+                </div>
+                <input
+                    className="input_margin"
+                    type="text"
+                    name="lastName"
+                    placeholder="LastName"
+                    autoComplete="lastName"
+                    value={lastName}
                     onChange={handleOnChange}
                 />
                 <div>

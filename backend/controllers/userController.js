@@ -58,10 +58,10 @@ module.exports.InsertOneUser = async (req, res) => {
 };
 
 module.exports.UpdateUser = async (req, res, next) => {
-    console.log(req.body);
     try {
         const {
-            newName,
+            newFirstName,
+            newLastName,
             newGender,
             newEmail,
             newTelephone,
@@ -77,7 +77,7 @@ module.exports.UpdateUser = async (req, res, next) => {
             return res.json({ message: "User already exists" });
         }
 
-        if (!newName || !newEmail || !newPassword) {
+        if (!newFirstName || !newLastName || !newEmail || !newPassword) {
             return res.json({ message: "All fields are required" });
         }
 
@@ -91,23 +91,27 @@ module.exports.UpdateUser = async (req, res, next) => {
             return res.json({ message: "Email is not valid" });
         }
 
-        const apa = await User.updateOne(
+        // Hash the password before saving it
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await User.updateOne(
             { email: newEmail },
             {
-                name: newName,
+                firstName: newFirstName,
+                lastName: newLastName,
                 gender: newGender,
                 email: newEmail,
                 telephone: newTelephone,
                 age: newAge,
                 description: newDescription,
-                password: newPassword,
+                password: hashedPassword,
             }
         );
-        console.log(apa);
+
         const user = await User.findOne({ email: newEmail });
-        console.log(user);
 
         const token = createSecretToken(user._id);
+
         res.cookie("token", token, {
             withCredentials: true,
             httpOnly: false,

@@ -1,27 +1,40 @@
 import React, { useContext, useState } from "react";
 
-const LoginStatusContext = React.createContext();
-const UpdateLoginStatusContext = React.createContext();
+const userContext = React.createContext();
+const updateUserContext = React.createContext();
 
-export function useLoginStatusContext() {
-    return useContext(LoginStatusContext);
+export function useUpdateUserContext() {
+    return useContext(updateUserContext);
 }
-export function useUpdateLoginStatus() {
-    return useContext(UpdateLoginStatusContext);
+
+export function useUserContext() {
+    return useContext(userContext);
 }
 
 export const LoginProvider = ({ children }) => {
-    const [loginStatus, setLoginStatus] = useState("");
+    const [user, setUser] = useState({
+        name: "",
+        email: "",
+        age: "",
+        telephone: "",
+        gender: "",
+        description: "",
+    });
+    const [loginStatus, setLoginStatus] = useState(false);
 
-    function updateLoginContext(status) {
+    function updateLoginStatus(status) {
         setLoginStatus(status);
     }
 
+    function saveUser(user) {
+        setUser(user);
+    }
+
     return (
-        <LoginStatusContext.Provider value={loginStatus}>
-            <UpdateLoginStatusContext.Provider value={updateLoginContext}>
+        <userContext.Provider value={{ user, loginStatus }}>
+            <updateUserContext.Provider value={{ saveUser, updateLoginStatus }}>
                 {children}
-            </UpdateLoginStatusContext.Provider>
-        </LoginStatusContext.Provider>
+            </updateUserContext.Provider>
+        </userContext.Provider>
     );
 };

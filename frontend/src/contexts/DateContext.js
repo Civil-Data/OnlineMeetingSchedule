@@ -41,7 +41,11 @@ export const DateProvider = ({ children }) => {
         return startDayOfMonth;
     }
 
-    function getDate(year = getCurrentYear(), month = getCurrentMonth(), day = 0) {
+    function getDate(
+        year = getCurrentYear(),
+        month = getCurrentMonth(),
+        day = 0
+    ) {
         let date;
         if (day === 0) {
             date = new Date(year, month);

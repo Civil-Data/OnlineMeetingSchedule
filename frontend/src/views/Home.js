@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
 import BackgroundAnimation from "../Components/BackgroundAnimation";
 import TypingEffect from "../Components/TypingEffect";
-import { useUpdateLoginStatus } from "../contexts/LoginContext";
 
 const Home = () => {
-    const updateLoginStatusContext = useUpdateLoginStatus();
-    updateLoginStatusContext("");
-
     return (
         <>
             <BackgroundAnimation />

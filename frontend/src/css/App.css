@@ -605,3 +605,7 @@ input.input_margin {
     border: 3px solid goldenrod;
     /* box-shadow: 0px 2px 5px 10px goldenrod; */
 }
+
+.contacts {
+	font-size: x-large;
+}

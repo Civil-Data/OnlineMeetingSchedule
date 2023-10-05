@@ -27,14 +27,6 @@ const Profile = () => {
                         <>
                             {clickedIcon ? (
                                 <div style={{ display: "flex" }}>
-                                    {/* <div
-                                        onClick={() => {
-                                            updateClickedIcon(false);
-                                        }}
-                                        className="icon"
-                                    >
-                                        <SaveIcon titleAccess="Save" />
-                                    </div> */}
                                     <div
                                         onClick={() => {
                                             updateClickedIcon(false);

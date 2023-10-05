@@ -1,13 +1,12 @@
 // Import necessary modules and functions
-const User = require("../models/user.model"); // Import User model
-const { createSecretToken } = require("../utils/SecretToken"); // Import createSecretToken function
-const bcrypt = require("bcryptjs"); // Import bcrypt for password hashing
+const User = require("../models/user.model");
+const { createSecretToken } = require("../utils/SecretToken");
+const bcrypt = require("bcryptjs");
 
 // Register a new user
 module.exports.Register = async (req, res, next) => {
 	try {
-		// Extract user data from the request body
-		const { name, email, password, createdAt } = req.body;
+		const { name, email, password} = req.body;
 
 		// Check if a user with the same email already exists
 		const existingUser = await User.findOne({ email });
@@ -36,8 +35,7 @@ module.exports.Register = async (req, res, next) => {
 		const user = await User.create({
 			name,
 			email,
-			password,
-			createdAt,
+			password
 		});
 
 		// Generate a secret token for the user's session

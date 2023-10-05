@@ -7,6 +7,7 @@ env.config({ path: "./.env" });
 const cookieParser = require("cookie-parser");
 const authRoute = require("./routes/AuthRoute");
 const meetingRoute = require("./routes/AuthRoute");
+const userRoute = require("./routes/userRoutes");
 const { DB_USER, DB_PASSWORD, SERVER_PORT, CLIENT_PORT } = process.env;
 
 const PORT = SERVER_PORT || 5000;
@@ -48,3 +49,4 @@ app.use(express.json());
 
 app.use("/", authRoute);
 app.use("/", meetingRoute);
+app.use("/", userRoute);

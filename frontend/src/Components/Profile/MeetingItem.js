@@ -15,11 +15,11 @@ const MeetingItem = ({ showVoteButton }) => {
 				<div className="meeting_list_sub_item">When?</div>
 				<div className="meeting_list_sub_item">Where?</div>
 			</div>
-			{showVoteButton && (
+			{/* {showVoteButton && (
 				<div className="vote">
 					<button>Vote!</button>
 				</div>
-			)}
+			)} */}
 
 			<div
 				className="details"

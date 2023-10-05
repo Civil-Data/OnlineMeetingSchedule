@@ -4,8 +4,7 @@ const bcrypt = require("bcryptjs");
 
 module.exports.Register = async (req, res, next) => {
 	try {
-		//indentation
-		const { name, email, password, createdAt } = req.body;
+		const { name, email, password } = req.body;
 		const existingUser = await User.findOne({ email });
 		if (existingUser) {
 			return res.json({ message: "User already exists" });
@@ -14,9 +13,7 @@ module.exports.Register = async (req, res, next) => {
 			name,
 			email,
 			password,
-			createdAt,
 		});
-
 		const token = createSecretToken(user._id);
 		res.cookie("token", token, {
 			withCredentials: true,

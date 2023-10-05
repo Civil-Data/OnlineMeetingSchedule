@@ -33,10 +33,10 @@ git clone https://github.com/Civil-Data/OnlineMeetingSchedule.git
 -   Add the following content to your `.env` file:
 
 ```
-TOKEN_KEY="thisisasecret"
-DB_USER="yourUserName"
-DB_PASSWORD="yourPassword"
-SERVER_PORT="5000"
+TOKEN_KEY ="thisisasecret"
+DB_USER = "matildaronder"
+DB_PASSWORD = "adlitamrendor123"
+PORT = "5000"
 CLIENT_PORT="3000"
 ```
 
@@ -77,6 +77,6 @@ This will launch the application in your default web browser at [http://localhos
 
 **7. Sign Up and Use the Online Meeting App:**
 
-Feel free to sign up and use our Online Meeting App.
+Register an account to use our Online Meeting App.
 
 Now, you're ready to explore the OnlineMeetingSchedule project locally!

@@ -1,12 +1,13 @@
 import React from "react";
-// import { useProfileUpdate } from "../../contexts/ProfileContext";
+import { useProfileUpdate } from "../../contexts/ProfileContext";
 
-const ProfileTab = ({ tab_text, is_active, tab_name, toggleFunc }) => {
-	// const { updateTabContext } = useProfileUpdate();
+const ProfileTab = ({ tab_text, is_active, tab_name }) => {
+	const { updateTabContext } = useProfileUpdate();
 	return (
 		<span
 			onClick={() => {
-				toggleFunc(tab_name);
+				// toggleFunc(tab_name);
+				updateTabContext(tab_name);
 			}}
 			className={`tab ${is_active ? "active" : ""}`}
 		>

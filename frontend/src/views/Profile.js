@@ -9,7 +9,7 @@ import { useUserContext } from "../contexts/LoginContext";
 import ProfileMeetings from "../Components/Profile/ProfileMeetings";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import SaveIcon from "@mui/icons-material/Save";
+// import SaveIcon from "@mui/icons-material/Save";
 import ClearIcon from "@mui/icons-material/Clear";
 import Availability from "../Components/Profile/Availability";
 
@@ -27,14 +27,14 @@ const Profile = () => {
                         <>
                             {clickedIcon ? (
                                 <div style={{ display: "flex" }}>
-                                    <div
+                                    {/* <div
                                         onClick={() => {
                                             updateClickedIcon(false);
                                         }}
                                         className="icon"
                                     >
                                         <SaveIcon titleAccess="Save" />
-                                    </div>
+                                    </div> */}
                                     <div
                                         onClick={() => {
                                             updateClickedIcon(false);

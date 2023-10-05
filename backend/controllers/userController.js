@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
+const { createSecretToken } = require("../utils/SecretToken");
 
 // Insert one user in DB
 module.exports.GetUsers = async (req, res) => {

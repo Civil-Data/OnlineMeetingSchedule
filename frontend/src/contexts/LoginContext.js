@@ -13,7 +13,8 @@ export function useUserContext() {
 
 export const LoginProvider = ({ children }) => {
     const [user, setUser] = useState({
-        name: "",
+        firstName: "",
+        lastName: "",
         email: "",
         age: "",
         telephone: "",

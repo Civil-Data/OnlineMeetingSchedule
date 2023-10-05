@@ -11,11 +11,11 @@ export function useProfileUpdate() {
 	return useContext(ProfileUpdateContext);
 }
 
+// Context provider component for managing the currently open tab and profile update-related data
 export const ProfileProvider = ({ children }) => {
 	const [openTab, setOpenTab] = useState("info");
 	const [clickedIcon, setClickedIcon] = useState(false);
 	const [details, setDetails] = useState("upcoming");
-	// const [status, setStatus] = useState(false);
 
 	function updateTabContext(tab) {
 		setOpenTab(tab);
@@ -29,10 +29,6 @@ export const ProfileProvider = ({ children }) => {
 		setDetails(details);
 	}
 
-	// function updateMeetingStatus(status) {
-	// 	setStatus(status);
-	// }
-
 	return (
 		<TabContext.Provider value={openTab}>
 			<ProfileUpdateContext.Provider
@@ -41,8 +37,6 @@ export const ProfileProvider = ({ children }) => {
 					updateClickedIcon,
 					clickedIcon,
 					details,
-					// updateMyMeetings,
-					// status,
 					updateSubTabContext,
 				}}
 			>

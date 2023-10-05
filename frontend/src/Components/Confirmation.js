@@ -1,3 +1,4 @@
+//Componet for booking confirmation
 const Confirmation = () => {
     return (
         <>

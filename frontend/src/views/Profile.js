@@ -94,8 +94,8 @@ const Profile = () => {
 				{tabContext === "info" && <ProfileInformation />}
 				{tabContext === "contacts" && <ProfileContacts />}
 				{tabContext === "my_meetings" && <ProfileMeetings />}
-				{tabContext === "my_meetings" && <ProfileMeetings />}
-				{tabContext === "my_meetings" && <ProfileMeetings />}
+				{/* {tabContext === "my_meetings" && <ProfileMeetings />} */}
+				{/* {tabContext === "my_meetings" && <ProfileMeetings />} */}
 				{tabContext === "availability" && <Availability />}
 			</div>
 		</>

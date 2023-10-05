@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // You may need to install axios if you haven't already
 import serverUrl from "../../utils/config";
-import res from "express/lib/response";
 
 const ProfileContacts = () => {
 	const [users, setUsers] = useState([]);
 
+	const contacts = async () => {
+		try {
+			const user = await axios.get(serverUrl + "/users");
+			setUsers(user.data);
+		} catch (error) {
+			console.error("Error fetching user data:", error);
+		}
+	};
 	useEffect(() => {
-		const contacts = async () => {
-			try {
-				const res = await axios.get(serverUrl + "/users");
-				setUsers(res.data);
-			} catch (error) {
-				console.error("Error fetching user data:", error);
-			}
-		};
+		contacts();
 	}, []);
 
 	return (

@@ -1,0 +1,9 @@
+const { GetMeeting, Create, Update, Delete } = require("../controllers/meetingController");
+const router = require("express").Router();
+
+router.get("/meeting", GetMeeting);
+router.post("/meeting/create", Create);
+router.post("/meeting/update", Update);
+router.post("/meeting/delete", Delete);
+
+module.exports = router;

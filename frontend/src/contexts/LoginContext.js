@@ -19,6 +19,7 @@ export const LoginProvider = ({ children }) => {
         telephone: "",
         gender: "",
         description: "",
+        password: "",
     });
     const [loginStatus, setLoginStatus] = useState(false);
 

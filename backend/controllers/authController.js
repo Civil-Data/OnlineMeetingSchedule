@@ -16,13 +16,6 @@ module.exports.Register = async (req, res, next) => {
 			createdAt,
 		});
 
-		//const allUsers = await User.find();
-
-		// Add the new user to the contact lists of all existing users
-		// allUsers.forEach(async (existingUser) => {
-		// 	existingUser.contacts.push(user._id);
-		// 	await existingUser.save();
-		// });
 		const token = createSecretToken(user._id);
 		res.cookie("token", token, {
 			withCredentials: true,

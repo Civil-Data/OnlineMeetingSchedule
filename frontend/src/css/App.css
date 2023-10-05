@@ -475,6 +475,11 @@ input.input_margin {
     padding: 10px;
 }
 
+.calendar_choose_time {
+    margin: 10px;
+    width: 130px;
+}
+
 .day {
     margin-top: -2px;
     width: 157px;

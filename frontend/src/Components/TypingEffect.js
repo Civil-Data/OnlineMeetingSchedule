@@ -5,6 +5,7 @@ const TypingEffect = ({ text, delay }) => {
     const [charIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
+        console.log(text);
         if (charIndex < text.length) {
             const timeout = setTimeout(() => {
                 setCurrentText((prevText) => prevText + text[charIndex]);

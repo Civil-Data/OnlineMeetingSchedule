@@ -10,7 +10,6 @@ const Signup = () => {
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         name: "",
-        // username: "",
         email: "",
         confirmEmail: "",
         password: "",
@@ -42,8 +41,21 @@ const Signup = () => {
         if (email !== confirmEmail) {
             return handleError("Emails do not match");
         }
+
         if (password !== confirmPassword) {
             return handleError("Passwords do not match");
+        }
+
+        if (!name || !email || !password || !confirmEmail || !confirmPassword) {
+            return handleError("All fields are required");
+        }
+
+        if (password.length < 8) {
+            return handleError("Password should be at least 8 characters");
+        }
+
+        if (!email.includes("@") || !email.includes(".")) {
+            return handleError("Email is not valid");
         }
 
         try {
@@ -60,7 +72,7 @@ const Signup = () => {
                 saveUser(data.user);
                 setTimeout(() => {
                     navigate("/profile");
-                }, 1000);
+                }, 2000);
             } else {
                 handleError(message);
             }
@@ -70,7 +82,6 @@ const Signup = () => {
         setInputValue({
             ...inputValue,
             name: "",
-            // username: "",
             email: "",
             confirmEmail: "",
             password: "",
@@ -96,21 +107,6 @@ const Signup = () => {
                     value={name}
                     onChange={handleOnChange}
                 />
-                {/* <div>
-                    <label htmlFor="username" className="input_label">
-                        Enter your username
-                        <b>*</b>
-                    </label>
-                </div>
-                <input
-                    className="input_margin"
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    autoComplete="Username"
-                    value={username}
-                    onChange={handleOnChange}
-                /> */}
                 <div>
                     <label htmlFor="email" className="input_label">
                         Enter your email
@@ -182,7 +178,10 @@ const Signup = () => {
                     </button>
                 </div>
                 <span>
-                    Already have an account? <Link to={"/login"}>Login</Link>
+                    Already have an account?{" "}
+                    <Link className="links" id="signUp-signIn" to={"/login"}>
+                        Login
+                    </Link>
                 </span>
             </form>
             <ToastContainer />

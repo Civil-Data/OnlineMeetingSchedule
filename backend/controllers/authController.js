@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 
 module.exports.Register = async (req, res, next) => {
 	try {
+		//indentation
 		const { name, email, password, createdAt } = req.body;
 		const existingUser = await User.findOne({ email });
 		if (existingUser) {

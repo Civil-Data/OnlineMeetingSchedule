@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import serverUrl from "../utils/config";
+import { useUpdateUserContext } from "../contexts/LoginContext";
 
 const Login = () => {
-    const PORT = 5000;
-
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
     });
     const { email, password } = inputValue;
+    const { saveUser, updateLoginStatus } = useUpdateUserContext();
 
-    const handleOnChange = e => {
+    const handleOnChange = (e) => {
         const { name, value } = e.target;
         setInputValue({
             ...inputValue,
@@ -21,23 +22,22 @@ const Login = () => {
         });
     };
 
-    const handleError = err =>
+    const handleError = (err) =>
         toast.error(err, {
             position: "bottom-left",
         });
 
-    const handleSuccess = msg =>
+    const handleSuccess = (msg) =>
         toast.success(msg, {
             position: "bottom-left",
         });
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const { data } = await axios.post(
-                // "/login",
-                `http://localhost:${PORT}/login`,
+                serverUrl + "/login",
                 {
                     ...inputValue,
                 },
@@ -47,6 +47,8 @@ const Login = () => {
             const { success, message } = data;
             if (success) {
                 handleSuccess(message);
+                saveUser(data.user);
+                updateLoginStatus(true);
                 setTimeout(() => {
                     navigate("/booking");
                 }, 1000);
@@ -56,15 +58,13 @@ const Login = () => {
         } catch (error) {
             console.log(error);
         }
-        // setInputValue({
-        //     ...inputValue,
-        //     email: "",
-        //     password: "",
-        // });
+        setInputValue({
+            ...inputValue,
+            password: "",
+        });
     };
 
     return (
-        // <>
         <div className="form_container">
             <form onSubmit={handleSubmit}>
                 <div>
@@ -99,17 +99,20 @@ const Login = () => {
                     onChange={handleOnChange}
                 />
                 <div>
-                    <button type="submit" id="confirmation_btn" className="links">
+                    <button
+                        type="submit"
+                        id="confirmation_btn"
+                        className="links"
+                    >
                         Login
                     </button>
                 </div>
                 <span>
-                    Already have an account? <Link to={"/register"}>Signup</Link>
+                    No account? <Link to={"/register"}>PRESS HERE</Link>
                 </span>
             </form>
             <ToastContainer />
         </div>
-        // {/* </> */}
     );
 };
 

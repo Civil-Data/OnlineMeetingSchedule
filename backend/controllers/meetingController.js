@@ -1,9 +1,13 @@
+// Import the Meeting model
 const Meeting = require("../models/meeting.model");
 
+// Get a specific meeting by ID
 module.exports.GetMeeting = async (req, res) => {
 	try {
+		// Extract the meeting ID from the request body
 		const { meetingID } = req.body;
 
+		// Find the meeting with the provided ID
 		const meeting = await Meeting.findOne({
 			_id: meetingID,
 		});
@@ -14,8 +18,10 @@ module.exports.GetMeeting = async (req, res) => {
 	}
 };
 
+// Create a new meeting
 module.exports.Create = async (req, res, next) => {
 	try {
+		// Extract meeting details from the request body
 		const {
 			organizer,
 			participants,
@@ -28,6 +34,7 @@ module.exports.Create = async (req, res, next) => {
 			description,
 		} = req.body;
 
+		// Create a new meeting in the database
 		const meeting = await Meeting.create({
 			organizer,
 			participants,
@@ -40,6 +47,7 @@ module.exports.Create = async (req, res, next) => {
 			description,
 		});
 
+		// Send a success response with the created meeting data
 		res.status(201).json({
 			message: "Meeting was successfully created!",
 			meeting,
@@ -50,8 +58,10 @@ module.exports.Create = async (req, res, next) => {
 	}
 };
 
+// Update an existing meeting by ID
 module.exports.Update = async (req, res, next) => {
 	try {
+		// Extract meeting details and the meeting ID from the request body
 		const {
 			meetingID,
 			participants,
@@ -64,6 +74,7 @@ module.exports.Update = async (req, res, next) => {
 			description,
 		} = req.body;
 
+		// Update the meeting with the provided ID in the database
 		const meeting = await Meeting.updateOne(
 			{
 				_id: meetingID,
@@ -80,6 +91,7 @@ module.exports.Update = async (req, res, next) => {
 			}
 		);
 
+		// Send a success response with the updated meeting data
 		res.status(200).json({
 			message: "Meeting was successfully updated!",
 			meeting,
@@ -90,13 +102,17 @@ module.exports.Update = async (req, res, next) => {
 	}
 };
 
+// Delete a meeting by ID
 module.exports.Delete = async (req, res, next) => {
 	try {
+		// Extract the meeting ID from the request body
 		const { meetingID } = req.body;
 
+		// Delete the meeting with the provided ID from the database
 		const meeting = await Meeting.deleteOne({ _id: meetingID });
-		console.log("Deleted:", meeting);
 
+		// Log the result of the deletion and send a success response
+		console.log("Deleted:", meeting);
 		res.status(200).json({
 			message: "Meeting was successfully deleted!",
 		});

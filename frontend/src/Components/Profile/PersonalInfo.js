@@ -8,10 +8,13 @@ import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import { ToastContainer } from "react-toastify";
 
+//Component for User information
 const PersonalInfo = ({ name, gender, email, telephone, age, description, password }) => {
 	const { clickedIcon } = useProfileUpdate();
 	const { saveUser } = useUpdateUserContext();
 	let emailChanged = false;
+
+	// Initialize state for input values
 	const [inputValue, setInputValue] = useState({
 		newName: name,
 		newGender: gender,
@@ -79,7 +82,8 @@ const PersonalInfo = ({ name, gender, email, telephone, age, description, passwo
 		console.log(newEmail);
 
 		try {
-			const data = await axios.post(
+			// Send a POST request to update user information
+			const { data } = await axios.post(
 				serverUrl + "/updateUser",
 				{
 					newName,
@@ -95,10 +99,10 @@ const PersonalInfo = ({ name, gender, email, telephone, age, description, passwo
 			);
 			emailChanged = false;
 			console.log(data);
-			const { success, message, user } = data;
+			const { success, message } = data;
 			if (success) {
 				handleSuccess(message);
-				saveUser(user);
+				saveUser(data.user);
 			} else {
 				handleError(message);
 			}

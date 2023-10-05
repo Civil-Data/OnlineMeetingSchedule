@@ -4,38 +4,40 @@ const userContext = React.createContext();
 const updateUserContext = React.createContext();
 
 export function useUpdateUserContext() {
-    return useContext(updateUserContext);
+	return useContext(updateUserContext);
 }
 
 export function useUserContext() {
-    return useContext(userContext);
+	return useContext(userContext);
 }
 
 export const LoginProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        name: "",
-        email: "",
-        age: "",
-        telephone: "",
-        gender: "",
-        description: "",
-        password: "",
-    });
-    const [loginStatus, setLoginStatus] = useState(false);
+	const [user, setUser] = useState({});
+	// const [user, setUser] = useState({
+	// 	_id: "",
+	// 	name: "",
+	// 	email: "",
+	// 	age: "",
+	// 	telephone: "",
+	// 	gender: "",
+	// 	description: "",
+	// 	password: "",
+	// });
+	const [loginStatus, setLoginStatus] = useState(false);
 
-    function updateLoginStatus(status) {
-        setLoginStatus(status);
-    }
+	function updateLoginStatus(status) {
+		setLoginStatus(status);
+	}
 
-    function saveUser(user) {
-        setUser(user);
-    }
+	function saveUser(user) {
+		setUser(user);
+	}
 
-    return (
-        <userContext.Provider value={{ user, loginStatus }}>
-            <updateUserContext.Provider value={{ saveUser, updateLoginStatus }}>
-                {children}
-            </updateUserContext.Provider>
-        </userContext.Provider>
-    );
+	return (
+		<userContext.Provider value={{ user, loginStatus }}>
+			<updateUserContext.Provider value={{ saveUser, updateLoginStatus }}>
+				{children}
+			</updateUserContext.Provider>
+		</userContext.Provider>
+	);
 };

@@ -3,32 +3,32 @@ import Confirmation from "./Confirmation";
 import { useDayViewUpdate } from "../contexts/BookingContext";
 
 function ConfirmButton({ isDisabled }) {
-    const [showComponent, setShowComponent] = useState(false);
-    const [buttonText, setButtonText] = useState("Send Invite");
-    const { closeDayView } = useDayViewUpdate();
+	const [showComponent, setShowComponent] = useState(false);
+	const [buttonText, setButtonText] = useState("Send Invite");
+	const { closeDayView } = useDayViewUpdate();
 
-    const toggleComponent = (e) => {
-        const text = e.target.innerText;
-        if (text === "Back to booking") {
-            closeDayView();
-        } else {
-            setShowComponent((prevState) => !prevState);
-            setButtonText("Back to booking");
-        }
-    };
+	const toggleComponent = e => {
+		const text = e.target.innerText;
+		if (text === "Back to booking") {
+			closeDayView();
+		} else {
+			setShowComponent(prevState => !prevState);
+			setButtonText("Back to booking");
+		}
+	};
 
-    return (
-        <>
-            <button
-                disabled={isDisabled}
-                id="confirmation_btn"
-                onClick={(e) => toggleComponent(e)}
-            >
-                {buttonText}
-            </button>
-            {showComponent && <Confirmation />}
-        </>
-    );
+	return (
+		<>
+			<button disabled={isDisabled} id="confirmation_btn" onClick={e => toggleComponent(e)}>
+				{buttonText}
+			</button>
+			{showComponent && (
+				<div className="confirmationText">
+					<h2>Your meeting is now scheduled!</h2>
+				</div>
+			)}
+		</>
+	);
 }
 
 export default ConfirmButton;

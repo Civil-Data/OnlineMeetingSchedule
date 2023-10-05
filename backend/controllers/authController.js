@@ -73,10 +73,8 @@ module.exports.Login = async (req, res, next) => {
 			return res.json({ message: "All fields are required" });
 		}
 
-		// Find the user with the provided email
 		const user = await User.findOne({ email });
 
-		// Check if a user with the provided email exists
 		if (!user) {
 			return res.json({ message: "Incorrect password or email" });
 		}

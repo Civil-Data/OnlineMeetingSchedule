@@ -28,8 +28,8 @@ const PersonalInfo = ({
         newAge: age,
         newDescription: description,
         newPassword: password,
-        newConfirmEmail: "",
-        newConfirmPassword: "",
+        newConfirmEmail: email,
+        newConfirmPassword: password,
     });
 
     const {
@@ -72,10 +72,6 @@ const PersonalInfo = ({
             return handleError("Passwords do not match");
         }
 
-        // if (!name || !email || !password || !confirmEmail || !confirmPassword) {
-        //     return handleError("All fields are required");
-        // }
-
         if (newPassword.length < 8) {
             return handleError("Password should be at least 8 characters");
         }
@@ -83,10 +79,6 @@ const PersonalInfo = ({
         if (!newEmail.includes("@") || !newEmail.includes(".")) {
             return handleError("Email is not valid");
         }
-
-        // if (!newName || !newEmail || !newPassword) {
-        //     return handleError("All fields are required");
-        // }
 
         if (newEmail !== email) {
             emailChanged = true;
@@ -109,6 +101,7 @@ const PersonalInfo = ({
                 },
                 { withCredentials: true }
             );
+            emailChanged = false;
             console.log(data);
             const { success, message } = data;
             if (success) {
@@ -246,14 +239,14 @@ const PersonalInfo = ({
                         <label className="user_info_label">
                             <h3>Here is a description about me:</h3>{" "}
                         </label>
-                        <textarea
+                        <input
                             name="newDescription"
                             type="text"
                             autoComplete="description"
                             value={newDescription}
                             placeholder="Description about me..."
                             onChange={handleOnChange}
-                        ></textarea>
+                        ></input>
                         <button
                             type="submit"
                             id="confirmation_btn"

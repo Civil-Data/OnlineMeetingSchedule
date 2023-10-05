@@ -20,7 +20,11 @@ function ConfirmButton({ isDisabled }) {
 
 	return (
 		<>
-			<button disabled={isDisabled} id="confirmation_btn" onClick={e => toggleComponent(e)}>
+			<button
+				disabled={isDisabled}
+				className={`confirm_booking ${isDisabled ? "" : "active"}`}
+				onClick={e => toggleComponent(e)}
+			>
 				{buttonText}
 			</button>
 			{showComponent && (

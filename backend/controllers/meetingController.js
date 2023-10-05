@@ -47,11 +47,14 @@ module.exports.Create = async (req, res, next) => {
 			description,
 		});
 
+		await meeting.save();
+
 		// Send a success response with the created meeting data
 		res.status(201).json({
 			message: "Meeting was successfully created!",
 			meeting,
 		});
+
 		next();
 	} catch (error) {
 		console.error("Unable to create meeting.", error);

@@ -51,7 +51,7 @@ const Login = () => {
                 updateLoginStatus(true);
                 setTimeout(() => {
                     navigate("/booking");
-                }, 1000);
+                }, 2000);
             } else {
                 handleError(message);
             }
@@ -108,7 +108,10 @@ const Login = () => {
                     </button>
                 </div>
                 <span>
-                    No account? <Link to={"/register"}>PRESS HERE</Link>
+                    No account?{" "}
+                    <Link className="links" id="signUp-signIn" to={"/register"}>
+                        Sign up
+                    </Link>
                 </span>
             </form>
             <ToastContainer />

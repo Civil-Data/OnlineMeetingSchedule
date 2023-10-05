@@ -11,26 +11,24 @@ const userSchema = new mongoose.Schema({
         required: [true, "Your email address is required"],
         unique: true,
     },
-    // username: {
-    //     type: String,
-    //     required: [true, "Your username is required"],
-    // },
     password: {
         type: String,
         required: [true, "Your password is required"],
     },
     telephone: {
-        type: String,
+        type: Number,
+        default: 46700000000,
     },
     gender: {
         type: String,
     },
     description: {
         type: String,
-        default: "The description is of me should be here!",
+        default: "The description of me should be here!",
     },
     age: {
         type: Number,
+        default: 0,
     },
     createdAt: {
         type: Date,

@@ -15,15 +15,13 @@ const ProfileInformation = () => {
                     name={user.name}
                     gender={user.gender}
                     email={user.email}
-                    telNum={user.telephone}
+                    telephone={user.telephone}
+                    age={user.age}
+                    description={user.description}
+                    password={user.password}
                 />
             )}
-            {clickedIcon ? (
-                <div className="user_about">
-                    <h3>Here is a description about me:</h3>
-                    <input placeholder="I am a student at..."></input>
-                </div>
-            ) : (
+            {!clickedIcon && (
                 <div className="user_about">
                     <h3>Here is a description about me:</h3>
                     <TypingEffect text={user.description} delay={25} />

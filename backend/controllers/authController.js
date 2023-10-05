@@ -1,84 +1,108 @@
-const User = require("../models/user.model");
-const { createSecretToken } = require("../utils/SecretToken");
-const bcrypt = require("bcryptjs");
+// Import necessary modules and functions
+const User = require("../models/user.model"); // Import User model
+const { createSecretToken } = require("../utils/SecretToken"); // Import createSecretToken function
+const bcrypt = require("bcryptjs"); // Import bcrypt for password hashing
 
+// Register a new user
 module.exports.Register = async (req, res, next) => {
-    try {
-        const { name, email, password, createdAt } = req.body;
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.json({ message: "User already exists" });
-        }
+	try {
+		// Extract user data from the request body
+		const { name, email, password, createdAt } = req.body;
 
-        if (!name || !email || !password) {
-            return res.json({ message: "All fields are required" });
-        }
+		// Check if a user with the same email already exists
+		const existingUser = await User.findOne({ email });
+		if (existingUser) {
+			return res.json({ message: "User already exists" });
+		}
 
-        if (password.length < 8) {
-            return res.json({
-                message: "Password should be at least 8 characters",
-            });
-        }
+		// Check if all required fields are provided
+		if (!name || !email || !password) {
+			return res.json({ message: "All fields are required" });
+		}
 
-        if (!email.includes("@")) {
-            return res.json({ message: "Email is not valid" });
-        }
+		// Check if the password meets the minimum length requirement
+		if (password.length < 8) {
+			return res.json({
+				message: "Password should be at least 8 characters",
+			});
+		}
 
-        const user = await User.create({
-            name,
-            email,
-            password,
-            createdAt,
-        });
+		// Check if the email format is valid
+		if (!email.includes("@")) {
+			return res.json({ message: "Email is not valid" });
+		}
 
-        const token = createSecretToken(user._id);
-        res.cookie("token", token, {
-            withCredentials: true,
-            httpOnly: false,
-        });
+		// Create a new user in the database
+		const user = await User.create({
+			name,
+			email,
+			password,
+			createdAt,
+		});
 
-        res.status(201).json({
-            message: "User signed in successfully",
-            success: true,
-            user,
-        });
+		// Generate a secret token for the user's session
+		const token = createSecretToken(user._id);
 
-        next();
-    } catch (error) {
-        console.error(error);
-    }
+		// Set the token in a cookie for future authentication
+		res.cookie("token", token, {
+			withCredentials: true,
+			httpOnly: false,
+		});
+
+		// Send a success response with user information
+		res.status(201).json({
+			message: "User signed in successfully",
+			success: true,
+			user,
+		});
+
+		next();
+	} catch (error) {
+		console.error(error);
+	}
 };
 
+// Login a user
 module.exports.Login = async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return res.json({ message: "All fields are required" });
-        }
+	try {
+		// Extract email and password from the request body
+		const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.json({ message: "Incorrect password or email" });
-        }
+		// Check if both email and password are provided
+		if (!email || !password) {
+			return res.json({ message: "All fields are required" });
+		}
 
-        const auth = await bcrypt.compare(password, user.password);
-        if (!auth) {
-            return res.json({ message: "Incorrect password or email" });
-        }
+		// Find the user with the provided email
+		const user = await User.findOne({ email });
 
-        const token = createSecretToken(user._id);
-        res.cookie("token", token, {
-            withCredentials: true,
-            httpOnly: false,
-        });
+		// Check if a user with the provided email exists
+		if (!user) {
+			return res.json({ message: "Incorrect password or email" });
+		}
 
-        res.status(201).json({
-            message: "User logged in successfully",
-            success: true,
-            user,
-        });
-        next();
-    } catch (error) {
-        console.error(error);
-    }
+		// Compare the provided password with the hashed password in the database
+		const auth = await bcrypt.compare(password, user.password);
+
+		if (!auth) {
+			return res.json({ message: "Incorrect password or email" });
+		}
+
+		const token = createSecretToken(user._id);
+
+		// Set the token in a cookie for future authentication
+		res.cookie("token", token, {
+			withCredentials: true,
+			httpOnly: false,
+		});
+
+		res.status(201).json({
+			message: "User logged in successfully",
+			success: true,
+			user,
+		});
+		next();
+	} catch (error) {
+		console.error(error);
+	}
 };

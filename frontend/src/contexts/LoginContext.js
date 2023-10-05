@@ -23,6 +23,7 @@ export const LoginProvider = ({ children }) => {
 	// 	description: "",
 	// 	password: "",
 	// });
+	// Initialize user state with default values
 	const [loginStatus, setLoginStatus] = useState(false);
 
 	function updateLoginStatus(status) {

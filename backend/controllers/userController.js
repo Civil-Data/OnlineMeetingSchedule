@@ -7,12 +7,10 @@ module.exports.GetUsers = async (req, res) => {
 	try {
 		console.log(req.body);
 		console.log(res);
-		// const { email } = req.body;
 
-		// Check if the username or email is already in use
 		const users = await User.find();
 		if (!users) {
-			return res.status(400).json({ message: "Email is already in use" });
+			return res.status(400).json({ message: "Could not find any users" });
 		}
 		res.json(users);
 	} catch (error) {
@@ -21,45 +19,11 @@ module.exports.GetUsers = async (req, res) => {
 	}
 };
 
-// // Insert one user in DB
-// module.exports.InsertOneUser = async (req, res) => {
-// 	try {
-// 		console.log(req.body);
-// 		console.log(res);
-// 		const { email } = req.body;
-
-// 		// Check if the username or email is already in use
-// 		const existingUser = await User.findOne({
-// 			email: email,
-// 		});
-// 		if (existingUser) {
-// 			return res.status(400).json({ message: "Email is already in use" });
-// 		}
-// 	} catch (error) {
-// 		console.error("Registration error:", error);
-// 		res.status(500).json({
-// 			message: "Registration failed YOU DUMB ASS!!!!",
-// 		});
-
-// 		// Hash the password before saving it
-// 		const hashedPassword = await bcrypt.hash(password, 10);
-
-// 		// Create a new user document
-// 		const newUser = new User({
-// 			username,
-// 			email,
-// 			password: hashedPassword,
-// 		});
-
-// 		await newUser.save();
-
-// 		res.status(201).json({ message: "User registered successfully" });
-// 	}
-// };
-
+// Update user information
 module.exports.UpdateUser = async (req, res, next) => {
 	console.log(req.body);
 	try {
+		// Extract user information from the request body
 		const {
 			newName,
 			newGender,
@@ -71,26 +35,31 @@ module.exports.UpdateUser = async (req, res, next) => {
 			emailChanged,
 		} = req.body;
 
+		// Check if a user with the new email already exists (if email is changed)
 		const existingUser = await User.findOne({ email: newEmail });
 		console.log(existingUser);
 		if (existingUser && emailChanged) {
 			return res.json({ message: "User already exists" });
 		}
 
+		// Check if all required fields are provided
 		if (!newName || !newEmail || !newPassword) {
 			return res.json({ message: "All fields are required" });
 		}
 
+		// Check if the new password meets the minimum length requirement
 		if (newPassword.length < 8) {
 			return res.json({
 				message: "Password should be at least 8 characters",
 			});
 		}
 
+		// Check if the new email format is valid
 		if (!newEmail.includes("@")) {
 			return res.json({ message: "Email is not valid" });
 		}
 
+		// Update the user's information in the database
 		const apa = await User.updateOne(
 			{ email: newEmail },
 			{
@@ -104,15 +73,19 @@ module.exports.UpdateUser = async (req, res, next) => {
 			}
 		);
 		console.log(apa);
+
+		// Find the updated user's information
 		const user = await User.findOne({ email: newEmail });
 		console.log(user);
 
+		// Generate a secret token for the user's session
 		const token = createSecretToken(user._id);
 		res.cookie("token", token, {
 			withCredentials: true,
 			httpOnly: false,
 		});
 
+		// Send a success response with the updated user data
 		res.status(201).json({
 			message: "User updated successfully",
 			success: true,

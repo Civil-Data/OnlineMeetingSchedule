@@ -1,7 +1,8 @@
 import React from "react";
 import ClearIcon from "@mui/icons-material/Clear";
-import { useDayViewUpdate } from "../contexts/BookingContext"; //, openDayView
+import { useDayViewUpdate } from "../contexts/BookingContext";
 
+//Component for popup window
 const PopUp = ({ children }) => {
 	const { closeDayView } = useDayViewUpdate();
 

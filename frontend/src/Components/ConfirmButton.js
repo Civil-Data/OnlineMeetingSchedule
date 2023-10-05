@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import Confirmation from "./Confirmation";
 import { useDayViewUpdate } from "../contexts/BookingContext";
 
+//Component for Confirm button
 function ConfirmButton({ isDisabled }) {
 	const [showComponent, setShowComponent] = useState(false);
-	const [buttonText, setButtonText] = useState("Send Invite");
+	const [buttonText, setButtonText] = useState("Confirm booking");
 	const { closeDayView } = useDayViewUpdate();
 
+	//Check if the booking is done or not
 	const toggleComponent = e => {
 		const text = e.target.innerText;
 		if (text === "Back to booking") {

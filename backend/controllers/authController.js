@@ -97,7 +97,8 @@ module.exports.UpdateUser = async (req, res, next) => {
             emailChanged,
         } = req.body;
 
-        const existingUser = await User.findOne({ newEmail });
+        const existingUser = await User.findOne({ email: newEmail });
+        console.log(existingUser);
         if (existingUser && emailChanged) {
             return res.json({ message: "User already exists" });
         }
@@ -116,15 +117,21 @@ module.exports.UpdateUser = async (req, res, next) => {
             return res.json({ message: "Email is not valid" });
         }
 
-        const user = await User.updateOne({
-            name: newName,
-            gender: newGender,
-            email: newEmail,
-            telephone: newTelephone,
-            age: newAge,
-            description: newDescription,
-            password: newPassword,
-        });
+        const apa = await User.updateOne(
+            { email: newEmail },
+            {
+                name: newName,
+                gender: newGender,
+                email: newEmail,
+                telephone: newTelephone,
+                age: newAge,
+                description: newDescription,
+                password: newPassword,
+            }
+        );
+        console.log(apa);
+        const user = await User.findOne({ email: newEmail });
+        console.log(user);
 
         const token = createSecretToken(user._id);
         res.cookie("token", token, {

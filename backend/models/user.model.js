@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+// Define a schema for the "User" model
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -37,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: new Date(),
+        default: new Date().toLocaleDateString(),
     },
 });
 

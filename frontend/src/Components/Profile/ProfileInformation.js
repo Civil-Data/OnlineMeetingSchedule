@@ -4,6 +4,7 @@ import TypingEffect from "../TypingEffect";
 import PersonalInfo from "./PersonalInfo";
 import { useProfileUpdate } from "../../contexts/ProfileContext";
 
+//Component for Profile Information
 const ProfileInformation = () => {
     const { user, loginStatus } = useUserContext();
     const { clickedIcon } = useProfileUpdate();

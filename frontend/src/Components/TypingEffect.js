@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+//Component for typing effect
 const TypingEffect = ({ text, delay }) => {
     const [currentText, setCurrentText] = useState("");
     const [charIndex, setCurrentIndex] = useState(0);
@@ -11,6 +12,7 @@ const TypingEffect = ({ text, delay }) => {
                 setCurrentIndex((prevIndex) => prevIndex + 1);
             }, delay);
 
+            // Clear the timeout when the component unmounts or when the character display is complete
             return () => clearTimeout(timeout);
         } else {
             const emailContainer = document.getElementById("email-container");

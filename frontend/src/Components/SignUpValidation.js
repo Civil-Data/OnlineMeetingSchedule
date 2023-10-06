@@ -7,6 +7,7 @@ import serverUrl from "../utils/config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
 import { isAlpha } from "validator";
 
+//Component for signup
 const Signup = () => {
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
@@ -44,6 +45,7 @@ const Signup = () => {
             position: "bottom-right",
         });
 
+    //Handle all inputs from user
     const handleSubmit = async (e) => {
         e.preventDefault();
 

@@ -3,6 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useUserContext, useUpdateUserContext } from "../contexts/LoginContext";
 
+//Component for navigation bar
 const NavigationBar = () => {
 	const { loginStatus, user } = useUserContext();
 	const { updateLoginStatus } = useUpdateUserContext();
@@ -14,14 +15,22 @@ const NavigationBar = () => {
 			<div id="left">
 				{loginStatus && (
 					<>
-						<Link className="nav-buttons" to="/profile" type="button">
+						<Link
+							className="nav-buttons"
+							to="/profile"
+							type="button"
+						>
 							<AccountCircleIcon
 								fontSize="large"
 								sx={{ color: "#daa520", height: iconSize }}
 								titleAccess="Profile Page"
 							/>
 						</Link>
-						<Link className="nav-buttons" to="/booking" type="button">
+						<Link
+							className="nav-buttons"
+							to="/booking"
+							type="button"
+						>
 							<AddIcon
 								fontSize="large"
 								sx={{ color: "#daa520", height: iconSize }}
@@ -36,7 +45,9 @@ const NavigationBar = () => {
 					<span id="logged_in">{user.name}</span>
 
 					<Link className="nav-buttons" to="/" type="button">
-						<span onClick={() => updateLoginStatus(false)}>Log out</span>
+						<span onClick={() => updateLoginStatus(false)}>
+							Log out
+						</span>
 					</Link>
 				</div>
 			) : (

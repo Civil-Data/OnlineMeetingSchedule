@@ -31,11 +31,10 @@ module.exports.Register = async (req, res, next) => {
             lastName,
             email,
             password,
-            createdAt,
         });
 
         // Check if the email format is valid
-        if (!email.includes("@")) {
+        if (!email.includes("@") || !email.includes(".")) {
             return res.json({ message: "Email is not valid" });
         }
 

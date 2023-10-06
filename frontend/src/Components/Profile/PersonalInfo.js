@@ -160,7 +160,7 @@ const PersonalInfo = ({
                         name="newGender"
                         autoComplete="gender"
                         value={newGender}
-                        placeholder={gender}
+                        placeholder="Gender"
                         onChange={handleOnChange}
                     />
                 ) : (

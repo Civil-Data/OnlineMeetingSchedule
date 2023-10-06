@@ -9,6 +9,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { ToastContainer } from "react-toastify";
 import { isAlpha } from "validator";
 
+//Component for User information
 const PersonalInfo = ({
     firstName,
     lastName,
@@ -76,6 +77,10 @@ const PersonalInfo = ({
             return handleError("Emails do not match");
         }
 
+        if (newEmail !== newConfirmEmail) {
+            return handleError("Emails do not match");
+        }
+
         if (newPassword !== newConfirmPassword) {
             return handleError("Passwords do not match");
         }
@@ -84,14 +89,10 @@ const PersonalInfo = ({
             return handleError("Password should be at least 8 characters");
         }
 
-        if (!newEmail.includes("@") || !newEmail.includes(".")) {
-            return handleError("Email is not valid");
-        }
-
         if (newEmail !== email) {
             emailChanged = true;
         }
-
+        // Send a POST request to update user information
         try {
             const { data } = await axios.post(
                 serverUrl + "/updateUser",

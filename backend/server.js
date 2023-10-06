@@ -12,6 +12,7 @@ const { DB_USER, DB_PASSWORD, SERVER_PORT, CLIENT_PORT } = process.env;
 
 const PORT = SERVER_PORT || 5000;
 
+// Connect to the MongoDB database using Mongoose
 mongoose
     .connect(
         `mongodb+srv://${DB_USER}:${DB_PASSWORD}@meetingapp.9r6ez1j.mongodb.net/OnlineMeetingSchedulingAppDB?retryWrites=true&w=majority`,
@@ -23,10 +24,12 @@ mongoose
     .then(() => console.log("MongoDB is connected successfully \n"))
     .catch((err) => console.error(err));
 
+// Start the Express server and listen on the defined port
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
 
+// Configure CORS middleware to allow cross-origin requests from the client
 app.use(
     cors({
         origin: [`http://localhost:${CLIENT_PORT}`],
@@ -42,7 +45,7 @@ app.use((req, res, next) => {
         `http://localhost:${CLIENT_PORT}`
     );
     res.setHeader("Access-Control-Allow-Credentials", "true");
-    // Other CORS headers as needed
+
     next();
 });
 
@@ -50,6 +53,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 
+// Mount routes for authentication, meeting handling, and user
 app.use("/", authRoute);
 app.use("/", meetingRoute);
 app.use("/", userRoute);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import serverUrl from "../../utils/config";
 
+//Component for Profile contacts
 const ProfileContacts = () => {
 	const [users, setUsers] = useState([]);
 
@@ -18,14 +19,11 @@ const ProfileContacts = () => {
 	}, []);
 
 	return (
+		//Return the contacts in a list
 		<div className="contacts">
-			{/* <h2>User List</h2> */}
 			<ul>
 				{users.map((user) => (
-					<li key={user._id}>
-						{user.name}
-						{/* Add other user properties as needed */}
-					</li>
+					<li key={user._id}>{user.name}</li>
 				))}
 			</ul>
 		</div>

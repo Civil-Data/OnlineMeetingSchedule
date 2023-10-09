@@ -28,9 +28,7 @@ const Profile = () => {
 		<>
 			<div className="profile_container">
 				<div className="top_section">
-					{loginStatus && (
-						<span>{user.firstName + " " + user.lastName}</span>
-					)}
+					{loginStatus && <span>{user.firstName + " " + user.lastName}</span>}
 					{tabContext === "info" && (
 						<>
 							{clickedIcon ? (
@@ -63,8 +61,8 @@ const Profile = () => {
 					)}
 					{tabContext === "my_meetings" && (
 						<div className="icon">
-							<Link to="/booking" type="button">
-								<AddIcon titleAccess="Add Booking" />
+							<Link to="/meeting" type="button">
+								<AddIcon titleAccess="Add Meeting" />
 							</Link>
 						</div>
 					)}

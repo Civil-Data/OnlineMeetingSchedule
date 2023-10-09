@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import DateButtons from "../Components/DateButtons";
-import { useDayViewUpdate } from "../contexts/BookingContext";
+import { useDayViewUpdate } from "../contexts/MeetingContext";
 import { v4 as uuidv4 } from "uuid";
 import { useDateContext } from "../contexts/DateContext";
 
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import CreateMeetingPopup from "../Components/Booking/CreateMeetingPopup";
+import CreateMeetingPopup from "../Components/Meeting/CreateMeeting";
 
-const Booking = () => {
+const Meeting = () => {
 	const { dayView, monthToDisplay, yearToDisplay, updateMonthToDisplay, updateYearToDisplay } =
 		useDayViewUpdate();
 	const { getDate } = useDateContext();
@@ -149,4 +149,4 @@ const Booking = () => {
 	);
 };
 
-export default Booking;
+export default Meeting;

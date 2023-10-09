@@ -116,7 +116,7 @@ video {
 }
 
 #confirmation_btn,
-.confirm_booking {
+.confirm_meeting {
 	font-family: "Raleway", sans-serif;
 	border-radius: 5px;
 	padding: 10px;
@@ -127,14 +127,14 @@ video {
 	font-weight: bold;
 	margin: 15px 0;
 }
-.confirm_booking {
+.confirm_meeting {
 	opacity: 0.3;
 }
-.confirm_booking.active {
+.confirm_meeting.active {
 	opacity: 1;
 }
 #confirmation_btn:hover,
-.confirm_booking.active:hover {
+.confirm_meeting.active:hover {
 	cursor: pointer;
 	color: black;
 	background-color: goldenrod;

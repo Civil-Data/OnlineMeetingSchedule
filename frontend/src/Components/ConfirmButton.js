@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { useDayViewUpdate } from "../contexts/BookingContext";
+import { useDayViewUpdate } from "../contexts/MeetingContext";
 
 //Component for Confirm button
 function ConfirmButton({ isDisabled }) {
 	const [showComponent, setShowComponent] = useState(false);
-	const [buttonText, setButtonText] = useState("Confirm booking");
+	const [buttonText, setButtonText] = useState("Confirm meeting");
 	const { closeDayView } = useDayViewUpdate();
 
-	//Check if the booking is done or not
+	//Check if the meeting is done or not
 	const toggleComponent = e => {
 		const text = e.target.innerText;
-		if (text === "Back to booking") {
+		if (text === "Back to meeting") {
 			closeDayView();
 		} else {
 			setShowComponent(prevState => !prevState);
-			setButtonText("Back to booking");
+			setButtonText("Back to meeting");
 		}
 	};
 
@@ -22,7 +22,7 @@ function ConfirmButton({ isDisabled }) {
 		<>
 			<button
 				disabled={isDisabled}
-				className={`confirm_booking ${isDisabled ? "" : "active"}`}
+				className={`confirm_meeting ${isDisabled ? "" : "active"}`}
 				onClick={e => toggleComponent(e)}
 			>
 				{buttonText}

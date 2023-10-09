@@ -115,7 +115,8 @@ video {
 	}
 }
 
-#confirmation_btn {
+#confirmation_btn,
+.confirm_booking {
 	font-family: "Raleway", sans-serif;
 	border-radius: 5px;
 	padding: 10px;
@@ -123,14 +124,20 @@ video {
 	color: goldenrod;
 	border: goldenrod 2px solid;
 	font-size: 20px;
-	cursor: pointer;
 	font-weight: bold;
 	margin: 15px 0;
 }
-
-#confirmation_btn:hover {
-	background-color: goldenrod;
+.confirm_booking {
+	opacity: 0.3;
+}
+.confirm_booking.active {
+	opacity: 1;
+}
+#confirmation_btn:hover,
+.confirm_booking.active:hover {
+	cursor: pointer;
 	color: black;
+	background-color: goldenrod;
 }
 
 #signUp-signIn {
@@ -463,12 +470,11 @@ input.input_margin {
 	text-align: center;
 	z-index: 6;
 	border-radius: 3px;
-	padding: 10px;
 }
 
 .calendar_choose_time {
-    margin: 10px;
-    width: 130px;
+	margin: 10px;
+	width: 130px;
 }
 
 .day {

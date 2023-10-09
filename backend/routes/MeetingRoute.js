@@ -1,9 +1,4 @@
-const {
-	GetMeeting,
-	Create,
-	Update,
-	Delete,
-} = require("../controllers/meetingController");
+const { GetMeeting, Create, Update, Delete } = require("../controllers/meetingController");
 const router = require("express").Router();
 
 //Routes for different paths

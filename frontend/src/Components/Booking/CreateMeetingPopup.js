@@ -6,13 +6,15 @@ import axios from "axios";
 import serverUrl from "../../utils/config";
 import ConfirmButton from "../ConfirmButton";
 import { useUserContext } from "../../contexts/LoginContext";
+import { useDayView } from "../../contexts/BookingContext";
+import { useDateContext } from "../../contexts/DateContext";
 
 const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
 		const { data } = await axios.get(serverUrl + "/users");
 		data.forEach(user => {
-			if (user.name) {
+			if (user.firstName) {
 				listOfUsers.push(user);
 			}
 		});
@@ -23,17 +25,23 @@ const fetchUsers = async () => {
 	}
 };
 
-const CreateMeetingPopup = ({ dayString, date }) => {
+const CreateMeetingPopup = () => {
 	const { user } = useUserContext();
+	const { date, dayString, clickedMonth, yearToDisplay } = useDayView();
+	const { getDate } = useDateContext();
+	const dateString = `${yearToDisplay}-${clickedMonth.toString().padStart(2, "0")}-${date
+		.toString()
+		.padStart(2, "0")}`;
+
 	const [participants, setParticipants] = useState([]); // Array with participant names that the users has added.
 	const [users, setUsers] = useState([{}]); // Array with users
 	// State for booking meeting details
 	const [meetingDetails, setMeetingDetails] = useState({
 		title: "",
 		location: "",
-		startDate: "",
+		startDate: dateString,
 		endDate: "",
-		startTime: "",
+		startTime: getDate().currentTime,
 		endTime: "",
 		description: "",
 	});
@@ -42,36 +50,36 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 
 	// Function to handle booking confirmation
 	const bookMeeting = async () => {
+		console.log("I run");
 		try {
 			const participantList = [];
 			participants.forEach(participant => {
-				users.forEach(user => {
-					if (user.name === participant) {
-						participantList.push(user.id);
-					}
-				});
+				participantList.push(participant._id);
 			});
+
+			// console.log(user._id);
+			// console.log(participantList);
+			// console.log(meetingDetails);
 
 			// Send a POST request to your Node.js backend to save the meeting details
-			await axios.post(serverUrl + "/meetings/create", {
-				organizer: user._id,
-				participants: participantList,
-				...meetingDetails,
+			// const res = await axios.post(serverUrl + "/meetings/create", {
+			// 	organizer: user._id,
+			// 	participants: participantList,
+			// 	...meetingDetails,
+			// });
+
+			const res = await fetch(serverUrl + "/meeting/create", {
+				method: "POST",
+
+				headers: { "Content-type": "application/json" },
+				body: JSON.stringify({
+					organizer: user._id,
+					participants: participantList,
+					...meetingDetails,
+				}),
 			});
 
-			// Close the popup and clear the meeting details
-			// setMeetingDetails({
-			// 	time: "",
-			// 	organizer: null,
-			// 	participants: [],
-			// 	title: "",
-			// 	location: "",
-			// 	startDate: "",
-			// 	endDate: "",
-			// 	startTime: "", // Add startTime
-			// 	endTime: "", // Add endTime
-			// 	description: "",
-			// });
+			console.log(res);
 		} catch (error) {
 			// Handle error
 			console.error("An error occurred while booking the meeting.");
@@ -95,10 +103,8 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 	// const [errorMessage, setErrorMessage] = useState("");
 
 	useEffect(() => {
-		// const listOfUserNames = [];
-
 		fetchUsers().then(users => {
-			console.log(users);
+			// console.log(users);
 			setUsers(users);
 		});
 	}, []);
@@ -112,7 +118,7 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 			meetingDetails.endTime &&
 			meetingDetails.startDate &&
 			meetingDetails.endDate &&
-			meetingDetails.description &&
+			// meetingDetails.description &&
 			meetingDetails.endDate >= meetingDetails.startDate &&
 			meetingDetails.endTime > meetingDetails.startTime
 		) {
@@ -196,11 +202,11 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 					multiple
 					id="participants"
 					options={users} // Add your list of participants here
-					getOptionLabel={option => `${option.name} <${option.email}>`}
+					getOptionLabel={option =>
+						`${option.firstName} ${option.lastName} <${option.email}>`
+					}
 					onChange={(event, user) => {
-						// console.log(user);
-
-						setParticipants([...participants, user]);
+						setParticipants(user);
 					}}
 					renderInput={params => (
 						<TextField
@@ -259,7 +265,9 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 			</div>
 
 			{/* {errorMessage} */}
-			<ConfirmButton onClick={bookMeeting} isDisabled={isButtonDisabled} />
+			<div onClick={bookMeeting}>
+				<ConfirmButton isDisabled={isButtonDisabled} />
+			</div>
 		</PopUp>
 	);
 };

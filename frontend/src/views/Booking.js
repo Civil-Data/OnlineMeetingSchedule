@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import DateButtons from "../Components/DateButtons";
-import { useDayView } from "../contexts/BookingContext";
+import { useDayViewUpdate } from "../contexts/BookingContext";
 import { v4 as uuidv4 } from "uuid";
 import { useDateContext } from "../contexts/DateContext";
 
@@ -11,12 +11,11 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CreateMeetingPopup from "../Components/Booking/CreateMeetingPopup";
 
 const Booking = () => {
-	const { dayView, date, dayString } = useDayView();
+	const { dayView, monthToDisplay, yearToDisplay, updateMonthToDisplay, updateYearToDisplay } =
+		useDayViewUpdate();
 	const { getDate } = useDateContext();
-	// console.log(getDate());
+	console.log(getDate());
 
-	const [monthToDisplay, setMonthToDisplay] = useState(getDate().month);
-	const [yearToDisplay, setYearToDisplay] = useState(getDate().year);
 	const [monthString, setMonthString] = useState(
 		getDate(yearToDisplay, monthToDisplay).monthString
 	);
@@ -25,13 +24,13 @@ const Booking = () => {
 
 	function updateMonth(monthStep) {
 		if (monthToDisplay === 0 && monthStep < 0) {
-			setYearToDisplay(year => year - 1);
-			setMonthToDisplay(11);
+			updateYearToDisplay(yearToDisplay - 1);
+			updateMonthToDisplay(11);
 		} else if (monthToDisplay === 11 && monthStep > 0) {
-			setYearToDisplay(year => year + 1);
-			setMonthToDisplay(0);
+			updateYearToDisplay(yearToDisplay + 1);
+			updateMonthToDisplay(0);
 		} else {
-			setMonthToDisplay(month => month + monthStep);
+			updateMonthToDisplay(monthToDisplay + monthStep);
 		}
 	}
 
@@ -95,6 +94,7 @@ const Booking = () => {
 				<DateButtons
 					key={uuidv4()}
 					date={dateNum}
+					month={dateObj.month + 1 + month}
 					dayString={getDate(dateObj.year, dateObj.month + month, dateNum).dayString}
 					theme={bgd}
 				/>
@@ -115,7 +115,7 @@ const Booking = () => {
 
 	return (
 		<>
-			{dayView && <CreateMeetingPopup date={date} dayString={dayString} />}
+			{dayView && <CreateMeetingPopup />}
 
 			<div className="calender_area">
 				<div

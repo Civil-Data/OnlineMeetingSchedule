@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Booking from "../views/Booking";
+import { useDateContext } from "./DateContext";
 
 const DayViewToggleContext = React.createContext();
 const DayViewContext = React.createContext();
@@ -14,26 +15,55 @@ export function useDayView() {
 
 //Context provider for managing day view state
 export const BookingProvider = ({ children }) => {
+	const { getDate } = useDateContext();
+
 	const [dayView, setDayView] = useState(false);
 	const [date, setDate] = useState("0");
 	const [dayString, setDayString] = useState("");
+	const [clickedMonth, setClickedMonth] = useState(getDate().month);
+
+	const [monthToDisplay, setMonthToDisplay] = useState(getDate().month);
+	const [yearToDisplay, setYearToDisplay] = useState(getDate().year);
+
+	function updateMonthToDisplay(month) {
+		setMonthToDisplay(month);
+	}
+	function updateYearToDisplay(year) {
+		setYearToDisplay(year);
+	}
 
 	function closeDayView() {
 		setDayView(false);
 	}
 
 	// Function to open the day view with given date and day string
-	function openDayView(dateNum, dayString) {
+	function openDayView(dateNum, dayString, month) {
 		setDate(dateNum);
 		setDayString(dayString);
+		setClickedMonth(month);
 		setDayView(true);
 	}
 
 	// Provide day view state and functions to children components
 	return (
-		<DayViewContext.Provider value={{ dayView, date, dayString }}>
+		<DayViewContext.Provider
+			value={{
+				date,
+				dayString,
+				clickedMonth,
+				yearToDisplay,
+			}}
+		>
 			<DayViewToggleContext.Provider
-				value={{ openDayView, closeDayView }}
+				value={{
+					dayView,
+					openDayView,
+					closeDayView,
+					monthToDisplay,
+					yearToDisplay,
+					updateMonthToDisplay,
+					updateYearToDisplay,
+				}}
 			>
 				{children}
 				<Booking />

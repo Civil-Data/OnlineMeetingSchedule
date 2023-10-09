@@ -49,7 +49,7 @@ const PersonalInfo = ({
 		newConfirmPassword,
 	} = inputValue;
 
-	const handleOnChange = (e) => {
+	const handleOnChange = e => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -57,16 +57,16 @@ const PersonalInfo = ({
 		});
 	};
 
-	const handleError = (err) =>
+	const handleError = err =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
-	const handleSuccess = (msg) =>
+	const handleSuccess = msg =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		if (!isAlpha(newFirstName) || !isAlpha(newLastName)) {
@@ -82,9 +82,7 @@ const PersonalInfo = ({
 		}
 
 		if (newPassword === "") {
-			return handleError(
-				"Password is a required field and cannot be empty"
-			);
+			return handleError("Password is a required field and cannot be empty");
 		}
 
 		if (newPassword.length < 8) {
@@ -99,8 +97,7 @@ const PersonalInfo = ({
 			const { data } = await axios.post(
 				serverUrl + "/updateUser",
 				{
-					newFirstName:
-						newFirstName === "" ? firstName : newFirstName,
+					newFirstName: newFirstName === "" ? firstName : newFirstName,
 					newLastName: newLastName === "" ? lastName : newLastName,
 					newGender,
 					newEmail: newEmail === "" ? email : newEmail,
@@ -186,9 +183,7 @@ const PersonalInfo = ({
 
 				{clickedIcon && (
 					<>
-						<label className="user_info_label">
-							Confirm email:
-						</label>
+						<label className="user_info_label">Confirm email:</label>
 						<input
 							name="newConfirmEmail"
 							type="email"
@@ -244,9 +239,7 @@ const PersonalInfo = ({
 
 				{clickedIcon && (
 					<>
-						<label className="user_info_label">
-							Confirm password:
-						</label>
+						<label className="user_info_label">Confirm password:</label>
 						<input
 							name="newConfirmPassword"
 							type="password"
@@ -271,11 +264,7 @@ const PersonalInfo = ({
 							placeholder="Description about me..."
 							onChange={handleOnChange}
 						></input>
-						<button
-							type="submit"
-							id="confirmation_btn"
-							className="links"
-						>
+						<button type="submit" id="confirmation_btn" className="links">
 							SAVE
 							<SaveIcon titleAccess="Save" />
 						</button>

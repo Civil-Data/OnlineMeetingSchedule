@@ -21,6 +21,7 @@ module.exports.GetMeeting = async (req, res) => {
 // Create a new meeting
 module.exports.Create = async (req, res, next) => {
 	try {
+		// console.log(req.body);
 		// Extract meeting details from the request body
 		const {
 			organizer,
@@ -47,11 +48,14 @@ module.exports.Create = async (req, res, next) => {
 			description,
 		});
 
+		await meeting.save();
+
 		// Send a success response with the created meeting data
 		res.status(201).json({
 			message: "Meeting was successfully created!",
 			meeting,
 		});
+
 		next();
 	} catch (error) {
 		console.error("Unable to create meeting.", error);

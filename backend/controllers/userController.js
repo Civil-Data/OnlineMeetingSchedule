@@ -10,9 +10,7 @@ module.exports.GetUsers = async (req, res) => {
 
 		const users = await User.find();
 		if (!users) {
-			return res
-				.status(400)
-				.json({ message: "Could not find any users" });
+			return res.status(400).json({ message: "Could not find any users" });
 		}
 		res.json(users);
 	} catch (error) {
@@ -45,8 +43,7 @@ module.exports.UpdateUser = async (req, res, next) => {
 
 		if (!newFirstName || !newLastName || !newEmail || !newPassword) {
 			return res.json({
-				message:
-					"First Name, Last Name, Email and Password are required",
+				message: "First Name, Last Name, Email and Password are required",
 			});
 		}
 

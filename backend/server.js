@@ -41,17 +41,6 @@ app.use(
 
 app.use(cookieParser());
 
-// app.use(
-// 	session({
-// 		secret: "timetomeetsecretlongstring",
-// 		cookie: {
-// 			sameSite: "strict",
-// 		},
-// 		resave: false,
-// 		saveUninitialized: false,
-// 	})
-// );
-
 app.use(express.json());
 
 // Mount routes for authentication, meeting handling, and user

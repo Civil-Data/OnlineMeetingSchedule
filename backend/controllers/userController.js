@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-// const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const { createSecretToken } = require("../utils/SecretToken");
 
 // Insert one user in DB
@@ -21,11 +21,10 @@ module.exports.GetUsers = async (req, res) => {
 
 // Update user information
 module.exports.UpdateUser = async (req, res, next) => {
-	console.log(req.body);
 	try {
-		// Extract user information from the request body
 		const {
-			newName,
+			newFirstName,
+			newLastName,
 			newGender,
 			newEmail,
 			newTelephone,
@@ -42,8 +41,7 @@ module.exports.UpdateUser = async (req, res, next) => {
 			return res.json({ message: "User already exists" });
 		}
 
-		// Check if all required fields are provided
-		if (!newName || !newEmail || !newPassword) {
+		if (!newFirstName || !newLastName || !newEmail || !newPassword) {
 			return res.json({ message: "All fields are required" });
 		}
 
@@ -59,24 +57,25 @@ module.exports.UpdateUser = async (req, res, next) => {
 			return res.json({ message: "Email is not valid" });
 		}
 
+		// Hash the password before saving it
+		const hashedPassword = await bcrypt.hash(newPassword, 10);
+
 		// Update the user's information in the database
-		const apa = await User.updateOne(
+		await User.updateOne(
 			{ email: newEmail },
 			{
-				name: newName,
+				firstName: newFirstName,
+				lastName: newLastName,
 				gender: newGender,
 				email: newEmail,
 				telephone: newTelephone,
 				age: newAge,
 				description: newDescription,
-				password: newPassword,
+				password: hashedPassword,
 			}
 		);
-		console.log(apa);
 
-		// Find the updated user's information
 		const user = await User.findOne({ email: newEmail });
-		console.log(user);
 
 		// Generate a secret token for the user's session
 		const token = createSecretToken(user._id);

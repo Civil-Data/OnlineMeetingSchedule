@@ -12,18 +12,16 @@ export function useUserContext() {
 }
 
 export const LoginProvider = ({ children }) => {
-	const [user, setUser] = useState({});
-	// const [user, setUser] = useState({
-	// 	_id: "",
-	// 	name: "",
-	// 	email: "",
-	// 	age: "",
-	// 	telephone: "",
-	// 	gender: "",
-	// 	description: "",
-	// 	password: "",
-	// });
-	// Initialize user state with default values
+	const [user, setUser] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		age: "",
+		telephone: "",
+		gender: "",
+		description: "",
+		password: "",
+	});
 	const [loginStatus, setLoginStatus] = useState(false);
 
 	function updateLoginStatus(status) {

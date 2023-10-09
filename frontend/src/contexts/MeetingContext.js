@@ -4,6 +4,7 @@ import { useDateContext } from "./DateContext";
 
 const DayViewToggleContext = React.createContext();
 const DayViewContext = React.createContext();
+const PopUpContext = React.createContext();
 
 export function useDayViewUpdate() {
 	return useContext(DayViewToggleContext);
@@ -11,6 +12,10 @@ export function useDayViewUpdate() {
 
 export function useDayView() {
 	return useContext(DayViewContext);
+}
+
+export function useMeetingPopUp() {
+	return useContext(PopUpContext);
 }
 
 //Context provider for managing day view state

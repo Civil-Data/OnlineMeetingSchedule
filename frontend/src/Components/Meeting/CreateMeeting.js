@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PopUp from "../PopUp";
 import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
 
@@ -25,7 +24,7 @@ const fetchUsers = async () => {
 	}
 };
 
-const CreateMeetingPopup = () => {
+const CreateMeeting = () => {
 	const { user } = useUserContext();
 	const { date, dayString, clickedMonth, yearToDisplay } = useDayView();
 	const { getDate } = useDateContext();
@@ -132,7 +131,7 @@ const CreateMeetingPopup = () => {
 	}, [meetingDetails]);
 
 	return (
-		<PopUp>
+		<>
 			<div className="calendarDate" style={muiInputStyle}>
 				{dayString} {date}
 			</div>
@@ -268,8 +267,8 @@ const CreateMeetingPopup = () => {
 			<div onClick={bookMeeting}>
 				<ConfirmButton isDisabled={isButtonDisabled} />
 			</div>
-		</PopUp>
+		</>
 	);
 };
 
-export default CreateMeetingPopup;
+export default CreateMeeting;

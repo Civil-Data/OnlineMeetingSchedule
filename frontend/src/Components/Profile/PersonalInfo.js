@@ -77,12 +77,12 @@ const PersonalInfo = ({
 			return handleError("Emails do not match");
 		}
 
-		if (newEmail !== newConfirmEmail) {
-			return handleError("Emails do not match");
-		}
-
 		if (newPassword !== newConfirmPassword) {
 			return handleError("Passwords do not match");
+		}
+
+		if (newPassword === "") {
+			return handleError("Password is a required field and cannot be empty");
 		}
 
 		if (newPassword.length < 8) {
@@ -97,14 +97,14 @@ const PersonalInfo = ({
 			const { data } = await axios.post(
 				serverUrl + "/updateUser",
 				{
-					newFirstName: firstName,
-					newLastName: lastName,
+					newFirstName: newFirstName === "" ? firstName : newFirstName,
+					newLastName: newLastName === "" ? lastName : newLastName,
 					newGender,
-					newEmail,
+					newEmail: newEmail === "" ? email : newEmail,
 					newTelephone,
 					newAge,
 					newDescription,
-					newPassword: newPassword === "" ? password : newPassword,
+					newPassword,
 					emailChanged,
 				},
 				{ withCredentials: true }

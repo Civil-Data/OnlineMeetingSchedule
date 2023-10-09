@@ -1,4 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import serverUrl from "../utils/config";
+import { useNavigate } from "react-router-dom";
 
 const userContext = React.createContext();
 const updateUserContext = React.createContext();
@@ -23,6 +27,10 @@ export const LoginProvider = ({ children }) => {
 		password: "",
 	});
 	const [loginStatus, setLoginStatus] = useState(false);
+	const [logoutPressed, setLogoutPressed] = useState(false);
+	const [cookies, removeCookie] = useCookies([]);
+	const [justRegistered, setJustRegistered] = useState(false);
+	const navigate = useNavigate();
 
 	function updateLoginStatus(status) {
 		setLoginStatus(status);
@@ -32,9 +40,42 @@ export const LoginProvider = ({ children }) => {
 		setUser(user);
 	}
 
+	function updateLogoutPressed(logout) {
+		setLogoutPressed(logout);
+	}
+
+	useEffect(() => {
+		const verifyCookie = async () => {
+			if (
+				cookies.token &&
+				!logoutPressed &&
+				window.location.pathname !== "/" &&
+				window.location.pathname !== "/login" &&
+				window.location.pathname !== "/register"
+			) {
+				updateLoginStatus(true);
+				updateLogoutPressed(false);
+			} else {
+				removeCookie("token");
+				updateLoginStatus(false);
+			}
+			const { data } = await axios.post(serverUrl + "/", {}, { withCredentials: true });
+			const { status, user } = data;
+			return status ? saveUser(user) : removeCookie("token");
+		};
+		verifyCookie();
+	}, [cookies.token, logoutPressed, removeCookie, navigate]);
+
 	return (
-		<userContext.Provider value={{ user, loginStatus }}>
-			<updateUserContext.Provider value={{ saveUser, updateLoginStatus }}>
+		<userContext.Provider value={{ user, loginStatus, logoutPressed, justRegistered }}>
+			<updateUserContext.Provider
+				value={{
+					saveUser,
+					updateLoginStatus,
+					updateLogoutPressed,
+					setJustRegistered,
+				}}
+			>
 				{children}
 			</updateUserContext.Provider>
 		</userContext.Provider>

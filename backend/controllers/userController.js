@@ -5,12 +5,14 @@ const { createSecretToken } = require("../utils/SecretToken");
 // Insert one user in DB
 module.exports.GetUsers = async (req, res) => {
 	try {
+		console.log(req.body);
+		console.log(res);
+
 		const users = await User.find();
-		// console.log(users);
 		if (!users) {
 			return res.status(400).json({ message: "Could not find any users" });
 		}
-		res.status(200).json(users);
+		res.json(users);
 	} catch (error) {
 		console.error("Could not find any users", error);
 		res.status(400);
@@ -40,7 +42,9 @@ module.exports.UpdateUser = async (req, res, next) => {
 		}
 
 		if (!newFirstName || !newLastName || !newEmail || !newPassword) {
-			return res.json({ message: "All fields are required" });
+			return res.json({
+				message: "First Name, Last Name, Email and Password are required",
+			});
 		}
 
 		// Check if the new password meets the minimum length requirement

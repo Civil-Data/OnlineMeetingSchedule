@@ -9,6 +9,7 @@ const authRoute = require("./routes/AuthRoute");
 const meetingRoute = require("./routes/MeetingRoute");
 const userRoute = require("./routes/userRoutes");
 const { DB_USER, DB_PASSWORD, SERVER_PORT, CLIENT_PORT } = process.env;
+// const session = require("express-session");
 
 const PORT = SERVER_PORT || 5000;
 
@@ -37,14 +38,6 @@ app.use(
 		credentials: true,
 	})
 );
-
-// Enable CORS for specific origin (http://localhost:3000) and allow credentials
-app.use((req, res, next) => {
-	res.setHeader("Access-Control-Allow-Origin", `http://localhost:${CLIENT_PORT}`);
-	res.setHeader("Access-Control-Allow-Credentials", "true");
-
-	next();
-});
 
 app.use(cookieParser());
 

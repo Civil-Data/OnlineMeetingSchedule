@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useUserContext, useUpdateUserContext } from "../contexts/LoginContext";
-import { useCookies } from "react-cookie";
 
 //Component for navigation bar
 const NavigationBar = () => {

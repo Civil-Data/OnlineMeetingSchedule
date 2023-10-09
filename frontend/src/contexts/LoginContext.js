@@ -29,6 +29,7 @@ export const LoginProvider = ({ children }) => {
 	const [loginStatus, setLoginStatus] = useState(false);
 	const [logoutPressed, setLogoutPressed] = useState(false);
 	const [cookies, removeCookie] = useCookies([]);
+	const [justRegistered, setJustRegistered] = useState(false);
 	const navigate = useNavigate();
 
 	function updateLoginStatus(status) {
@@ -53,6 +54,7 @@ export const LoginProvider = ({ children }) => {
 				window.location.pathname !== "/register"
 			) {
 				updateLoginStatus(true);
+				updateLogoutPressed(false);
 			} else {
 				removeCookie("token");
 				updateLoginStatus(false);
@@ -69,9 +71,16 @@ export const LoginProvider = ({ children }) => {
 	}, [cookies.token, logoutPressed, removeCookie, navigate]);
 
 	return (
-		<userContext.Provider value={{ user, loginStatus, logoutPressed }}>
+		<userContext.Provider
+			value={{ user, loginStatus, logoutPressed, justRegistered }}
+		>
 			<updateUserContext.Provider
-				value={{ saveUser, updateLoginStatus, updateLogoutPressed }}
+				value={{
+					saveUser,
+					updateLoginStatus,
+					updateLogoutPressed,
+					setJustRegistered,
+				}}
 			>
 				{children}
 			</updateUserContext.Provider>

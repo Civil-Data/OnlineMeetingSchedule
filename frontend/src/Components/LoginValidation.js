@@ -4,7 +4,6 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import serverUrl from "../utils/config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
-// import { useProfileUpdate } from "../contexts/ProfileContext";
 
 //Component for Login validation
 const Login = () => {
@@ -14,9 +13,7 @@ const Login = () => {
 		password: "",
 	});
 	const { email, password } = inputValue;
-	const { saveUser, updateLoginStatus, updateLogoutPressed } =
-		useUpdateUserContext();
-	// const { updateTabContext } = useProfileUpdate();
+	const { saveUser, updateLoginStatus } = useUpdateUserContext();
 
 	// Handle changes in input fields
 	const handleOnChange = (e) => {
@@ -54,8 +51,6 @@ const Login = () => {
 				handleSuccess(message);
 				saveUser(data.user);
 				updateLoginStatus(true);
-				updateLogoutPressed(false);
-				// updateTabContext("my_meetings");
 				// Redirect to the "/profile" route after successful login
 				setTimeout(() => {
 					navigate("/profile");

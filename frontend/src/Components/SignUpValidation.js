@@ -26,7 +26,8 @@ const Signup = () => {
 		password,
 		confirmPassword,
 	} = inputValue;
-	const { saveUser, updateLoginStatus } = useUpdateUserContext();
+	const { saveUser, updateLoginStatus, setJustRegistered } =
+		useUpdateUserContext();
 
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
@@ -91,6 +92,7 @@ const Signup = () => {
 			if (success) {
 				handleSuccess(message);
 				updateLoginStatus(true);
+				setJustRegistered(true);
 				saveUser(data.user);
 				setTimeout(() => {
 					navigate("/profile");

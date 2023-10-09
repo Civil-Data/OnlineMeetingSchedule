@@ -45,16 +45,6 @@ export const LoginProvider = ({ children }) => {
 
 	useEffect(() => {
 		const verifyCookie = async () => {
-			// if (
-			// 	!loginStatus &&
-			// 	window.location.pathname !== "/" &&
-			// 	window.location.pathname !== "/login" &&
-			// 	window.location.pathname !== "/register"
-			// ) {
-			// 	removeCookie("token");
-			// 	navigate("/login");
-			// 	// 	// 	// return;
-			// }
 			if (
 				cookies.token &&
 				!logoutPressed &&

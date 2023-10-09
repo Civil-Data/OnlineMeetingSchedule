@@ -8,13 +8,13 @@ import { useDateContext } from "../contexts/DateContext";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-import CreateMeetingPopup from "../Components/Meeting/CreateMeeting";
+import MeetingPopup from "../Components/Meeting/MeetingPopup";
 
 const Meeting = () => {
 	const { dayView, monthToDisplay, yearToDisplay, updateMonthToDisplay, updateYearToDisplay } =
 		useDayViewUpdate();
 	const { getDate } = useDateContext();
-	console.log(getDate());
+	// console.log(getDate());
 
 	const [monthString, setMonthString] = useState(
 		getDate(yearToDisplay, monthToDisplay).monthString
@@ -115,7 +115,7 @@ const Meeting = () => {
 
 	return (
 		<>
-			{dayView && <CreateMeetingPopup />}
+			{dayView && <MeetingPopup />}
 
 			<div className="calender_area">
 				<div

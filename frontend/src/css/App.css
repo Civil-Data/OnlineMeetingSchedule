@@ -8,6 +8,9 @@
 * {
 	box-sizing: border-box;
 }
+* > a {
+	font-size: 0;
+}
 
 body {
 	font-family: "Raleway", sans-serif;
@@ -605,4 +608,21 @@ input.input_margin {
 
 .contacts {
 	font-size: x-large;
+}
+
+.popUp > header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.popUp > header > * {
+	display: flex;
+	align-items: center;
+}
+
+.dayOverview {
+	color: gray;
+	padding: 50px;
+	font-size: 22pt;
+	font-weight: bold;
 }

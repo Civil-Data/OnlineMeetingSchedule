@@ -7,28 +7,38 @@ import serverUrl from "../../utils/config";
 import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import { ToastContainer } from "react-toastify";
+import { isAlpha } from "validator";
 
 //Component for User information
-const PersonalInfo = ({ name, gender, email, telephone, age, description, password }) => {
+const PersonalInfo = ({
+	firstName,
+	lastName,
+	gender,
+	email,
+	telephone,
+	age,
+	description,
+	password,
+}) => {
 	const { clickedIcon } = useProfileUpdate();
 	const { saveUser } = useUpdateUserContext();
 	let emailChanged = false;
-
-	// Initialize state for input values
 	const [inputValue, setInputValue] = useState({
-		newName: name,
+		newFirstName: firstName,
+		newLastName: lastName,
 		newGender: gender,
 		newEmail: email,
 		newTelephone: telephone,
 		newAge: age,
 		newDescription: description,
-		newPassword: password,
+		newPassword: "",
 		newConfirmEmail: email,
-		newConfirmPassword: password,
+		newConfirmPassword: "",
 	});
 
 	const {
-		newName,
+		newFirstName,
+		newLastName,
 		newGender,
 		newEmail,
 		newTelephone,
@@ -59,6 +69,14 @@ const PersonalInfo = ({ name, gender, email, telephone, age, description, passwo
 	const handleSubmit = async e => {
 		e.preventDefault();
 
+		if (!isAlpha(newFirstName) || !isAlpha(newLastName)) {
+			return handleError("First name and last name should be letters");
+		}
+
+		if (newEmail !== newConfirmEmail) {
+			return handleError("Emails do not match");
+		}
+
 		if (newEmail !== newConfirmEmail) {
 			return handleError("Emails do not match");
 		}
@@ -71,34 +89,27 @@ const PersonalInfo = ({ name, gender, email, telephone, age, description, passwo
 			return handleError("Password should be at least 8 characters");
 		}
 
-		if (!newEmail.includes("@") || !newEmail.includes(".")) {
-			return handleError("Email is not valid");
-		}
-
 		if (newEmail !== email) {
 			emailChanged = true;
 		}
-		console.log(emailChanged);
-		console.log(newEmail);
-
+		// Send a POST request to update user information
 		try {
-			// Send a POST request to update user information
 			const { data } = await axios.post(
 				serverUrl + "/updateUser",
 				{
-					newName,
+					newFirstName: firstName,
+					newLastName: lastName,
 					newGender,
 					newEmail,
 					newTelephone,
 					newAge,
 					newDescription,
-					newPassword,
+					newPassword: newPassword === "" ? password : newPassword,
 					emailChanged,
 				},
 				{ withCredentials: true }
 			);
 			emailChanged = false;
-			console.log(data);
 			const { success, message } = data;
 			if (success) {
 				handleSuccess(message);
@@ -114,18 +125,32 @@ const PersonalInfo = ({ name, gender, email, telephone, age, description, passwo
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="profile_info">
-				<label className="user_info_label">Name:</label>
+				<label className="user_info_label">First name:</label>
 				{clickedIcon ? (
 					<input
 						type="text"
-						name="newName"
-						autoComplete="name"
-						value={newName}
-						placeholder={name}
+						name="newFirstName"
+						autoComplete="newFirstName"
+						value={newFirstName}
+						placeholder={newFirstName}
 						onChange={handleOnChange}
 					/>
 				) : (
-					<span>{name}</span>
+					<span>{newFirstName}</span>
+				)}
+
+				<label className="user_info_label">Last name:</label>
+				{clickedIcon ? (
+					<input
+						type="text"
+						name="newLastName"
+						autoComplete="newLastName"
+						value={newLastName}
+						placeholder={newLastName}
+						onChange={handleOnChange}
+					/>
+				) : (
+					<span>{newLastName}</span>
 				)}
 
 				<label className="user_info_label">Gender:</label>
@@ -135,7 +160,7 @@ const PersonalInfo = ({ name, gender, email, telephone, age, description, passwo
 						name="newGender"
 						autoComplete="gender"
 						value={newGender}
-						placeholder={gender}
+						placeholder="Gender"
 						onChange={handleOnChange}
 					/>
 				) : (

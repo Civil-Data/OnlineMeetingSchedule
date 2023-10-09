@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Booking from "../views/Booking";
+import Meeting from "../views/Meeting";
 import { useDateContext } from "./DateContext";
 
 const DayViewToggleContext = React.createContext();
@@ -14,7 +14,7 @@ export function useDayView() {
 }
 
 //Context provider for managing day view state
-export const BookingProvider = ({ children }) => {
+export const MeetingProvider = ({ children }) => {
 	const { getDate } = useDateContext();
 
 	const [dayView, setDayView] = useState(false);
@@ -66,7 +66,7 @@ export const BookingProvider = ({ children }) => {
 				}}
 			>
 				{children}
-				<Booking />
+				<Meeting />
 			</DayViewToggleContext.Provider>
 		</DayViewContext.Provider>
 	);

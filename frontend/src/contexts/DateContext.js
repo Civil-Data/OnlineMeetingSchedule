@@ -23,6 +23,10 @@ export const DateProvider = ({ children }) => {
 		return date.getMonth();
 	}
 
+	function getCurrentTime() {
+		return new Date().toLocaleTimeString().slice(0, 5);
+	}
+
 	// Function to get the name of the first day of the month for a given year and month
 	function getStartDayOfMonth(year, month) {
 		const date = new Date(year, month, 1);
@@ -32,11 +36,7 @@ export const DateProvider = ({ children }) => {
 	}
 
 	// Function to get a date object with various date-related properties
-	function getDate(
-		year = getCurrentYear(),
-		month = getCurrentMonth(),
-		day = 0
-	) {
+	function getDate(year = getCurrentYear(), month = getCurrentMonth(), day = 0) {
 		let date;
 		if (day === 0) {
 			date = new Date(year, month);
@@ -48,7 +48,8 @@ export const DateProvider = ({ children }) => {
 		const monthString = date.toLocaleDateString("en-us", { month: "long" });
 
 		const dateObj = {
-			dateString: date.toLocaleDateString(),
+			currentDate: new Date().getDate(),
+			currentDateString: new Date().toLocaleDateString(),
 			dayString: dayString[0].toUpperCase() + dayString.slice(1),
 			startDayOfMonth: getStartDayOfMonth(year, month),
 
@@ -58,7 +59,8 @@ export const DateProvider = ({ children }) => {
 			daysInMonth: getDaysInMonth(year, month),
 			monthString: monthString[0].toUpperCase() + monthString.slice(1),
 			day: date.getDay(),
-			time: date.toLocaleTimeString().slice(0, 5),
+			// time: date.toLocaleTimeString().slice(0, 5),
+			currentTime: getCurrentTime(),
 		};
 
 		return dateObj;
@@ -69,6 +71,7 @@ export const DateProvider = ({ children }) => {
 			value={{
 				getDate,
 				getDaysInMonth,
+				getCurrentTime,
 			}}
 		>
 			{children}

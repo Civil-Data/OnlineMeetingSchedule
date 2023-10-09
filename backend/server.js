@@ -6,7 +6,7 @@ const env = require("dotenv");
 env.config({ path: "./.env" });
 const cookieParser = require("cookie-parser");
 const authRoute = require("./routes/AuthRoute");
-const meetingRoute = require("./routes/AuthRoute");
+const meetingRoute = require("./routes/MeetingRoute");
 const userRoute = require("./routes/userRoutes");
 const { DB_USER, DB_PASSWORD, SERVER_PORT, CLIENT_PORT } = process.env;
 // const session = require("express-session");
@@ -23,7 +23,7 @@ mongoose
 		}
 	)
 	.then(() => console.log("MongoDB is connected successfully \n"))
-	.catch((err) => console.error(err));
+	.catch(err => console.error(err));
 
 // Start the Express server and listen on the defined port
 app.listen(PORT, () => {

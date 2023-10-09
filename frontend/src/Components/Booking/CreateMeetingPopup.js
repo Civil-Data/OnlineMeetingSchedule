@@ -1,22 +1,34 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import PopUp from "../PopUp";
-import { Autocomplete, Box, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
 
 import serverUrl from "../../utils/config";
 import ConfirmButton from "../ConfirmButton";
 import { useUserContext } from "../../contexts/LoginContext";
 
+const fetchUsers = async () => {
+	try {
+		const listOfUsers = [];
+		const { data } = await axios.get(serverUrl + "/users");
+		data.forEach(user => {
+			if (user.name) {
+				listOfUsers.push(user);
+			}
+		});
+		return listOfUsers;
+	} catch (error) {
+		console.error("Could not fetch users.");
+		return [];
+	}
+};
+
 const CreateMeetingPopup = ({ dayString, date }) => {
 	const { user } = useUserContext();
 	const [participants, setParticipants] = useState([]); // Array with participant names that the users has added.
 	const [users, setUsers] = useState([{}]); // Array with users
-	const [listOfUserNames, setListOfUserNames] = useState([]); // Array with users
 	// State for booking meeting details
 	const [meetingDetails, setMeetingDetails] = useState({
-		// time: "",
-		// organizer: null, // add function to automatically add organizer throug logged in user
-		// participants: [],
 		title: "",
 		location: "",
 		startDate: "",
@@ -27,24 +39,6 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 	});
 
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-	// const listOfUserNames = [];
-
-	const fetchUsers = useCallback(async () => {
-		try {
-			const usersArray = await axios.get(serverUrl + "/users");
-			usersArray.forEach(user => {
-				setListOfUserNames([...listOfUserNames, user.name]);
-			});
-			setUsers(usersArray);
-			// usersArray.forEach(user => {
-			// 	setParticipants(users => [...users, user.name]);
-			// });
-		} catch (error) {
-			console.error("Could not fetch users.");
-			return "No users found";
-		}
-	}, [listOfUserNames]);
 
 	// Function to handle booking confirmation
 	const bookMeeting = async () => {
@@ -86,14 +80,28 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 	};
 
 	const muiInputStyle = {
-		marginBottom: "6px",
+		margin: "6px 0",
 	};
 	const muiInputStyleDescription = {
-		marginBottom: "6px",
+		// marginBottom: "6px",
+		// margin: "0",
 		width: "100%",
 	};
 
+	const seperateLeft = {
+		marginLeft: "12px",
+	};
+
 	// const [errorMessage, setErrorMessage] = useState("");
+
+	useEffect(() => {
+		// const listOfUserNames = [];
+
+		fetchUsers().then(users => {
+			console.log(users);
+			setUsers(users);
+		});
+	}, []);
 
 	useEffect(() => {
 		// Check if all required fields have valid values
@@ -115,8 +123,7 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 			// Disable the button if any field is empty
 			setIsButtonDisabled(true);
 		}
-		fetchUsers();
-	}, [meetingDetails, fetchUsers]);
+	}, [meetingDetails]);
 
 	return (
 		<PopUp>
@@ -136,7 +143,7 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 					}
 				/>
 				<TextField
-					sx={muiInputStyle}
+					sx={{ ...muiInputStyle, ...seperateLeft }}
 					label="Location"
 					value={meetingDetails.location}
 					onChange={event =>
@@ -147,7 +154,7 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 					}
 				/>
 				<TextField
-					sx={muiInputStyle}
+					sx={{ ...muiInputStyle, ...seperateLeft }}
 					className="calendar_choose_time"
 					label="Start Time" // Add Start Time field
 					value={meetingDetails.startTime}
@@ -166,7 +173,7 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 					}}
 				/>
 				<TextField
-					sx={muiInputStyle}
+					sx={{ ...muiInputStyle, ...seperateLeft }}
 					label="End Time" // Add End Time field
 					value={meetingDetails.endTime}
 					onChange={event =>
@@ -183,32 +190,15 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 						},
 					}}
 				/>
-				{/* <Autocomplete/> */}
 
 				<Autocomplete
 					sx={muiInputStyle}
 					multiple
 					id="participants"
-					options={listOfUserNames} // Add your list of participants here
-					value={
-						// Array.isArray(meetingDetails.participants)
-						// 	? meetingDetails.participants
-						// 	: []
-
-						participants
-
-						// users.map(user => user.name)
-					}
+					options={users} // Add your list of participants here
+					getOptionLabel={option => `${option.name} <${option.email}>`}
 					onChange={(event, user) => {
-						console.log(user);
-						console.log(event);
-						// setParticipants([
-						// 	...participants,
-						// 	newValue,
-						// 	// {
-						// 	// 	participants: newValue, // newValue will be an array of selected participants
-						// 	// },
-						// ]);
+						// console.log(user);
 
 						setParticipants([...participants, user]);
 					}}
@@ -220,23 +210,24 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 						/>
 					)}
 				/>
-				<Box>
-					<TextField
-						sx={muiInputStyleDescription}
-						label="Description"
-						type="description"
-						value={meetingDetails.description}
-						onChange={event =>
-							setMeetingDetails({
-								...meetingDetails,
-								description: event.target.value,
-							})
-						}
-						multiline
-						rows={3}
-					/>
-				</Box>
+
 				<TextField
+					sx={{ ...muiInputStyle, ...muiInputStyleDescription }}
+					label="Description"
+					type="description"
+					value={meetingDetails.description}
+					onChange={event =>
+						setMeetingDetails({
+							...meetingDetails,
+							description: event.target.value,
+						})
+					}
+					multiline
+					rows={3}
+				/>
+
+				<TextField
+					sx={muiInputStyle}
 					label="Start Date"
 					type="date"
 					value={meetingDetails.startDate}
@@ -251,6 +242,7 @@ const CreateMeetingPopup = ({ dayString, date }) => {
 					}}
 				/>
 				<TextField
+					sx={{ ...muiInputStyle, ...seperateLeft }}
 					label="End Date"
 					type="date"
 					value={meetingDetails.endDate}

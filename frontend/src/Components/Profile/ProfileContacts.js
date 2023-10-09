@@ -8,6 +8,7 @@ const ProfileContacts = () => {
 
 	const contacts = async () => {
 		try {
+			// Send a GET request to get all users
 			const user = await axios.get(serverUrl + "/users");
 			setUsers(user.data);
 		} catch (error) {
@@ -23,7 +24,9 @@ const ProfileContacts = () => {
 		<div className="contacts">
 			<ul>
 				{users.map((user) => (
-					<li key={user._id}>{user.name}</li>
+					<li key={user._id}>
+						{user.firstName + " " + user.lastName}
+					</li>
 				))}
 			</ul>
 		</div>

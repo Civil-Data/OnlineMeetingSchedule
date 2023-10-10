@@ -30,6 +30,8 @@ export const MeetingProvider = ({ children }) => {
 	const [monthToDisplay, setMonthToDisplay] = useState(getDate().month);
 	const [yearToDisplay, setYearToDisplay] = useState(getDate().year);
 
+	const [view, setView] = useState(true);
+
 	function updateMonthToDisplay(month) {
 		setMonthToDisplay(month);
 	}
@@ -39,6 +41,10 @@ export const MeetingProvider = ({ children }) => {
 
 	function closeDayView() {
 		setDayView(false);
+	}
+
+	function toggleCreateMeeting() {
+		setView(view => !view);
 	}
 
 	// Function to open the day view with given date and day string
@@ -70,8 +76,10 @@ export const MeetingProvider = ({ children }) => {
 					updateYearToDisplay,
 				}}
 			>
-				{children}
-				<Meeting />
+				<PopUpContext.Provider value={{ view, toggleCreateMeeting }}>
+					{children}
+					<Meeting />
+				</PopUpContext.Provider>
 			</DayViewToggleContext.Provider>
 		</DayViewContext.Provider>
 	);

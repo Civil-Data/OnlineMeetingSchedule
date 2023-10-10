@@ -68,7 +68,8 @@ const PersonalInfo = ({
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (parseInt(newAge) < 0) {
+
+		if (+newAge < 0) {
 			return handleError("You can't have negative age");
 		}
 

@@ -1,26 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 
-import DateButtons from "../Components/DateButtons";
 import { useDayViewUpdate } from "../contexts/MeetingContext";
-import { v4 as uuidv4 } from "uuid";
-import { useDateContext } from "../contexts/DateContext";
-
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
 import MeetingPopup from "../Components/Meeting/MeetingPopup";
+import useCalendarRender from "../hooks/Meeting/useCalendarRender";
 
 const Meeting = () => {
 	const { dayView, monthToDisplay, yearToDisplay, updateMonthToDisplay, updateYearToDisplay } =
 		useDayViewUpdate();
-	const { getDate } = useDateContext();
-	// console.log(getDate());
 
-	const [monthString, setMonthString] = useState(
-		getDate(yearToDisplay, monthToDisplay).monthString
-	);
-	const [rows, setRows] = useState(0);
-	const [dateLabels, setDateLabels] = useState([]);
+	const { rows, monthString, dateElementList } = useCalendarRender();
 
 	function updateMonth(monthStep) {
 		if (monthToDisplay === 0 && monthStep < 0) {
@@ -33,85 +23,6 @@ const Meeting = () => {
 			updateMonthToDisplay(monthToDisplay + monthStep);
 		}
 	}
-
-	const renderDates = useCallback(() => {
-		const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-		const dateObj = getDate(yearToDisplay, monthToDisplay);
-		setMonthString(dateObj.monthString);
-		const dates = dateObj.daysInMonth;
-		const startDay = dateObj.startDayOfMonth;
-
-		const startOfGreyDays = days.findIndex(day => day === startDay);
-
-		let dateBlocks = 35;
-		const dateLabels = [];
-		let dateIdx = 0;
-		let month;
-
-		if (startOfGreyDays + dates > 35) {
-			setRows(6);
-			dateBlocks = 42;
-		} else setRows(5);
-
-		if (startOfGreyDays > 0) month = -1;
-		else {
-			month = 0;
-			dateIdx = 1;
-		}
-
-		for (let i = 0; i < dateBlocks; i++) {
-			let switch_month = false;
-			let bgd;
-			let dateNum;
-
-			switch (month) {
-				case -1:
-					bgd = "grey";
-					dateNum = dateObj.daysInPrevMonth - startOfGreyDays + 1 + i;
-					if (dateNum === dateObj.daysInPrevMonth) {
-						switch_month = true;
-					}
-					break;
-
-				case 0:
-					bgd = "dark";
-					dateNum = dateIdx;
-					if (dateNum === dates) {
-						switch_month = true;
-					}
-					break;
-
-				case 1:
-					bgd = "grey";
-					dateNum = dateIdx;
-					break;
-
-				default:
-					break;
-			}
-
-			dateLabels.push(
-				<DateButtons
-					key={uuidv4()}
-					date={dateNum}
-					month={dateObj.month + 1 + month}
-					dayString={getDate(dateObj.year, dateObj.month + month, dateNum).dayString}
-					theme={bgd}
-				/>
-			);
-
-			if (switch_month) {
-				month++;
-				dateIdx = 0;
-			}
-			dateIdx++;
-		}
-		setDateLabels(dateLabels);
-	}, [getDate, monthToDisplay, yearToDisplay]);
-
-	useEffect(() => {
-		renderDates();
-	}, [monthToDisplay, renderDates]);
 
 	return (
 		<>
@@ -142,7 +53,7 @@ const Meeting = () => {
 					<div className="day">Friday</div>
 					<div className="day">Saturday</div>
 					<div className="day">Sunday</div>
-					{dateLabels}
+					{dateElementList}
 				</div>
 			</div>
 		</>

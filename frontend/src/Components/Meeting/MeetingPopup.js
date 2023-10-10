@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import CreateMeeting from "./CreateMeeting";
 import DayOverview from "./DayOverview";
 import PopUp from "../PopUp";
+import { useMeetingPopUp } from "../../contexts/MeetingContext";
 
 const MeetingPopup = () => {
-	const [view, setView] = useState(0);
+	const { view } = useMeetingPopUp();
 
-	return <PopUp>{view === 0 ? <DayOverview /> : <CreateMeeting />}</PopUp>;
+	return <PopUp>{view ? <DayOverview /> : <CreateMeeting />}</PopUp>;
 };
 
 export default MeetingPopup;

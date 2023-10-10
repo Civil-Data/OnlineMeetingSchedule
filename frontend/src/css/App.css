@@ -406,10 +406,10 @@ input.input_margin {
 	padding: 20px;
 }
 
-.meeting_list {
+.meeting_item {
 	padding: 20px;
 	align-items: center;
-	width: 100%;
+	/* width: 100%; */
 	display: table;
 	background-color: gray;
 	border: 6px ridge goldenrod;
@@ -422,18 +422,18 @@ input.input_margin {
 	align-items: center;
 }
 
-.meeting_list_item {
+.meeting_item_header {
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
 	border-radius: 10px;
 	list-style: none;
-	margin-bottom: 45px;
+	margin-bottom: 25px;
 	white-space: no-wrap;
 	text-decoration: underline;
 	font-weight: bold;
 }
-.meeting_list_sub_item {
+.meeting_header_titles {
 	margin-left: 3px;
 	margin-right: 3px;
 	padding-left: 3px;
@@ -622,7 +622,52 @@ input.input_margin {
 
 .dayOverview {
 	color: gray;
-	padding: 50px;
-	font-size: 22pt;
+	padding: 40px 20px;
+	font-size: 25pt;
 	font-weight: bold;
+}
+
+.calender_meeting_overview {
+	overflow-y: auto;
+	max-height: 80vh;
+	margin-top: 20px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 20px;
+	padding-right: 10px;
+}
+.calender_meeting_overview > .meeting_item {
+	border-radius: 6px;
+	border: 3px solid;
+	/* border-color: linear-gradient(black, grey); */
+	border-image: linear-gradient(30deg, black, goldenrod) 1;
+	/* margin: 25px; */
+	margin-top: 0;
+}
+
+/* width */
+.calender_meeting_overview::-webkit-scrollbar {
+	width: 13px;
+	border-radius: 50px;
+}
+
+/* Track */
+.calender_meeting_overview::-webkit-scrollbar-track {
+	background: #444444;
+}
+
+/* Handle */
+.calender_meeting_overview::-webkit-scrollbar-thumb {
+	background: goldenrod;
+	border-radius: 50px;
+}
+
+.calender_meeting_overview::-webkit-scrollbar-track {
+	margin: 0 3px;
+	border-radius: 50px;
+}
+
+/* Handle on hover */
+.calender_meeting_overview::-webkit-scrollbar-thumb:hover {
+	background: rgb(179, 135, 24);
 }

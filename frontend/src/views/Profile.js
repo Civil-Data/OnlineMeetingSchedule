@@ -69,6 +69,11 @@ const Profile = () => {
 				</div>
 				<div className="tab_area">
 					<ProfileTab
+						tab_text="My Meetings"
+						is_active={tabContext === "my_meetings"}
+						tab_name="my_meetings"
+					/>
+					<ProfileTab
 						tab_text="Profile information"
 						is_active={tabContext === "info"}
 						tab_name="info"
@@ -77,11 +82,6 @@ const Profile = () => {
 						tab_text="Contacts"
 						is_active={tabContext === "contacts"}
 						tab_name="contacts"
-					/>
-					<ProfileTab
-						tab_text="My Meetings"
-						is_active={tabContext === "my_meetings"}
-						tab_name="my_meetings"
 					/>
 				</div>
 				{tabContext === "info" && <ProfileInformation />}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDayViewUpdate } from "../contexts/BookingContext";
+import { useDayViewUpdate } from "../contexts/MeetingContext";
 
 //Component for a date button
 const DateButtons = ({ date, dayString, month, theme }) => {

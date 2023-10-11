@@ -1,7 +1,7 @@
 import React from "react";
 import MeetingItem from "./MeetingItem";
 
-//Component for Meetings
+//Component for Meeting overview
 const ProfileMeetings = () => {
 	return (
 		<>

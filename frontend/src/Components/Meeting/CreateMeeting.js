@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import PopUp from "../PopUp";
 import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
 
 import serverUrl from "../../utils/config";
 import ConfirmButton from "../ConfirmButton";
 import { useUserContext } from "../../contexts/LoginContext";
-import { useDayView } from "../../contexts/BookingContext";
+import { useDayView } from "../../contexts/MeetingContext";
 import { useDateContext } from "../../contexts/DateContext";
 
 const fetchUsers = async () => {
@@ -25,7 +24,7 @@ const fetchUsers = async () => {
 	}
 };
 
-const CreateMeetingPopup = () => {
+const CreateMeeting = () => {
 	const { user } = useUserContext();
 	const { date, dayString, clickedMonth, yearToDisplay } = useDayView();
 	const { getDate } = useDateContext();
@@ -35,7 +34,7 @@ const CreateMeetingPopup = () => {
 
 	const [participants, setParticipants] = useState([]); // Array with participant names that the users has added.
 	const [users, setUsers] = useState([{}]); // Array with users
-	// State for booking meeting details
+	// State for meeting meeting details
 	const [meetingDetails, setMeetingDetails] = useState({
 		title: "",
 		location: "",
@@ -48,7 +47,7 @@ const CreateMeetingPopup = () => {
 
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-	// Function to handle booking confirmation
+	// Function to handle meeting confirmation
 	const bookMeeting = async () => {
 		console.log("I run");
 		try {
@@ -82,8 +81,8 @@ const CreateMeetingPopup = () => {
 			console.log(res);
 		} catch (error) {
 			// Handle error
-			console.error("An error occurred while booking the meeting.");
-			// setErrorMessage("An error occurred while booking the meeting.");
+			console.error("An error occurred while meeting the meeting.");
+			// setErrorMessage("An error occurred while meeting the meeting.");
 		}
 	};
 
@@ -132,7 +131,7 @@ const CreateMeetingPopup = () => {
 	}, [meetingDetails]);
 
 	return (
-		<PopUp>
+		<>
 			<div className="calendarDate" style={muiInputStyle}>
 				{dayString} {date}
 			</div>
@@ -268,8 +267,8 @@ const CreateMeetingPopup = () => {
 			<div onClick={bookMeeting}>
 				<ConfirmButton isDisabled={isButtonDisabled} />
 			</div>
-		</PopUp>
+		</>
 	);
 };
 
-export default CreateMeetingPopup;
+export default CreateMeeting;

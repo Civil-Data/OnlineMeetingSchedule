@@ -20,26 +20,18 @@ const NavigationBar = () => {
 			<div id="left">
 				{loginStatus && (
 					<>
-						<Link
-							className="nav-buttons"
-							to="/profile"
-							type="button"
-						>
+						<Link className="nav-buttons" to="/profile" type="button">
 							<AccountCircleIcon
 								fontSize="large"
 								sx={{ color: "#daa520", height: iconSize }}
 								titleAccess="Profile Page"
 							/>
 						</Link>
-						<Link
-							className="nav-buttons"
-							to="/booking"
-							type="button"
-						>
+						<Link className="nav-buttons" to="/meeting" type="button">
 							<AddIcon
 								fontSize="large"
 								sx={{ color: "#daa520", height: iconSize }}
-								titleAccess="Add Booking"
+								titleAccess="Add Meeting"
 							/>
 						</Link>
 					</>
@@ -47,9 +39,7 @@ const NavigationBar = () => {
 			</div>
 			{loginStatus ? (
 				<div id="navButtons" className="flex-se right">
-					<span id="logged_in">
-						{user.firstName + " " + user.lastName}
-					</span>
+					<span id="logged_in">{user.firstName + " " + user.lastName}</span>
 
 					<Link className="nav-buttons" to="/" type="button">
 						<span onClick={() => Logout()}>Log out</span>

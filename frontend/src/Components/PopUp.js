@@ -1,26 +1,56 @@
 import React from "react";
 import ClearIcon from "@mui/icons-material/Clear";
-import { useDayViewUpdate } from "../contexts/BookingContext";
+import AddIcon from "@mui/icons-material/Add";
+import { useDayViewUpdate, useMeetingPopUp } from "../contexts/MeetingContext";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 //Component for popup window
 const PopUp = ({ children }) => {
-    const { closeDayView } = useDayViewUpdate();
+	const { closeDayView } = useDayViewUpdate();
+	const { view, toggleCreateMeeting } = useMeetingPopUp();
 
-    return (
-        <div className="viewShadow">
-            <div className="popUp">
-                <div
-                    style={{ cursor: "pointer", width: "fit-content" }}
-                    onClick={() => {
-                        closeDayView();
-                    }}
-                >
-                    <ClearIcon />
-                </div>
-                {children}
-            </div>
-        </div>
-    );
+	return (
+		<div className="viewShadow">
+			<div className="popUp">
+				<header>
+					{view ? (
+						<span
+							style={{ cursor: "pointer" }}
+							onClick={() => {
+								closeDayView();
+							}}
+						>
+							<ClearIcon titleAccess="Exit" />
+						</span>
+					) : (
+						<span
+							style={{ cursor: "pointer" }}
+							onClick={() => {
+								toggleCreateMeeting();
+							}}
+						>
+							<ArrowBackIosNewIcon titleAccess="Go back" />
+						</span>
+					)}
+					{view && (
+						<span
+							style={{ cursor: "pointer" }}
+							onClick={() => {
+								toggleCreateMeeting();
+							}}
+							title="Book a meeting"
+						>
+							<AddIcon
+								sx={{ transform: "scale(1.3)" }}
+								titleAccess="Create a meeting"
+							/>
+						</span>
+					)}
+				</header>
+				{children}
+			</div>
+		</div>
+	);
 };
 
 export default PopUp;

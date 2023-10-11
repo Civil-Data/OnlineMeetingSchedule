@@ -2,6 +2,7 @@
 const User = require("../models/user.model");
 const { createSecretToken } = require("../utils/SecretToken");
 const bcrypt = require("bcryptjs");
+const { isEmail, isAlpha } = require("validator");
 
 // Register a new user
 module.exports.Register = async (req, res, next) => {
@@ -16,6 +17,13 @@ module.exports.Register = async (req, res, next) => {
 		// Check if all required fields are provided
 		if (!firstName || !lastName || !email || !password) {
 			return res.json({ message: "All fields are required" });
+		}
+
+		// Check if the first name and last name are letters
+		if (!isAlpha(firstName) || !isAlpha(lastName)) {
+			return res.json({
+				message: "First name and last name should be letters",
+			});
 		}
 
 		// Check if the password meets the minimum length requirement
@@ -34,8 +42,10 @@ module.exports.Register = async (req, res, next) => {
 		});
 
 		// Check if the email format is valid
-		if (!email.includes("@") || !email.includes(".")) {
-			return res.json({ message: "Email is not valid" });
+		if (!isEmail(email)) {
+			return res.json({
+				message: "Email is not valid",
+			});
 		}
 
 		// Generate a secret token for the user's session

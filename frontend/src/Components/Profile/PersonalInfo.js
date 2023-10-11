@@ -7,7 +7,7 @@ import serverUrl from "../../utils/config";
 import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import { ToastContainer } from "react-toastify";
-import { isAlpha } from "validator";
+import { isAlpha, isEmail } from "validator";
 
 //Component for User information
 const PersonalInfo = ({
@@ -93,6 +93,10 @@ const PersonalInfo = ({
 
 		if (newPassword !== newConfirmPassword) {
 			return handleError("Passwords do not match");
+		}
+
+		if (!isEmail(newEmail)) {
+			return handleError("Email is not valid");
 		}
 
 		if (newPassword === "") {

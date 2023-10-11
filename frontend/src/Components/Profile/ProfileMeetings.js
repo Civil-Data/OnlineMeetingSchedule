@@ -3,7 +3,6 @@ import MeetingItem from "./MeetingItem";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-// import serverUrl from "../../utils/config";
 // import { LoginProvider, useUserContext } from "../../contexts/LoginContext";
 // import { useMeetingUpdate } from "../../contexts/MeetingContext";
 import { useUserContext } from "../../contexts/LoginContext";
@@ -16,6 +15,7 @@ const GetMeetings = async (user) => {
 		const { data } = await axios.get(
 			serverUrl + `/meeting/users?paramName=${user._id}`
 		);
+
 		// const meetings = await axios.get(serverUrl + "/meeting/users", {
 		// 	params: user._id,
 		// });

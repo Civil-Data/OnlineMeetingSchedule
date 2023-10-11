@@ -18,7 +18,12 @@ body {
 	color: white;
 	margin: 0;
 }
-
+.button {
+	font-family: "Raleway", sans-serif;
+	background-color: hwb(305 4% 26%);
+	color: white;
+	margin: 0;
+}
 h1,
 h2 {
 	color: goldenrod;

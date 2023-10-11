@@ -12,6 +12,7 @@ import axios from "axios";
 import serverUrl from "../../utils/config";
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const fetchUsers = async () => {
 	try {
@@ -29,17 +30,24 @@ const fetchUsers = async () => {
 	}
 };
 
+const handleSuccess = (msg) =>
+	toast.success(msg, {
+		position: "bottom-right",
+	});
+
 const deleteMeeting = async (meeting) => {
 	try {
-		await axios.delete(
+		const { data } = await axios.delete(
 			serverUrl + `/meeting/delete?meetingID=${meeting._id}`
 		);
+		handleSuccess(data.message);
 	} catch (error) {
 		console.log("Error Deleting Meeting");
 	}
 };
 //Component for meeting
 const MeetingItem = ({ meeting }) => {
+	const navigate = useNavigate();
 	const [detailIcon, setDetailIcon] = useState(false);
 	const { getDate } = useDateContext();
 
@@ -73,35 +81,12 @@ const MeetingItem = ({ meeting }) => {
 		marginLeft: "12px",
 	};
 
-	const handleSuccess = (msg) =>
-		toast.success(msg, {
-			position: "bottom-right",
-		});
-
 	const updateMeeting = async () => {
-		// try {
-		const participantList = [];
-		participants.forEach((participant) => {
-			participantList.push(participant._id);
-		});
-
-		// 	const message = await fetch(serverUrl + "/meeting/update", {
-		// 		method: "POST",
-
-		// 		headers: { "Content-type": "application/json" },
-		// 		body: JSON.stringify({
-		// 			organizer: user._id,
-		// 			participants: participantList,
-		// 			...meetingDetails,
-		// 		}),
-		// 	});
-		// 	console.log(message);
-		// 	handleSuccess(message);
-		// } catch (error) {
-		// 	// Handle error
-		// 	console.error("An error occurred while meeting the meeting.");
-		// }
 		try {
+			const participantList = [];
+			participants.forEach((participant) => {
+				participantList.push(participant._id);
+			});
 			const { data } = await axios.post(
 				serverUrl + "/meeting/update",
 				{
@@ -111,7 +96,6 @@ const MeetingItem = ({ meeting }) => {
 				},
 				{ withCredentials: true }
 			);
-			console.log(data.message);
 			handleSuccess(data.message);
 		} catch (error) {
 			console.log(error);
@@ -326,13 +310,14 @@ const MeetingItem = ({ meeting }) => {
 									className="edit_button"
 									onClick={() => {
 										deleteMeeting(meeting);
+										navigate("/profile");
 									}}
 								>
 									DELETE MEETING
 								</Button>
-								<ToastContainer />
 							</>
 						)}
+						<ToastContainer />
 					</div>
 				</>
 			)}

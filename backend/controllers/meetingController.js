@@ -1,23 +1,19 @@
 // Import the Meeting model
 const Meeting = require("../models/meeting.model");
 
-// Get a specific meeting by ID
-module.exports.GetMeeting = async (req, res) => {
+// Get a specific meeting by userId
+module.exports.GetMeetingsByUserId = async (req, res) => {
 	try {
-		// Extract the meeting ID from the request body
-		const { meetingID } = req.body;
-
+		const userID = req.query.paramName;
 		// Find the meeting with the provided ID
-		const meeting = await Meeting.findOne({
-			_id: meetingID,
+		const meeting = await Meeting.find({
+			$or: [{ organizer: userID }, { participants: { $in: [userID] } }],
 		});
-
 		res.status(200).json(meeting);
 	} catch (error) {
 		console.error("Unable to find meeting.", error);
 	}
 };
-
 // Create a new meeting
 module.exports.Create = async (req, res, next) => {
 	try {
@@ -47,8 +43,6 @@ module.exports.Create = async (req, res, next) => {
 			title,
 			description,
 		});
-
-		await meeting.save();
 
 		// Send a success response with the created meeting data
 		res.status(201).json({
@@ -110,13 +104,13 @@ module.exports.Update = async (req, res, next) => {
 module.exports.Delete = async (req, res, next) => {
 	try {
 		// Extract the meeting ID from the request body
-		const { meetingID } = req.body;
+		// const { meetingID } = req.body;
 
 		// Delete the meeting with the provided ID from the database
-		const meeting = await Meeting.deleteOne({ _id: meetingID });
+		// const meeting = await Meeting.deleteOne({ _id: meetingID });
 
 		// Log the result of the deletion and send a success response
-		console.log("Deleted:", meeting);
+		// console.log("Deleted:", meeting);
 		res.status(200).json({
 			message: "Meeting was successfully deleted!",
 		});

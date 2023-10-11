@@ -10,7 +10,9 @@ module.exports.GetUsers = async (req, res) => {
 
 		const users = await User.find();
 		if (!users) {
-			return res.status(400).json({ message: "Could not find any users" });
+			return res
+				.status(400)
+				.json({ message: "Could not find any users" });
 		}
 		res.json(users);
 	} catch (error) {
@@ -36,14 +38,15 @@ module.exports.UpdateUser = async (req, res, next) => {
 
 		// Check if a user with the new email already exists (if email is changed)
 		const existingUser = await User.findOne({ email: newEmail });
-		console.log(existingUser);
+
 		if (existingUser && emailChanged) {
 			return res.json({ message: "User already exists" });
 		}
 
 		if (!newFirstName || !newLastName || !newEmail || !newPassword) {
 			return res.json({
-				message: "First Name, Last Name, Email and Password are required",
+				message:
+					"First Name, Last Name, Email and Password are required",
 			});
 		}
 

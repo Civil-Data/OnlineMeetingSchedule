@@ -4,20 +4,115 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import EditIcon from "@mui/icons-material/Edit";
 // import ClearIcon from "@mui/icons-material/Clear";
 import { ToastContainer } from "react-toastify";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { useDateContext } from "../../contexts/DateContext";
+import { useEffect } from "react";
+import axios from "axios";
+import serverUrl from "../../utils/config";
+import { toast } from "react-toastify";
+
+const fetchUsers = async () => {
+	try {
+		const listOfUsers = [];
+		const { data } = await axios.get(serverUrl + "/users");
+		data.forEach((user) => {
+			if (user.firstName) {
+				listOfUsers.push(user);
+			}
+		});
+		return listOfUsers;
+	} catch (error) {
+		console.error("Could not fetch users.");
+		return [];
+	}
+};
 
 //Component for meeting
-const MeetingItem = ({ showVoteButton }) => {
+const MeetingItem = ({ meeting }) => {
 	const [detailIcon, setDetailIcon] = useState(false);
+	const { getDate } = useDateContext();
+
 	// const [editIcon, setEditIcon] = useState(false);
 	const toggleState = () => {
 		setDetailIcon(!detailIcon);
 	};
-	const [editButtonClicked, setEditButtonClicked] = useState(false);
-	// const toggleState1 = () => {
-	// 	setEditIcon(!editIcon);
-	// };
+	const [users, setUsers] = useState([{}]); // Array with users
 
-	// const { clickedIcon, updateClickedIcon } = useMeetingUpdate();
+	const [meetingDetails, setMeetingDetails] = useState({
+		title: "",
+		location: "",
+		startDate: "",
+		endDate: "",
+		startTime: getDate().currentTime,
+		endTime: "",
+		description: "",
+	});
+	const [editButtonClicked, setEditButtonClicked] = useState(false);
+	const [participants, setParticipants] = useState([]); // Array with participant names that the users has added.
+	const muiInputStyle = {
+		margin: "6px 0",
+	};
+	const muiInputStyleDescription = {
+		// marginBottom: "6px",
+		// margin: "0",
+		width: "100%",
+	};
+
+	const seperateLeft = {
+		marginLeft: "12px",
+	};
+
+	const handleSuccess = (msg) =>
+		toast.success(msg, {
+			position: "bottom-right",
+		});
+
+	const updateMeeting = async () => {
+		// try {
+		const participantList = [];
+		participants.forEach((participant) => {
+			participantList.push(participant._id);
+		});
+
+		// 	const message = await fetch(serverUrl + "/meeting/update", {
+		// 		method: "POST",
+
+		// 		headers: { "Content-type": "application/json" },
+		// 		body: JSON.stringify({
+		// 			organizer: user._id,
+		// 			participants: participantList,
+		// 			...meetingDetails,
+		// 		}),
+		// 	});
+		// 	console.log(message);
+		// 	handleSuccess(message);
+		// } catch (error) {
+		// 	// Handle error
+		// 	console.error("An error occurred while meeting the meeting.");
+		// }
+		try {
+			const { data } = await axios.post(
+				serverUrl + "/meeting/update",
+				{
+					meetingID: meeting._id,
+					participants: participantList,
+					...meetingDetails,
+				},
+				{ withCredentials: true }
+			);
+			console.log(data.message);
+			handleSuccess(data.message);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		fetchUsers().then((users) => {
+			setUsers(users);
+		});
+	}, []);
 
 	return (
 		<div className="meeting_item">
@@ -60,85 +155,167 @@ const MeetingItem = ({ showVoteButton }) => {
 							</>
 						) : (
 							<>
-								<form action="">
-									<div className="profile_info">
-										<label htmlFor="organizer">
-											Organizer:
-										</label>
-										<input
-											type="text"
-											name="organizer"
-											id="organizer"
-										/>
-										<label htmlFor="participants">
-											Participants:
-										</label>
-										<input
-											type="text"
-											name="participants"
-											id="participants"
-										/>
-										<label htmlFor="information">
-											Information:
-										</label>
-										<input
-											type="text"
-											name="information"
-											id="information"
-										/>
-										<button
-											onClick={() => {
-												setEditButtonClicked(
-													!editButtonClicked
-												);
-											}}
-											className="edit_button"
-										>
-											Save
-											<EditIcon />
-										</button>
-									</div>
-								</form>
+								<div>
+									<TextField
+										sx={muiInputStyle}
+										label="Meeting Title"
+										value={meetingDetails.title}
+										onChange={(event) =>
+											setMeetingDetails({
+												...meetingDetails,
+												title: event.target.value,
+											})
+										}
+									/>
+									<TextField
+										sx={{
+											...muiInputStyle,
+											...seperateLeft,
+										}}
+										label="Location"
+										value={meetingDetails.location}
+										onChange={(event) =>
+											setMeetingDetails({
+												...meetingDetails,
+												location: event.target.value,
+											})
+										}
+									/>
+									<TextField
+										sx={{
+											...muiInputStyle,
+											...seperateLeft,
+										}}
+										className="calendar_choose_time"
+										label="Start Time" // Add Start Time field
+										value={meetingDetails.startTime}
+										onChange={(event) =>
+											setMeetingDetails({
+												...meetingDetails,
+												startTime: event.target.value,
+											})
+										}
+										type="time"
+										InputLabelProps={{
+											shrink: true,
+											style: {
+												transform:
+													"translate(14px,-6px) scale(0.75)",
+											},
+										}}
+									/>
+									<TextField
+										sx={{
+											...muiInputStyle,
+											...seperateLeft,
+										}}
+										label="End Time" // Add End Time field
+										value={meetingDetails.endTime}
+										onChange={(event) =>
+											setMeetingDetails({
+												...meetingDetails,
+												endTime: event.target.value,
+											})
+										}
+										type="time"
+										InputLabelProps={{
+											shrink: true,
+											style: {
+												transform:
+													"translate(14px,-6px) scale(0.75)",
+											},
+										}}
+									/>
+
+									<Autocomplete
+										sx={muiInputStyle}
+										multiple
+										id="participants"
+										options={users} // Add your list of participants here
+										getOptionLabel={(option) =>
+											`${option.firstName} ${option.lastName} <${option.email}>`
+										}
+										onChange={(event, user) => {
+											setParticipants(user);
+										}}
+										renderInput={(params) => (
+											<TextField
+												{...params}
+												label="Participants"
+												placeholder="Select participants"
+											/>
+										)}
+									/>
+
+									<TextField
+										sx={{
+											...muiInputStyle,
+											...muiInputStyleDescription,
+										}}
+										label="Description"
+										type="description"
+										value={meetingDetails.description}
+										onChange={(event) =>
+											setMeetingDetails({
+												...meetingDetails,
+												description: event.target.value,
+											})
+										}
+										multiline
+										rows={3}
+									/>
+
+									<TextField
+										sx={muiInputStyle}
+										label="Start Date"
+										type="date"
+										value={meetingDetails.startDate}
+										onChange={(event) =>
+											setMeetingDetails({
+												...meetingDetails,
+												startDate: event.target.value,
+											})
+										}
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+									<TextField
+										sx={{
+											...muiInputStyle,
+											...seperateLeft,
+										}}
+										label="End Date"
+										type="date"
+										value={meetingDetails.endDate}
+										onChange={(event) =>
+											setMeetingDetails({
+												...meetingDetails,
+												endDate: event.target.value,
+											})
+										}
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+								</div>
+								<button
+									type="submit"
+									onClick={() => {
+										setEditButtonClicked(
+											!editButtonClicked
+										);
+										updateMeeting();
+									}}
+									className="edit_button"
+								>
+									Save
+									<EditIcon />
+								</button>
 								<ToastContainer />
-								{/* organizer: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
-	},
-	participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-	startTime: { type: String, required: true },
-	endTime: { type: String, required: true },
-	startDate: { type: String, required: true },
-	endDate: { type: String, required: true },
-	location: { type: String, required: true },
-	title: { type: String, required: true },
-	description: { type: String },
-	hasPassed: { type: Boolean, required: true, default: false }, */}
 							</>
 						)}
 					</div>
-					{/* <div>
-						className="details" style={{ cursor: "pointer" }}
-						onClick={() => toggleState1()}
-						<EditIcon></EditIcon>
-					</div> */}
-
-					{/* {clickedIcon ? (
-						<div
-							onClick={() => {
-								updateClickedIcon(false);
-							}}
-						>
-							<ClearIcon titleAccess="Exit" />
-						</div>
-					) : (
-						<div
-							onClick={() => {
-								updateClickedIcon(true);
-							}}
-						>
-							<EditIcon titleAccess="Edit Meeting" />
-						</div> */}
 				</>
 			)}
 		</div>

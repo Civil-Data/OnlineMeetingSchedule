@@ -104,13 +104,14 @@ module.exports.Update = async (req, res, next) => {
 module.exports.Delete = async (req, res, next) => {
 	try {
 		// Extract the meeting ID from the request body
-		// const { meetingID } = req.body;
+		const meetingID = req.query.meetingID;
+		console.log(req.body);
 
 		// Delete the meeting with the provided ID from the database
-		// const meeting = await Meeting.deleteOne({ _id: meetingID });
+		const meeting = await Meeting.deleteOne({ _id: meetingID });
 
 		// Log the result of the deletion and send a success response
-		// console.log("Deleted:", meeting);
+		console.log("Deleted:", meeting);
 		res.status(200).json({
 			message: "Meeting was successfully deleted!",
 		});

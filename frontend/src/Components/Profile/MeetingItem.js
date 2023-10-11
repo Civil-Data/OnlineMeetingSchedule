@@ -4,9 +4,26 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import EditIcon from "@mui/icons-material/Edit";
 // import ClearIcon from "@mui/icons-material/Clear";
 import { ToastContainer } from "react-toastify";
+import serverUrl from "../../utils/config";
+import axios from "axios";
+import { Button } from "@mui/material";
+
+const deleteMeeting = async (meeting) => {
+	try {
+		console.log(meeting);
+		const response = await axios.delete(
+			serverUrl + `/meeting/delete?meetingID=${meeting._id}`
+		);
+		// const response = await axios.delete(serverUrl + "/meeting/delete", {
+		// 	meetingID: meeting._id, // meetingID
+		// });
+	} catch (error) {
+		console.log("Error Deleting Meeting");
+	}
+};
 
 //Component for meeting
-const MeetingItem = ({ showVoteButton }) => {
+const MeetingItem = ({ meeting }) => {
 	const [detailIcon, setDetailIcon] = useState(false);
 	// const [editIcon, setEditIcon] = useState(false);
 	const toggleState = () => {
@@ -97,6 +114,14 @@ const MeetingItem = ({ showVoteButton }) => {
 											Save
 											<EditIcon />
 										</button>
+										<Button
+											className="edit_button"
+											onClick={() => {
+												deleteMeeting(meeting);
+											}}
+										>
+											DELETE MEETING
+										</Button>
 									</div>
 								</form>
 								<ToastContainer />

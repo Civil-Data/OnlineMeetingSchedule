@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import serverUrl from "../../utils/config";
 import { toast } from "react-toastify";
+import { Button } from "@mui/material";
 
 const fetchUsers = async () => {
 	try {
@@ -28,6 +29,15 @@ const fetchUsers = async () => {
 	}
 };
 
+const deleteMeeting = async (meeting) => {
+	try {
+		const response = await axios.delete(
+			serverUrl + `/meeting/delete?meetingID=${meeting._id}`
+		);
+	} catch (error) {
+		console.log("Error Deleting Meeting");
+	}
+};
 //Component for meeting
 const MeetingItem = ({ meeting }) => {
 	const [detailIcon, setDetailIcon] = useState(false);
@@ -312,6 +322,14 @@ const MeetingItem = ({ meeting }) => {
 									Save
 									<EditIcon />
 								</button>
+								<Button
+									className="edit_button"
+									onClick={() => {
+										deleteMeeting(meeting);
+									}}
+								>
+									DELETE MEETING
+								</Button>
 								<ToastContainer />
 							</>
 						)}

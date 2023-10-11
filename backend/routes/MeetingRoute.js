@@ -10,6 +10,6 @@ const router = require("express").Router();
 router.get("/meeting/users", GetMeetingsByUserId);
 router.post("/meeting/create", Create);
 router.post("/meeting/update", Update);
-router.post("/meeting/delete", Delete);
+router.delete("/meeting/delete", Delete);
 
 module.exports = router;

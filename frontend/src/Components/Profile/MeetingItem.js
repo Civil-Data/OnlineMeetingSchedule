@@ -1,37 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { Button } from "@mui/material";
-import serverUrl from "../../utils/config";
-
-import axios from "axios";
-import { useUserContext } from "../../contexts/LoginContext";
+// import { useMeetingUpdate } from "../../contexts/MeetingContext";
+import EditIcon from "@mui/icons-material/Edit";
+// import ClearIcon from "@mui/icons-material/Clear";
+import { ToastContainer } from "react-toastify";
 
 //Component for meeting
-const deleteMeeting = async (meeting) => {
-	try {
-		const response = await axios.delete(serverUrl + "/meeting/delete", {
-			meetingID: meeting._id, // meetingID
-		});
-	} catch (error) {
-		console.log("Error Deleting Meeting");
-	}
-};
-
-const getUser = async () => {
-	try {
-		const user = await axios.get(serverUrl + "/users");
-	} catch (error) {
-		console.log("Error getting user");
-	}
-};
-const MeetingItem = ({ meetingObj }) => {
-	const { user } = useUserContext();
-	const isButtonDisabled = meetingObj.organizer === user._id; //is participants or organizer
-	const [meeting, setMeeting] = useState(meetingObj);
+const MeetingItem = ({ showVoteButton }) => {
 	const [detailIcon, setdetailIcon] = useState(false);
 	const toggleState = () => {
-		setdetailIcon(!detailIcon);
+		setDetailIcon(!detailIcon);
 	};
+	const [editButtonClicked, setEditButtonClicked] = useState(false);
+	// const toggleState1 = () => {
+	// 	setEditIcon(!editIcon);
+	// };
+
+	// const { clickedIcon, updateClickedIcon } = useMeetingUpdate();
+
 	useEffect(() => {
 		getUser(); // Call the getUser function to fetch user data
 	}, []);
@@ -55,9 +41,83 @@ const MeetingItem = ({ meetingObj }) => {
 			{detailIcon && (
 				<>
 					<div className="participants">
-						<div>Participants:</div>
-						<br></br>
-						<div>Information: </div>
+						{!editButtonClicked ? (
+							<>
+								<div>Organizer:</div>
+								<div>Participants:</div>
+								<br></br>
+								<div>Information: </div>
+								<br></br>
+								<button
+									onClick={() => {
+										setEditButtonClicked(
+											!editButtonClicked
+										);
+									}}
+									className="edit_button"
+								>
+									Edit
+									<EditIcon />
+								</button>
+							</>
+						) : (
+							<>
+								<form action="">
+									<div className="profile_info">
+										<label htmlFor="organizer">
+											Organizer:
+										</label>
+										<input
+											type="text"
+											name="organizer"
+											id="organizer"
+										/>
+										<label htmlFor="participants">
+											Participants:
+										</label>
+										<input
+											type="text"
+											name="participants"
+											id="participants"
+										/>
+										<label htmlFor="information">
+											Information:
+										</label>
+										<input
+											type="text"
+											name="information"
+											id="information"
+										/>
+										<button
+											onClick={() => {
+												setEditButtonClicked(
+													!editButtonClicked
+												);
+											}}
+											className="edit_button"
+										>
+											Save
+											<EditIcon />
+										</button>
+									</div>
+								</form>
+								<ToastContainer />
+								{/* organizer: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+	},
+	participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+	startTime: { type: String, required: true },
+	endTime: { type: String, required: true },
+	startDate: { type: String, required: true },
+	endDate: { type: String, required: true },
+	location: { type: String, required: true },
+	title: { type: String, required: true },
+	description: { type: String },
+	hasPassed: { type: Boolean, required: true, default: false }, */}
+							</>
+						)}
 						<Button
 							className="Button"
 							style={isButtonDisabled ? { display: "none" } : {}}
@@ -66,6 +126,28 @@ const MeetingItem = ({ meetingObj }) => {
 							Delete Meeting
 						</Button>
 					</div>
+					{/* <div>
+						className="details" style={{ cursor: "pointer" }}
+						onClick={() => toggleState1()}
+						<EditIcon></EditIcon>
+					</div> */}
+
+					{/* {clickedIcon ? (
+						<div
+							onClick={() => {
+								updateClickedIcon(false);
+							}}
+						>
+							<ClearIcon titleAccess="Exit" />
+						</div>
+					) : (
+						<div
+							onClick={() => {
+								updateClickedIcon(true);
+							}}
+						>
+							<EditIcon titleAccess="Edit Meeting" />
+						</div> */}
 				</>
 			)}
 		</div>

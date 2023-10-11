@@ -73,7 +73,7 @@ module.exports.Update = async (req, res, next) => {
 		} = req.body;
 
 		// Update the meeting with the provided ID in the database
-		const meeting = await Meeting.updateOne(
+		await Meeting.updateOne(
 			{
 				_id: meetingID,
 			},
@@ -92,7 +92,6 @@ module.exports.Update = async (req, res, next) => {
 		// Send a success response with the updated meeting data
 		res.status(200).json({
 			message: "Meeting was successfully updated!",
-			meeting,
 		});
 		next();
 	} catch (error) {

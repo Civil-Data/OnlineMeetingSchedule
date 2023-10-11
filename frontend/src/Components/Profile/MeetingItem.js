@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 // import { useMeetingUpdate } from "../../contexts/MeetingContext";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,7 +7,8 @@ import { ToastContainer } from "react-toastify";
 
 //Component for meeting
 const MeetingItem = ({ showVoteButton }) => {
-	const [detailIcon, setdetailIcon] = useState(false);
+	const [detailIcon, setDetailIcon] = useState(false);
+	// const [editIcon, setEditIcon] = useState(false);
 	const toggleState = () => {
 		setDetailIcon(!detailIcon);
 	};
@@ -18,9 +19,6 @@ const MeetingItem = ({ showVoteButton }) => {
 
 	// const { clickedIcon, updateClickedIcon } = useMeetingUpdate();
 
-	useEffect(() => {
-		getUser(); // Call the getUser function to fetch user data
-	}, []);
 	return (
 		<div className="meeting_item">
 			<div className="meeting_item_header">
@@ -118,13 +116,6 @@ const MeetingItem = ({ showVoteButton }) => {
 	hasPassed: { type: Boolean, required: true, default: false }, */}
 							</>
 						)}
-						<Button
-							className="Button"
-							style={isButtonDisabled ? { display: "none" } : {}}
-							onClick={async () => await deleteMeeting(meeting)}
-						>
-							Delete Meeting
-						</Button>
 					</div>
 					{/* <div>
 						className="details" style={{ cursor: "pointer" }}

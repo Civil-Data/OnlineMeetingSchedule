@@ -20,7 +20,7 @@ const PersonalInfo = ({
 	description,
 	password,
 }) => {
-	const { clickedIcon } = useProfileUpdate();
+	const { clickedIcon, updateClickedIcon } = useProfileUpdate();
 	const { saveUser } = useUpdateUserContext();
 	let emailChanged = false;
 	const [inputValue, setInputValue] = useState({
@@ -75,7 +75,7 @@ const PersonalInfo = ({
 			);
 		}
 
-		if (isAlpha(newTelephone)) {
+		if (isAlpha(String(newTelephone))) {
 			return handleError("You can't have letters in a phone number");
 		}
 
@@ -131,6 +131,7 @@ const PersonalInfo = ({
 			if (success) {
 				handleSuccess(message);
 				saveUser(data.user);
+				updateClickedIcon(false);
 			} else {
 				handleError(message);
 			}

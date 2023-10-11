@@ -16,19 +16,13 @@ const Profile = () => {
 	const tabContext = useTabContext();
 	const { updateClickedIcon, clickedIcon } = useProfileUpdate();
 
-	// const checkLoginStatus = () => {
-	// 	if (!loginStatus) {
-	// 		window.location.href = "/login";
-	// 	}
-	// };
-
-	// checkLoginStatus();
-
 	return (
 		<>
 			<div className="profile_container">
 				<div className="top_section">
-					{loginStatus && <span>{user.firstName + " " + user.lastName}</span>}
+					{loginStatus && (
+						<span>{user.firstName + " " + user.lastName}</span>
+					)}
 					{tabContext === "info" && (
 						<>
 							{clickedIcon ? (

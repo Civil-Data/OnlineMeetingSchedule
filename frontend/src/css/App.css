@@ -419,21 +419,36 @@ input.input_margin {
 	background-color: gray;
 	border: 6px ridge goldenrod;
 	border-radius: 0px;
-	margin-top: 25px;
+	/* margin-top: 25px; */
+	margin: 25px;
+	font-family: "open sans", sans-serif;
 }
 
 .details {
-	text-align: end;
+	user-select: none;
+	margin: 10px;
+	cursor: pointer;
+	display: flex;
 	align-items: center;
 }
 
-.meeting_item_header {
+.meeting_top {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
-	justify-content: space-around;
+}
+
+.meeting_title {
+	font-size: 16pt;
+}
+
+.meeting_item_header {
+	/* display: flex;
+	align-items: center;
+	justify-content: space-around; */
 	border-radius: 10px;
 	list-style: none;
-	margin-bottom: 25px;
+	/* margin-bottom: 25px; */
 	white-space: no-wrap;
 	text-decoration: underline;
 	font-weight: bold;
@@ -445,6 +460,15 @@ input.input_margin {
 	padding-right: 3px;
 	text-overflow: wrap;
 }
+
+td {
+	padding: 10px 30px;
+}
+
+th {
+	margin-right: 10px;
+}
+
 .list_item {
 	display: flex;
 	align-items: center;
@@ -585,8 +609,7 @@ input.input_margin {
 	text-align: center;
 }
 
-.participants {
-	text-align: center;
+.meeting_details {
 }
 
 .MuiTablePagination-displayedRows {
@@ -685,4 +708,49 @@ input.input_margin {
 	background-color: rgb(218, 208, 186);
 	border-radius: 3px;
 	outline-style: none;
+}
+
+.edit_meeting_fields {
+	background: white;
+	padding: 20px;
+	border-radius: 20px;
+	margin-top: 20px;
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root,
+.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input,
+.MuiOutlinedInput-root,
+.css-6od3lo-MuiChip-label {
+	font-family: "open sans", sans-serif !important;
+}
+
+.delete_button:hover {
+	background-color: rgb(248, 118, 118) !important;
+}
+
+.meeting_btn_area {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	padding: 10px;
+}
+
+.edit_button {
+	display: flex;
+	align-items: center;
+	/* justify-content: space-between; */
+	/* width: 70px; */
+	cursor: pointer;
+	border: 2px solid goldenrod;
+	border-radius: 3px;
+	padding: 5px 8px;
+	font-family: "open sans", sans-serif;
+	font-size: 12pt;
+	color: rgb(255, 189, 21);
+	/* background-color: rgba(0, 0, 0, 0.5); */
+	background-color: transparent;
+}
+
+.edit_button:hover {
+	background-color: rgba(0, 0, 0, 0.7);
 }

@@ -409,7 +409,7 @@ input.input_margin {
 .meeting_item {
 	padding: 20px;
 	align-items: center;
-	/* width: 100%; */
+	width: 100%;
 	display: table;
 	background-color: gray;
 	border: 6px ridge goldenrod;
@@ -639,6 +639,7 @@ input.input_margin {
 .calender_meeting_overview > .meeting_item {
 	border-radius: 6px;
 	border: 3px solid;
+	width: auto;
 	/* border-color: linear-gradient(black, grey); */
 	border-image: linear-gradient(30deg, black, goldenrod) 1;
 	/* margin: 25px; */

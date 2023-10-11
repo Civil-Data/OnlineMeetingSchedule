@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import serverUrl from "../utils/config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
-import { isAlpha } from "validator";
+import { isAlpha, isEmail } from "validator";
 
 //Component for signup
 const Signup = () => {
@@ -77,7 +77,7 @@ const Signup = () => {
 			return handleError("Password should be at least 8 characters");
 		}
 
-		if (!email.includes("@") || !email.includes(".")) {
+		if (!isEmail(email)) {
 			return handleError("Email is not valid");
 		}
 

@@ -31,7 +31,7 @@ const fetchUsers = async () => {
 
 const deleteMeeting = async (meeting) => {
 	try {
-		const response = await axios.delete(
+		await axios.delete(
 			serverUrl + `/meeting/delete?meetingID=${meeting._id}`
 		);
 	} catch (error) {

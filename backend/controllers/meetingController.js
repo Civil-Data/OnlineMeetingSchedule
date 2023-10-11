@@ -73,7 +73,7 @@ module.exports.Update = async (req, res, next) => {
 		} = req.body;
 
 		// Update the meeting with the provided ID in the database
-		const meeting = await Meeting.updateOne(
+		await Meeting.updateOne(
 			{
 				_id: meetingID,
 			},
@@ -92,7 +92,6 @@ module.exports.Update = async (req, res, next) => {
 		// Send a success response with the updated meeting data
 		res.status(200).json({
 			message: "Meeting was successfully updated!",
-			meeting,
 		});
 		next();
 	} catch (error) {
@@ -104,13 +103,12 @@ module.exports.Update = async (req, res, next) => {
 module.exports.Delete = async (req, res, next) => {
 	try {
 		// Extract the meeting ID from the request body
-		// const { meetingID } = req.body;
+		const meetingID = req.query.meetingID;
 
 		// Delete the meeting with the provided ID from the database
-		// const meeting = await Meeting.deleteOne({ _id: meetingID });
+		await Meeting.deleteOne({ _id: meetingID });
 
-		// Log the result of the deletion and send a success response
-		// console.log("Deleted:", meeting);
+		// Send a success response
 		res.status(200).json({
 			message: "Meeting was successfully deleted!",
 		});

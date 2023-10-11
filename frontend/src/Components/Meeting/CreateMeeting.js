@@ -102,7 +102,6 @@ const CreateMeeting = () => {
 
 	useEffect(() => {
 		fetchUsers().then((users) => {
-			console.log(users);
 			setUsers(users);
 		});
 	}, []);

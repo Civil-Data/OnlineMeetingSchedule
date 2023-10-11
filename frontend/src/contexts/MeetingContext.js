@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
-import Booking from "../views/Booking";
+import Meeting from "../views/Meeting";
 import { useDateContext } from "./DateContext";
 
 const DayViewToggleContext = React.createContext();
 const DayViewContext = React.createContext();
+const PopUpContext = React.createContext();
 
 export function useDayViewUpdate() {
 	return useContext(DayViewToggleContext);
@@ -13,8 +14,12 @@ export function useDayView() {
 	return useContext(DayViewContext);
 }
 
+export function useMeetingPopUp() {
+	return useContext(PopUpContext);
+}
+
 //Context provider for managing day view state
-export const BookingProvider = ({ children }) => {
+export const MeetingProvider = ({ children }) => {
 	const { getDate } = useDateContext();
 
 	const [dayView, setDayView] = useState(false);
@@ -25,6 +30,8 @@ export const BookingProvider = ({ children }) => {
 	const [monthToDisplay, setMonthToDisplay] = useState(getDate().month);
 	const [yearToDisplay, setYearToDisplay] = useState(getDate().year);
 
+	const [view, setView] = useState(true);
+
 	function updateMonthToDisplay(month) {
 		setMonthToDisplay(month);
 	}
@@ -34,6 +41,10 @@ export const BookingProvider = ({ children }) => {
 
 	function closeDayView() {
 		setDayView(false);
+	}
+
+	function toggleCreateMeeting() {
+		setView(view => !view);
 	}
 
 	// Function to open the day view with given date and day string
@@ -65,8 +76,10 @@ export const BookingProvider = ({ children }) => {
 					updateYearToDisplay,
 				}}
 			>
-				{children}
-				<Booking />
+				<PopUpContext.Provider value={{ view, toggleCreateMeeting }}>
+					{children}
+					<Meeting />
+				</PopUpContext.Provider>
 			</DayViewToggleContext.Provider>
 		</DayViewContext.Provider>
 	);

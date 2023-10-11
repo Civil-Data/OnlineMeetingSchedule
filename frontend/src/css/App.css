@@ -671,3 +671,12 @@ input.input_margin {
 .calender_meeting_overview::-webkit-scrollbar-thumb:hover {
 	background: rgb(179, 135, 24);
 }
+
+#gender_container {
+	font-size: 25px;
+	border: rgb(255, 187, 14) 2px solid;
+	font-weight: bold;
+	background-color: rgb(218, 208, 186);
+	border-radius: 3px;
+	outline-style: none;
+}

@@ -69,6 +69,16 @@ const PersonalInfo = ({
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		if (+newTelephone < 0) {
+			return handleError(
+				"You can't have negative numbers in a phone number"
+			);
+		}
+
+		if (isAlpha(newTelephone)) {
+			return handleError("You can't have letters in a phone number");
+		}
+
 		if (+newAge < 0) {
 			return handleError("You can't have negative age");
 		}
@@ -162,14 +172,19 @@ const PersonalInfo = ({
 
 				<label className="user_info_label">Gender:</label>
 				{clickedIcon ? (
-					<input
-						type="text"
+					<select
+						id="gender_container"
 						name="newGender"
-						autoComplete="gender"
 						value={newGender}
-						placeholder="Gender"
 						onChange={handleOnChange}
-					/>
+					>
+						<option value="Male">Male</option>
+						<option value="Female">Female</option>
+						<option value="Other">Other</option>
+						<option value="Don't want to specify">
+							Don't want to specify
+						</option>
+					</select>
 				) : (
 					<span>{gender}</span>
 				)}

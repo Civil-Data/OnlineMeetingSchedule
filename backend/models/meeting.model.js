@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 
 // Define a schema for the "Meeting" model
 const meetingSchema = new mongoose.Schema({
-	organizer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+	organizer: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+	},
 	participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 	startTime: { type: String, required: true },
 	endTime: { type: String, required: true },

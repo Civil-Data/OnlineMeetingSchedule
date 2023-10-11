@@ -49,7 +49,6 @@ const CreateMeeting = () => {
 
 	// Function to handle meeting confirmation
 	const bookMeeting = async () => {
-		// console.log("I run");
 		try {
 			const participantList = [];
 			participants.forEach((participant) => {
@@ -67,7 +66,7 @@ const CreateMeeting = () => {
 			// 	...meetingDetails,
 			// });
 
-			const res = await fetch(serverUrl + "/meeting/create", {
+			await fetch(serverUrl + "/meeting/create", {
 				method: "POST",
 
 				headers: { "Content-type": "application/json" },
@@ -78,7 +77,7 @@ const CreateMeeting = () => {
 				}),
 			});
 
-			console.log(res);
+			// console.log(res);
 		} catch (error) {
 			// Handle error
 			console.error("An error occurred while meeting the meeting.");
@@ -103,7 +102,7 @@ const CreateMeeting = () => {
 
 	useEffect(() => {
 		fetchUsers().then((users) => {
-			// console.log(users);
+			console.log(users);
 			setUsers(users);
 		});
 	}, []);
@@ -263,10 +262,10 @@ const CreateMeeting = () => {
 				/>
 			</div>
 
-			{/* {errorMessage} */}
-			<div onClick={bookMeeting}>
-				<ConfirmButton isDisabled={isButtonDisabled} />
-			</div>
+			<ConfirmButton
+				isDisabled={isButtonDisabled}
+				bookMeeting={bookMeeting}
+			/>
 		</>
 	);
 };

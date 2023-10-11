@@ -107,10 +107,9 @@ module.exports.Delete = async (req, res, next) => {
 		console.log(req.body);
 
 		// Delete the meeting with the provided ID from the database
-		const meeting = await Meeting.deleteOne({ _id: meetingID });
+		await Meeting.deleteOne({ _id: meetingID });
 
-		// Log the result of the deletion and send a success response
-		console.log("Deleted:", meeting);
+		// Send a success response
 		res.status(200).json({
 			message: "Meeting was successfully deleted!",
 		});

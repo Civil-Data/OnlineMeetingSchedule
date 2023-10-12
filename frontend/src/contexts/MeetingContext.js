@@ -44,7 +44,7 @@ export const MeetingProvider = ({ children }) => {
 	}
 
 	function toggleCreateMeeting() {
-		setView(view => !view);
+		setView((view) => !view);
 	}
 
 	// Function to open the day view with given date and day string

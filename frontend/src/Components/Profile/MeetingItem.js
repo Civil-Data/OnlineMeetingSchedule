@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-// import { useMeetingUpdate } from "../../contexts/MeetingContext";
 import EditIcon from "@mui/icons-material/Edit";
-// import ClearIcon from "@mui/icons-material/Clear";
 import { ToastContainer } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-// import { useDateContext } from "../../contexts/DateContext";
 import { useEffect } from "react";
 import axios from "axios";
 import serverUrl from "../../utils/config";
@@ -19,7 +16,7 @@ const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
 		const { data } = await axios.get(serverUrl + "/users");
-		data.forEach(user => {
+		data.forEach((user) => {
 			if (user.firstName) {
 				listOfUsers.push(user);
 			}
@@ -31,14 +28,16 @@ const fetchUsers = async () => {
 	}
 };
 
-const handleSuccess = msg =>
+const handleSuccess = (msg) =>
 	toast.success(msg, {
 		position: "bottom-right",
 	});
 
-const deleteMeeting = async meeting => {
+const deleteMeeting = async (meeting) => {
 	try {
-		const { data } = await axios.delete(serverUrl + `/meeting/delete?meetingID=${meeting._id}`);
+		const { data } = await axios.delete(
+			serverUrl + `/meeting/delete?meetingID=${meeting._id}`
+		);
 		handleSuccess(data.message);
 	} catch (error) {
 		console.log("Error Deleting Meeting");
@@ -49,13 +48,9 @@ const MeetingItem = ({ meeting }) => {
 	const { user } = useUserContext();
 	const navigate = useNavigate();
 	const [detailViewState, setDetailViewState] = useState(false);
-	// const { getDate } = useDateContext();
 
 	const [isLoading, setIsLoading] = useState(true);
-	// const [editIcon, setEditIcon] = useState(false);
-	// const setDetailViewState(!detailViewState); = () => {
-	// 	setDetailViewState(!detailViewState);
-	// };
+
 	const [users, setUsers] = useState([{}]); // Array with users
 
 	const [meetingDetails, setMeetingDetails] = useState(meeting);
@@ -68,8 +63,6 @@ const MeetingItem = ({ meeting }) => {
 		color: "white",
 	};
 	const muiInputStyleDescription = {
-		// marginBottom: "6px",
-		// margin: "0",
 		width: "100%",
 	};
 
@@ -84,7 +77,7 @@ const MeetingItem = ({ meeting }) => {
 	const updateMeeting = async () => {
 		try {
 			const participantList = [];
-			participants.forEach(participant => {
+			participants.forEach((participant) => {
 				participantList.push(participant._id);
 			});
 			const { data } = await axios.post(
@@ -121,10 +114,27 @@ const MeetingItem = ({ meeting }) => {
 			{!isLoading && (
 				<>
 					<div className="meeting_top">
-						<span className="meeting_title">{meetingDetails.title}</span>
+						<span>
+							<label htmlFor="meeting_title">
+								<b>Meeting Title: </b>
+							</label>
+							<div>{meetingDetails.title}</div>
+						</span>
 
 						<span>
-							<b>Location:</b> {meetingDetails.location}
+							<label htmlFor="location">
+								<b>Location:</b>
+							</label>
+							<div>{meetingDetails.location}</div>
+						</span>
+						<span>
+							<label htmlFor="time_details">
+								<b>Date:</b>
+							</label>
+							<div id="time_details">
+								{meetingDetails.startDate} {" to "}
+								{meetingDetails.endDate}
+							</div>
 						</span>
 
 						<span>
@@ -132,20 +142,28 @@ const MeetingItem = ({ meeting }) => {
 								<b>From - To:</b>
 							</label>
 							<div id="time_details">
-								{meetingDetails.startTime} - {meetingDetails.endTime}
+								{meetingDetails.startTime} -{" "}
+								{meetingDetails.endTime}
 							</div>
 						</span>
 
 						<span>
-							<b>Participants:</b> {meetingDetails.participants.length}
+							<b>Participants:</b>{" "}
+							{meetingDetails.participants.length}
 						</span>
 
 						<div style={{ display: "inherit" }}>
 							{meetingDetails.organizer === user._id && (
 								<button
-									style={editButtonClicked ? { backgroundColor: "black" } : {}}
+									style={
+										editButtonClicked
+											? { backgroundColor: "black" }
+											: {}
+									}
 									onClick={() => {
-										setEditButtonClicked(!editButtonClicked);
+										setEditButtonClicked(
+											!editButtonClicked
+										);
 										// setDetailViewState(true);
 									}}
 									className="edit_button"
@@ -156,70 +174,53 @@ const MeetingItem = ({ meeting }) => {
 							)}
 							<div
 								className="details"
-								onClick={() => setDetailViewState(!detailViewState)}
+								onClick={() =>
+									setDetailViewState(!detailViewState)
+								}
 							>
 								<ArrowRightIcon
-									sx={detailViewState ? { transform: "rotate(90deg)" } : {}}
+									sx={
+										detailViewState
+											? { transform: "rotate(90deg)" }
+											: {}
+									}
 								/>
 								Details
 							</div>
 						</div>
 					</div>
-					{/* <div className="meeting_item_header">
-                    <div className="meeting_header_titles">Meeting title</div>
-                    <div className="meeting_header_titles">When?</div>
-                    <div className="meeting_header_titles">Where?</div>
-                    </div> */}
-
-					{/* <div></div>
-                    <table>
-                    <tr className="meeting_item_header">
-                            <th className="meeting_header_titles">Title</th>
-                            <th className="meeting_header_titles">When?</th>
-                            <th className="meeting_header_titles">Where?</th>
-                        </tr>
-                        <tr>
-                        <td></td>
-                            <td>
-                            {meetingDetails.startTime}
-                            {meetingDetails.startDate}
-                            </td>
-                            <td>{meetingDetails.location}</td>
-                            </tr>
-                        </table> */}
 
 					{(detailViewState || editButtonClicked) && (
 						<>
 							<div className="meeting_details">
 								{!editButtonClicked ? (
 									<>
-										<span>
-											<label htmlFor="time_details">From - To:</label>
-											<div id="time_details">
-												{meetingDetails.startTime} -{" "}
-												{meetingDetails.endTime}
-											</div>
-										</span>
 										<br />
+										<h4>Organizer:</h4>
 										<div>
-											{`Organizer: ${users
-												.map(user => {
-													if (user._id === meetingDetails.organizer)
+											{users
+												.map((user) => {
+													if (
+														user._id ===
+														meetingDetails.organizer
+													)
 														return `${user.firstName} ${user.lastName} <${user.email}>`;
 													else return "";
 												})
 												.filter(Boolean)
 												.join(", ")}
-                                            `}
 										</div>
 										{/* <br /> */}
 										<div>
+											<br></br>
 											<h4>Participants:</h4>
 											<div>
 												{meetingDetails.participants
-													.map(participant => {
+													.map((participant) => {
 														const user = users.find(
-															user => user._id === participant
+															(user) =>
+																user._id ===
+																participant
 														);
 
 														return user
@@ -231,20 +232,9 @@ const MeetingItem = ({ meeting }) => {
 											</div>
 										</div>
 										<br />
-										<div>Description: {meetingDetails.description}</div>
+										<h4>Description: </h4>
+										<div>{meetingDetails.description}</div>
 										<br />
-										{/* <div style={{ display: "flex", justifyContent: "center" }}>
-									<button
-                                    style={meeting._id === user._id ? { display: "none" } : {}}
-                                    onClick={() => {
-                                        setEditButtonClicked(!editButtonClicked);
-                                    }}
-										className="edit_button"
-                                        >
-                                    EDIT
-										<EditIcon sx={editIcon} />
-									</button>
-								</div> */}
 									</>
 								) : (
 									<>
@@ -253,10 +243,11 @@ const MeetingItem = ({ meeting }) => {
 												sx={muiInputStyle}
 												label="Meeting Title"
 												value={meetingDetails.title}
-												onChange={event =>
+												onChange={(event) =>
 													setMeetingDetails({
 														...meetingDetails,
-														title: event.target.value,
+														title: event.target
+															.value,
 													})
 												}
 											/>
@@ -267,10 +258,11 @@ const MeetingItem = ({ meeting }) => {
 												}}
 												label="Location"
 												value={meetingDetails.location}
-												onChange={event =>
+												onChange={(event) =>
 													setMeetingDetails({
 														...meetingDetails,
-														location: event.target.value,
+														location:
+															event.target.value,
 													})
 												}
 											/>
@@ -282,10 +274,11 @@ const MeetingItem = ({ meeting }) => {
 												className="calendar_choose_time"
 												label="Start Time" // Add Start Time field
 												value={meetingDetails.startTime}
-												onChange={event =>
+												onChange={(event) =>
 													setMeetingDetails({
 														...meetingDetails,
-														startTime: event.target.value,
+														startTime:
+															event.target.value,
 													})
 												}
 												type="time"
@@ -304,10 +297,11 @@ const MeetingItem = ({ meeting }) => {
 												}}
 												label="End Time" // Add End Time field
 												value={meetingDetails.endTime}
-												onChange={event =>
+												onChange={(event) =>
 													setMeetingDetails({
 														...meetingDetails,
-														endTime: event.target.value,
+														endTime:
+															event.target.value,
 													})
 												}
 												type="time"
@@ -325,14 +319,16 @@ const MeetingItem = ({ meeting }) => {
 												multiple
 												id="participants"
 												options={users} // Add your list of participants here
-												getOptionLabel={option =>
+												getOptionLabel={(option) =>
 													`${option.firstName} ${option.lastName} <${option.email}>`
 												}
-												value={meetingDetails.participant}
+												value={
+													meetingDetails.participant
+												}
 												onChange={(event, user) => {
 													setParticipants(user);
 												}}
-												renderInput={params => (
+												renderInput={(params) => (
 													<TextField
 														{...params}
 														label="Participants"
@@ -348,11 +344,14 @@ const MeetingItem = ({ meeting }) => {
 												}}
 												label="Description"
 												type="description"
-												value={meetingDetails.description}
-												onChange={event =>
+												value={
+													meetingDetails.description
+												}
+												onChange={(event) =>
 													setMeetingDetails({
 														...meetingDetails,
-														description: event.target.value,
+														description:
+															event.target.value,
 													})
 												}
 												multiline
@@ -364,10 +363,11 @@ const MeetingItem = ({ meeting }) => {
 												label="Start Date"
 												type="date"
 												value={meetingDetails.startDate}
-												onChange={event =>
+												onChange={(event) =>
 													setMeetingDetails({
 														...meetingDetails,
-														startDate: event.target.value,
+														startDate:
+															event.target.value,
 													})
 												}
 												InputLabelProps={{
@@ -382,10 +382,11 @@ const MeetingItem = ({ meeting }) => {
 												label="End Date"
 												type="date"
 												value={meetingDetails.endDate}
-												onChange={event =>
+												onChange={(event) =>
 													setMeetingDetails({
 														...meetingDetails,
-														endDate: event.target.value,
+														endDate:
+															event.target.value,
 													})
 												}
 												InputLabelProps={{
@@ -397,7 +398,9 @@ const MeetingItem = ({ meeting }) => {
 											<button
 												type="submit"
 												onClick={() => {
-													setEditButtonClicked(!editButtonClicked);
+													setEditButtonClicked(
+														!editButtonClicked
+													);
 													setDetailViewState(true);
 													updateMeeting();
 												}}

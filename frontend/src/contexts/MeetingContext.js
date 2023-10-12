@@ -44,7 +44,7 @@ export const MeetingProvider = ({ children }) => {
 	}
 
 	function toggleCreateMeeting() {
-		setView((view) => !view);
+		setView(view => !view);
 	}
 
 	// Function to open the day view with given date and day string
@@ -77,7 +77,7 @@ export const MeetingProvider = ({ children }) => {
 				}}
 			>
 				<PopUpContext.Provider
-					value={{ view, toggleCreateMeeting, date, monthToDisplay, yearToDisplay }}
+					value={{ view, toggleCreateMeeting, date, clickedMonth, yearToDisplay }}
 				>
 					{children}
 					<Meeting />

@@ -31,7 +31,6 @@ module.exports.GetMeetingsByDate = async (req, res) => {
 // Create a new meeting
 module.exports.Create = async (req, res, next) => {
 	try {
-		// console.log(req.body);
 		// Extract meeting details from the request body
 		const {
 			organizer,

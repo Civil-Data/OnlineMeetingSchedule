@@ -9,7 +9,6 @@ const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 		const dateString = `${String(yearToDisplay).padStart(2, "0")}-${String(
 			monthToDisplay
 		).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
-		// console.log(dateString);
 		const { data } = await axios.get(serverUrl + `/meeting/date?date=${dateString}`);
 
 		return data;

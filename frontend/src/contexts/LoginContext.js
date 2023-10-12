@@ -28,6 +28,7 @@ export const LoginProvider = ({ children }) => {
 	});
 	const [loginStatus, setLoginStatus] = useState(false);
 	const [logoutPressed, setLogoutPressed] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [cookies, removeCookie] = useCookies([]);
 	const [justRegistered, setJustRegistered] = useState(false);
 	const navigate = useNavigate();
@@ -46,34 +47,36 @@ export const LoginProvider = ({ children }) => {
 
 	useEffect(() => {
 		const verifyCookie = async () => {
-			if (
-				cookies.token &&
-				!logoutPressed &&
-				window.location.pathname !== "/" &&
-				window.location.pathname !== "/login" &&
-				window.location.pathname !== "/register"
-			) {
-				updateLoginStatus(true);
-				updateLogoutPressed(false);
-			} else {
-				removeCookie("token");
-				updateLoginStatus(false);
+			try {
+				if (
+					cookies.token &&
+					!logoutPressed &&
+					window.location.pathname !== "/" &&
+					window.location.pathname !== "/login" &&
+					window.location.pathname !== "/register"
+				) {
+					updateLoginStatus(true);
+					updateLogoutPressed(false);
+				} else {
+					removeCookie("token");
+					updateLoginStatus(false);
+				}
+				const { data } = await axios.post(serverUrl + "/", {}, { withCredentials: true });
+				// const { user } = data;
+				// saveUser(user);
+				const { status, user } = data;
+				status ? saveUser(user) : removeCookie("token");
+			} catch (error) {
+				console.error(error);
+			} finally {
+				setIsLoading(false);
 			}
-			const { data } = await axios.post(
-				serverUrl + "/",
-				{},
-				{ withCredentials: true }
-			);
-			const { status, user } = data;
-			return status ? saveUser(user) : removeCookie("token");
 		};
 		verifyCookie();
 	}, [cookies.token, logoutPressed, removeCookie, navigate]);
 
 	return (
-		<userContext.Provider
-			value={{ user, loginStatus, logoutPressed, justRegistered }}
-		>
+		<userContext.Provider value={{ user, loginStatus, logoutPressed, justRegistered }}>
 			<updateUserContext.Provider
 				value={{
 					saveUser,
@@ -82,7 +85,7 @@ export const LoginProvider = ({ children }) => {
 					setJustRegistered,
 				}}
 			>
-				{children}
+				{isLoading ? <></> : children}
 			</updateUserContext.Provider>
 		</userContext.Provider>
 	);

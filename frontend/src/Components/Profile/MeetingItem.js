@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-// import { useMeetingUpdate } from "../../contexts/MeetingContext";
 import EditIcon from "@mui/icons-material/Edit";
-// import ClearIcon from "@mui/icons-material/Clear";
 import { ToastContainer } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-// import { useDateContext } from "../../contexts/DateContext";
 import { useEffect } from "react";
 import axios from "axios";
 import serverUrl from "../../utils/config";
@@ -198,25 +195,6 @@ const MeetingItem = ({ meeting }) => {
 							<div className="meeting_details">
 								{!editButtonClicked ? (
 									<>
-										{/* <span>
-											<label htmlFor="time_details">
-												Date:
-											</label>
-											<div id="time_details">
-												{meetingDetails.startDate}
-												{" to "}
-												{meetingDetails.endDate}
-											</div>
-										</span> */}
-										{/* <span>
-											<label htmlFor="time_details">
-												Time:
-											</label>
-											<div id="time_details">
-												{meetingDetails.startTime} -{" "}
-												{meetingDetails.endTime}
-											</div>
-										</span> */}
 										<br />
 										<h4>Organizer:</h4>
 										<div>
@@ -257,18 +235,6 @@ const MeetingItem = ({ meeting }) => {
 										<h4>Description: </h4>
 										<div>{meetingDetails.description}</div>
 										<br />
-										{/* <div style={{ display: "flex", justifyContent: "center" }}>
-									<button
-                                    style={meeting._id === user._id ? { display: "none" } : {}}
-                                    onClick={() => {
-                                        setEditButtonClicked(!editButtonClicked);
-                                    }}
-										className="edit_button"
-                                        >
-                                    EDIT
-										<EditIcon sx={editIcon} />
-									</button>
-								</div> */}
 									</>
 								) : (
 									<>

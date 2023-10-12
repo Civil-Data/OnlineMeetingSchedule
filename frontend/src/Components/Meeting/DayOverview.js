@@ -10,7 +10,6 @@ const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 		const dateString = `${String(yearToDisplay).padStart(2, "0")}-${String(
 			monthToDisplay
 		).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
-		console.log(dateString);
 		const { data } = await axios.get(serverUrl + `/meeting/date?date=${dateString}`);
 
 		return data;
@@ -20,8 +19,7 @@ const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 };
 
 const DayOverview = () => {
-	// const meetings = true;
-	const { date, monthToDisplay, yearToDisplay } = useMeetingPopUp();
+	const { date, clickedMonth, yearToDisplay } = useMeetingPopUp();
 	const [isLoading, setIsLoading] = useState(true);
 	const [meetings, setMeetings] = useState();
 
@@ -30,7 +28,7 @@ const DayOverview = () => {
 	useEffect(() => {
 		const renderDayMeetings = async () => {
 			try {
-				const meetings = await fetchDayMeeting(date, monthToDisplay + 1, yearToDisplay);
+				const meetings = await fetchDayMeeting(date, clickedMonth, yearToDisplay);
 				setMeetings(meetings);
 			} catch (error) {
 				console.error("Error fetching meetings", error);
@@ -39,7 +37,7 @@ const DayOverview = () => {
 			}
 		};
 		renderDayMeetings();
-	}, [date, monthToDisplay, yearToDisplay]);
+	}, [date, clickedMonth, yearToDisplay]);
 
 	return (
 		<div className="calender_meeting_overview">

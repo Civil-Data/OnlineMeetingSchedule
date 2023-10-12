@@ -51,13 +51,9 @@ const MeetingItem = ({ meeting }) => {
 	const { user } = useUserContext();
 	const navigate = useNavigate();
 	const [detailViewState, setDetailViewState] = useState(false);
-	// const { getDate } = useDateContext();
 
 	const [isLoading, setIsLoading] = useState(true);
-	// const [editIcon, setEditIcon] = useState(false);
-	// const setDetailViewState(!detailViewState); = () => {
-	// 	setDetailViewState(!detailViewState);
-	// };
+
 	const [users, setUsers] = useState([{}]); // Array with users
 
 	const [meetingDetails, setMeetingDetails] = useState(meeting);
@@ -70,8 +66,6 @@ const MeetingItem = ({ meeting }) => {
 		color: "white",
 	};
 	const muiInputStyleDescription = {
-		// marginBottom: "6px",
-		// margin: "0",
 		width: "100%",
 	};
 
@@ -123,12 +117,27 @@ const MeetingItem = ({ meeting }) => {
 			{!isLoading && (
 				<>
 					<div className="meeting_top">
-						<span className="meeting_title">
-							{meetingDetails.title}
+						<span>
+							<label htmlFor="meeting_title">
+								<b>Meeting Title: </b>
+							</label>
+							<div>{meetingDetails.title}</div>
 						</span>
 
 						<span>
-							<b>Location:</b> {meetingDetails.location}
+							<label htmlFor="location">
+								<b>Location:</b>
+							</label>
+							<div>{meetingDetails.location}</div>
+						</span>
+						<span>
+							<label htmlFor="time_details">
+								<b>Date:</b>
+							</label>
+							<div id="time_details">
+								{meetingDetails.startDate} {" to "}
+								{meetingDetails.endDate}
+							</div>
 						</span>
 
 						<span>
@@ -183,46 +192,35 @@ const MeetingItem = ({ meeting }) => {
 							</div>
 						</div>
 					</div>
-					{/* <div className="meeting_item_header">
-                    <div className="meeting_header_titles">Meeting title</div>
-                    <div className="meeting_header_titles">When?</div>
-                    <div className="meeting_header_titles">Where?</div>
-                    </div> */}
-
-					{/* <div></div>
-                    <table>
-                    <tr className="meeting_item_header">
-                            <th className="meeting_header_titles">Title</th>
-                            <th className="meeting_header_titles">When?</th>
-                            <th className="meeting_header_titles">Where?</th>
-                        </tr>
-                        <tr>
-                        <td></td>
-                            <td>
-                            {meetingDetails.startTime}
-                            {meetingDetails.startDate}
-                            </td>
-                            <td>{meetingDetails.location}</td>
-                            </tr>
-                        </table> */}
 
 					{(detailViewState || editButtonClicked) && (
 						<>
 							<div className="meeting_details">
 								{!editButtonClicked ? (
 									<>
-										<span>
+										{/* <span>
 											<label htmlFor="time_details">
-												From - To:
+												Date:
+											</label>
+											<div id="time_details">
+												{meetingDetails.startDate}
+												{" to "}
+												{meetingDetails.endDate}
+											</div>
+										</span> */}
+										{/* <span>
+											<label htmlFor="time_details">
+												Time:
 											</label>
 											<div id="time_details">
 												{meetingDetails.startTime} -{" "}
 												{meetingDetails.endTime}
 											</div>
-										</span>
+										</span> */}
 										<br />
+										<h4>Organizer:</h4>
 										<div>
-											{`Organizer: ${users
+											{users
 												.map((user) => {
 													if (
 														user._id ===
@@ -233,10 +231,10 @@ const MeetingItem = ({ meeting }) => {
 												})
 												.filter(Boolean)
 												.join(", ")}
-                                            `}
 										</div>
 										{/* <br /> */}
 										<div>
+											<br></br>
 											<h4>Participants:</h4>
 											<div>
 												{meetingDetails.participants
@@ -256,10 +254,8 @@ const MeetingItem = ({ meeting }) => {
 											</div>
 										</div>
 										<br />
-										<div>
-											Description:{" "}
-											{meetingDetails.description}
-										</div>
+										<h4>Description: </h4>
+										<div>{meetingDetails.description}</div>
 										<br />
 										{/* <div style={{ display: "flex", justifyContent: "center" }}>
 									<button

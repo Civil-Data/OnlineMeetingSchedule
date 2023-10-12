@@ -436,6 +436,7 @@ input.input_margin {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	width: 80vw;
 }
 
 .meeting_title {
@@ -659,9 +660,9 @@ th {
 	overflow-y: auto;
 	max-height: 80vh;
 	margin-top: 20px;
-	display: grid;
+	/* display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-gap: 20px;
+	grid-gap: 20px; */
 	padding-right: 10px;
 }
 .calender_meeting_overview > .meeting_item {

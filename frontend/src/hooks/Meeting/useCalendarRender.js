@@ -77,6 +77,7 @@ const useCalendarRender = () => {
 					key={uuidv4()}
 					date={dateNum}
 					month={dateObj.month + 1 + month}
+					year={yearToDisplay}
 					dayString={getDate(dateObj.year, dateObj.month + month, dateNum).dayString}
 					theme={bgd}
 				/>

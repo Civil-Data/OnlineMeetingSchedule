@@ -18,18 +18,10 @@ const Signup = () => {
 		password: "",
 		confirmPassword: "",
 	});
-	const {
-		firstName,
-		lastName,
-		email,
-		confirmEmail,
-		password,
-		confirmPassword,
-	} = inputValue;
-	const { saveUser, updateLoginStatus, setJustRegistered } =
-		useUpdateUserContext();
+	const { firstName, lastName, email, confirmEmail, password, confirmPassword } = inputValue;
+	const { saveUser, updateLoginStatus, setJustRegistered } = useUpdateUserContext();
 
-	const handleOnChange = (e) => {
+	const handleOnChange = e => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -37,17 +29,17 @@ const Signup = () => {
 		});
 	};
 
-	const handleError = (err) =>
+	const handleError = err =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
-	const handleSuccess = (msg) =>
+	const handleSuccess = msg =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
 	//Handle all inputs from user
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		if (!isAlpha(firstName) || !isAlpha(lastName)) {
@@ -62,14 +54,7 @@ const Signup = () => {
 			return handleError("Passwords do not match");
 		}
 
-		if (
-			!firstName ||
-			!lastName ||
-			!email ||
-			!password ||
-			!confirmEmail ||
-			!confirmPassword
-		) {
+		if (!firstName || !lastName || !email || !password || !confirmEmail || !confirmPassword) {
 			return handleError("All fields are required");
 		}
 
@@ -101,7 +86,7 @@ const Signup = () => {
 				handleError(message);
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 		setInputValue({
 			...inputValue,
@@ -205,11 +190,7 @@ const Signup = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
-					<button
-						id="confirmation_btn"
-						className="links"
-						type="submit"
-					>
+					<button id="confirmation_btn" className="links" type="submit">
 						Register
 					</button>
 				</div>

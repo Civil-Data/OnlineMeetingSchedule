@@ -14,10 +14,23 @@ module.exports.GetMeetingsByUserId = async (req, res) => {
 		console.error("Unable to find meeting.", error);
 	}
 };
+
+// Get a specific meeting by userId
+module.exports.GetMeetingsByDate = async (req, res) => {
+	try {
+		const meetingDate = req.query.date;
+
+		// Find the meeting with the provided ID
+		const meeting = await Meeting.find({ startDate: meetingDate });
+		res.status(200).json(meeting);
+	} catch (error) {
+		console.error("Unable to find meeting.", error);
+	}
+};
+
 // Create a new meeting
 module.exports.Create = async (req, res, next) => {
 	try {
-		// console.log(req.body);
 		// Extract meeting details from the request body
 		const {
 			organizer,

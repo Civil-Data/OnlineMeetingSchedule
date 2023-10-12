@@ -436,6 +436,7 @@ input.input_margin {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	width: 80vw;
 }
 
 .meeting_item_header {
@@ -653,20 +654,16 @@ th {
 
 .calender_meeting_overview {
 	overflow-y: auto;
+	overflow-x: hidden;
 	max-height: 80vh;
 	margin-top: 20px;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-gap: 20px;
 	padding-right: 10px;
 }
 .calender_meeting_overview > .meeting_item {
 	border-radius: 6px;
 	border: 3px solid;
 	width: auto;
-	/* border-color: linear-gradient(black, grey); */
 	border-image: linear-gradient(30deg, black, goldenrod) 1;
-	/* margin: 25px; */
 	margin-top: 0;
 }
 

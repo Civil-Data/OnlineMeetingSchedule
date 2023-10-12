@@ -59,7 +59,7 @@ const Login = () => {
 				handleError(message);
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 		// Clear the password input field
 		setInputValue({

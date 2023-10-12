@@ -5,9 +5,6 @@ const { createSecretToken } = require("../utils/SecretToken");
 // Insert one user in DB
 module.exports.GetUsers = async (req, res) => {
 	try {
-		// console.log(req.body);
-		// console.log(res);
-
 		const users = await User.find();
 		if (!users) {
 			return res.status(400).json({ message: "Could not find any users" });

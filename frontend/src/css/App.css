@@ -438,10 +438,6 @@ input.input_margin {
 	align-items: center;
 }
 
-.meeting_title {
-	font-size: 16pt;
-}
-
 .meeting_item_header {
 	/* display: flex;
 	align-items: center;

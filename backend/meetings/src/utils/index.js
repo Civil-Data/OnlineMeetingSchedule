@@ -23,13 +23,16 @@ module.exports.ValidatePassword = async (
 	savedPassword,
 	salt
 ) => {
-	return (await this.GeneratePassword(enteredPassword, salt)) === savedPassword;
+	return (
+		(await this.GeneratePassword(enteredPassword, salt)) === savedPassword
+	);
 };
 
 module.exports.GenerateSignature = async (payload) => {
 	try {
 		return await jwt.sign(payload, APP_SECRET, {
-			expiresIn: "2min" });
+			expiresIn: "2min",
+		});
 	} catch (error) {
 		console.log(error);
 		return error;
@@ -59,14 +62,10 @@ module.exports.FormateData = (data) => {
 
 //Message Broker
 module.exports.CreateChannel = async () => {
-	try {
-		const connection = await amqplib.connect(MSG_QUEUE_URL);
-		const channel = await connection.createChannel();
-		await channel.assertQueue(EXCHANGE_NAME, "direct", { durable: true });
-		return channel;
-	} catch (err) {
-		throw err;
-	}
+	const connection = await amqplib.connect(MSG_QUEUE_URL);
+	const channel = await connection.createChannel();
+	await channel.assertQueue(EXCHANGE_NAME, "direct", { durable: true });
+	return channel;
 };
 
 module.exports.PublishMessage = (channel, service, msg) => {

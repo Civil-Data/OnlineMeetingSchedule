@@ -1,3 +1,3 @@
 module.exports = {
-	MeetingsModel: require("./Meetings"),
+	MeetingModel: require("./Meeting"),
 };

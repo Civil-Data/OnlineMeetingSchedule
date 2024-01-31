@@ -31,11 +31,11 @@ services:
 
         env_file:
             - ./user/.env.dev
-    meeting:
+    meetings:
         build:
             dockerfile: Dockerfile
-            context: ./meeting
-        container_name: meeting
+            context: ./meetings
+        container_name: meetings
         ports:
             - "5002:5002"
         restart: always

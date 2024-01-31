@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app/user
+WORKDIR /app/meetings
 
 COPY package.json .
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5001
+EXPOSE 5002
 
 CMD ["npm", "start"]

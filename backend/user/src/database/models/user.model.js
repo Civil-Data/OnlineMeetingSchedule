@@ -38,10 +38,18 @@ const userSchema = new mongoose.Schema({
 	},
 	createdAt: {
 		type: Date,
-		default: `${new Date().toLocaleDateString("sv-SE")} ${new Date().toLocaleTimeString(
+		default: `${new Date().toLocaleDateString(
 			"sv-SE"
-		)}`,
+		)} ${new Date().toLocaleTimeString("sv-SE")}`,
 	},
+	toJSON: {
+		transform(doc, ret) {
+			delete ret.password;
+			delete ret.salt;
+			delete ret.__v;
+		},
+	},
+	timestamps: true,
 });
 
 userSchema.pre("save", async function () {

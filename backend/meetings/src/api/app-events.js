@@ -2,7 +2,7 @@
 
 module.exports = (app) => {
 	// const service = new UserService();
-	app.use("/app-events", async (req, res, next) => {
+	app.use("/app-events", async (req, res) => {
 		const { payload } = req.body;
 
 		//handle subscribe events

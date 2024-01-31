@@ -1,6 +1,6 @@
 version: "3"
 services:
-    MeetingApp:
+    nosql-db:
         image: mvertes/alpine-mongo
         ports:
             - "27018:27017"
@@ -34,25 +34,25 @@ services:
     meeting:
         build:
             dockerfile: Dockerfile
-            context: ./customer
-        container_name: customer
+            context: ./meeting
+        container_name: meeting
         ports:
             - "5002:5002"
         restart: always
         depends_on:
-            - "MeetingApp"
+            - "nosql-db"
             - "rabbitmq"
         volumes:
             - .:/app/
-            - /app/customer/node_modules
+            - /app/meetings/node_modules
         env_file:
-            - ./meeting/.env.dev
+            - ./meetings/.env.dev
     nginx-proxy:
         build:
             dockerfile: Dockerfile
             context: ./proxy
         depends_on:
             - user
-            - meeting
+            - meetings
         ports:
             - 80:80

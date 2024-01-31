@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const { UserModel } = require("../models");
 
 //Dealing with data base operations

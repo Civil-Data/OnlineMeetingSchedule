@@ -34,14 +34,48 @@ class MeetingsRepository {
 		return meetingResult;
 	}
 
-	async FindUser({ email }) {
-		const existingMeeting = await MeetingModel.findOne({ email: email });
+	async FindMeetingByUserId({ userId }) {
+		const existingMeeting = await MeetingModel.find({
+			$or: [{ organizer: userId }, { participants: { $in: [userId] } }],
+		});
+
 		return existingMeeting;
 	}
 
-	async FindUserById({ id }) {
-		const existingMeeting = await MeetingModel.findById(id).populate(
-			"address"
+	// delete meeting by id
+	async DeleteMeetingById({ meetingId }) {
+		const existingMeeting = await MeetingModel.findByIdAndDelete(meetingId);
+
+		return existingMeeting;
+	}
+
+	// update meeting by id
+	async UpdateMeetingById({
+		meetingId,
+		participants,
+		startTime,
+		endTime,
+		startDate,
+		endDate,
+		location,
+		title,
+		description,
+		hasPassed,
+	}) {
+		const existingMeeting = await MeetingModel.findByIdAndUpdate(
+			meetingId,
+			{
+				participants,
+				startTime,
+				endTime,
+				startDate,
+				endDate,
+				location,
+				title,
+				description,
+				hasPassed,
+			},
+			{ new: true }
 		);
 
 		return existingMeeting;

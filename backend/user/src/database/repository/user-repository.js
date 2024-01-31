@@ -21,10 +21,40 @@ class UserRepository {
 		return existingUser;
 	}
 
-	async FindUserById({ id }) {
-		const existingUser = await UserModel.findById(id).populate("address");
+	//update user by id
+	async UpdateUserById({
+		id,
+		firstName,
+		lastName,
+		email,
+		password,
+		telephone,
+		gender,
+		description,
+		age,
+	}) {
+		const existingUser = await UserModel.findByIdAndUpdate(
+			id,
+			{
+				firstName,
+				lastName,
+				email,
+				password,
+				telephone,
+				gender,
+				description,
+				age,
+			},
+			{ new: true }
+		);
 
 		return existingUser;
+	}
+
+	// get all users
+	async GetUsers() {
+		const existingUsers = await UserModel.find();
+		return existingUsers;
 	}
 }
 

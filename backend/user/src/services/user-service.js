@@ -59,9 +59,30 @@ class UserService {
 		return FormateData({ id: existingUser._id, token });
 	}
 
-	async GetProfile(id) {
-		const existingUser = await this.repository.FindUserById({ id });
+	async UpdateUser(userInputs) {
+		const { id, firstName, lastName, email, password } = userInputs;
+
+		let salt = await GenerateSalt();
+
+		let userPassword = await GeneratePassword(password, salt);
+
+		const existingUser = await this.repository.UpdateUserById({
+			id,
+			firstName,
+			lastName,
+			email,
+			password: userPassword,
+			salt,
+		});
+
 		return FormateData(existingUser);
+	}
+
+	//get all users
+	async GetUsers() {
+		const existingUsers = await this.repository.GetUsers();
+
+		return FormateData(existingUsers);
 	}
 
 	// async SubscribeEvents(payload){

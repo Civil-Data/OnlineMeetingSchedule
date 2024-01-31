@@ -12,7 +12,7 @@ module.exports = (app, channel) => {
 	const Meeting = require("../models/meeting.model");
 
 	// Get a specific meeting by userId
-	module.exports.GetMeetingsByUserId = async (req, res) => {
+	app.get("/meeting/users", async (req, res) => {
 		try {
 			const userID = req.query.paramName;
 			// Find the meeting with the provided ID
@@ -26,10 +26,10 @@ module.exports = (app, channel) => {
 		} catch (error) {
 			console.error("Unable to find meeting.", error);
 		}
-	};
+	});
 
 	// Get a specific meeting by userId
-	module.exports.GetMeetingsByDate = async (req, res) => {
+	app.get("/meeting/date", async (req, res) => {
 		try {
 			const meetingDate = req.query.date;
 
@@ -39,10 +39,10 @@ module.exports = (app, channel) => {
 		} catch (error) {
 			console.error("Unable to find meeting.", error);
 		}
-	};
+	});
 
 	// Create a new meeting
-	module.exports.Create = async (req, res, next) => {
+	app.post("/meeting/create", async (req, res, next) => {
 		try {
 			// Extract meeting details from the request body
 			const {
@@ -58,7 +58,7 @@ module.exports = (app, channel) => {
 			} = req.body;
 
 			// Create a new meeting in the database
-			const meeting = await Meeting.create({
+			const meeting = await service.CreateMeeting({
 				organizer,
 				participants,
 				startTime,
@@ -80,10 +80,10 @@ module.exports = (app, channel) => {
 		} catch (error) {
 			console.error("Unable to create meeting.", error);
 		}
-	};
+	});
 
 	// Update an existing meeting by ID
-	module.exports.Update = async (req, res, next) => {
+	app.post("/meeting/update", async (req, res, next) => {
 		try {
 			// Extract meeting details and the meeting ID from the request body
 			const {
@@ -123,10 +123,10 @@ module.exports = (app, channel) => {
 		} catch (error) {
 			console.error("Unable to update meeting.", error);
 		}
-	};
+	});
 
 	// Delete a meeting by ID
-	module.exports.Delete = async (req, res, next) => {
+	app.delete("/meeting/delete", async (req, res, next) => {
 		try {
 			// Extract the meeting ID from the request body
 			const meetingID = req.query.meetingID;
@@ -142,5 +142,11 @@ module.exports = (app, channel) => {
 		} catch (error) {
 			console.error("Unable to delete meeting.", error);
 		}
-	};
+	});
+
+	app.get("/whoami", (req, res) => {
+		return res
+			.status(200)
+			.json({ msg: "/ or /meetings : I am meetings Service" });
+	});
 };

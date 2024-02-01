@@ -9,7 +9,7 @@ module.exports = (app, channel) => {
 	SubscribeMessage(channel, service);
 
 	// Import the Meeting model
-	const Meeting = require("../models/meeting.model");
+	const Meeting = require("../models/Meeting");
 
 	// Get a specific meeting by userId
 	app.get("/meeting/users", async (req, res) => {

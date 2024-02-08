@@ -1,15 +1,15 @@
-const { MeetingsRepository } = require("../database");
+const { MeetingRepository } = require("../database");
 const { FormateData } = require("../utils");
 
 // All Business logic will be here
-class MeetingsService {
+class MeetingService {
 	constructor() {
-		this.repository = new MeetingsRepository();
+		this.repository = new MeetingRepository();
 	}
 
 	async CreateMeeting(payload) {
-		const meetings = await this.repository.CreateMeeting(payload);
-		return FormateData(meetings);
+		const meeting = await this.repository.CreateMeeting(payload);
+		return FormateData(meeting);
 	}
 
 	async GetMeeting(payload) {
@@ -55,4 +55,4 @@ class MeetingsService {
 	// }
 }
 
-module.exports = MeetingsService;
+module.exports = MeetingService;

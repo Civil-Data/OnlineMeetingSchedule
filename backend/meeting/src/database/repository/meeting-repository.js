@@ -2,7 +2,7 @@
 const { MeetingModel } = require("../models");
 
 //Dealing with data base operations
-class MeetingsRepository {
+class MeetingRepository {
 	async CreateMeeting({
 		organizer,
 		participants,
@@ -82,4 +82,4 @@ class MeetingsRepository {
 	}
 }
 
-module.exports = MeetingsRepository;
+module.exports = MeetingRepository;

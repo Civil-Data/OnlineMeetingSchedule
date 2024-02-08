@@ -1,4 +1,4 @@
 module.exports = {
-	meetings: require("./meetings"),
+	meeting: require("./meeting"),
 	appEvents: require("./app-events"),
 };

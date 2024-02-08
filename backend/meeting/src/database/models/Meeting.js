@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 // const User = require("../models/user.model");
 
 // Define a schema for the "Meeting" model
-const meetingSchema = new mongoose.Schema({
+const meetingchema = new mongoose.Schema({
 	organizer: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
@@ -19,4 +19,4 @@ const meetingSchema = new mongoose.Schema({
 	hasPassed: { type: Boolean, required: true, default: false },
 });
 
-module.exports = mongoose.model("Meeting", meetingSchema);
+module.exports = mongoose.model("Meeting", meetingchema);

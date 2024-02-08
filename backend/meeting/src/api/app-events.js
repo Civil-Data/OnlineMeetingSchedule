@@ -8,7 +8,7 @@ module.exports = (app) => {
 		//handle subscribe events
 		// service.SubscribeEvents(payload);
 
-		console.log("============= Meetings ================");
+		console.log("============= Meeting ================");
 		console.log(payload);
 		// res.json(payload);
 

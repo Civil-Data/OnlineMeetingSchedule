@@ -1,15 +1,15 @@
-const MeetingsService = require("../services/meetings-service");
+const MeetingService = require("../services/meeting-service");
 // const UserAuth = require("./middlewares/auth");
 const { SubscribeMessage } = require("../utils");
 
 module.exports = (app, channel) => {
-	const service = new MeetingsService();
+	const service = new MeetingService();
 
 	// To listen
 	SubscribeMessage(channel, service);
 
 	// Import the Meeting model
-	const Meeting = require("../models/Meeting");
+	const Meeting = require("../database/models/Meeting");
 
 	// Get a specific meeting by userId
 	app.get("/meeting/users", async (req, res) => {
@@ -147,6 +147,6 @@ module.exports = (app, channel) => {
 	app.get("/whoami", (req, res) => {
 		return res
 			.status(200)
-			.json({ msg: "/ or /meetings : I am meetings Service" });
+			.json({ msg: "/ or /meeting : I am meeting Service" });
 	});
 };

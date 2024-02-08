@@ -13,6 +13,21 @@ services:
         container_name: rabbitmq
         ports:
             - "5672:5672"
+    #     healthcheck:
+    #         test: ["CMD", "curl", "-f", "http://localhost:15672"]
+    #         interval: 30s
+    #         timeout: 10s
+    #         retries: 5
+
+    # app:
+    #     build: ./app/
+    #     environment:
+    #     - HOSTNAMERABBIT=rabbitmq
+    #     restart: on-failure
+    #     depends_on:
+    #     - rabbitmq
+    #     links:
+    #         - rabbitmq
 
     user:
         build:
@@ -31,11 +46,11 @@ services:
 
         env_file:
             - ./user/.env.dev
-    meetings:
+    meeting:
         build:
             dockerfile: Dockerfile
-            context: ./meetings
-        container_name: meetings
+            context: ./meeting
+        container_name: meeting
         ports:
             - "5002:5002"
         restart: always
@@ -44,15 +59,15 @@ services:
             - "rabbitmq"
         volumes:
             - .:/app/
-            - /app/meetings/node_modules
+            - /app/meeting/node_modules
         env_file:
-            - ./meetings/.env.dev
+            - ./meeting/.env.dev
     nginx-proxy:
         build:
             dockerfile: Dockerfile
             context: ./proxy
         depends_on:
             - user
-            - meetings
+            - meeting
         ports:
             - 80:80

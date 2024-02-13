@@ -10,7 +10,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   default_node_pool {
     name       = "default"
     node_count = 2
-    vm_size    = "Standard_B2s"
+    vm_size    = "Standard_A2_V2"
   }
 
   # Instead of creating a service principle have the system figure this out.

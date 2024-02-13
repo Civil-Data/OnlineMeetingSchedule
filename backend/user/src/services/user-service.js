@@ -18,6 +18,9 @@ class UserService {
 
 		const existingUser = await this.repository.FindUser({ email });
 
+		console.log(userInputs);
+		console.log(existingUser);
+
 		if (existingUser) {
 			const validPassword = await ValidatePassword(
 				password,

@@ -104,7 +104,9 @@ module.exports = (app, channel) => {
 		// try {
 		// Extract email and password from the request body
 		const { email, password } = req.body;
+		console.log(req.body);
 		const { data } = await service.LogIn({ email, password });
+		console.log(data);
 		res.json(data);
 		// Check if both email and password are provided
 		// 	if (!email || !password) {

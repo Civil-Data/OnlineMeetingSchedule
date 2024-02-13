@@ -1,3 +1,4 @@
+*.ipnyb
 *.exe
 # Local .terraform directories
 terraform/.terraform

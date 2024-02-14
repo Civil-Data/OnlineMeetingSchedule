@@ -1,4 +1,4 @@
-[![Build/Test](https://github.com/Civil-Data/OnlineMeetingSchedule/actions/workflows/node.js.yml/badge.svg)](https://github.com/Civil-Data/OnlineMeetingSchedule/actions/workflows/node.js.yml)
+[![Deploy meeting microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml)
 
 # OnlineMeetingSchedule
 

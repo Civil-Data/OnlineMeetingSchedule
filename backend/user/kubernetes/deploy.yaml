@@ -1,0 +1,66 @@
+#
+# -This YAML  manifest file contains two kubernetes resources for the user microservice.
+#  - One Deployment, and one Service for the Deployment's Pods.
+#  - Notice how multiple resources can be defined in one YAML file by separating them with 3 dashes ---
+#
+# Note!
+# The placeholders below have to be replaced before deploying the manifest to kubernetes:
+#   $CONTAINER_REGISTRY_LOGIN_SERVER
+#   $VERSION
+#   $STORAGE_ACCOUNT_NAME
+#   $STORAGE_ACCESS_KEY
+#
+# This can be done by creating environment variables in Linux as below:
+#   export CONTAINER_REGISTRY_LOGIN_SERVER=<your-container-registry>
+#   export VERSION=<the-version-to-deploy>
+#   export STORAGE_ACCOUNT_NAME=<your-storage-account>
+#   export STORAGE_ACCESS_KEY=<your-storage-account-access-key>
+#
+# Then replace the placeholders and deploy the manifest using the Linux command below:
+#   envsubst < ./scripts/kubernetes/deploy.yaml | kubectl apply -f -
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: user
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: user
+    template:
+        metadata:
+            labels:
+                app: user
+        spec:
+            containers:
+                - name: user
+                  image: $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION
+                  imagePullPolicy: IfNotPresent
+                  env:
+                      - name: PORT
+                        value: "4000"
+                      - name: STORAGE_ACCOUNT_NAME
+                        value: $STORAGE_ACCOUNT_NAME
+                      - name: STORAGE_ACCESS_KEY
+                        value: $STORAGE_ACCESS_KEY
+                  resources:
+                      requests:
+                          cpu: 126m
+                          memory: 126Mi
+                      limits:
+                          cpu: 256m
+                          memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: user
+spec:
+    selector:
+        app: user
+    type: ClusterIP
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 4000

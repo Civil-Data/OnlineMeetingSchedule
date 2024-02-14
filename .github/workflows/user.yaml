@@ -15,9 +15,9 @@ on:
 jobs:
     user:
         runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: "user" # Sets default path for "run" commands to the user subfolder.
+        #defaults:
+        #    run:
+        #        working-directory: "user" # Sets default path for "run" commands to the user subfolder.
 
         # Sets environment variables with values extracted from GitHub Actions Repository Secrets.
         env:

@@ -1,0 +1,73 @@
+version: "3"
+services:
+    nosql-db:
+        image: mvertes/alpine-mongo
+        ports:
+            - "27018:27017"
+        container_name: nosql-db
+        volumes:
+            - ./db/:/data/db
+
+    rabbitmq:
+        image: rabbitmq:alpine
+        container_name: rabbitmq
+        ports:
+            - "5672:5672"
+    #     healthcheck:
+    #         test: ["CMD", "curl", "-f", "http://localhost:15672"]
+    #         interval: 30s
+    #         timeout: 10s
+    #         retries: 5
+
+    # app:
+    #     build: ./app/
+    #     environment:
+    #     - HOSTNAMERABBIT=rabbitmq
+    #     restart: on-failure
+    #     depends_on:
+    #     - rabbitmq
+    #     links:
+    #         - rabbitmq
+
+    user:
+        build:
+            dockerfile: Dockerfile
+            context: ./user
+        container_name: user
+        ports:
+            - "5001:5001"
+        restart: always
+        depends_on:
+            - "nosql-db"
+            - "rabbitmq"
+        volumes:
+            - .:/app
+            - /app/user/node_modules
+
+        env_file:
+            - ./user/.env.dev
+    meeting:
+        build:
+            dockerfile: Dockerfile
+            context: ./meeting
+        container_name: meeting
+        ports:
+            - "5002:5002"
+        restart: always
+        depends_on:
+            - "nosql-db"
+            - "rabbitmq"
+        volumes:
+            - .:/app/
+            - /app/meeting/node_modules
+        env_file:
+            - ./meeting/.env.dev
+    nginx-proxy:
+        build:
+            dockerfile: Dockerfile
+            context: ./proxy
+        depends_on:
+            - user
+            - meeting
+        ports:
+            - 80:80

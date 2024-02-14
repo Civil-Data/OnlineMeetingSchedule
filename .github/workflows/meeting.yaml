@@ -35,7 +35,7 @@ jobs:
               with:
                   node-version: 19.9.0
                   cache: "npm"
-                  cache-dependency-path: "${{ github.workspace }}/meeting/package-lock.json" # Path to package-lock.json in meeting subfolder.
+                  cache-dependency-path: "backend/meeting/package-lock.json" # Path to package-lock.json in meeting subfolder.
 
             # Installs NPM packages and tests the microservice.
             - name: Test

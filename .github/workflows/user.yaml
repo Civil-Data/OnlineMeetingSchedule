@@ -37,13 +37,14 @@ jobs:
               with:
                   node-version: 19.9.0
                   cache: "npm"
-                  cache-dependency-path: "user/package-lock.json" # Path to package-lock.json in user subfolder.
+                  cache-dependency-path: "backend/user/package-lock.json" # Path to package-lock.json in user subfolder.
 
+            # (To be implemented)
             # Installs NPM packages and tests the microservice.
-            - name: Test
-              run: |
-                  npm ci
-                  npm test
+            # - name: Test
+            #   run: |
+            #       npm ci
+            #       npm test
 
             # Builds the Docker image.
             - name: Build

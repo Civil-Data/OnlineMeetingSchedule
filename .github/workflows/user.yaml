@@ -49,7 +49,7 @@ jobs:
             # Builds the Docker image.
             - name: Build
               run: |
-                  cd user
+                  cd ..
                   docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION --file ./Dockerfile .
 
             # Publishes the Docker image to the Azure Container Registry.

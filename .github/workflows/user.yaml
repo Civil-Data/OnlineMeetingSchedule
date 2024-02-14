@@ -48,7 +48,7 @@ jobs:
 
             # Builds the Docker image.
             - name: Build
-              run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION --file /home/runner/work/MeetingSchedular/backend/user/Dockerfile .
+              run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION --file /app/user/Dockerfile .
 
             # Publishes the Docker image to the Azure Container Registry.
             - name: Publish

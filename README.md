@@ -1,4 +1,5 @@
 [![Deploy meeting microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml)
+[![Deploy user microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/user.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/user.yaml)
 
 # OnlineMeetingSchedule
 

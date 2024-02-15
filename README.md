@@ -83,7 +83,8 @@ Register an account to use our Online Meeting App.
 
 Now, you're ready to explore the OnlineMeetingSchedule project locally!
 
-# Deployment
+# Deployment 
+
 **Terraform**
 ```
 terraform init

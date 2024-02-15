@@ -1,39 +1,37 @@
+# OnlineMeetingSchedule
+
 [![Deploy meeting microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml)
 [![Deploy user microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/user.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/user.yaml)
-
-# OnlineMeetingSchedule
 
 This is an OnlineMeetingSchedule tool inspired by Calendly.
 It is an easy way to book meetings, invite people and create event.
 Participants can vote for a meeting and allowing for collaborative scheduling that takes everyone's availability into account.
 
-# Frameworks
+## Frameworks
 
--   Nodejs
--   React
--   Express
+- Nodejs
+- React
+- Express
 
-# Database
+## Database
 
--   MongoDB/Mongoose
+- MongoDB/Mongoose
 
-# How to run
+## How to run
 
 Follow these steps to set up and run the OnlineMeetingSchedule project on your local machine.
 
 **1. Clone the project:**
 
-```
-git clone https://github.com/Civil-Data/OnlineMeetingSchedule.git
-```
+`git clone https://github.com/Civil-Data/OnlineMeetingSchedule.git`
 
 **2. Configure the backend:**
 
--   Go to the `backend` directory.
--   Create a new file called `.env`.
--   Add the following content to your `.env` file:
+- Go to the `backend` directory.
+- Create a new file called `.env`.
+- Add the following content to your `.env` file:
 
-```
+```javascript
 TOKEN_KEY ="thisisasecret"
 DB_USER = "matildaronder"
 DB_PASSWORD = "adlitamrendor123"
@@ -43,36 +41,28 @@ CLIENT_PORT="3000"
 
 **3. Start database:**
 
--   Go to the `backend` directory.
--   Run:
+- Go to the `backend` directory.
+- Run:
 
-```
-npm install
-```
+`npm install`
 
-```
-npm run dev
-```
+`npm run dev`
 
 **4. Set up the Frontend:**
 
--   Go to the `frontend` directory.
+- Go to the `frontend` directory.
 
 **5. Install Dependencies:**
 
--   Run the following command to install all necessary modules and packages:
+- Run the following command to install all necessary modules and packages:
 
-```
-npm install
-```
+`npm install`
 
 **6. Start the Application:**
 
--   Run the following command to start the app in development mode:
+- Run the following command to start the app in development mode:
 
-```
-npm start
-```
+`npm start`
 
 This will launch the application in your default web browser at [http://localhost:3000](http://localhost:3000).
 
@@ -82,19 +72,23 @@ Register an account to use our Online Meeting App.
 
 Now, you're ready to explore the OnlineMeetingSchedule project locally!
 
-# Deployment 
+## Deployment
 
-**Terraform**
-```
+**Terraform:**
+
+```Terraform
 terraform init
 terraform apply -auto-approve
 terraform destroy -auto-approve
 ```
 
-**Powershell**
--   Go to the `root` directory.
--   Run: 
-```powershell 
+- Go to the `root` directory and run the following commands:
+
+```markdown  
+  Note: The following script is a powershell script that will get the output of the backend configuration and store it in APP_NAME. Then, it will use Azure CLI to get the login server of the Azure Container Registry (ACR) associated with APP_NAME. It will get the username and password for the ACR. It will use Azure CLI to get the name of the first storage account in the list and get the access key for the storage account associated with APP_NAME. It will copy the .kube\config file to a backup and delete the .kube\config file. It will get AKS credentials and the current context. It will read the .kube\config file, convert it to base64, and store the output in KUBE_CONFIG. Finally, it will set GitHub secrets. It will get the public IP address of the load balancer and the image of the user deployment. It will copy the .kube\config file from the backup and set the current context to minikube.
+```
+
+```powershell
 # Use Terraform to get the output of the backend configuration and store it in APP_NAME
 $APP_NAME = terraform -chdir=backend/terraform output
 # Split the output to get the actual APP_NAME
@@ -150,12 +144,31 @@ gh secret set CONTAINER_REGISTRY_PASSWORD --body $CONTAINER_REGISTRY_PASSWORD
 gh secret set STORAGE_ACCOUNT_NAME --body $STORAGE_ACCOUNT_NAME
 gh secret set STORAGE_ACCESS_KEY --body $STORAGE_ACCESS_KEY
 gh secret set KUBE_CONFIG --body $KUBE_CONFIG
+
+# Print the GitHub secrets
+gh secret list
+
+# Get the public IP address of the load balancer
+$LOAD_BALANCER_PUBLIC_IP = kubectl get service user -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+# Print the value of LOAD_BALANCER_PUBLIC_IP
+Write-Host "LOAD_BALANCER_PUBLIC_IP: $LOAD_BALANCER_PUBLIC_IP"
+
+# get the image of the user deployment
+kubectl get deployment user -o=jsonpath='{.spec.template.spec.containers[0].image}'
+
+# copy the .kube\config file from the backup
+Copy-Item -Path $env:USERPROFILE\.kube\config.bak -Destination $env:USERPROFILE\.kube\config
+
+# Set the current context to minikube
+kubectl config use-context minikube
+kubectl config current-context
 ```
 
-**Github Actions**
--   Go to the `root` directory.
--   Run: 
-```
+**Github Actions:**
+
+- Go to the `root` directory and run the following commands:
+
+```github
 gh workflow run "Deploy meeting microservice"
 gh workflow run "Deploy user microservice"
 ```

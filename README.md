@@ -84,6 +84,13 @@ Register an account to use our Online Meeting App.
 Now, you're ready to explore the OnlineMeetingSchedule project locally!
 
 # Deployment
+**Terraform**
+```
+terraform init
+terraform apply -auto-approve
+terraform destroy -auto-approve
+```
+
 **Powershell**
 -   Go to the `root` directory.
 -   Run: 
@@ -116,12 +123,6 @@ $STORAGE_ACCESS_KEY = az storage account keys list --account-name $APP_NAME --re
 # Print the storage account name and access key
 Write-Host "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
 Write-Host "STORAGE_ACCESS_KEY: $STORAGE_ACCESS_KEY"
-
-# Upload a blob to a container
-az storage blob upload --container-name videos --name SampleVideo_1280x720_1mb.mp4 --file videos/SampleVideo_1280x720_1mb.mp4 --account-name $STORAGE_ACCOUNT_NAME --account-key $STORAGE_ACCESS_KEY -o table
-
-# List blobs in a container
-az storage blob list --container-name videos --account-name $STORAGE_ACCOUNT_NAME --account-key $STORAGE_ACCESS_KEY -o table
 
 # Copy the .kube\config file to a backup
 Copy-Item "$env:USERPROFILE\.kube\config" "$env:USERPROFILE\.kube\config.bak"
@@ -157,11 +158,4 @@ gh secret set KUBE_CONFIG --body $KUBE_CONFIG
 ```
 gh workflow run "Deploy meeting microservice"
 gh workflow run "Deploy user microservice"
-```
-
-**Terraform**
-```
-terraform init
-terraform apply -auto-approve
-terraform destroy -auto-approve
 ```

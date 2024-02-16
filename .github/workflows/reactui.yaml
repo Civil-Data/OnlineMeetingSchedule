@@ -1,5 +1,5 @@
 # Automatically tests, builds and deploys the user Node.js microservice to Kubernetes on push to the main branch.
-name: Deploy react-ui microservice
+name: Deploy reactui microservice
 
 on:
     # Deploys the microservice on push to subfolder react-ui on the main branch of this code repository.

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 
 // Define a schema for the "User" model
 const userSchema = new mongoose.Schema({
@@ -19,6 +18,9 @@ const userSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: [true, "Your password is required"],
+	},
+	salt: {
+		type: String,
 	},
 	telephone: {
 		type: Number,
@@ -43,9 +45,4 @@ const userSchema = new mongoose.Schema({
 		)} ${new Date().toLocaleTimeString("sv-SE")}`,
 	},
 });
-
-userSchema.pre("save", async function () {
-	this.password = await bcrypt.hash(this.password, 12);
-});
-
 module.exports = mongoose.model("User", userSchema);

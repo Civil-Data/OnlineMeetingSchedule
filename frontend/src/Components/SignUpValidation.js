@@ -83,7 +83,7 @@ const Signup = () => {
 
 		try {
 			const { data } = await axios.post(
-				serverUrl + "/register",
+				serverUrl + "/user/register",
 
 				{ firstName, lastName, email, password },
 				{ withCredentials: true }

@@ -1,50 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: react-ui
-  namespace: micromeetingschedular
-  labels:
-    app: react-ui
+  name: reactui
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: react-ui
-  replicas: 1
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: user
   template:
     metadata:
       labels:
-        app: react-ui
+        app: user
     spec:
       containers:
-        - name: react-ui
-          image: meetingScheduler/ui:latest
-          ports:
-            - containerPort: 8080
-              name: react-ui
-              resources:
-                requests:
-                  memory: "64Mi"
-                  cpu: "250m"
-                limits:
-                  memory: "128Mi"
-                  cpu: "500m"
+        - name: user
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "5001"
+          resources:
+            requests:
+              cpu: 126m
+              memory: 126Mi
+            limits:
+              cpu: 256m
+              memory: 256Mi
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: react-ui
-  namespace: ms
+  name: reactui
 spec:
   selector:
-    app: react-ui
+    app: reactui
   type: NodePort
   ports:
-    - name: react-ui
+    - name: reactui
       port: 8080
       targetPort: 8080

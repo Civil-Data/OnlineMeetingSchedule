@@ -13,22 +13,6 @@ services:
         container_name: rabbitmq
         ports:
             - "5672:5672"
-    #     healthcheck:
-    #         test: ["CMD", "curl", "-f", "http://localhost:15672"]
-    #         interval: 30s
-    #         timeout: 10s
-    #         retries: 5
-
-    # app:
-    #     build: ./app/
-    #     environment:
-    #     - HOSTNAMERABBIT=rabbitmq
-    #     restart: on-failure
-    #     depends_on:
-    #     - rabbitmq
-    #     links:
-    #         - rabbitmq
-
     user:
         build:
             dockerfile: Dockerfile

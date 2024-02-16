@@ -56,6 +56,12 @@ class UserRepository {
 		const existingUsers = await UserModel.find();
 		return existingUsers;
 	}
+
+	// get user by id
+	async GetUserById(id) {
+		const existingUser = await UserModel.findById(id);
+		return existingUser;
+	}
 }
 
 module.exports = UserRepository;

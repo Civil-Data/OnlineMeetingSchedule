@@ -2,18 +2,18 @@
 name: Deploy reactui microservice
 
 on:
-    # Deploys the microservice on push to subfolder react-ui on the main branch of this code repository.
+    # Deploys the microservice on push to subfolder reactui on the main branch of this code repository.
     push:
         branches:
             - main
         paths:
-            - "frontend/**" # Only trigger on push to react-ui subfolder.
+            - "frontend/**" # Only trigger on push to reactui subfolder.
 
-    # Allows workflow to be invoked manually through the GitHub Actions react-ui interface.
+    # Allows workflow to be invoked manually through the GitHub Actions reactui interface.
     workflow_dispatch:
 
 jobs:
-    react-ui:
+    reactui:
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -63,4 +63,4 @@ jobs:
             # Expands the manifest YAML file (i.e. replaces placeholders in the YAML file with environment variable values)
             # and deploys the microservice to the Azure Kubernetes Service (AKS) cluster.
             - name: Deploy
-              run: envsubst < kubernetes/react-ui.yaml | kubectl apply -f -
+              run: envsubst < kubernetes/reactui.yaml | kubectl apply -f -

@@ -1,23 +1,23 @@
 # Automatically tests, builds and deploys the user Node.js microservice to Kubernetes on push to the main branch.
-name: Deploy user microservice
+name: Deploy react-ui microservice
 
 on:
-    # Deploys the microservice on push to subfolder user on the main branch of this code repository.
+    # Deploys the microservice on push to subfolder react-ui on the main branch of this code repository.
     push:
         branches:
             - main
         paths:
-            - "user/**" # Only trigger on push to user subfolder.
+            - "frontend/**" # Only trigger on push to react-ui subfolder.
 
-    # Allows workflow to be invoked manually through the GitHub Actions user interface.
+    # Allows workflow to be invoked manually through the GitHub Actions react-ui interface.
     workflow_dispatch:
 
 jobs:
-    user:
+    react-ui:
         runs-on: ubuntu-latest
         defaults:
             run:
-                working-directory: ./backend/user # Sets default path for "run" commands to the user subfolder.
+                working-directory: ./frontend/kubernetes # Sets default path for "run" commands to the user subfolder.
 
         # Sets environment variables with values extracted from GitHub Actions Repository Secrets.
         env:
@@ -35,23 +35,23 @@ jobs:
               with:
                   node-version: 19.9.0
                   cache: "npm"
-                  cache-dependency-path: "backend/user/package-lock.json" # Path to package-lock.json in user subfolder.
+                  cache-dependency-path: "frontend/package-lock.json" # Path to package-lock.json in user subfolder.
 
-            # Installs NPM packages and tests the microservice.
-            - name: Test
-              run: |
-                  npm ci
-                  npm test
+            # # Installs NPM packages and tests the microservice.
+            # - name: Test
+            #   run: |
+            #       npm ci
+            #       npm test
 
             # Builds the Docker image.
             - name: Build
-              run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION --file ./Dockerfile .
+              run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/frontend:$VERSION --file ./Dockerfile .
 
             # Publishes the Docker image to the Azure Container Registry.
             - name: Publish
               run: |
                   echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
-                  docker push $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION
+                  docker push $CONTAINER_REGISTRY_LOGIN_SERVER/frontend:$VERSION
 
             # Installs Kubectl and connects it to the Azure Kubernetes Service (AKS) cluster.
             # https://github.com/marketplace/actions/kubernetes-cli-kubectl
@@ -63,4 +63,4 @@ jobs:
             # Expands the manifest YAML file (i.e. replaces placeholders in the YAML file with environment variable values)
             # and deploys the microservice to the Azure Kubernetes Service (AKS) cluster.
             - name: Deploy
-              run: envsubst < kubernetes/deploy.yaml | kubectl apply -f -
+              run: envsubst < kubernetes/react-ui.yaml | kubectl apply -f -

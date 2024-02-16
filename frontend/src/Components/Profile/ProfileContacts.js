@@ -9,7 +9,7 @@ const ProfileContacts = () => {
 	const contacts = async () => {
 		try {
 			// Send a GET request to get all users
-			const user = await axios.get(serverUrl + "/users");
+			const user = await axios.get(serverUrl + "/user/users");
 			setUsers(user.data);
 		} catch (error) {
 			console.error("Error fetching user data:", error);

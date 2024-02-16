@@ -39,7 +39,7 @@ spec:
                   imagePullPolicy: IfNotPresent
                   env:
                       - name: PORT
-                        value: "4000"
+                        value: "5002"
                       - name: STORAGE_ACCOUNT_NAME
                         value: $STORAGE_ACCOUNT_NAME
                       - name: STORAGE_ACCESS_KEY
@@ -63,4 +63,4 @@ spec:
     ports:
         - protocol: TCP
           port: 80
-          targetPort: 4000
+          targetPort: 5002

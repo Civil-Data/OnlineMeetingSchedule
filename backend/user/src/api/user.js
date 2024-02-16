@@ -8,9 +8,7 @@ module.exports = (app, channel) => {
 	SubscribeMessage(channel, service);
 
 	app.post("/register", async (req, res) => {
-		// try {
 		const { firstName, lastName, email, password } = req.body;
-		// const existingUser = await User.findOne({ email });
 		const { data } = await service.Register({
 			email,
 			password,
@@ -21,7 +19,6 @@ module.exports = (app, channel) => {
 	});
 	// Login a user
 	app.post("/login", async (req, res) => {
-		// try {
 		// Extract email and password from the request body
 		const { email, password } = req.body;
 		const { data } = await service.LogIn({ email, password });
@@ -34,9 +31,21 @@ module.exports = (app, channel) => {
 		res.json(data);
 	});
 
+	// get user
+	app.get("/user", async (req, res) => {
+		const { data } = await service.GetUser(req.body);
+		res.json(data);
+	});
+
 	// update user
 	app.post("/updateUser", async (req, res) => {
 		const { data } = await service.UpdateUser(req.body);
+		res.json(data);
+	});
+
+	//validate token
+	app.post("/", async (req, res) => {
+		const { data } = await service.ValidateToken(req.body);
 		res.json(data);
 	});
 };

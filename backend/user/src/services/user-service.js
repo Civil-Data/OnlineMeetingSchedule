@@ -1,4 +1,7 @@
 const { UserRepository } = require("../database");
+const { createSecretToken } = require("../utils/secretToken");
+const { TOKEN_KEY } = require("../config/");
+const jwt = require("jsonwebtoken");
 const {
 	FormateData,
 	GeneratePassword,
@@ -56,7 +59,8 @@ class UserService {
 			email: email,
 			_id: existingUser._id,
 		});
-		return FormateData({ id: existingUser._id, token });
+		const cookieToken = createSecretToken(existingUser._id);
+		return FormateData({ id: existingUser._id, token, cookieToken });
 	}
 
 	async UpdateUser(userInputs) {
@@ -85,26 +89,24 @@ class UserService {
 		return FormateData(existingUsers);
 	}
 
-	// async SubscribeEvents(payload){
+	//get user
+	async GetUser(userInputs) {
+		const { id } = userInputs;
 
-	// 	console.log("Triggering.... User Events");
+		const existingUser = await this.repository.GetUserById({ id });
+		return FormateData(existingUser);
+	}
+	//validate token
+	async ValidateToken(req) {
+		const token = req.cookie.token;
 
-	// 	payload = JSON.parse(payload);
+		// Verify the token using the secret key from environment variables
+		jwt.verify(token, TOKEN_KEY, async (data) => {
+			const existingUser = await this.repository.GetUserById(data.id);
 
-	// 	const { event, data } =  payload;
-
-	// 	const { userId} = data;
-
-	// 	switch(event){
-	// 	case "Login":
-	// 		break;
-	// 	case "Register":
-	// 		break;
-	// 	default:
-	// 		break;
-	// 	}
-
-	// }
+			return FormateData(existingUser);
+		});
+	}
 }
 
 module.exports = UserService;

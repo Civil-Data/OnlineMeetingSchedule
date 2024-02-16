@@ -62,12 +62,10 @@ export const LoginProvider = ({ children }) => {
 					updateLoginStatus(false);
 				}
 				const { data } = await axios.post(
-					serverUrl + "/user/",
+					serverUrl + "/",
 					{},
 					{ withCredentials: true }
 				);
-				// const { user } = data;
-				// saveUser(user);
 				const { status, user } = data;
 				status ? saveUser(user) : removeCookie("token");
 			} catch (error) {

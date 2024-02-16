@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { user, appEvents } = require("./api");
 const { CreateChannel, SubscribeMessage } = require("./utils");
+const cookieParser = require("cookie-parser");
 
 module.exports = async (app) => {
 	app.use(express.json());
@@ -13,6 +14,7 @@ module.exports = async (app) => {
 		})
 	);
 	app.use(express.static(__dirname + "/public"));
+	app.use(cookieParser());
 
 	//api
 	// appEvents(app);

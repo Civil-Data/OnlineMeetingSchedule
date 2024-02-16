@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { DB_URL } = require("../config/index");
+const { DB_URL } = require("../config/");
 
 module.exports = async () => {
 	try {

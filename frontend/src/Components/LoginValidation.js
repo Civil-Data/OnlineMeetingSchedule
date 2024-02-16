@@ -40,7 +40,7 @@ const Login = () => {
 		try {
 			// Send a POST request to login
 			const { data } = await axios.post(
-				serverUrl + "/user/login",
+				serverUrl + "/login",
 				{
 					...inputValue,
 				},

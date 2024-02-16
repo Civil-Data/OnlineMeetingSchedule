@@ -6,19 +6,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user
+      app: reactui
   template:
     metadata:
       labels:
-        app: user
+        app: reactui
     spec:
       containers:
-        - name: user
-          image: $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION
+        - name: reactui
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/reactui:$VERSION
           imagePullPolicy: IfNotPresent
           env:
             - name: PORT
-              value: "5001"
+              value: "3000"
           resources:
             requests:
               cpu: 126m
@@ -35,8 +35,8 @@ metadata:
 spec:
   selector:
     app: reactui
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: reactui
-      port: 8080
-      targetPort: 8080
+      port: 80
+      targetPort: 3000

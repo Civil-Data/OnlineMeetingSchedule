@@ -18,18 +18,10 @@ const Signup = () => {
 		password: "",
 		confirmPassword: "",
 	});
-	const {
-		firstName,
-		lastName,
-		email,
-		confirmEmail,
-		password,
-		confirmPassword,
-	} = inputValue;
-	const { saveUser, updateLoginStatus, setJustRegistered } =
-		useUpdateUserContext();
+	const { firstName, lastName, email, confirmEmail, password, confirmPassword } = inputValue;
+	const { saveUser, updateLoginStatus, setJustRegistered } = useUpdateUserContext();
 
-	const handleOnChange = (e) => {
+	const handleOnChange = e => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -37,17 +29,17 @@ const Signup = () => {
 		});
 	};
 
-	const handleError = (err) =>
+	const handleError = err =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
-	const handleSuccess = (msg) =>
+	const handleSuccess = msg =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
 	//Handle all inputs from user
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		if (!isAlpha(firstName) || !isAlpha(lastName)) {
@@ -62,14 +54,7 @@ const Signup = () => {
 			return handleError("Passwords do not match");
 		}
 
-		if (
-			!firstName ||
-			!lastName ||
-			!email ||
-			!password ||
-			!confirmEmail ||
-			!confirmPassword
-		) {
+		if (!firstName || !lastName || !email || !password || !confirmEmail || !confirmPassword) {
 			return handleError("All fields are required");
 		}
 
@@ -88,6 +73,7 @@ const Signup = () => {
 				{ firstName, lastName, email, password },
 				{ withCredentials: true }
 			);
+			console.log(data);
 			const { success, message } = data;
 			if (success) {
 				handleSuccess(message);
@@ -101,7 +87,9 @@ const Signup = () => {
 				handleError(message);
 			}
 		} catch (error) {
-			console.error(error);
+			if (error.response.status === 500) {
+				handleError("A user with this email seems to already exist. Try to login instead.");
+			} else console.error(error);
 		}
 		setInputValue({
 			...inputValue,
@@ -111,7 +99,7 @@ const Signup = () => {
 	};
 
 	return (
-		<>
+		<div style={{ paddingBottom: "100px" }}>
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="name" className="input_label">
@@ -205,23 +193,19 @@ const Signup = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
-					<button
-						id="confirmation_btn"
-						className="links"
-						type="submit"
-					>
+					<button id="confirmation_btn" className="links" type="submit">
 						Register
 					</button>
 				</div>
 				<span>
-					Already have an account?{" "}
+					Already have an account?
 					<Link className="links" id="signUp-signIn" to={"/login"}>
 						Login
 					</Link>
 				</span>
 			</form>
 			<ToastContainer />
-		</>
+		</div>
 	);
 };
 

@@ -8,21 +8,38 @@ module.exports = (app, channel) => {
 	SubscribeMessage(channel, service);
 
 	app.post("/register", async (req, res) => {
-		const { firstName, lastName, email, password } = req.body;
-		const { data } = await service.Register({
-			email,
-			password,
-			firstName,
-			lastName,
-		});
-		res.json(data);
+		try {
+			const { firstName, lastName, email, password } = req.body;
+			const data = await service.Register({
+				email,
+				password,
+				firstName,
+				lastName,
+			});
+			console.log(data);
+			res.json(data);
+			// const { data } = await service.Register({
+			// 	email,
+			// 	password,
+			// 	firstName,
+			// 	lastName,
+			// });
+			// res.json(data);
+		} catch (error) {
+			console.log(error);
+			res.json(error);
+		}
 	});
 	// Login a user
 	app.post("/login", async (req, res) => {
 		// Extract email and password from the request body
-		const { email, password } = req.body;
-		const { data } = await service.LogIn({ email, password });
-		res.json(data);
+		try {
+			const { email, password } = req.body;
+			const { data } = await service.LogIn({ email, password });
+			res.json(data);
+		} catch (error) {
+			res.json(error);
+		}
 	});
 
 	// get all users

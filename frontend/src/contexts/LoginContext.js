@@ -61,9 +61,11 @@ export const LoginProvider = ({ children }) => {
 					removeCookie("token");
 					updateLoginStatus(false);
 				}
-				const { data } = await axios.post(serverUrl + "/", {}, { withCredentials: true });
-				// const { user } = data;
-				// saveUser(user);
+				const { data } = await axios.post(
+					serverUrl + "/",
+					{},
+					{ withCredentials: true }
+				);
 				const { status, user } = data;
 				status ? saveUser(user) : removeCookie("token");
 			} catch (error) {
@@ -76,7 +78,9 @@ export const LoginProvider = ({ children }) => {
 	}, [cookies.token, logoutPressed, removeCookie, navigate]);
 
 	return (
-		<userContext.Provider value={{ user, loginStatus, logoutPressed, justRegistered }}>
+		<userContext.Provider
+			value={{ user, loginStatus, logoutPressed, justRegistered }}
+		>
 			<updateUserContext.Provider
 				value={{
 					saveUser,

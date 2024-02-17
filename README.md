@@ -149,6 +149,8 @@ gh secret set KUBE_CONFIG --body $KUBE_CONFIG
 gh secret list
 gh workflow run "Deploy meeting microservice"
 gh workflow run "Deploy user microservice"
+gh workflow run "Deploy frontend microservice"
+
 
 # Get the public IP address of the load balancer
 $LOAD_BALANCER_PUBLIC_IP = kubectl get service user -o jsonpath='{.status.loadBalancer.ingress[0].ip}'

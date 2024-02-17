@@ -68,11 +68,12 @@ const Signup = () => {
 
 		try {
 			const { data } = await axios.post(
-				serverUrl + "/register",
+				serverUrl + "/user/register",
 
 				{ firstName, lastName, email, password },
 				{ withCredentials: true }
 			);
+			console.log(data);
 			const { success, message } = data;
 			if (success) {
 				handleSuccess(message);
@@ -86,7 +87,9 @@ const Signup = () => {
 				handleError(message);
 			}
 		} catch (error) {
-			console.error(error);
+			if (error.response.status === 500) {
+				handleError("A user with this email seems to already exist. Try to login instead.");
+			} else console.error(error);
 		}
 		setInputValue({
 			...inputValue,
@@ -96,7 +99,7 @@ const Signup = () => {
 	};
 
 	return (
-		<>
+		<div style={{ paddingBottom: "100px" }}>
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="name" className="input_label">
@@ -195,14 +198,14 @@ const Signup = () => {
 					</button>
 				</div>
 				<span>
-					Already have an account?{" "}
+					Already have an account?
 					<Link className="links" id="signUp-signIn" to={"/login"}>
 						Login
 					</Link>
 				</span>
 			</form>
 			<ToastContainer />
-		</>
+		</div>
 	);
 };
 

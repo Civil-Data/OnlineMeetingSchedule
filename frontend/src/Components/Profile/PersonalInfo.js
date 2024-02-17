@@ -49,7 +49,7 @@ const PersonalInfo = ({
 		newConfirmPassword,
 	} = inputValue;
 
-	const handleOnChange = e => {
+	const handleOnChange = (e) => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -57,20 +57,22 @@ const PersonalInfo = ({
 		});
 	};
 
-	const handleError = err =>
+	const handleError = (err) =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
-	const handleSuccess = msg =>
+	const handleSuccess = (msg) =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
-	const handleSubmit = async e => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (+newTelephone < 0) {
-			return handleError("You can't have negative numbers in a phone number");
+			return handleError(
+				"You can't have negative numbers in a phone number"
+			);
 		}
 
 		if (isAlpha(String(newTelephone))) {
@@ -98,7 +100,9 @@ const PersonalInfo = ({
 		}
 
 		if (newPassword === "") {
-			return handleError("Password is a required field and cannot be empty");
+			return handleError(
+				"Password is a required field and cannot be empty"
+			);
 		}
 
 		if (newPassword.length < 8) {
@@ -111,9 +115,10 @@ const PersonalInfo = ({
 		// Send a POST request to update user information
 		try {
 			const { data } = await axios.post(
-				serverUrl + "/updateUser",
+				serverUrl + "/user/updateUser",
 				{
-					newFirstName: newFirstName === "" ? firstName : newFirstName,
+					newFirstName:
+						newFirstName === "" ? firstName : newFirstName,
 					newLastName: newLastName === "" ? lastName : newLastName,
 					newGender,
 					newEmail: newEmail === "" ? email : newEmail,
@@ -181,7 +186,9 @@ const PersonalInfo = ({
 						<option value="Male">Male</option>
 						<option value="Female">Female</option>
 						<option value="Other">Other</option>
-						<option value="Don't want to specify">Don't want to specify</option>
+						<option value="Don't want to specify">
+							Don't want to specify
+						</option>
 					</select>
 				) : (
 					<span>{gender}</span>
@@ -203,7 +210,9 @@ const PersonalInfo = ({
 
 				{clickedIcon && (
 					<>
-						<label className="user_info_label">Confirm email:</label>
+						<label className="user_info_label">
+							Confirm email:
+						</label>
 						<input
 							name="newConfirmEmail"
 							type="email"
@@ -259,7 +268,9 @@ const PersonalInfo = ({
 
 				{clickedIcon && (
 					<>
-						<label className="user_info_label">Confirm password:</label>
+						<label className="user_info_label">
+							Confirm password:
+						</label>
 						<input
 							name="newConfirmPassword"
 							type="password"
@@ -284,7 +295,11 @@ const PersonalInfo = ({
 							placeholder="Description about me..."
 							onChange={handleOnChange}
 						></input>
-						<button type="submit" id="confirmation_btn" className="links">
+						<button
+							type="submit"
+							id="confirmation_btn"
+							className="links"
+						>
 							SAVE
 							<SaveIcon titleAccess="Save" />
 						</button>

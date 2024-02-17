@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reactui
+  template:
+    metadata:
+      labels:
+        app: reactui
+    spec:
+      containers:
+        - name: reactui
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/reactui:$VERSION
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            requests:
+              cpu: 126m
+              memory: 126Mi
+            limits:
+              cpu: 256m
+              memory: 256Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reactui
+spec:
+  selector:
+    app: reactui
+  type: LoadBalancer
+  ports:
+    - name: reactui
+      port: 80
+      targetPort: 3000

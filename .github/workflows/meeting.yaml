@@ -7,7 +7,7 @@ on:
         branches:
             - main
         paths:
-            - "meeting/**" # Only trigger on push to meeting subfolder.
+            - "backend/meeting/**" # Only trigger on push to meeting subfolder.
 
     # Allows workflow to be invoked manually through the GitHub Actions user interface.
     workflow_dispatch:

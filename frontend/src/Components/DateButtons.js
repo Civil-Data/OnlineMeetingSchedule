@@ -9,7 +9,9 @@ const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 		const dateString = `${String(yearToDisplay).padStart(2, "0")}-${String(
 			monthToDisplay
 		).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
-		const { data } = await axios.get(serverUrl + `/meeting/date?date=${dateString}`);
+		const { data } = await axios.get(
+			serverUrl + `/meeting/meeting/date?date=${dateString}`
+		);
 
 		return data;
 	} catch (error) {
@@ -48,7 +50,7 @@ const DateButtons = ({ date, dayString, month, year, theme }) => {
 			{isLoading ? (
 				<></>
 			) : (
-				meetings.map(meeting => {
+				meetings.map((meeting) => {
 					return (
 						<div key={uuidv4()}>
 							{meeting.title} at {meeting.startTime}

@@ -38,8 +38,7 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
-			// const token = setHeader();
-			// console.log("Token", token);
+			setHeader();
 			// Send a POST request to login
 			const { data } = await axios.post(
 				serverUrl + "/user/login",
@@ -48,7 +47,6 @@ const Login = () => {
 				},
 				{ withCredentials: true }
 			);
-			console.log(data);
 			const { success, message } = data;
 			if (success) {
 				handleSuccess(message);

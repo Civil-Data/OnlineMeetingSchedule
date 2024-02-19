@@ -7,12 +7,13 @@ import ConfirmButton from "../ConfirmButton";
 import { useUserContext } from "../../contexts/LoginContext";
 import { useDayView } from "../../contexts/MeetingContext";
 import { useDateContext } from "../../contexts/DateContext";
+import { useUpdateUserContext } from "../../contexts/LoginContext";
 
 const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
-		const { data } = await axios.get(serverUrl + "/user/users");
-		data.forEach((user) => {
+		const data = await axios.get(serverUrl + "/user/users");
+		data.data.data.forEach((user) => {
 			if (user.firstName) {
 				listOfUsers.push(user);
 			}
@@ -25,6 +26,7 @@ const fetchUsers = async () => {
 };
 
 const CreateMeeting = () => {
+	const { setHeader } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const { date, dayString, clickedMonth, yearToDisplay } = useDayView();
 	const { getDate } = useDateContext();
@@ -54,7 +56,7 @@ const CreateMeeting = () => {
 			participants.forEach((participant) => {
 				participantList.push(participant._id);
 			});
-
+			setHeader();
 			await fetch(serverUrl + "/meeting/meeting/create", {
 				method: "POST",
 

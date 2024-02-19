@@ -1,8 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-// import { useCookies } from "react-cookie";
-// import axios from "axios";
-// import serverUrl from "../utils/config";
-// import { useNavigate } from "react-router-dom";
 import api from "axios";
 
 const userContext = React.createContext();
@@ -30,16 +26,13 @@ export const LoginProvider = ({ children }) => {
 	const [loginStatus, setLoginStatus] = useState(false);
 	const [logoutPressed, setLogoutPressed] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	// const [cookies, removeCookie] = useCookies([]);
 	const [justRegistered, setJustRegistered] = useState(false);
-	// const navigate = useNavigate();
 
 	function updateLoginStatus(status) {
 		setLoginStatus(status);
 	}
 
 	function saveUser(user) {
-		console.log("User saved: ", user);
 		setUser(user);
 	}
 
@@ -51,9 +44,7 @@ export const LoginProvider = ({ children }) => {
 		const token = localStorage.getItem("token");
 		if (token) {
 			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-			console.log("Token set to: " + token);
 		}
-		return token;
 	}
 
 	useEffect(() => {
@@ -61,7 +52,6 @@ export const LoginProvider = ({ children }) => {
 			try {
 				setHeader();
 				if (
-					// cookies.token &&
 					!logoutPressed &&
 					window.location.pathname !== "/" &&
 					window.location.pathname !== "/login" &&
@@ -70,18 +60,8 @@ export const LoginProvider = ({ children }) => {
 					updateLoginStatus(true);
 					updateLogoutPressed(false);
 				} else {
-					// removeCookie("token");
 					updateLoginStatus(false);
 				}
-				// const { data } = await axios.get(
-				// 	serverUrl + "/user/user",
-				// 	{},
-				// 	{ withCredentials: true }
-				// );
-				// const { user } = data;
-				// const token = localStorage.getItem("token");
-				// if (token) saveUser(user);
-				// status ? saveUser(user) : removeCookie("token");
 			} catch (error) {
 				console.error(error);
 			} finally {

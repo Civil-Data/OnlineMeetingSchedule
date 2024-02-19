@@ -11,13 +11,14 @@ import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../contexts/LoginContext";
+import { useUpdateUserContext } from "../../contexts/LoginContext";
 
 const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
 
-		const { data } = await axios.get(serverUrl + "user/users");
-		data.forEach((user) => {
+		const data = await axios.get(serverUrl + "/user/users");
+		data.data.data.forEach((user) => {
 			if (user.firstName) {
 				listOfUsers.push(user);
 			}
@@ -46,6 +47,7 @@ const deleteMeeting = async (meeting) => {
 };
 //Component for meeting
 const MeetingItem = ({ meeting }) => {
+	const { setHeader } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const navigate = useNavigate();
 	const [detailViewState, setDetailViewState] = useState(false);
@@ -81,6 +83,7 @@ const MeetingItem = ({ meeting }) => {
 			participants.forEach((participant) => {
 				participantList.push(participant._id);
 			});
+			setHeader();
 			const { data } = await axios.post(
 				serverUrl + "/meeting/meeting/update",
 				{
@@ -99,6 +102,7 @@ const MeetingItem = ({ meeting }) => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
+				setHeader();
 				const users = await fetchUsers();
 				setUsers(users);
 			} catch (error) {
@@ -108,7 +112,7 @@ const MeetingItem = ({ meeting }) => {
 			}
 		};
 		getUsers();
-	}, []);
+	}, [setHeader]);
 
 	return (
 		<div className="meeting_item">
@@ -205,7 +209,7 @@ const MeetingItem = ({ meeting }) => {
 														user._id ===
 														meetingDetails.organizer
 													)
-														return `${user.existingUser.firstName} ${user.lastName} <${user.email}>`;
+														return `${user.firstName} ${user.lastName} <${user.email}>`;
 													else return "";
 												})
 												.filter(Boolean)
@@ -225,7 +229,7 @@ const MeetingItem = ({ meeting }) => {
 														);
 
 														return user
-															? `${user.existingUser.firstName} ${user.lastName} <${user.email}>`
+															? `${user.firstName} ${user.lastName} <${user.email}>`
 															: "";
 													})
 													.filter(Boolean)

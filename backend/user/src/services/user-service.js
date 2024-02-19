@@ -74,34 +74,33 @@ class UserService {
 
 	async UpdateUser(userInputs) {
 		const {
-			id,
-			firstName,
-			lastName,
-			email,
-			password,
-			description,
-			age,
-			gender,
-			telephone,
+			newId,
+			newFirstName,
+			newLastName,
+			newEmail,
+			newPassword,
+			newDescription,
+			newAge,
+			newGender,
+			newTelephone,
+			emailChanged,
 		} = userInputs;
-
 		let salt = await GenerateSalt();
-
-		let userPassword = await GeneratePassword(password, salt);
+		let userPassword = await GeneratePassword(newPassword, salt);
 
 		const existingUser = await this.repository.UpdateUserById({
-			id,
-			firstName,
-			lastName,
-			email,
-			password: userPassword,
+			newId,
+			newFirstName,
+			newLastName,
+			newEmail,
+			newPassword: userPassword,
 			salt,
-			description,
-			age,
-			gender,
-			telephone,
+			newDescription,
+			newAge,
+			newGender,
+			newTelephone,
+			emailChanged,
 		});
-
 		return FormateData(existingUser);
 	}
 

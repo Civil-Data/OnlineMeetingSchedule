@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { useUserContext } from "../../contexts/LoginContext";
 import serverUrl from "../../utils/config";
+import { useUpdateUserContext } from "../../contexts/LoginContext";
 
 const GetMeetings = async (user) => {
 	try {
@@ -22,6 +23,7 @@ const GetMeetings = async (user) => {
 
 //Component for Meeting overview
 const ProfileMeetings = () => {
+	const { setHeader } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const [meetings, setMeetings] = useState([{}]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +31,7 @@ const ProfileMeetings = () => {
 	useEffect(() => {
 		const fetchMeetings = async () => {
 			try {
+				setHeader();
 				const meeting = await GetMeetings(user);
 				setMeetings(meeting);
 			} catch (error) {
@@ -38,7 +41,7 @@ const ProfileMeetings = () => {
 			}
 		};
 		fetchMeetings();
-	}, [user]);
+	}, [user, setHeader]);
 
 	return (
 		<>

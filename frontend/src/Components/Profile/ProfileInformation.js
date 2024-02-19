@@ -13,6 +13,7 @@ const ProfileInformation = () => {
 		<div className="user_information">
 			{loginStatus && (
 				<PersonalInfo
+					id={user.existingUser._id}
 					firstName={user.existingUser.firstName}
 					lastName={user.existingUser.lastName}
 					gender={user.existingUser.gender}

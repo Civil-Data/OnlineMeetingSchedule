@@ -82,6 +82,7 @@ const Signup = () => {
 		}
 
 		try {
+			setHeader();
 			const { data } = await axios.post(
 				serverUrl + "/user/register",
 
@@ -91,8 +92,6 @@ const Signup = () => {
 			const { success, message } = data;
 			console.log(data.user.data);
 			if (success) {
-				// const token = setHeader();
-				// console.log("Token", token);
 				handleSuccess(message);
 				updateLoginStatus(true);
 				setJustRegistered(true);

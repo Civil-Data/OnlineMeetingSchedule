@@ -15,6 +15,9 @@ module.exports.GenerateSalt = async () => {
 };
 
 module.exports.GeneratePassword = async (password, salt) => {
+	if (!password) {
+		throw new Error("Password is undefined");
+	}
 	return await bcrypt.hash(password, salt);
 };
 

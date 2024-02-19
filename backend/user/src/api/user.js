@@ -45,8 +45,13 @@ module.exports = (app, channel) => {
 
 	// get all users
 	app.get("/users", async (req, res) => {
-		const { data } = await service.GetUsers();
-		res.json(data);
+		const users = await service.GetUsers();
+		if (!users) {
+			return res
+				.status(400)
+				.json({ message: "Could not find any users" });
+		}
+		res.json(users);
 	});
 
 	// get user

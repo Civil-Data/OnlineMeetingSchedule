@@ -16,7 +16,7 @@ class UserRepository {
 		return userResult;
 	}
 
-	async FindUser({ email }) {
+	async FindUser(email) {
 		const existingUser = await UserModel.findOne({ email: email });
 		return existingUser;
 	}

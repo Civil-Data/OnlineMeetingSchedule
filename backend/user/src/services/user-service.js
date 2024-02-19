@@ -1,5 +1,5 @@
 const { UserRepository } = require("../database");
-const { createSecretToken } = require("../utils/secretToken");
+// const { createSecretToken } = require("../utils/secretToken");
 const { TOKEN_KEY } = require("../config/");
 const jwt = require("jsonwebtoken");
 const {
@@ -32,7 +32,7 @@ class UserService {
 					email: existingUser.email,
 					_id: existingUser._id,
 				});
-				return FormateData({ id: existingUser._id, token });
+				return FormateData({ existingUser, token });
 			}
 		}
 
@@ -59,8 +59,17 @@ class UserService {
 			email: email,
 			_id: existingUser._id,
 		});
-		const cookieToken = createSecretToken(existingUser._id);
-		return FormateData({ id: existingUser._id, token, cookieToken });
+		// const cookieToken = createSecretToken(existingUser._id);
+		// // Set the token in a cookie for future authentication
+		// userInputs.cookie("token", cookieToken, {
+		// 	withCredentials: true,
+		// 	httpOnly: false,
+		// });
+
+		return FormateData({
+			existingUser,
+			token,
+		});
 	}
 
 	async UpdateUser(userInputs) {

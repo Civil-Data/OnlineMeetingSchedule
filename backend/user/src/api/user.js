@@ -10,21 +10,17 @@ module.exports = (app, channel) => {
 	app.post("/register", async (req, res) => {
 		try {
 			const { firstName, lastName, email, password } = req.body;
-			const data = await service.Register({
+			const user = await service.Register({
 				email,
 				password,
 				firstName,
 				lastName,
 			});
-			console.log(data);
-			res.json(data);
-			// const { data } = await service.Register({
-			// 	email,
-			// 	password,
-			// 	firstName,
-			// 	lastName,
-			// });
-			// res.json(data);
+			res.status(201).json({
+				message: "User signed in successfully",
+				success: true,
+				user,
+			});
 		} catch (error) {
 			console.log(error);
 			res.json(error);
@@ -35,9 +31,14 @@ module.exports = (app, channel) => {
 		// Extract email and password from the request body
 		try {
 			const { email, password } = req.body;
-			const { data } = await service.LogIn({ email, password });
-			res.json(data);
+			const user = await service.LogIn({ email, password });
+			res.status(201).json({
+				message: "User logged in successfully",
+				success: true,
+				user,
+			});
 		} catch (error) {
+			console.log(error);
 			res.json(error);
 		}
 	});

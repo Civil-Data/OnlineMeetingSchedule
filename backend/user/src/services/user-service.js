@@ -73,7 +73,17 @@ class UserService {
 	}
 
 	async UpdateUser(userInputs) {
-		const { id, firstName, lastName, email, password } = userInputs;
+		const {
+			id,
+			firstName,
+			lastName,
+			email,
+			password,
+			description,
+			age,
+			gender,
+			telephone,
+		} = userInputs;
 
 		let salt = await GenerateSalt();
 
@@ -86,6 +96,10 @@ class UserService {
 			email,
 			password: userPassword,
 			salt,
+			description,
+			age,
+			gender,
+			telephone,
 		});
 
 		return FormateData(existingUser);

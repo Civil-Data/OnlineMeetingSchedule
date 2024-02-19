@@ -130,6 +130,7 @@ const PersonalInfo = ({
 				},
 				{ withCredentials: true }
 			);
+			console.log(data);
 			emailChanged = false;
 			const { success, message } = data;
 			if (success) {

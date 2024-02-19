@@ -55,12 +55,12 @@ const CreateMeeting = () => {
 				participantList.push(participant._id);
 			});
 
-			await fetch(serverUrl + "/meeting/create", {
+			await fetch(serverUrl + "/meeting/meeting/create", {
 				method: "POST",
 
 				headers: { "Content-type": "application/json" },
 				body: JSON.stringify({
-					organizer: user._id,
+					organizer: user.existingUser._id,
 					participants: participantList,
 					...meetingDetails,
 				}),

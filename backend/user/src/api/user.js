@@ -57,8 +57,12 @@ module.exports = (app, channel) => {
 
 	// update user
 	app.post("/updateUser", async (req, res) => {
-		const { data } = await service.UpdateUser(req.body);
-		res.json(data);
+		const user = await service.UpdateUser(req.body);
+		res.status(201).json({
+			message: "User updated successfully",
+			success: true,
+			user,
+		});
 	});
 
 	//validate token

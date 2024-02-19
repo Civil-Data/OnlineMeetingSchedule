@@ -8,9 +8,9 @@ import serverUrl from "../../utils/config";
 
 const GetMeetings = async (user) => {
 	try {
-		console.log("User", user);
 		const { data } = await axios.get(
-			serverUrl + `/meeting/meeting/users?paramName=${user._id}`
+			serverUrl +
+				`/meeting/meeting/users?paramName=${user.existingUser._id}`
 		);
 
 		return data;

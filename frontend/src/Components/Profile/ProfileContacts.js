@@ -11,6 +11,7 @@ const ProfileContacts = () => {
 			// Send a GET request to get all users
 			const user = await axios.get(serverUrl + "/user/users");
 			setUsers(user.data);
+			console.log("Users", user.data);
 		} catch (error) {
 			console.error("Error fetching user data:", error);
 		}

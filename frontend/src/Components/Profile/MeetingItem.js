@@ -15,6 +15,7 @@ import { useUserContext } from "../../contexts/LoginContext";
 const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
+
 		const { data } = await axios.get(serverUrl + "user/users");
 		data.forEach((user) => {
 			if (user.firstName) {
@@ -204,7 +205,7 @@ const MeetingItem = ({ meeting }) => {
 														user._id ===
 														meetingDetails.organizer
 													)
-														return `${user.firstName} ${user.lastName} <${user.email}>`;
+														return `${user.existingUser.firstName} ${user.lastName} <${user.email}>`;
 													else return "";
 												})
 												.filter(Boolean)
@@ -224,7 +225,7 @@ const MeetingItem = ({ meeting }) => {
 														);
 
 														return user
-															? `${user.firstName} ${user.lastName} <${user.email}>`
+															? `${user.existingUser.firstName} ${user.lastName} <${user.email}>`
 															: "";
 													})
 													.filter(Boolean)

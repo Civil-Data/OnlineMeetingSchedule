@@ -7,19 +7,24 @@ module.exports = (app, channel) => {
 	// To listen
 	SubscribeMessage(channel, service);
 
-	app.post("/register", async (req, res) => {
+	app.post("/register", async (req, res, next) => {
 		try {
 			const userInput = req.body;
-			const user = await service.Register(userInput);
-			res.json(user);
+			const { user, token } = await service.Register(userInput);
+			// Send a success response with user information
+			res.status(201).json({
+				message: "User signed in successfully",
+				user,
+				token,
+			});
 		} catch (error) {
 			next(error);
 		}
 	});
 	// Login a user
 	app.post("/login", async (req, res) => {
-		// Extract email and password from the request body
 		try {
+			// Extract email and password from the request body
 			const { email, password } = req.body;
 			const { data } = await service.LogIn({ email, password });
 			res.json(data);
@@ -42,8 +47,8 @@ module.exports = (app, channel) => {
 
 	// update user
 	app.post("/updateUser", async (req, res) => {
-		const { data } = await service.UpdateUser(req.body);
-		res.json(data);
+		const user = await service.UpdateUser(req.body);
+		res.json(user);
 	});
 
 	//validate token

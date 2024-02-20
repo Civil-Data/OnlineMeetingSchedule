@@ -12,8 +12,7 @@ class UserRepository {
 			salt,
 		});
 
-		const userResult = await user.save();
-		return userResult;
+		return await user.save();
 	}
 
 	async FindUser(email) {
@@ -34,7 +33,7 @@ class UserRepository {
 		age,
 	}) {
 		const existingUser = await UserModel.findByIdAndUpdate(
-			id,
+			{ _id: id },
 			{
 				firstName,
 				lastName,

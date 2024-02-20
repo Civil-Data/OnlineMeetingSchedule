@@ -9,25 +9,11 @@ module.exports = (app, channel) => {
 
 	app.post("/register", async (req, res) => {
 		try {
-			const { firstName, lastName, email, password } = req.body;
-			const data = await service.Register({
-				email,
-				password,
-				firstName,
-				lastName,
-			});
-			console.log(data);
-			res.json(data);
-			// const { data } = await service.Register({
-			// 	email,
-			// 	password,
-			// 	firstName,
-			// 	lastName,
-			// });
-			// res.json(data);
+			const userInput = req.body;
+			const user = await service.Register(userInput);
+			res.json(user);
 		} catch (error) {
-			console.log(error);
-			res.json(error);
+			next(error);
 		}
 	});
 	// Login a user

@@ -47,7 +47,7 @@ const NavigationBar = () => {
 				</div>
 			) : (
 				<div id="navButtons" className="flex-se right">
-					<Link className="nav-buttons" to="/register" type="button">
+					<Link className="nav-buttons" to="/signup" type="button">
 						<i>Sign up</i>
 					</Link>
 					<Link className="nav-buttons" to="/login" type="button">

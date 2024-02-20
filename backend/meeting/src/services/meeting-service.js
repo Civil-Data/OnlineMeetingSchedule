@@ -46,7 +46,7 @@ class MeetingService {
 	// 	switch(event){
 	// 	case "Login":
 	// 		break;
-	// 	case "Register":
+	// 	case "Sign up":
 	// 		break;
 	// 	default:
 	// 		break;

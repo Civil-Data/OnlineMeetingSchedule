@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import serverUrl from "../utils/config";
+import { SERVER_URL } from "../config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
 import { isAlpha, isEmail } from "validator";
 
@@ -19,7 +19,7 @@ const Signup = () => {
 		confirmPassword: "",
 	});
 	const { firstName, lastName, email, confirmEmail, password, confirmPassword } = inputValue;
-	const { saveUser, updateLoginStatus, setJustRegistered } = useUpdateUserContext();
+	const { saveUser, updateLoginStatus, setJustSignedUp } = useUpdateUserContext();
 
 	const handleOnChange = e => {
 		const { name, value } = e.target;
@@ -68,7 +68,7 @@ const Signup = () => {
 
 		try {
 			const { data } = await axios.post(
-				serverUrl + "/user/register",
+				SERVER_URL + "/user/signup",
 
 				{ firstName, lastName, email, password },
 				{ withCredentials: true }
@@ -78,7 +78,7 @@ const Signup = () => {
 			if (success) {
 				handleSuccess(message);
 				updateLoginStatus(true);
-				setJustRegistered(true);
+				setJustSignedUp(true);
 				saveUser(data.user);
 				setTimeout(() => {
 					navigate("/profile");
@@ -194,7 +194,7 @@ const Signup = () => {
 				/>
 				<div>
 					<button id="confirmation_btn" className="links" type="submit">
-						Register
+						Sign up
 					</button>
 				</div>
 				<span>

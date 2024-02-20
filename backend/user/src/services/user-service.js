@@ -38,17 +38,16 @@ class UserService {
 		return { existingUser, token };
 	}
 
-	async Register({ firstName, lastName, email, password }) {
+	async SignUp({ firstName, lastName, email, password }) {
 		const existingUser = await this.repository.FindUser(email);
 
 		if (existingUser)
 			throw new APIError("A user with this email already exist. Try to log in.");
 
-		await ValidateUserInput("REGISTER", { firstName, lastName, email, password });
+		await ValidateUserInput("SIGNUP", { firstName, lastName, email, password });
 
 		// Create salt
 		const salt = await GenerateSalt();
-
 		const userPassword = await GeneratePassword(password, salt);
 
 		const user = await this.repository.CreateUser({
@@ -90,7 +89,6 @@ class UserService {
 		});
 
 		const salt = await GenerateSalt();
-
 		const userPassword = await GeneratePassword(password, salt);
 
 		const existingUser = await this.repository.UpdateUserById({
@@ -108,17 +106,18 @@ class UserService {
 	//get all users
 	async GetUsers() {
 		const existingUsers = await this.repository.GetUsers();
+		if (!existingUsers) throw new NotFoundError("No users found.");
 
-		return FormateData(existingUsers);
+		return existingUsers;
 	}
 
 	//get user
-	async GetUser(userInputs) {
-		const { id } = userInputs;
-
-		const existingUser = await this.repository.GetUserById({ id });
-		return FormateData(existingUser);
+	async GetUser({ id }) {
+		const existingUser = await this.repository.GetUserById(id);
+		if (!existingUser) throw new NotFoundError("No user found.");
+		return existingUser;
 	}
+
 	//validate token
 	async ValidateToken(req) {
 		const token = req.cookie.token;
@@ -127,7 +126,7 @@ class UserService {
 		jwt.verify(token, TOKEN_KEY, async data => {
 			const existingUser = await this.repository.GetUserById(data.id);
 
-			return FormateData(existingUser);
+			return existingUser;
 		});
 	}
 }

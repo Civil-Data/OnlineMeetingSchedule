@@ -7,13 +7,14 @@ module.exports = (app, channel) => {
 	// To listen
 	SubscribeMessage(channel, service);
 
-	app.post("/register", async (req, res, next) => {
+	// Sign up user
+	app.post("/signup", async (req, res, next) => {
 		try {
 			const userInput = req.body;
-			const { user, token } = await service.Register(userInput);
+			const { user, token } = await service.SignUp(userInput);
 			// Send a success response with user information
 			res.status(201).json({
-				message: "User signed in successfully",
+				message: `${user.firstName} signed in!`,
 				user,
 				token,
 			});
@@ -21,10 +22,10 @@ module.exports = (app, channel) => {
 			next(error);
 		}
 	});
+
 	// Login a user
-	app.post("/login", async (req, res) => {
+	app.post("/login", async (req, res, next) => {
 		try {
-			// Extract email and password from the request body
 			const { email, password } = req.body;
 			const { data } = await service.LogIn({ email, password });
 			res.json(data);
@@ -34,26 +35,45 @@ module.exports = (app, channel) => {
 	});
 
 	// get all users
-	app.get("/users", async (req, res) => {
-		const { data } = await service.GetUsers();
-		res.json(data);
+	app.get("/users", async (req, res, next) => {
+		try {
+			const { data } = await service.GetUsers();
+			res.json(data);
+		} catch (error) {
+			next(error);
+		}
 	});
 
 	// get user
-	app.get("/user", async (req, res) => {
-		const { data } = await service.GetUser(req.body);
-		res.json(data);
+	app.get("/user", async (req, res, next) => {
+		try {
+			const userInput = req.body;
+			const user = await service.GetUser(userInput);
+			res.json(user);
+		} catch (error) {
+			next(error);
+		}
 	});
 
 	// update user
-	app.post("/updateUser", async (req, res) => {
-		const user = await service.UpdateUser(req.body);
-		res.json(user);
+	app.post("/updateUser", async (req, res, next) => {
+		try {
+			const userInput = req.body;
+			const user = await service.UpdateUser(userInput);
+			res.json(user);
+		} catch (error) {
+			next(error);
+		}
 	});
 
 	//validate token
-	app.post("/", async (req, res) => {
-		const { data } = await service.ValidateToken(req.body);
-		res.json(data);
+	app.post("/", async (req, res, next) => {
+		try {
+			const userInput = req.body;
+			const { data } = await service.ValidateToken(userInput);
+			res.json(data);
+		} catch (error) {
+			next(error);
+		}
 	});
 };

@@ -23,7 +23,7 @@ module.exports.ValidatePassword = async (enteredPassword, savedPassword, salt) =
 };
 
 module.exports.ValidateUserInput = async (
-	type = "REGISTER",
+	type = "SIGNUP",
 	{ firstName, lastName, email, password, telephone, gender, age }
 ) => {
 	// Check if all required fields are provided
@@ -47,27 +47,23 @@ module.exports.ValidateUserInput = async (
 	}
 
 	if (type === "UPDATE") {
-		if (!isMobilePhone(telephone)) {
-			throw new ValidationError("Not a valid telephone number");
-		}
+        // Validate telephone number
+		if (!isMobilePhone(telephone)) 
+            throw new ValidationError("Not a valid telephone number");
 
 		// Check if a gender option is specified
 		if (
-			!gender === "Male" ||
-			!gender === "Female" ||
-			!gender === "Other" ||
-			!gender === "Don't want to specify"
-		) {
-			throw new ValidationError("Invalid gender input.");
-		}
+			gender !== "Male" ||
+			gender !== "Female" ||
+			gender !== "Other" ||
+		) throw new ValidationError("Invalid gender input.");
+		
 
 		// Check if the password meets the minimum length requirement
-		if (isNaN(+age) && +age > 0) {
-			throw new ValidationError("Invalid age input.");
-		}
+		if (isNaN(+age) && +age > 0) 
+            throw new ValidationError("Invalid age input.");
+		
 	}
-
-	return true;
 };
 
 module.exports.GenerateSignature = async payload => {

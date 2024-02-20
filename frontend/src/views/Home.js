@@ -18,7 +18,7 @@ const Home = () => {
 
 				<h2>Please Login or Sign up here!</h2>
 				<div className="login_area">
-					<Link to="/register" className="links">
+					<Link to="/signup" className="links">
 						Click here to sign up!
 					</Link>
 					<Link to="/login" className="links">

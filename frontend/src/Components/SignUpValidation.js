@@ -87,9 +87,9 @@ const Signup = () => {
 				handleError(message);
 			}
 		} catch (error) {
-			if (error.response.status === 500) {
-				handleError("A user with this email seems to already exist. Try to login instead.");
-			} else console.error(error);
+			// This may need attention
+			console.error(error.description);
+			handleError(error.description);
 		}
 		setInputValue({
 			...inputValue,

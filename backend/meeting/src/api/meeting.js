@@ -17,10 +17,7 @@ module.exports = (app, channel) => {
 			const userID = req.query.paramName;
 			// Find the meeting with the provided ID
 			const meeting = await Meeting.find({
-				$or: [
-					{ organizer: userID },
-					{ participants: { $in: [userID] } },
-				],
+				$or: [{ organizer: userID }, { participants: { $in: [userID] } }],
 			});
 			res.status(200).json(meeting);
 		} catch (error) {
@@ -28,7 +25,7 @@ module.exports = (app, channel) => {
 		}
 	});
 
-	// Get a specific meeting by userId
+	// Get a specific meeting by date
 	app.get("/meeting/date", async (req, res) => {
 		try {
 			const meetingDate = req.query.date;
@@ -145,8 +142,6 @@ module.exports = (app, channel) => {
 	});
 
 	app.get("/whoami", (req, res) => {
-		return res
-			.status(200)
-			.json({ msg: "/ or /meeting : I am meeting Service" });
+		return res.status(200).json({ msg: "/ or /meeting : I am meeting Service" });
 	});
 };

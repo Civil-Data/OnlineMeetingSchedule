@@ -9,7 +9,7 @@ class MeetingService {
 
 	async CreateMeeting(payload) {
 		const meeting = await this.repository.CreateMeeting(payload);
-		return FormateData(meeting);
+		return meeting;
 	}
 
 	async GetMeeting(payload) {

@@ -1,5 +1,6 @@
 const UserService = require("../services/user-service");
 const { SubscribeMessage } = require("../utils");
+const UserAuth = require("./middlewares/auth");
 
 module.exports = (app, channel) => {
 	const service = new UserService();
@@ -27,28 +28,28 @@ module.exports = (app, channel) => {
 	app.post("/login", async (req, res, next) => {
 		try {
 			const { email, password } = req.body;
-			const { data } = await service.LogIn({ email, password });
-			res.json(data);
+			const { existingUser, token } = await service.LogIn({ email, password });
+			res.json({ existingUser, token });
 		} catch (error) {
-			res.json(error);
+			next(error);
 		}
 	});
 
 	// get all users
-	app.get("/users", async (req, res, next) => {
+	app.get("/users", UserAuth, async (req, res, next) => {
 		try {
-			const { data } = await service.GetUsers();
-			res.json(data);
+			const existingUsers = await service.GetUsers();
+			res.json(existingUsers);
 		} catch (error) {
 			next(error);
 		}
 	});
 
 	// get user
-	app.get("/user", async (req, res, next) => {
+	app.get("/user", UserAuth, async (req, res, next) => {
 		try {
-			const userInput = req.body;
-			const user = await service.GetUser(userInput);
+			const userId = req.query.id;
+			const user = await service.GetUser(userId);
 			res.json(user);
 		} catch (error) {
 			next(error);
@@ -56,7 +57,7 @@ module.exports = (app, channel) => {
 	});
 
 	// update user
-	app.post("/updateUser", async (req, res, next) => {
+	app.post("/updateUser", UserAuth, async (req, res, next) => {
 		try {
 			const userInput = req.body;
 			const user = await service.UpdateUser(userInput);
@@ -66,14 +67,14 @@ module.exports = (app, channel) => {
 		}
 	});
 
-	//validate token
-	app.post("/", async (req, res, next) => {
-		try {
-			const userInput = req.body;
-			const { data } = await service.ValidateToken(userInput);
-			res.json(data);
-		} catch (error) {
-			next(error);
-		}
-	});
+	// //validate token
+	// app.post("/", async (req, res, next) => {
+	// 	try {
+	// 		const userInput = req.body;
+	// 		const { data } = await service.ValidateToken(userInput);
+	// 		res.json(data);
+	// 	} catch (error) {
+	// 		next(error);
+	// 	}
+	// });
 };

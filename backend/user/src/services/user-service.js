@@ -112,23 +112,23 @@ class UserService {
 	}
 
 	//get user
-	async GetUser({ id }) {
+	async GetUser(id) {
 		const existingUser = await this.repository.GetUserById(id);
 		if (!existingUser) throw new NotFoundError("No user found.");
 		return existingUser;
 	}
 
-	//validate token
-	async ValidateToken(req) {
-		const token = req.cookie.token;
+	// //validate token
+	// async ValidateToken(req) {
+	// 	const token = req.cookie.token;
 
-		// Verify the token using the secret key from environment variables
-		jwt.verify(token, TOKEN_KEY, async data => {
-			const existingUser = await this.repository.GetUserById(data.id);
+	// 	// Verify the token using the secret key from environment variables
+	// 	jwt.verify(token, TOKEN_KEY, async data => {
+	// 		const existingUser = await this.repository.GetUserById(data.id);
 
-			return existingUser;
-		});
-	}
+	// 		return existingUser;
+	// 	});
+	// }
 }
 
 module.exports = UserService;

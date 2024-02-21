@@ -22,50 +22,6 @@ module.exports.ValidatePassword = async (enteredPassword, savedPassword, salt) =
 	return (await this.GeneratePassword(enteredPassword, salt)) === savedPassword;
 };
 
-module.exports.ValidateUserInput = async (
-	type = "SIGNUP",
-	{ firstName, lastName, email, password, telephone, gender, age }
-) => {
-	// Check if all required fields are provided
-	if (!firstName || !lastName || !email || !password) {
-		throw new ValidationError("All fields are required");
-	}
-
-	// Check if the first name and last name are letters
-	if (!isAlpha(firstName) || !isAlpha(lastName)) {
-		throw new ValidationError("First name and last name should be letters");
-	}
-
-	// Check if the email format is valid
-	if (!isEmail(email)) {
-		throw new ValidationError("Email is not valid");
-	}
-
-	// Check if the password meets the minimum length requirement
-	if (password.length < 8) {
-		throw new ValidationError("Password should be at least 8 characters");
-	}
-
-	if (type === "UPDATE") {
-        // Validate telephone number
-		if (!isMobilePhone(telephone)) 
-            throw new ValidationError("Not a valid telephone number");
-
-		// Check if a gender option is specified
-		if (
-			gender !== "Male" ||
-			gender !== "Female" ||
-			gender !== "Other" ||
-		) throw new ValidationError("Invalid gender input.");
-		
-
-		// Check if the password meets the minimum length requirement
-		if (isNaN(+age) && +age > 0) 
-            throw new ValidationError("Invalid age input.");
-		
-	}
-};
-
 module.exports.GenerateSignature = async payload => {
 	try {
 		return await jwt.sign(payload, APP_SECRET, {
@@ -129,4 +85,41 @@ module.exports.SubscribeMessage = async (channel, service) => {
 			noAck: true,
 		}
 	);
+};
+
+module.exports.ValidateUserInput = async (
+	type = "SIGNUP",
+	{ firstName, lastName, email, password, telephone, gender, age }
+) => {
+	// Check if all required fields are provided
+	if (!firstName || !lastName || !email || !password) {
+		throw new ValidationError("All fields are required");
+	}
+
+	// Check if the first name and last name are letters
+	if (!isAlpha(firstName) || !isAlpha(lastName)) {
+		throw new ValidationError("First name and last name should be letters");
+	}
+
+	// Check if the email format is valid
+	if (!isEmail(email)) {
+		throw new ValidationError("Email is not valid");
+	}
+
+	// Check if the password meets the minimum length requirement
+	if (password.length < 8) {
+		throw new ValidationError("Password should be at least 8 characters");
+	}
+
+	if (type === "UPDATE") {
+		// Validate telephone number
+		if (!isMobilePhone(telephone)) throw new ValidationError("Not a valid telephone number");
+
+		// Check if a gender option is specified
+		if (gender !== "Male" || gender !== "Female" || gender !== "Other")
+			throw new ValidationError("Invalid gender input.");
+
+		// Check if the password meets the minimum length requirement
+		if (isNaN(+age) && +age > 0) throw new ValidationError("Invalid age input.");
+	}
 };

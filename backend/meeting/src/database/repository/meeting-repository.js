@@ -16,7 +16,7 @@ class MeetingRepository {
 		description,
 		hasPassed,
 	}) {
-		const user = new MeetingModel({
+		const meeting = new MeetingModel({
 			participants,
 			startTime,
 			endTime,
@@ -29,16 +29,13 @@ class MeetingRepository {
 			organizer,
 			salt,
 		});
-
-		const meetingResult = await user.save();
-		return meetingResult;
+		return await meeting.save();
 	}
 
 	async FindMeetingByUserId({ userId }) {
 		const existingMeeting = await MeetingModel.find({
 			$or: [{ organizer: userId }, { participants: { $in: [userId] } }],
 		});
-
 		return existingMeeting;
 	}
 

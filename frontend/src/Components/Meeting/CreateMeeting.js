@@ -12,13 +12,8 @@ import { useUpdateUserContext } from "../../contexts/LoginContext";
 const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
-<<<<<<< HEAD
 		const { data } = await axios.get(SERVER_URL + "/user/users");
-		data.forEach(user => {
-=======
-		const data = await axios.get(serverUrl + "/user/users");
-		data.data.data.forEach((user) => {
->>>>>>> fix/sessionValidation
+		data.forEach((user) => {
 			if (user.firstName) {
 				listOfUsers.push(user);
 			}
@@ -35,9 +30,9 @@ const CreateMeeting = () => {
 	const { user } = useUserContext();
 	const { date, dayString, clickedMonth, yearToDisplay } = useDayView();
 	const { getDate } = useDateContext();
-	const dateString = `${yearToDisplay}-${clickedMonth.toString().padStart(2, "0")}-${date
+	const dateString = `${yearToDisplay}-${clickedMonth
 		.toString()
-		.padStart(2, "0")}`;
+		.padStart(2, "0")}-${date.toString().padStart(2, "0")}`;
 
 	const [participants, setParticipants] = useState([]); // Array with participant names that the users has added.
 	const [users, setUsers] = useState([{}]); // Array with users
@@ -58,18 +53,13 @@ const CreateMeeting = () => {
 	const bookMeeting = async () => {
 		try {
 			const participantList = [];
-			participants.forEach(participant => {
+			participants.forEach((participant) => {
 				participantList.push(participant._id);
 			});
-<<<<<<< HEAD
 
-			await fetch(SERVER_URL + "/meeting/create", {
-=======
 			setHeader();
-			await fetch(serverUrl + "/meeting/meeting/create", {
->>>>>>> fix/sessionValidation
+			await fetch(SERVER_URL + "/meeting/create", {
 				method: "POST",
-
 				headers: { "Content-type": "application/json" },
 				body: JSON.stringify({
 					organizer: user.existingUser._id,
@@ -98,7 +88,7 @@ const CreateMeeting = () => {
 	};
 
 	useEffect(() => {
-		fetchUsers().then(users => {
+		fetchUsers().then((users) => {
 			setUsers(users);
 		});
 	}, []);
@@ -134,7 +124,7 @@ const CreateMeeting = () => {
 					sx={muiInputStyle}
 					label="Meeting Title"
 					value={meetingDetails.title}
-					onChange={event =>
+					onChange={(event) =>
 						setMeetingDetails({
 							...meetingDetails,
 							title: event.target.value,
@@ -145,7 +135,7 @@ const CreateMeeting = () => {
 					sx={{ ...muiInputStyle, ...seperateLeft }}
 					label="Location"
 					value={meetingDetails.location}
-					onChange={event =>
+					onChange={(event) =>
 						setMeetingDetails({
 							...meetingDetails,
 							location: event.target.value,
@@ -157,7 +147,7 @@ const CreateMeeting = () => {
 					className="calendar_choose_time"
 					label="Start Time" // Add Start Time field
 					value={meetingDetails.startTime}
-					onChange={event =>
+					onChange={(event) =>
 						setMeetingDetails({
 							...meetingDetails,
 							startTime: event.target.value,
@@ -175,7 +165,7 @@ const CreateMeeting = () => {
 					sx={{ ...muiInputStyle, ...seperateLeft }}
 					label="End Time" // Add End Time field
 					value={meetingDetails.endTime}
-					onChange={event =>
+					onChange={(event) =>
 						setMeetingDetails({
 							...meetingDetails,
 							endTime: event.target.value,
@@ -195,13 +185,13 @@ const CreateMeeting = () => {
 					multiple
 					id="participants"
 					options={users} // Add your list of participants here
-					getOptionLabel={option =>
+					getOptionLabel={(option) =>
 						`${option.firstName} ${option.lastName} <${option.email}>`
 					}
 					onChange={(event, user) => {
 						setParticipants(user);
 					}}
-					renderInput={params => (
+					renderInput={(params) => (
 						<TextField
 							{...params}
 							label="Participants"
@@ -215,7 +205,7 @@ const CreateMeeting = () => {
 					label="Description"
 					type="description"
 					value={meetingDetails.description}
-					onChange={event =>
+					onChange={(event) =>
 						setMeetingDetails({
 							...meetingDetails,
 							description: event.target.value,
@@ -230,7 +220,7 @@ const CreateMeeting = () => {
 					label="Start Date"
 					type="date"
 					value={meetingDetails.startDate}
-					onChange={event =>
+					onChange={(event) =>
 						setMeetingDetails({
 							...meetingDetails,
 							startDate: event.target.value,
@@ -245,7 +235,7 @@ const CreateMeeting = () => {
 					label="End Date"
 					type="date"
 					value={meetingDetails.endDate}
-					onChange={event =>
+					onChange={(event) =>
 						setMeetingDetails({
 							...meetingDetails,
 							endDate: event.target.value,
@@ -257,7 +247,10 @@ const CreateMeeting = () => {
 				/>
 			</div>
 
-			<ConfirmButton isDisabled={isButtonDisabled} bookMeeting={bookMeeting} />
+			<ConfirmButton
+				isDisabled={isButtonDisabled}
+				bookMeeting={bookMeeting}
+			/>
 		</>
 	);
 };

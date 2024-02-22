@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { SERVER_URL } from "../config";
+import { SERVER_URL } from "../config/index";
 import { useUpdateUserContext } from "../contexts/LoginContext";
 import { isAlpha, isEmail } from "validator";
 
@@ -18,10 +18,6 @@ const Signup = () => {
 		password: "",
 		confirmPassword: "",
 	});
-<<<<<<< HEAD
-	const { firstName, lastName, email, confirmEmail, password, confirmPassword } = inputValue;
-	const { saveUser, updateLoginStatus, setJustSignedUp } = useUpdateUserContext();
-=======
 	const {
 		firstName,
 		lastName,
@@ -30,9 +26,8 @@ const Signup = () => {
 		password,
 		confirmPassword,
 	} = inputValue;
-	const { saveUser, updateLoginStatus, setJustRegistered, setHeader } =
+	const { saveUser, updateLoginStatus, setJustSignedUp, setHeader } =
 		useUpdateUserContext();
->>>>>>> fix/sessionValidation
 
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
@@ -99,13 +94,8 @@ const Signup = () => {
 			if (success) {
 				handleSuccess(message);
 				updateLoginStatus(true);
-<<<<<<< HEAD
 				setJustSignedUp(true);
 				saveUser(data.user);
-=======
-				setJustRegistered(true);
-				saveUser(data.user.data);
->>>>>>> fix/sessionValidation
 				setTimeout(() => {
 					navigate("/profile");
 				}, 2000);
@@ -113,17 +103,9 @@ const Signup = () => {
 				handleError(message);
 			}
 		} catch (error) {
-<<<<<<< HEAD
 			// This may need attention
 			console.error(error.description);
 			handleError(error.description);
-=======
-			if (error.response.status === 500) {
-				handleError(
-					"A user with this email seems to already exist. Try to login instead."
-				);
-			} else console.error(error);
->>>>>>> fix/sessionValidation
 		}
 		setInputValue({
 			...inputValue,
@@ -227,17 +209,12 @@ const Signup = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
-<<<<<<< HEAD
-					<button id="confirmation_btn" className="links" type="submit">
-						Sign up
-=======
 					<button
 						id="confirmation_btn"
 						className="links"
 						type="submit"
 					>
-						Register
->>>>>>> fix/sessionValidation
+						Sign up
 					</button>
 				</div>
 				<span>

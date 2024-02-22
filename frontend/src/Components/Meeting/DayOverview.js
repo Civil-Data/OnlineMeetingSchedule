@@ -3,19 +3,17 @@ import MeetingItem from "../Profile/MeetingItem";
 import { useMeetingPopUp } from "../../contexts/MeetingContext";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-<<<<<<< HEAD
 import { SERVER_URL } from "../../config";
-=======
-import serverUrl from "../../utils/config";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
->>>>>>> fix/sessionValidation
 
 const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 	try {
 		const dateString = `${String(yearToDisplay).padStart(2, "0")}-${String(
 			monthToDisplay
 		).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
-		const { data } = await axios.get(SERVER_URL + `/meeting/meeting/date?date=${dateString}`);
+		const { data } = await axios.get(
+			SERVER_URL + `/meeting/meeting/date?date=${dateString}`
+		);
 
 		return data;
 	} catch (error) {
@@ -32,16 +30,12 @@ const DayOverview = () => {
 	useEffect(() => {
 		const renderDayMeetings = async () => {
 			try {
-<<<<<<< HEAD
-				const meetings = await fetchDayMeeting(date, clickedMonth, yearToDisplay);
-=======
-				setHeader();
 				const meetings = await fetchDayMeeting(
 					date,
 					clickedMonth,
 					yearToDisplay
 				);
->>>>>>> fix/sessionValidation
+				setHeader();
 				setMeetings(meetings);
 			} catch (error) {
 				console.error("Error fetching meetings", error);
@@ -50,17 +44,19 @@ const DayOverview = () => {
 			}
 		};
 		renderDayMeetings();
-	}, [date, clickedMonth, yearToDisplay]);
+	}, [date, clickedMonth, yearToDisplay, setHeader]);
 
 	return (
 		<div className="calender_meeting_overview">
 			{!isLoading &&
 				(meetings.length > 0 ? (
-					meetings.map(meeting => {
+					meetings.map((meeting) => {
 						return <MeetingItem key={uuidv4()} meeting={meeting} />;
 					})
 				) : (
-					<div className="dayOverview">No meetings booked for this day.</div>
+					<div className="dayOverview">
+						No meetings booked for this day.
+					</div>
 				))}
 		</div>
 	);

@@ -4,22 +4,13 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 import { useUserContext } from "../../contexts/LoginContext";
-<<<<<<< HEAD
 import { SERVER_URL } from "../../config";
-=======
-import serverUrl from "../../utils/config";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
->>>>>>> fix/sessionValidation
 
-const GetMeetings = async user => {
+const GetMeetings = async (user) => {
 	try {
 		const { data } = await axios.get(
-<<<<<<< HEAD
 			SERVER_URL + `/meeting/meeting/users?paramName=${user._id}`
-=======
-			serverUrl +
-				`/meeting/meeting/users?paramName=${user.existingUser._id}`
->>>>>>> fix/sessionValidation
 		);
 
 		return data;
@@ -56,7 +47,7 @@ const ProfileMeetings = () => {
 			<div className="profile_container">
 				{/* <div className="top_section"> */}
 				{!isLoading ? (
-					meetings.map(meeting => {
+					meetings.map((meeting) => {
 						return <MeetingItem key={uuidv4()} meeting={meeting} />;
 					})
 				) : (

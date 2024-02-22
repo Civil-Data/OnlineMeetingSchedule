@@ -2,13 +2,7 @@ const Sentry = require("@sentry/node");
 
 const _ = require("@sentry/tracing");
 
-const {
-	NotFoundError,
-
-	ValidationError,
-
-	AuthenticationError,
-} = require("./app-errors");
+const { NotFoundError, ValidationError, AuthenticationError } = require("./app-errors");
 
 Sentry.init({
 	dsn: "YOUR_SENTRY_DNS_KEY_FROM_INTEGRATION_PAGE",
@@ -33,9 +27,7 @@ module.exports = app => {
 		}
 
 		const statusCode = error.statusCode || 500;
-
 		const data = error.data || error.message;
-
 		return res.status(statusCode).json(data);
 	});
 };

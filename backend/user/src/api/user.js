@@ -46,9 +46,9 @@ module.exports = (app, channel) => {
 	});
 
 	// get user
-	app.get("/user", UserAuth, async (req, res, next) => {
+	app.get("/:userId", UserAuth, async (req, res, next) => {
 		try {
-			const userId = req.query.id;
+			const userId = req.params.userId;
 			const user = await service.GetUser(userId);
 			res.json(user);
 		} catch (error) {
@@ -57,7 +57,7 @@ module.exports = (app, channel) => {
 	});
 
 	// update user
-	app.post("/updateUser", UserAuth, async (req, res, next) => {
+	app.post("/update", UserAuth, async (req, res, next) => {
 		try {
 			const userInput = req.body;
 			const user = await service.UpdateUser(userInput);

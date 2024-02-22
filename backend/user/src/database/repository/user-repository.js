@@ -33,7 +33,7 @@ class UserRepository {
 		age,
 	}) {
 		const existingUser = await UserModel.findByIdAndUpdate(
-			{ _id: id },
+			id,
 			{
 				firstName,
 				lastName,

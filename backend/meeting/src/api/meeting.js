@@ -1,6 +1,6 @@
 const MeetingService = require("../services/meeting-service");
-// const UserAuth = require("./middlewares/auth");
-const { SubscribeMessage } = require("../utils");
+const { SubscribeMessage, ValidateMeetingInput } = require("../utils");
+const UserAuth = require("./middlewares/auth");
 
 module.exports = (app, channel) => {
 	const service = new MeetingService();
@@ -8,140 +8,77 @@ module.exports = (app, channel) => {
 	// To listen
 	SubscribeMessage(channel, service);
 
-	// Import the Meeting model
-	const Meeting = require("../database/models/Meeting");
-
-	// Get a specific meeting by userId
-	app.get("/meeting/users", async (req, res) => {
-		try {
-			const userID = req.query.paramName;
-			// Find the meeting with the provided ID
-			const meeting = await Meeting.find({
-				$or: [{ organizer: userID }, { participants: { $in: [userID] } }],
-			});
-			res.status(200).json(meeting);
-		} catch (error) {
-			console.error("Unable to find meeting.", error);
-		}
-	});
-
-	// Get a specific meeting by date
-	app.get("/meeting/date", async (req, res) => {
-		try {
-			const meetingDate = req.query.date;
-
-			// Find the meeting with the provided ID
-			const meeting = await Meeting.find({ startDate: meetingDate });
-			res.status(200).json(meeting);
-		} catch (error) {
-			console.error("Unable to find meeting.", error);
-		}
-	});
-
 	// Create a new meeting
-	app.post("/meeting/create", async (req, res, next) => {
+	app.post("/create", UserAuth, async (req, res, next) => {
 		try {
-			// Extract meeting details from the request body
-			const {
-				organizer,
-				participants,
-				startTime,
-				endTime,
-				startDate,
-				endDate,
-				location,
-				title,
-				description,
-			} = req.body;
+			const meetingData = req.body;
+			await ValidateMeetingInput(meetingData);
 
 			// Create a new meeting in the database
-			const meeting = await service.CreateMeeting({
-				organizer,
-				participants,
-				startTime,
-				endTime,
-				startDate,
-				endDate,
-				location,
-				title,
-				description,
-			});
+			const meeting = await service.CreateMeeting(meetingData);
 
 			// Send a success response with the created meeting data
 			res.status(201).json({
-				message: "Meeting was successfully created!",
+				message: `Meeting: ${meeting.title} was successfully created!`,
 				meeting,
 			});
-
-			next();
 		} catch (error) {
-			console.error("Unable to create meeting.", error);
+			next(error);
 		}
 	});
 
-	// Update an existing meeting by ID
-	app.post("/meeting/update", async (req, res, next) => {
+	// Get meetings associated with the provided user
+	app.get("/my-meetings/:userId", UserAuth, async (req, res, next) => {
 		try {
-			// Extract meeting details and the meeting ID from the request body
-			const {
-				meetingID,
-				participants,
-				startTime,
-				endTime,
-				startDate,
-				endDate,
-				location,
-				title,
-				description,
-			} = req.body;
+			const userId = req.params.userId;
+			const meeting = await service.GetMeetingsByUserId(userId);
+			res.status(200).json(meeting);
+		} catch (error) {
+			next(error);
+		}
+	});
 
-			// Update the meeting with the provided ID in the database
-			await Meeting.updateOne(
-				{
-					_id: meetingID,
-				},
-				{
-					participants,
-					startTime,
-					endTime,
-					startDate,
-					endDate,
-					location,
-					title,
-					description,
-				}
-			);
+	// Get meetings with the provided date
+	app.get("/:date", UserAuth, async (req, res, next) => {
+		try {
+			const meetingDate = req.params.date;
+			const meeting = await service.GetMeetingsByDate(meetingDate);
+			res.status(200).json(meeting);
+		} catch (error) {
+			next(error);
+		}
+	});
+
+	// Update an existing meeting
+	app.post("/update", UserAuth, async (req, res, next) => {
+		try {
+			const meetingData = req.body;
+			await ValidateMeetingInput(meetingData);
+
+			// Update the meeting with the provided id in the database
+			const updatedMeeting = await service.UpdateMeeting(meetingData);
 
 			// Send a success response with the updated meeting data
 			res.status(200).json({
-				message: "Meeting was successfully updated!",
+				message: `Meeting: ${updatedMeeting.title} was successfully updated!`,
+				updatedMeeting,
 			});
-			next();
 		} catch (error) {
-			console.error("Unable to update meeting.", error);
+			next(error);
 		}
 	});
 
-	// Delete a meeting by ID
-	app.delete("/meeting/delete", async (req, res, next) => {
+	// Delete a meeting by id
+	app.delete("/delete/:meetingId", UserAuth, async (req, res, next) => {
 		try {
-			// Extract the meeting ID from the request body
-			const meetingID = req.query.meetingID;
+			const meetingId = req.params.meetingId;
+			const deletedMeeting = await service.DeleteMeeting(meetingId);
 
-			// Delete the meeting with the provided ID from the database
-			await Meeting.deleteOne({ _id: meetingID });
-
-			// Send a success response
 			res.status(200).json({
-				message: "Meeting was successfully deleted!",
+				message: `Meeting: ${deletedMeeting.title} was successfully deleted!`,
 			});
-			next();
 		} catch (error) {
-			console.error("Unable to delete meeting.", error);
+			next(error);
 		}
-	});
-
-	app.get("/whoami", (req, res) => {
-		return res.status(200).json({ msg: "/ or /meeting : I am meeting Service" });
 	});
 };

@@ -9,9 +9,7 @@ const StartServer = async () => {
 
 	await databaseConnection();
 
-	const channel = await CreateChannel();
-
-	await expressApp(app, channel);
+	await expressApp(app);
 
 	// Catch application errors and deliver to logger
 	app.use((error, req, res, next) => {

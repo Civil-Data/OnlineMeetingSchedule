@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import { SERVER_URL } from "../config";
-import { useNavigate } from "react-router-dom";
+// import { useCookies } from "react-cookie";
+// import axios from "axios";
+// import { SERVER_URL } from "../config";
+// import { useNavigate } from "react-router-dom";
+import api from "axios";
 
 const userContext = React.createContext();
 const updateUserContext = React.createContext();
@@ -29,9 +30,9 @@ export const LoginProvider = ({ children }) => {
 	const [loginStatus, setLoginStatus] = useState(false);
 	const [logoutPressed, setLogoutPressed] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [cookies, removeCookie] = useCookies([]);
+	// const [cookies, removeCookie] = useCookies([]);
 	const [justSignedUp, setJustSignedUp] = useState(false);
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	function updateLoginStatus(status) {
 		setLoginStatus(status);
@@ -45,11 +46,18 @@ export const LoginProvider = ({ children }) => {
 		setLogoutPressed(logout);
 	}
 
+	function setHeader() {
+		const token = localStorage.getItem("token");
+		if (token) {
+			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+		}
+	}
+
 	useEffect(() => {
 		const verifyCookie = async () => {
 			try {
+				setHeader();
 				if (
-					cookies.token &&
 					!logoutPressed &&
 					window.location.pathname !== "/" &&
 					window.location.pathname !== "/login" &&
@@ -58,12 +66,11 @@ export const LoginProvider = ({ children }) => {
 					updateLoginStatus(true);
 					updateLogoutPressed(false);
 				} else {
-					removeCookie("token");
 					updateLoginStatus(false);
 				}
-				const { data } = await axios.post(SERVER_URL + "/", {}, { withCredentials: true });
-				const { status, user } = data;
-				status ? saveUser(user) : removeCookie("token");
+				// const { data } = await axios.post(SERVER_URL + "/", {}, { withCredentials: true });
+				// const { status, user } = data;
+				// status ? saveUser(user) : removeCookie("token");
 			} catch (error) {
 				console.error(error);
 			} finally {
@@ -71,16 +78,19 @@ export const LoginProvider = ({ children }) => {
 			}
 		};
 		verifyCookie();
-	}, [cookies.token, logoutPressed, removeCookie, navigate]);
+	}, [logoutPressed]);
 
 	return (
-		<userContext.Provider value={{ user, loginStatus, logoutPressed, justSignedUp }}>
+		<userContext.Provider
+			value={{ user, loginStatus, logoutPressed, justSignedUp }}
+		>
 			<updateUserContext.Provider
 				value={{
 					saveUser,
 					updateLoginStatus,
 					updateLogoutPressed,
 					setJustSignedUp,
+					setHeader,
 				}}
 			>
 				{isLoading ? <></> : children}

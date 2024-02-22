@@ -3,7 +3,12 @@ import MeetingItem from "../Profile/MeetingItem";
 import { useMeetingPopUp } from "../../contexts/MeetingContext";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+<<<<<<< HEAD
 import { SERVER_URL } from "../../config";
+=======
+import serverUrl from "../../utils/config";
+import { useUpdateUserContext } from "../../contexts/LoginContext";
+>>>>>>> fix/sessionValidation
 
 const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 	try {
@@ -22,13 +27,21 @@ const DayOverview = () => {
 	const { date, clickedMonth, yearToDisplay } = useMeetingPopUp();
 	const [isLoading, setIsLoading] = useState(true);
 	const [meetings, setMeetings] = useState();
-
-	// TODO: FETCH Meetings based on the date clicked (use MeetingContext, popUpProvider perhaps)
+	const { setHeader } = useUpdateUserContext();
 
 	useEffect(() => {
 		const renderDayMeetings = async () => {
 			try {
+<<<<<<< HEAD
 				const meetings = await fetchDayMeeting(date, clickedMonth, yearToDisplay);
+=======
+				setHeader();
+				const meetings = await fetchDayMeeting(
+					date,
+					clickedMonth,
+					yearToDisplay
+				);
+>>>>>>> fix/sessionValidation
 				setMeetings(meetings);
 			} catch (error) {
 				console.error("Error fetching meetings", error);

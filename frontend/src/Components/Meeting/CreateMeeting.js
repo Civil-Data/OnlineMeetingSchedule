@@ -7,12 +7,18 @@ import ConfirmButton from "../ConfirmButton";
 import { useUserContext } from "../../contexts/LoginContext";
 import { useDayView } from "../../contexts/MeetingContext";
 import { useDateContext } from "../../contexts/DateContext";
+import { useUpdateUserContext } from "../../contexts/LoginContext";
 
 const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
+<<<<<<< HEAD
 		const { data } = await axios.get(SERVER_URL + "/user/users");
 		data.forEach(user => {
+=======
+		const data = await axios.get(serverUrl + "/user/users");
+		data.data.data.forEach((user) => {
+>>>>>>> fix/sessionValidation
 			if (user.firstName) {
 				listOfUsers.push(user);
 			}
@@ -25,6 +31,7 @@ const fetchUsers = async () => {
 };
 
 const CreateMeeting = () => {
+	const { setHeader } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const { date, dayString, clickedMonth, yearToDisplay } = useDayView();
 	const { getDate } = useDateContext();
@@ -54,13 +61,18 @@ const CreateMeeting = () => {
 			participants.forEach(participant => {
 				participantList.push(participant._id);
 			});
+<<<<<<< HEAD
 
 			await fetch(SERVER_URL + "/meeting/create", {
+=======
+			setHeader();
+			await fetch(serverUrl + "/meeting/meeting/create", {
+>>>>>>> fix/sessionValidation
 				method: "POST",
 
 				headers: { "Content-type": "application/json" },
 				body: JSON.stringify({
-					organizer: user._id,
+					organizer: user.existingUser._id,
 					participants: participantList,
 					...meetingDetails,
 				}),

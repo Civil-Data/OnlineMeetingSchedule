@@ -22,27 +22,27 @@ class UserRepository {
 
 	//update user by id
 	async UpdateUserById({
-		id,
-		firstName,
-		lastName,
-		email,
+		newId,
+		newFirstName,
+		newLastName,
+		newEmail,
 		password,
-		telephone,
-		gender,
-		description,
-		age,
+		newTelephone,
+		newGender,
+		newDescription,
+		newAge,
 	}) {
 		const existingUser = await UserModel.findByIdAndUpdate(
-			id,
+			newId,
 			{
-				firstName,
-				lastName,
-				email,
+				newFirstName,
+				newLastName,
+				newEmail,
 				password,
-				telephone,
-				gender,
-				description,
-				age,
+				newTelephone,
+				newGender,
+				newDescription,
+				newAge,
 			},
 			{ new: true }
 		);

@@ -18,10 +18,23 @@ const Signup = () => {
 		password: "",
 		confirmPassword: "",
 	});
+<<<<<<< HEAD
 	const { firstName, lastName, email, confirmEmail, password, confirmPassword } = inputValue;
 	const { saveUser, updateLoginStatus, setJustSignedUp } = useUpdateUserContext();
+=======
+	const {
+		firstName,
+		lastName,
+		email,
+		confirmEmail,
+		password,
+		confirmPassword,
+	} = inputValue;
+	const { saveUser, updateLoginStatus, setJustRegistered, setHeader } =
+		useUpdateUserContext();
+>>>>>>> fix/sessionValidation
 
-	const handleOnChange = e => {
+	const handleOnChange = (e) => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -29,17 +42,17 @@ const Signup = () => {
 		});
 	};
 
-	const handleError = err =>
+	const handleError = (err) =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
-	const handleSuccess = msg =>
+	const handleSuccess = (msg) =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
 	//Handle all inputs from user
-	const handleSubmit = async e => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (!isAlpha(firstName) || !isAlpha(lastName)) {
@@ -54,7 +67,14 @@ const Signup = () => {
 			return handleError("Passwords do not match");
 		}
 
-		if (!firstName || !lastName || !email || !password || !confirmEmail || !confirmPassword) {
+		if (
+			!firstName ||
+			!lastName ||
+			!email ||
+			!password ||
+			!confirmEmail ||
+			!confirmPassword
+		) {
 			return handleError("All fields are required");
 		}
 
@@ -67,19 +87,25 @@ const Signup = () => {
 		}
 
 		try {
+			setHeader();
 			const { data } = await axios.post(
 				SERVER_URL + "/user/signup",
 
 				{ firstName, lastName, email, password },
 				{ withCredentials: true }
 			);
-			console.log(data);
 			const { success, message } = data;
+			console.log(data.user.data);
 			if (success) {
 				handleSuccess(message);
 				updateLoginStatus(true);
+<<<<<<< HEAD
 				setJustSignedUp(true);
 				saveUser(data.user);
+=======
+				setJustRegistered(true);
+				saveUser(data.user.data);
+>>>>>>> fix/sessionValidation
 				setTimeout(() => {
 					navigate("/profile");
 				}, 2000);
@@ -87,9 +113,17 @@ const Signup = () => {
 				handleError(message);
 			}
 		} catch (error) {
+<<<<<<< HEAD
 			// This may need attention
 			console.error(error.description);
 			handleError(error.description);
+=======
+			if (error.response.status === 500) {
+				handleError(
+					"A user with this email seems to already exist. Try to login instead."
+				);
+			} else console.error(error);
+>>>>>>> fix/sessionValidation
 		}
 		setInputValue({
 			...inputValue,
@@ -193,8 +227,17 @@ const Signup = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
+<<<<<<< HEAD
 					<button id="confirmation_btn" className="links" type="submit">
 						Sign up
+=======
+					<button
+						id="confirmation_btn"
+						className="links"
+						type="submit"
+					>
+						Register
+>>>>>>> fix/sessionValidation
 					</button>
 				</div>
 				<span>

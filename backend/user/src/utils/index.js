@@ -1,9 +1,14 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const amqplib = require("amqplib");
-const { isAlpha, isEmail, isNumeric, isMobilePhone } = require("validator");
+const { isAlpha, isEmail, isMobilePhone } = require("validator");
 
-const { APP_SECRET, EXCHANGE_NAME, USER_SERVICE, MSG_QUEUE_URL } = require("../config");
+const {
+	APP_SECRET,
+	EXCHANGE_NAME,
+	USER_SERVICE,
+	MSG_QUEUE_URL,
+} = require("../config");
 const { ValidationError } = require("./error/app-errors");
 
 /* ==================== Utility functions ========================== */
@@ -12,18 +17,27 @@ module.exports.GenerateSalt = async () => {
 	return await bcrypt.genSalt();
 };
 
-module.exports.GeneratePassword = async (password, salt) => {
-	return await bcrypt.hash(password, salt);
+module.exports.GeneratePassword = async (newPassword, salt) => {
+	if (!newPassword) {
+		throw new Error("Password is undefined");
+	}
+	return await bcrypt.hash(newPassword, salt);
 };
 
-module.exports.ValidatePassword = async (enteredPassword, savedPassword, salt) => {
+module.exports.ValidatePassword = async (
+	enteredPassword,
+	savedPassword,
+	salt
+) => {
 	console.log(enteredPassword);
 	console.log(savedPassword);
 	console.log(salt);
-	return (await this.GeneratePassword(enteredPassword, salt)) === savedPassword;
+	return (
+		(await this.GeneratePassword(enteredPassword, salt)) === savedPassword
+	);
 };
 
-module.exports.GenerateSignature = async payload => {
+module.exports.GenerateSignature = async (payload) => {
 	try {
 		return await jwt.sign(payload, APP_SECRET, {
 			expiresIn: "2min",
@@ -34,7 +48,7 @@ module.exports.GenerateSignature = async payload => {
 	}
 };
 
-module.exports.ValidateSignature = async req => {
+module.exports.ValidateSignature = async (req) => {
 	try {
 		const signature = req.get("Authorization");
 		const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
@@ -47,38 +61,52 @@ module.exports.ValidateSignature = async req => {
 
 module.exports.ValidateUserInput = async (
 	type = "SIGNUP",
-	{ firstName, lastName, email, password, telephone, gender, age }
+	{
+		newFirstName,
+		newLastName,
+		newEmail,
+		newPassword,
+		newAge,
+		newGender,
+		newTelephone,
+	}
 ) => {
 	// Check if all required fields are provided
-	if (!firstName || !lastName || !email || !password) {
+	if (!newFirstName || !newLastName || !newEmail || !newPassword) {
 		throw new ValidationError("All fields are required");
 	}
 
 	// Check if the first name and last name are letters
-	if (!isAlpha(firstName) || !isAlpha(lastName)) {
+	if (!isAlpha(newFirstName) || !isAlpha(newLastName)) {
 		throw new ValidationError("First name and last name should be letters");
 	}
 
-	// Check if the email format is valid
-	if (!isEmail(email)) {
+	// Check if the newEmail format is valid
+	if (!isEmail(newEmail)) {
 		throw new ValidationError("Email is not valid");
 	}
 
-	// Check if the password meets the minimum length requirement
-	if (password.length < 8) {
+	// Check if the newPassword meets the minimum length requirement
+	if (newPassword.length < 8) {
 		throw new ValidationError("Password should be at least 8 characters");
 	}
 
 	if (type === "UPDATE") {
 		// Validate telephone number
-		if (!isMobilePhone(telephone)) throw new ValidationError("Not a valid telephone number.");
+		if (!isMobilePhone(newTelephone))
+			throw new ValidationError("Not a valid telephone number.");
 
 		// Check if a gender option is specified
-		if (gender !== "Male" || gender !== "Female" || gender !== "Other")
+		if (
+			newGender !== "Male" ||
+			newGender !== "Female" ||
+			newGender !== "Other"
+		)
 			throw new ValidationError("Invalid gender input.");
 
-		// Check if the password meets the minimum length requirement
-		if (isNaN(+age) || +age < 0) throw new ValidationError("Invalid age input.");
+		// Check if the newPassword meets the minimum length requirement
+		if (isNaN(+newAge) || +newAge < 0)
+			throw new ValidationError("Invalid age input.");
 	}
 };
 
@@ -106,7 +134,7 @@ module.exports.SubscribeMessage = async (channel, service) => {
 
 	channel.consume(
 		q.queue,
-		msg => {
+		(msg) => {
 			if (msg.content) {
 				console.log("the message is:", msg.content.toString());
 				service.SubscribeEvents(msg.content.toString());

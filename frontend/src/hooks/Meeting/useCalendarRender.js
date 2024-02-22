@@ -8,7 +8,6 @@ const useCalendarRender = () => {
 	const { monthToDisplay, yearToDisplay } = useDayViewUpdate();
 
 	const { getDate } = useDateContext();
-	// console.log(getDate());
 
 	const [monthString, setMonthString] = useState(
 		getDate(yearToDisplay, monthToDisplay).monthString
@@ -17,13 +16,21 @@ const useCalendarRender = () => {
 	const [dateElementList, setDateElementList] = useState([]);
 
 	const renderDates = useCallback(() => {
-		const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+		const days = [
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"Saturday",
+			"Sunday",
+		];
 		const dateObj = getDate(yearToDisplay, monthToDisplay);
 		setMonthString(dateObj.monthString);
 		const daysInMonth = dateObj.daysInMonth;
 		const startDay = dateObj.startDayOfMonth;
 
-		const startOfGreyDays = days.findIndex(day => day === startDay);
+		const startOfGreyDays = days.findIndex((day) => day === startDay);
 
 		let dateBlocks = 35; // Default displayed calender size
 		const dateList = [];
@@ -78,7 +85,10 @@ const useCalendarRender = () => {
 					date={dateNum}
 					month={dateObj.month + 1 + month}
 					year={yearToDisplay}
-					dayString={getDate(dateObj.year, dateObj.month + month, dateNum).dayString}
+					dayString={
+						getDate(dateObj.year, dateObj.month + month, dateNum)
+							.dayString
+					}
 					theme={bgd}
 				/>
 			);

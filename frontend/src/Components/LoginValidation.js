@@ -13,7 +13,7 @@ const Login = () => {
 		password: "",
 	});
 	const { email, password } = inputValue;
-	const { saveUser, updateLoginStatus } = useUpdateUserContext();
+	const { saveUser, updateLoginStatus, setHeader } = useUpdateUserContext();
 
 	// Handle changes in input fields
 	const handleOnChange = e => {
@@ -38,6 +38,7 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
+			setHeader();
 			// Send a POST request to login
 			const { data } = await axios.post(
 				SERVER_URL + "/user/login",
@@ -49,7 +50,7 @@ const Login = () => {
 			const { success, message } = data;
 			if (success) {
 				handleSuccess(message);
-				saveUser(data.user);
+				saveUser(data.user.data);
 				updateLoginStatus(true);
 				// Redirect to the "/profile" route after successful login
 				setTimeout(() => {

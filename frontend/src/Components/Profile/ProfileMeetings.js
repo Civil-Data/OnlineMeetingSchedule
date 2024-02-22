@@ -4,12 +4,22 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 import { useUserContext } from "../../contexts/LoginContext";
+<<<<<<< HEAD
 import { SERVER_URL } from "../../config";
+=======
+import serverUrl from "../../utils/config";
+import { useUpdateUserContext } from "../../contexts/LoginContext";
+>>>>>>> fix/sessionValidation
 
 const GetMeetings = async user => {
 	try {
 		const { data } = await axios.get(
+<<<<<<< HEAD
 			SERVER_URL + `/meeting/meeting/users?paramName=${user._id}`
+=======
+			serverUrl +
+				`/meeting/meeting/users?paramName=${user.existingUser._id}`
+>>>>>>> fix/sessionValidation
 		);
 
 		return data;
@@ -21,6 +31,7 @@ const GetMeetings = async user => {
 
 //Component for Meeting overview
 const ProfileMeetings = () => {
+	const { setHeader } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const [meetings, setMeetings] = useState([{}]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +39,7 @@ const ProfileMeetings = () => {
 	useEffect(() => {
 		const fetchMeetings = async () => {
 			try {
+				setHeader();
 				const meeting = await GetMeetings(user);
 				setMeetings(meeting);
 			} catch (error) {
@@ -37,7 +49,7 @@ const ProfileMeetings = () => {
 			}
 		};
 		fetchMeetings();
-	}, [user]);
+	}, [user, setHeader]);
 
 	return (
 		<>

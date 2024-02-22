@@ -3,6 +3,7 @@ import { useDayViewUpdate } from "../contexts/MeetingContext";
 import { SERVER_URL } from "../config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { useUpdateUserContext } from "../contexts/LoginContext";
 
 const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 	try {
@@ -19,6 +20,7 @@ const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 
 //Component for a date button
 const DateButtons = ({ date, dayString, month, year, theme }) => {
+	const { setHeader } = useUpdateUserContext();
 	const { openDayView } = useDayViewUpdate();
 
 	const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +28,7 @@ const DateButtons = ({ date, dayString, month, year, theme }) => {
 	useEffect(() => {
 		const renderDayMeetings = async () => {
 			try {
+				setHeader();
 				const meetings = await fetchDayMeeting(date, month, year);
 				setMeetings(meetings);
 			} catch (error) {
@@ -35,7 +38,7 @@ const DateButtons = ({ date, dayString, month, year, theme }) => {
 			}
 		};
 		renderDayMeetings();
-	}, [date, month, year]);
+	}, [date, month, year, setHeader]);
 
 	return (
 		<div

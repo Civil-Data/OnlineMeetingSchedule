@@ -21,7 +21,11 @@ const Profile = () => {
 			<div className="profile_container">
 				<div className="top_section">
 					{loginStatus && (
-						<span>{user.firstName + " " + user.lastName}</span>
+						<span>
+							{user.existingUser.firstName +
+								" " +
+								user.existingUser.lastName}
+						</span>
 					)}
 					{tabContext === "info" && (
 						<>

@@ -11,12 +11,19 @@ import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../contexts/LoginContext";
+import { useUpdateUserContext } from "../../contexts/LoginContext";
 
 const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
+<<<<<<< HEAD
 		const { data } = await axios.get(SERVER_URL + "user/users");
 		data.forEach(user => {
+=======
+
+		const data = await axios.get(serverUrl + "/user/users");
+		data.data.data.forEach((user) => {
+>>>>>>> fix/sessionValidation
 			if (user.firstName) {
 				listOfUsers.push(user);
 			}
@@ -45,6 +52,7 @@ const deleteMeeting = async meeting => {
 };
 //Component for meeting
 const MeetingItem = ({ meeting }) => {
+	const { setHeader } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const navigate = useNavigate();
 	const [detailViewState, setDetailViewState] = useState(false);
@@ -80,6 +88,7 @@ const MeetingItem = ({ meeting }) => {
 			participants.forEach(participant => {
 				participantList.push(participant._id);
 			});
+			setHeader();
 			const { data } = await axios.post(
 				SERVER_URL + "/meeting/meeting/update",
 				{
@@ -98,6 +107,7 @@ const MeetingItem = ({ meeting }) => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
+				setHeader();
 				const users = await fetchUsers();
 				setUsers(users);
 			} catch (error) {
@@ -107,7 +117,7 @@ const MeetingItem = ({ meeting }) => {
 			}
 		};
 		getUsers();
-	}, []);
+	}, [setHeader]);
 
 	return (
 		<div className="meeting_item">

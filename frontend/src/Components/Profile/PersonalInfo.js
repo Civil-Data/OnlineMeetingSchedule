@@ -11,6 +11,7 @@ import { isAlpha, isEmail } from "validator";
 
 //Component for User information
 const PersonalInfo = ({
+	id,
 	firstName,
 	lastName,
 	gender,
@@ -21,9 +22,10 @@ const PersonalInfo = ({
 	password,
 }) => {
 	const { clickedIcon, updateClickedIcon } = useProfileUpdate();
-	const { saveUser } = useUpdateUserContext();
+	const { saveUser, setHeader } = useUpdateUserContext();
 	let emailChanged = false;
 	const [inputValue, setInputValue] = useState({
+		id: id,
 		newFirstName: firstName,
 		newLastName: lastName,
 		newGender: gender,
@@ -37,6 +39,7 @@ const PersonalInfo = ({
 	});
 
 	const {
+		newId,
 		newFirstName,
 		newLastName,
 		newGender,
@@ -110,10 +113,17 @@ const PersonalInfo = ({
 		}
 		// Send a POST request to update user information
 		try {
+			setHeader();
 			const { data } = await axios.post(
 				SERVER_URL + "/user/updateUser",
 				{
+<<<<<<< HEAD
 					newFirstName: newFirstName === "" ? firstName : newFirstName,
+=======
+					newId: id,
+					newFirstName:
+						newFirstName === "" ? firstName : newFirstName,
+>>>>>>> fix/sessionValidation
 					newLastName: newLastName === "" ? lastName : newLastName,
 					newGender,
 					newEmail: newEmail === "" ? email : newEmail,

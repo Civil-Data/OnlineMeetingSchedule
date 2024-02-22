@@ -62,7 +62,7 @@ const CreateMeeting = () => {
 				method: "POST",
 				headers: { "Content-type": "application/json" },
 				body: JSON.stringify({
-					organizer: user.existingUser._id,
+					organizer: user._id,
 					participants: participantList,
 					...meetingDetails,
 				}),

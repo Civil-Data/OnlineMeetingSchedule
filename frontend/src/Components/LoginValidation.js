@@ -13,10 +13,11 @@ const Login = () => {
 		password: "",
 	});
 	const { email, password } = inputValue;
-	const { saveUser, updateLoginStatus, setHeader } = useUpdateUserContext();
+	const { saveUser, updateLoginStatus, setAuthToken } =
+		useUpdateUserContext();
 
 	// Handle changes in input fields
-	const handleOnChange = e => {
+	const handleOnChange = (e) => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -24,21 +25,21 @@ const Login = () => {
 		});
 	};
 
-	const handleError = err =>
+	const handleError = (err) =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
 
-	const handleSuccess = msg =>
+	const handleSuccess = (msg) =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
-	const handleSubmit = async e => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		try {
-			setHeader();
+			// setHeader();
 			// Send a POST request to login
 			const { data } = await axios.post(
 				SERVER_URL + "/user/login",
@@ -47,20 +48,18 @@ const Login = () => {
 				},
 				{ withCredentials: true }
 			);
-			const { success, message } = data;
-			if (success) {
-				handleSuccess(message);
-				saveUser(data.user.data);
-				updateLoginStatus(true);
-				// Redirect to the "/profile" route after successful login
-				setTimeout(() => {
-					navigate("/profile");
-				}, 2000);
-			} else {
-				handleError(message);
-			}
+			// Set the token in local storage
+			await setAuthToken(data.token);
+			handleSuccess(data.message);
+			saveUser(data.existingUser);
+			updateLoginStatus(true);
+			// Redirect to the "/profile" route after successful login
+			setTimeout(() => {
+				navigate("/profile");
+			}, 2000);
 		} catch (error) {
 			console.error(error);
+			handleError(error.response.data);
 		}
 		// Clear the password input field
 		setInputValue({
@@ -104,7 +103,11 @@ const Login = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
-					<button type="submit" id="confirmation_btn" className="links">
+					<button
+						type="submit"
+						id="confirmation_btn"
+						className="links"
+					>
 						Login
 					</button>
 				</div>

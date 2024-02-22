@@ -26,7 +26,7 @@ const Signup = () => {
 		password,
 		confirmPassword,
 	} = inputValue;
-	const { saveUser, updateLoginStatus, setJustSignedUp, setHeader } =
+	const { saveUser, updateLoginStatus, setJustSignedUp, setAuthToken } =
 		useUpdateUserContext();
 
 	const handleOnChange = (e) => {
@@ -82,30 +82,24 @@ const Signup = () => {
 		}
 
 		try {
-			setHeader();
 			const { data } = await axios.post(
 				SERVER_URL + "/user/signup",
 
 				{ firstName, lastName, email, password },
 				{ withCredentials: true }
 			);
-			const { success, message } = data;
-			console.log(data.user.data);
-			if (success) {
-				handleSuccess(message);
-				updateLoginStatus(true);
-				setJustSignedUp(true);
-				saveUser(data.user);
-				setTimeout(() => {
-					navigate("/profile");
-				}, 2000);
-			} else {
-				handleError(message);
-			}
+			// Set the token in local storage
+			await setAuthToken(data.token);
+			handleSuccess(data.message);
+			updateLoginStatus(true);
+			setJustSignedUp(true);
+			saveUser(data.user);
+			setTimeout(() => {
+				navigate("/profile");
+			}, 2000);
 		} catch (error) {
-			// This may need attention
-			console.error(error.description);
-			handleError(error.description);
+			console.error(error);
+			handleError(error.response.data);
 		}
 		setInputValue({
 			...inputValue,

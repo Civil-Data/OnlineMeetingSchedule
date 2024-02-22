@@ -28,7 +28,7 @@ class UserService {
 			existingUser.salt
 		);
 		if (!validPassword)
-			throw new ValidationError("Passwords do not match.");
+			throw new ValidationError("Incorrect email or password.");
 
 		const token = await GenerateSignature({
 			email: existingUser.email,

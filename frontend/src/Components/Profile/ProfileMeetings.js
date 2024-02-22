@@ -10,7 +10,7 @@ import { useUpdateUserContext } from "../../contexts/LoginContext";
 const GetMeetings = async (user) => {
 	try {
 		const { data } = await axios.get(
-			SERVER_URL + `/meeting/meeting/users?paramName=${user._id}`
+			SERVER_URL + `/meeting/my-meetings/${user._id}`
 		);
 
 		return data;

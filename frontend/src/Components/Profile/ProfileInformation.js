@@ -13,24 +13,21 @@ const ProfileInformation = () => {
 		<div className="user_information">
 			{loginStatus && (
 				<PersonalInfo
-					id={user.existingUser._id}
-					firstName={user.existingUser.firstName}
-					lastName={user.existingUser.lastName}
-					gender={user.existingUser.gender}
-					email={user.existingUser.email}
-					telephone={user.existingUser.telephone}
-					age={user.existingUser.age}
-					description={user.existingUser.description}
-					password={user.existingUser.password}
+					id={user._id}
+					firstName={user.firstName}
+					lastName={user.lastName}
+					gender={user.gender}
+					email={user.email}
+					telephone={user.telephone}
+					age={user.age}
+					description={user.description}
+					password={user.password}
 				/>
 			)}
 			{!clickedIcon && (
 				<div className="user_about">
 					<h3>Here is a description about me:</h3>
-					<TypingEffect
-						text={user.existingUser.description}
-						delay={25}
-					/>
+					<TypingEffect text={user.description} delay={25} />
 				</div>
 			)}
 		</div>

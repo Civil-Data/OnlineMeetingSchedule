@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 // import axios from "axios";
 // import { SERVER_URL } from "../config";
 // import { useNavigate } from "react-router-dom";
-import api from "axios";
+import axios from "axios";
 
 const userContext = React.createContext();
 const updateUserContext = React.createContext();
@@ -33,6 +33,7 @@ export const LoginProvider = ({ children }) => {
 	// const [cookies, removeCookie] = useCookies([]);
 	const [justSignedUp, setJustSignedUp] = useState(false);
 	// const navigate = useNavigate();
+	const [api, setApi] = useState(axios);
 
 	function updateLoginStatus(status) {
 		setLoginStatus(status);
@@ -50,13 +51,24 @@ export const LoginProvider = ({ children }) => {
 		const token = localStorage.getItem("token");
 		if (token) {
 			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+			setApi(api);
+		}
+	}
+
+	function setAuthToken(token) {
+		if (token) {
+			localStorage.setItem("token", token);
+			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+			setApi(api);
+		} else {
+			localStorage.clear();
 		}
 	}
 
 	useEffect(() => {
 		const verifyCookie = async () => {
 			try {
-				setHeader();
+				// setHeader();
 				if (
 					!logoutPressed &&
 					window.location.pathname !== "/" &&
@@ -91,6 +103,8 @@ export const LoginProvider = ({ children }) => {
 					updateLogoutPressed,
 					setJustSignedUp,
 					setHeader,
+					setAuthToken,
+					api,
 				}}
 			>
 				{isLoading ? <></> : children}

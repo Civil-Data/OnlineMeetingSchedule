@@ -48,9 +48,7 @@ const NavigationBar = () => {
 			{loginStatus ? (
 				<div id="navButtons" className="flex-se right">
 					<span id="logged_in">
-						{user.existingUser.firstName +
-							" " +
-							user.existingUser.lastName}
+						{user.firstName + " " + user.lastName}
 					</span>
 
 					<Link className="nav-buttons" to="/" type="button">

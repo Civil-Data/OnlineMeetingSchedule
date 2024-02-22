@@ -10,13 +10,16 @@ import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../contexts/LoginContext";
-import { useUpdateUserContext } from "../../contexts/LoginContext";
+// import { useUpdateUserContext } from "../../contexts/LoginContext";
+import APIHandler from "../../utils/api-methods";
 
-const fetchUsers = async (api) => {
+const api = new APIHandler();
+
+const fetchUsers = async () => {
 	try {
 		const listOfUsers = [];
-		const { data } = await api.get(SERVER_URL + "user/users");
-		data.forEach((user) => {
+		const { data } = await api.GetData("user/users");
+		data.forEach(user => {
 			if (user.firstName) {
 				listOfUsers.push(user);
 			}
@@ -28,16 +31,14 @@ const fetchUsers = async (api) => {
 	}
 };
 
-const handleSuccess = (msg) =>
+const handleSuccess = msg =>
 	toast.success(msg, {
 		position: "bottom-right",
 	});
 
-const deleteMeeting = async (meeting, api) => {
+const deleteMeeting = async meeting => {
 	try {
-		const { data } = await api.delete(
-			SERVER_URL + `/meeting/delete/${meeting._id}`
-		);
+		const { data } = await api.delete(`/meeting/delete/${meeting._id}`);
 		handleSuccess(data.message);
 	} catch (error) {
 		console.log("Error Deleting Meeting");
@@ -45,7 +46,7 @@ const deleteMeeting = async (meeting, api) => {
 };
 //Component for meeting
 const MeetingItem = ({ meeting }) => {
-	const { api } = useUpdateUserContext();
+	// const { api } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const navigate = useNavigate();
 	const [detailViewState, setDetailViewState] = useState(false);
@@ -75,14 +76,14 @@ const MeetingItem = ({ meeting }) => {
 		marginLeft: "8px",
 	};
 
-	const updateMeeting = async (api) => {
+	const updateMeeting = async () => {
 		try {
 			const participantList = [];
-			participants.forEach((participant) => {
+			participants.forEach(participant => {
 				participantList.push(participant._id);
 			});
-			const { data } = await api.post(
-				SERVER_URL + "/meeting/meeting/update",
+			const { data } = await api.PostData(
+				"/meeting/update",
 				{
 					meetingID: meeting._id,
 					participants: participantList,
@@ -99,7 +100,7 @@ const MeetingItem = ({ meeting }) => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				const users = await fetchUsers(api);
+				const users = await fetchUsers();
 				setUsers(users);
 			} catch (error) {
 				console.error("Error fetching meetings", error);
@@ -108,7 +109,7 @@ const MeetingItem = ({ meeting }) => {
 			}
 		};
 		getUsers();
-	}, [api]);
+	}, []);
 
 	return (
 		<div className="meeting_item">
@@ -143,28 +144,20 @@ const MeetingItem = ({ meeting }) => {
 								<b>From - To:</b>
 							</label>
 							<div id="time_details">
-								{meetingDetails.startTime} -{" "}
-								{meetingDetails.endTime}
+								{meetingDetails.startTime} - {meetingDetails.endTime}
 							</div>
 						</span>
 
 						<span>
-							<b>Participants:</b>{" "}
-							{meetingDetails.participants.length}
+							<b>Participants:</b> {meetingDetails.participants.length}
 						</span>
 
 						<div style={{ display: "inherit" }}>
 							{meetingDetails.organizer === user._id && (
 								<button
-									style={
-										editButtonClicked
-											? { backgroundColor: "black" }
-											: {}
-									}
+									style={editButtonClicked ? { backgroundColor: "black" } : {}}
 									onClick={() => {
-										setEditButtonClicked(
-											!editButtonClicked
-										);
+										setEditButtonClicked(!editButtonClicked);
 										// setDetailViewState(true);
 									}}
 									className="edit_button"
@@ -175,16 +168,10 @@ const MeetingItem = ({ meeting }) => {
 							)}
 							<div
 								className="details"
-								onClick={() =>
-									setDetailViewState(!detailViewState)
-								}
+								onClick={() => setDetailViewState(!detailViewState)}
 							>
 								<ArrowRightIcon
-									sx={
-										detailViewState
-											? { transform: "rotate(90deg)" }
-											: {}
-									}
+									sx={detailViewState ? { transform: "rotate(90deg)" } : {}}
 								/>
 								Details
 							</div>
@@ -200,11 +187,8 @@ const MeetingItem = ({ meeting }) => {
 										<h4>Organizer:</h4>
 										<div>
 											{users
-												.map((user) => {
-													if (
-														user._id ===
-														meetingDetails.organizer
-													)
+												.map(user => {
+													if (user._id === meetingDetails.organizer)
 														return `${user.firstName} ${user.lastName} <${user.email}>`;
 													else return "";
 												})
@@ -217,11 +201,9 @@ const MeetingItem = ({ meeting }) => {
 											<h4>Participants:</h4>
 											<div>
 												{meetingDetails.participants
-													.map((participant) => {
+													.map(participant => {
 														const user = users.find(
-															(user) =>
-																user._id ===
-																participant
+															user => user._id === participant
 														);
 
 														return user
@@ -244,11 +226,10 @@ const MeetingItem = ({ meeting }) => {
 												sx={muiInputStyle}
 												label="Meeting Title"
 												value={meetingDetails.title}
-												onChange={(event) =>
+												onChange={event =>
 													setMeetingDetails({
 														...meetingDetails,
-														title: event.target
-															.value,
+														title: event.target.value,
 													})
 												}
 											/>
@@ -259,11 +240,10 @@ const MeetingItem = ({ meeting }) => {
 												}}
 												label="Location"
 												value={meetingDetails.location}
-												onChange={(event) =>
+												onChange={event =>
 													setMeetingDetails({
 														...meetingDetails,
-														location:
-															event.target.value,
+														location: event.target.value,
 													})
 												}
 											/>
@@ -275,11 +255,10 @@ const MeetingItem = ({ meeting }) => {
 												className="calendar_choose_time"
 												label="Start Time" // Add Start Time field
 												value={meetingDetails.startTime}
-												onChange={(event) =>
+												onChange={event =>
 													setMeetingDetails({
 														...meetingDetails,
-														startTime:
-															event.target.value,
+														startTime: event.target.value,
 													})
 												}
 												type="time"
@@ -298,11 +277,10 @@ const MeetingItem = ({ meeting }) => {
 												}}
 												label="End Time" // Add End Time field
 												value={meetingDetails.endTime}
-												onChange={(event) =>
+												onChange={event =>
 													setMeetingDetails({
 														...meetingDetails,
-														endTime:
-															event.target.value,
+														endTime: event.target.value,
 													})
 												}
 												type="time"
@@ -320,16 +298,14 @@ const MeetingItem = ({ meeting }) => {
 												multiple
 												id="participants"
 												options={users} // Add your list of participants here
-												getOptionLabel={(option) =>
+												getOptionLabel={option =>
 													`${option.firstName} ${option.lastName} <${option.email}>`
 												}
-												value={
-													meetingDetails.participant
-												}
+												value={meetingDetails.participant}
 												onChange={(event, user) => {
 													setParticipants(user);
 												}}
-												renderInput={(params) => (
+												renderInput={params => (
 													<TextField
 														{...params}
 														label="Participants"
@@ -345,14 +321,11 @@ const MeetingItem = ({ meeting }) => {
 												}}
 												label="Description"
 												type="description"
-												value={
-													meetingDetails.description
-												}
-												onChange={(event) =>
+												value={meetingDetails.description}
+												onChange={event =>
 													setMeetingDetails({
 														...meetingDetails,
-														description:
-															event.target.value,
+														description: event.target.value,
 													})
 												}
 												multiline
@@ -364,11 +337,10 @@ const MeetingItem = ({ meeting }) => {
 												label="Start Date"
 												type="date"
 												value={meetingDetails.startDate}
-												onChange={(event) =>
+												onChange={event =>
 													setMeetingDetails({
 														...meetingDetails,
-														startDate:
-															event.target.value,
+														startDate: event.target.value,
 													})
 												}
 												InputLabelProps={{
@@ -383,11 +355,10 @@ const MeetingItem = ({ meeting }) => {
 												label="End Date"
 												type="date"
 												value={meetingDetails.endDate}
-												onChange={(event) =>
+												onChange={event =>
 													setMeetingDetails({
 														...meetingDetails,
-														endDate:
-															event.target.value,
+														endDate: event.target.value,
 													})
 												}
 												InputLabelProps={{
@@ -399,9 +370,7 @@ const MeetingItem = ({ meeting }) => {
 											<button
 												type="submit"
 												onClick={() => {
-													setEditButtonClicked(
-														!editButtonClicked
-													);
+													setEditButtonClicked(!editButtonClicked);
 													setDetailViewState(true);
 													updateMeeting();
 												}}

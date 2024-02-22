@@ -6,11 +6,7 @@ const {
 	ValidatePassword,
 	ValidateUserInput,
 } = require("../utils");
-const {
-	APIError,
-	NotFoundError,
-	ValidationError,
-} = require("../utils/error/app-errors");
+const { APIError, NotFoundError, ValidationError } = require("../utils/error/app-errors");
 
 class UserService {
 	constructor() {
@@ -27,8 +23,7 @@ class UserService {
 			existingUser.password,
 			existingUser.salt
 		);
-		if (!validPassword)
-			throw new ValidationError("Incorrect email or password.");
+		if (!validPassword) throw new ValidationError("Incorrect email or password.");
 
 		const token = await GenerateSignature({
 			email: existingUser.email,
@@ -42,26 +37,24 @@ class UserService {
 		const existingUser = await this.repository.FindUser(email);
 
 		if (existingUser)
-			throw new ValidationError(
-				"A user with this email already exist. Try to log in."
-			);
+			throw new ValidationError("A user with this email already exist. Try to log in.");
 
 		await ValidateUserInput("SIGNUP", {
-			firstName,
-			lastName,
-			email,
-			password,
+			newFirstName: firstName,
+			newLastName: lastName,
+			newEmail: email,
+			newPassword: password,
 		});
 
 		// Create salt
 		const salt = await GenerateSalt();
-		const userPassword = await GeneratePassword(password, salt);
+		const newUserPassword = await GeneratePassword(password, salt);
 
 		const user = await this.repository.CreateUser({
 			firstName,
 			lastName,
 			email,
-			password: userPassword,
+			password: newUserPassword,
 			salt,
 		});
 
@@ -70,8 +63,7 @@ class UserService {
 			_id: user._id,
 		});
 
-		if (!user)
-			throw new APIError("Something went wrong during user sign up.");
+		if (!user) throw new APIError("Something went wrong during user sign up.");
 		if (!token) throw new APIError("Unable to generate JSON web token.");
 
 		return { user, token };
@@ -130,6 +122,13 @@ class UserService {
 	//get user
 	async GetUser(id) {
 		const existingUser = await this.repository.GetUserById(id);
+		if (!existingUser) throw new NotFoundError("No user found.");
+		return existingUser;
+	}
+
+	//get user
+	async AuthStatus(token) {
+		const existingUser = await ValidatePassword();
 		if (!existingUser) throw new NotFoundError("No user found.");
 		return existingUser;
 	}

@@ -35,7 +35,7 @@ module.exports = (app, channel) => {
 			res.status(200).json({
 				existingUser,
 				token,
-				message: "User logged in successfully",
+				message: `${existingUser.firstName} logged in successfully!`,
 			});
 		} catch (error) {
 			next(error);
@@ -72,6 +72,15 @@ module.exports = (app, channel) => {
 				user,
 				message: "User updated successfully",
 			});
+		} catch (error) {
+			next(error);
+		}
+	});
+
+	app.post("/", async (req, res, next) => {
+		try {
+			await UserAuth(req);
+			res.status(200).json({ message: "User is still logged in." });
 		} catch (error) {
 			next(error);
 		}

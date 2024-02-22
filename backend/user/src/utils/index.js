@@ -3,12 +3,7 @@ const jwt = require("jsonwebtoken");
 const amqplib = require("amqplib");
 const { isAlpha, isEmail, isMobilePhone } = require("validator");
 
-const {
-	APP_SECRET,
-	EXCHANGE_NAME,
-	USER_SERVICE,
-	MSG_QUEUE_URL,
-} = require("../config");
+const { APP_SECRET, EXCHANGE_NAME, USER_SERVICE, MSG_QUEUE_URL } = require("../config");
 const { ValidationError } = require("./error/app-errors");
 
 /* ==================== Utility functions ========================== */
@@ -17,27 +12,22 @@ module.exports.GenerateSalt = async () => {
 	return await bcrypt.genSalt();
 };
 
-module.exports.GeneratePassword = async (newPassword, salt) => {
-	if (!newPassword) {
+module.exports.GeneratePassword = async (password, salt) => {
+	if (!password) {
 		throw new Error("Password is undefined");
 	}
-	return await bcrypt.hash(newPassword, salt);
+	const newPassword = await bcrypt.hash(password, salt);
+	return newPassword;
 };
 
-module.exports.ValidatePassword = async (
-	enteredPassword,
-	savedPassword,
-	salt
-) => {
-	return (
-		(await this.GeneratePassword(enteredPassword, salt)) === savedPassword
-	);
+module.exports.ValidatePassword = async (enteredPassword, savedPassword, salt) => {
+	return (await this.GeneratePassword(enteredPassword, salt)) === savedPassword;
 };
 
-module.exports.GenerateSignature = async (payload) => {
+module.exports.GenerateSignature = async payload => {
 	try {
 		return await jwt.sign(payload, APP_SECRET, {
-			expiresIn: "2min",
+			expiresIn: "2h",
 		});
 	} catch (error) {
 		console.log(error);
@@ -45,7 +35,7 @@ module.exports.GenerateSignature = async (payload) => {
 	}
 };
 
-module.exports.ValidateSignature = async (req) => {
+module.exports.ValidateSignature = async req => {
 	try {
 		const signature = req.get("Authorization");
 		const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
@@ -58,15 +48,7 @@ module.exports.ValidateSignature = async (req) => {
 
 module.exports.ValidateUserInput = async (
 	type = "SIGNUP",
-	{
-		newFirstName,
-		newLastName,
-		newEmail,
-		newPassword,
-		newAge,
-		newGender,
-		newTelephone,
-	}
+	{ newFirstName, newLastName, newEmail, newPassword, newAge, newGender, newTelephone }
 ) => {
 	// Check if all required fields are provided
 	if (!newFirstName || !newLastName || !newEmail || !newPassword) {
@@ -94,16 +76,11 @@ module.exports.ValidateUserInput = async (
 			throw new ValidationError("Not a valid telephone number.");
 
 		// Check if a gender option is specified
-		if (
-			newGender !== "Male" ||
-			newGender !== "Female" ||
-			newGender !== "Other"
-		)
+		if (newGender !== "Male" || newGender !== "Female" || newGender !== "Other")
 			throw new ValidationError("Invalid gender input.");
 
 		// Check if the newPassword meets the minimum length requirement
-		if (isNaN(+newAge) || +newAge < 0)
-			throw new ValidationError("Invalid age input.");
+		if (isNaN(+newAge) || +newAge < 0) throw new ValidationError("Invalid age input.");
 	}
 };
 
@@ -131,7 +108,7 @@ module.exports.SubscribeMessage = async (channel, service) => {
 
 	channel.consume(
 		q.queue,
-		(msg) => {
+		msg => {
 			if (msg.content) {
 				console.log("the message is:", msg.content.toString());
 				service.SubscribeEvents(msg.content.toString());

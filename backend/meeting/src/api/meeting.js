@@ -32,6 +32,7 @@ module.exports = (app, channel) => {
 		try {
 			const userId = req.params.userId;
 			const meeting = await service.GetMeetingsByUserId(userId);
+			console.log("Meeting was found");
 			res.status(200).json(meeting);
 		} catch (error) {
 			next(error);

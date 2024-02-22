@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { SERVER_URL } from "../config/index";
+// import { SERVER_URL } from "../config/index";
 import { useUpdateUserContext } from "../contexts/LoginContext";
 import { isAlpha, isEmail } from "validator";
+import APIHandler from "../utils/api-methods";
+
+const api = new APIHandler();
 
 //Component for signup
 const Signup = () => {
@@ -18,18 +21,10 @@ const Signup = () => {
 		password: "",
 		confirmPassword: "",
 	});
-	const {
-		firstName,
-		lastName,
-		email,
-		confirmEmail,
-		password,
-		confirmPassword,
-	} = inputValue;
-	const { saveUser, updateLoginStatus, setJustSignedUp, setAuthToken } =
-		useUpdateUserContext();
+	const { firstName, lastName, email, confirmEmail, password, confirmPassword } = inputValue;
+	const { saveUser, updateLoginStatus, setJustSignedUp, setAuthToken } = useUpdateUserContext();
 
-	const handleOnChange = (e) => {
+	const handleOnChange = e => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -37,17 +32,17 @@ const Signup = () => {
 		});
 	};
 
-	const handleError = (err) =>
+	const handleError = err =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
-	const handleSuccess = (msg) =>
+	const handleSuccess = msg =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
 	//Handle all inputs from user
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		if (!isAlpha(firstName) || !isAlpha(lastName)) {
@@ -62,14 +57,7 @@ const Signup = () => {
 			return handleError("Passwords do not match");
 		}
 
-		if (
-			!firstName ||
-			!lastName ||
-			!email ||
-			!password ||
-			!confirmEmail ||
-			!confirmPassword
-		) {
+		if (!firstName || !lastName || !email || !password || !confirmEmail || !confirmPassword) {
 			return handleError("All fields are required");
 		}
 
@@ -82,9 +70,9 @@ const Signup = () => {
 		}
 
 		try {
-			const { data } = await axios.post(
-				SERVER_URL + "/user/signup",
-
+			console.log(firstName, lastName, email, password);
+			const { data } = await api.PostData(
+				"/user/signup",
 				{ firstName, lastName, email, password },
 				{ withCredentials: true }
 			);
@@ -203,11 +191,7 @@ const Signup = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
-					<button
-						id="confirmation_btn"
-						className="links"
-						type="submit"
-					>
+					<button id="confirmation_btn" className="links" type="submit">
 						Sign up
 					</button>
 				</div>

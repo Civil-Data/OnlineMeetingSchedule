@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDayViewUpdate } from "../contexts/MeetingContext";
-import { SERVER_URL } from "../config";
+// import { SERVER_URL } from "../config";
 import { v4 as uuidv4 } from "uuid";
-import { useUpdateUserContext } from "../contexts/LoginContext";
+// import { useUpdateUserContext } from "../contexts/LoginContext";
+import APIHandler from "../utils/api-methods";
 
-const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay, api) => {
+const api = new APIHandler();
+
+const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 	try {
 		const dateString = `${String(yearToDisplay).padStart(2, "0")}-${String(
 			monthToDisplay
 		).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
-		const { data } = await api.get(
-			SERVER_URL + `/meeting/meeting/date?date=${dateString}`
-		);
+		const { data } = await api.GetData(`/meeting/${dateString}`);
 
 		return data;
 	} catch (error) {
@@ -21,7 +22,7 @@ const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay, api) => {
 
 //Component for a date button
 const DateButtons = ({ date, dayString, month, year, theme }) => {
-	const { api } = useUpdateUserContext();
+	// const { api } = useUpdateUserContext();
 	const { openDayView } = useDayViewUpdate();
 
 	const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +30,7 @@ const DateButtons = ({ date, dayString, month, year, theme }) => {
 	useEffect(() => {
 		const renderDayMeetings = async () => {
 			try {
-				const meetings = await fetchDayMeeting(date, month, year, api);
+				const meetings = await fetchDayMeeting(date, month, year);
 				setMeetings(meetings);
 			} catch (error) {
 				console.error("Error fetching meetings", error);
@@ -38,7 +39,7 @@ const DateButtons = ({ date, dayString, month, year, theme }) => {
 			}
 		};
 		renderDayMeetings();
-	}, [date, month, year, api]);
+	}, [date, month, year]);
 
 	return (
 		<div
@@ -51,7 +52,7 @@ const DateButtons = ({ date, dayString, month, year, theme }) => {
 			{isLoading ? (
 				<></>
 			) : (
-				meetings.map((meeting) => {
+				meetings.map(meeting => {
 					return (
 						<div key={uuidv4()}>
 							{meeting.title} at {meeting.startTime}

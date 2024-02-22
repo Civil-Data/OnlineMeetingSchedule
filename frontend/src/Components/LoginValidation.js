@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { SERVER_URL } from "../config";
+// import { SERVER_URL } from "../config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
+import APIHandler from "../utils/api-methods";
 
 //Component for Login validation
 const Login = () => {
+	const api = new APIHandler();
 	const navigate = useNavigate();
 	const [inputValue, setInputValue] = useState({
 		email: "",
 		password: "",
 	});
 	const { email, password } = inputValue;
-	const { saveUser, updateLoginStatus, setAuthToken, api } =
-		useUpdateUserContext();
+	const { saveUser, updateLoginStatus, setAuthToken } = useUpdateUserContext();
 
 	// Handle changes in input fields
-	const handleOnChange = (e) => {
+	const handleOnChange = e => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -24,26 +25,24 @@ const Login = () => {
 		});
 	};
 
-	const handleError = (err) =>
+	const handleError = err =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
 
-	const handleSuccess = (msg) =>
+	const handleSuccess = msg =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		try {
 			// Send a POST request to login
-			const { data } = await api.post(
-				SERVER_URL + "/user/login",
-				{
-					...inputValue,
-				},
+			const { data } = await api.PostData(
+				"/user/login",
+				{ ...inputValue },
 				{ withCredentials: true }
 			);
 			// Set the token in local storage
@@ -101,11 +100,7 @@ const Login = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
-					<button
-						type="submit"
-						id="confirmation_btn"
-						className="links"
-					>
+					<button type="submit" id="confirmation_btn" className="links">
 						Login
 					</button>
 				</div>

@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 // import { useCookies } from "react-cookie";
 // import axios from "axios";
 // import { SERVER_URL } from "../config";
-// import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+import APIHandler from "../utils/api-methods";
 
 const userContext = React.createContext();
 const updateUserContext = React.createContext();
@@ -16,7 +17,28 @@ export function useUserContext() {
 	return useContext(userContext);
 }
 
+const getUser = async navigate => {
+	try {
+		const token = localStorage.getItem("token");
+		const user = localStorage.getItem("user");
+		console.log(token);
+		console.log(user);
+		// saveUser(user);
+		if (token) {
+			const api = new APIHandler();
+			const res = await api.PostData("/user/", { body: token });
+			console.log(res);
+		}
+		if (user) return user;
+		else return null;
+	} catch (error) {
+		console.log(error);
+		// navigate("/");
+	}
+};
+
 export const LoginProvider = ({ children }) => {
+	const navigate = useNavigate();
 	const [user, setUser] = useState({
 		firstName: "",
 		lastName: "",
@@ -33,13 +55,18 @@ export const LoginProvider = ({ children }) => {
 	// const [cookies, removeCookie] = useCookies([]);
 	const [justSignedUp, setJustSignedUp] = useState(false);
 	// const navigate = useNavigate();
-	const [api, setApi] = useState(axios);
+	// const [api, setApi] = useState(axios.create({
+	//     baseURL: SERVER_URL,
+	//     timeout: 1000,
+	//     headers:
+	// }));
 
 	function updateLoginStatus(status) {
 		setLoginStatus(status);
 	}
 
 	function saveUser(user) {
+		localStorage.setItem("user", user);
 		setUser(user);
 	}
 
@@ -47,20 +74,12 @@ export const LoginProvider = ({ children }) => {
 		setLogoutPressed(logout);
 	}
 
-	// function setHeader() {
-	// 	const token = localStorage.getItem("token");
-	// 	if (token) {
-	// 		api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-	// 		setApi(api);
-	// 	}
-	// }
-
 	function setAuthToken(token) {
 		if (token) {
-			localStorage.setItem("token", token);
-			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-			console.log(api);
-			setApi(api);
+			localStorage.setItem("token", `Bearer ${token}`);
+			// api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+			// console.log(api);
+			// setApi(api);
 		} else {
 			localStorage.clear();
 		}
@@ -69,7 +88,8 @@ export const LoginProvider = ({ children }) => {
 	useEffect(() => {
 		const verifyCookie = async () => {
 			try {
-				// setHeader();
+				const user = await getUser(navigate);
+				if (!user) setUser(user);
 				if (
 					!logoutPressed &&
 					window.location.pathname !== "/" &&
@@ -91,12 +111,10 @@ export const LoginProvider = ({ children }) => {
 			}
 		};
 		verifyCookie();
-	}, [logoutPressed]);
+	}, [logoutPressed, navigate]);
 
 	return (
-		<userContext.Provider
-			value={{ user, loginStatus, logoutPressed, justSignedUp }}
-		>
+		<userContext.Provider value={{ user, loginStatus, logoutPressed, justSignedUp }}>
 			<updateUserContext.Provider
 				value={{
 					saveUser,
@@ -105,7 +123,6 @@ export const LoginProvider = ({ children }) => {
 					setJustSignedUp,
 					// setHeader,
 					setAuthToken,
-					api,
 				}}
 			>
 				{isLoading ? <></> : children}

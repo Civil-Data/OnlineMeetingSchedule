@@ -2,11 +2,14 @@ import React from "react";
 import { useProfileUpdate } from "../../contexts/ProfileContext";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
 import { toast } from "react-toastify";
-import { SERVER_URL } from "../../config";
+// import { SERVER_URL } from "../../config";
 import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import { ToastContainer } from "react-toastify";
 import { isAlpha, isEmail } from "validator";
+import APIHandler from "../../utils/api-methods";
+
+const api = new APIHandler();
 
 //Component for User information
 const PersonalInfo = ({
@@ -21,7 +24,7 @@ const PersonalInfo = ({
 	password,
 }) => {
 	const { clickedIcon, updateClickedIcon } = useProfileUpdate();
-	const { saveUser, api } = useUpdateUserContext();
+	const { saveUser } = useUpdateUserContext();
 	let emailChanged = false;
 	const [inputValue, setInputValue] = useState({
 		id: id,
@@ -50,7 +53,7 @@ const PersonalInfo = ({
 		newConfirmPassword,
 	} = inputValue;
 
-	const handleOnChange = (e) => {
+	const handleOnChange = e => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -58,22 +61,20 @@ const PersonalInfo = ({
 		});
 	};
 
-	const handleError = (err) =>
+	const handleError = err =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
-	const handleSuccess = (msg) =>
+	const handleSuccess = msg =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		if (+newTelephone < 0) {
-			return handleError(
-				"You can't have negative numbers in a phone number"
-			);
+			return handleError("You can't have negative numbers in a phone number");
 		}
 
 		if (isAlpha(String(newTelephone))) {
@@ -101,9 +102,7 @@ const PersonalInfo = ({
 		}
 
 		if (newPassword === "") {
-			return handleError(
-				"Password is a required field and cannot be empty"
-			);
+			return handleError("Password is a required field and cannot be empty");
 		}
 
 		if (newPassword.length < 8) {
@@ -115,12 +114,11 @@ const PersonalInfo = ({
 		}
 		// Send a POST request to update user information
 		try {
-			const { data } = await api.post(
-				SERVER_URL + "/user/updateUser",
+			const { data } = await api.PostData(
+				"/user/update",
 				{
 					newId: id,
-					newFirstName:
-						newFirstName === "" ? firstName : newFirstName,
+					newFirstName: newFirstName === "" ? firstName : newFirstName,
 					newLastName: newLastName === "" ? lastName : newLastName,
 					newGender,
 					newEmail: newEmail === "" ? email : newEmail,
@@ -133,14 +131,9 @@ const PersonalInfo = ({
 				{ withCredentials: true }
 			);
 			emailChanged = false;
-			const { success, message } = data;
-			if (success) {
-				handleSuccess(message);
-				saveUser(data.user);
-				updateClickedIcon(false);
-			} else {
-				handleError(message);
-			}
+			handleSuccess(data.message);
+			saveUser(data.user);
+			updateClickedIcon(false);
 		} catch (error) {
 			console.error(error);
 		}
@@ -209,9 +202,7 @@ const PersonalInfo = ({
 
 				{clickedIcon && (
 					<>
-						<label className="user_info_label">
-							Confirm email:
-						</label>
+						<label className="user_info_label">Confirm email:</label>
 						<input
 							name="newConfirmEmail"
 							type="email"
@@ -267,9 +258,7 @@ const PersonalInfo = ({
 
 				{clickedIcon && (
 					<>
-						<label className="user_info_label">
-							Confirm password:
-						</label>
+						<label className="user_info_label">Confirm password:</label>
 						<input
 							name="newConfirmPassword"
 							type="password"
@@ -294,11 +283,7 @@ const PersonalInfo = ({
 							placeholder="Description about me..."
 							onChange={handleOnChange}
 						></input>
-						<button
-							type="submit"
-							id="confirmation_btn"
-							className="links"
-						>
+						<button type="submit" id="confirmation_btn" className="links">
 							SAVE
 							<SaveIcon titleAccess="Save" />
 						</button>

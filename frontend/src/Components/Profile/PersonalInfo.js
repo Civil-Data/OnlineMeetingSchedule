@@ -2,7 +2,6 @@ import React from "react";
 import { useProfileUpdate } from "../../contexts/ProfileContext";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { SERVER_URL } from "../../config";
 import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
@@ -22,7 +21,7 @@ const PersonalInfo = ({
 	password,
 }) => {
 	const { clickedIcon, updateClickedIcon } = useProfileUpdate();
-	const { saveUser, setHeader } = useUpdateUserContext();
+	const { saveUser, api } = useUpdateUserContext();
 	let emailChanged = false;
 	const [inputValue, setInputValue] = useState({
 		id: id,
@@ -116,8 +115,7 @@ const PersonalInfo = ({
 		}
 		// Send a POST request to update user information
 		try {
-			setHeader();
-			const { data } = await axios.post(
+			const { data } = await api.post(
 				SERVER_URL + "/user/updateUser",
 				{
 					newId: id,

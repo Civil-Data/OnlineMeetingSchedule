@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import MeetingItem from "../Profile/MeetingItem";
 import { useMeetingPopUp } from "../../contexts/MeetingContext";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 import { SERVER_URL } from "../../config";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
 
-const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
+const fetchDayMeeting = async (api, date, monthToDisplay, yearToDisplay) => {
 	try {
 		const dateString = `${String(yearToDisplay).padStart(2, "0")}-${String(
 			monthToDisplay
 		).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
-		const { data } = await axios.get(
+		const { data } = await api.get(
 			SERVER_URL + `/meeting/meeting/date?date=${dateString}`
 		);
 
@@ -25,17 +24,17 @@ const DayOverview = () => {
 	const { date, clickedMonth, yearToDisplay } = useMeetingPopUp();
 	const [isLoading, setIsLoading] = useState(true);
 	const [meetings, setMeetings] = useState();
-	const { setHeader } = useUpdateUserContext();
+	const { api } = useUpdateUserContext();
 
 	useEffect(() => {
 		const renderDayMeetings = async () => {
 			try {
 				const meetings = await fetchDayMeeting(
+					api,
 					date,
 					clickedMonth,
 					yearToDisplay
 				);
-				setHeader();
 				setMeetings(meetings);
 			} catch (error) {
 				console.error("Error fetching meetings", error);
@@ -44,7 +43,7 @@ const DayOverview = () => {
 			}
 		};
 		renderDayMeetings();
-	}, [date, clickedMonth, yearToDisplay, setHeader]);
+	}, [date, clickedMonth, yearToDisplay]);
 
 	return (
 		<div className="calender_meeting_overview">

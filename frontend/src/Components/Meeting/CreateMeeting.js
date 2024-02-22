@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import axios from "axios";
 
 import { SERVER_URL } from "../../config";
 import ConfirmButton from "../ConfirmButton";
@@ -9,10 +8,10 @@ import { useDayView } from "../../contexts/MeetingContext";
 import { useDateContext } from "../../contexts/DateContext";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
 
-const fetchUsers = async () => {
+const fetchUsers = async (api) => {
 	try {
 		const listOfUsers = [];
-		const { data } = await axios.get(SERVER_URL + "/user/users");
+		const { data } = await api.get(SERVER_URL + "/user/users");
 		data.forEach((user) => {
 			if (user.firstName) {
 				listOfUsers.push(user);
@@ -26,7 +25,7 @@ const fetchUsers = async () => {
 };
 
 const CreateMeeting = () => {
-	const { setHeader } = useUpdateUserContext();
+	const { api } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const { date, dayString, clickedMonth, yearToDisplay } = useDayView();
 	const { getDate } = useDateContext();
@@ -57,10 +56,7 @@ const CreateMeeting = () => {
 				participantList.push(participant._id);
 			});
 
-			setHeader();
-			await fetch(SERVER_URL + "/meeting/create", {
-				method: "POST",
-				headers: { "Content-type": "application/json" },
+			await api.post(SERVER_URL + "/meeting/create", {
 				body: JSON.stringify({
 					organizer: user._id,
 					participants: participantList,
@@ -88,10 +84,10 @@ const CreateMeeting = () => {
 	};
 
 	useEffect(() => {
-		fetchUsers().then((users) => {
+		fetchUsers(api).then((users) => {
 			setUsers(users);
 		});
-	}, []);
+	}, [api]);
 
 	useEffect(() => {
 		// Check if all required fields have valid values

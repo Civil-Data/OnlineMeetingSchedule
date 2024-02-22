@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import MeetingItem from "./MeetingItem";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 import { useUserContext } from "../../contexts/LoginContext";
 import { SERVER_URL } from "../../config";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
 
-const GetMeetings = async (user) => {
+const GetMeetings = async (user, api) => {
 	try {
-		const { data } = await axios.get(
+		const { data } = await api.get(
 			SERVER_URL + `/meeting/my-meetings/${user._id}`
 		);
 
@@ -22,7 +21,7 @@ const GetMeetings = async (user) => {
 
 //Component for Meeting overview
 const ProfileMeetings = () => {
-	const { setHeader } = useUpdateUserContext();
+	const { api } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const [meetings, setMeetings] = useState([{}]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -30,8 +29,7 @@ const ProfileMeetings = () => {
 	useEffect(() => {
 		const fetchMeetings = async () => {
 			try {
-				setHeader();
-				const meeting = await GetMeetings(user);
+				const meeting = await GetMeetings(user, api);
 				setMeetings(meeting);
 			} catch (error) {
 				console.error("Error fetching meetings", error);
@@ -40,7 +38,7 @@ const ProfileMeetings = () => {
 			}
 		};
 		fetchMeetings();
-	}, [user, setHeader]);
+	}, [user, api]);
 
 	return (
 		<>

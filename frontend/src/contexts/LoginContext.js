@@ -47,18 +47,19 @@ export const LoginProvider = ({ children }) => {
 		setLogoutPressed(logout);
 	}
 
-	function setHeader() {
-		const token = localStorage.getItem("token");
-		if (token) {
-			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-			setApi(api);
-		}
-	}
+	// function setHeader() {
+	// 	const token = localStorage.getItem("token");
+	// 	if (token) {
+	// 		api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+	// 		setApi(api);
+	// 	}
+	// }
 
 	function setAuthToken(token) {
 		if (token) {
 			localStorage.setItem("token", token);
 			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+			console.log(api);
 			setApi(api);
 		} else {
 			localStorage.clear();
@@ -102,7 +103,7 @@ export const LoginProvider = ({ children }) => {
 					updateLoginStatus,
 					updateLogoutPressed,
 					setJustSignedUp,
-					setHeader,
+					// setHeader,
 					setAuthToken,
 					api,
 				}}

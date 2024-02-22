@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect } from "react";
-import axios from "axios";
 import { SERVER_URL } from "../../config";
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
@@ -13,10 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../contexts/LoginContext";
 import { useUpdateUserContext } from "../../contexts/LoginContext";
 
-const fetchUsers = async () => {
+const fetchUsers = async (api) => {
 	try {
 		const listOfUsers = [];
-		const { data } = await axios.get(SERVER_URL + "user/users");
+		const { data } = await api.get(SERVER_URL + "user/users");
 		data.forEach((user) => {
 			if (user.firstName) {
 				listOfUsers.push(user);
@@ -34,10 +33,10 @@ const handleSuccess = (msg) =>
 		position: "bottom-right",
 	});
 
-const deleteMeeting = async (meeting) => {
+const deleteMeeting = async (meeting, api) => {
 	try {
-		const { data } = await axios.delete(
-			SERVER_URL + `/meeting/meeting/delete?meetingID=${meeting._id}`
+		const { data } = await api.delete(
+			SERVER_URL + `/meeting/delete/${meeting._id}`
 		);
 		handleSuccess(data.message);
 	} catch (error) {
@@ -46,7 +45,7 @@ const deleteMeeting = async (meeting) => {
 };
 //Component for meeting
 const MeetingItem = ({ meeting }) => {
-	const { setHeader } = useUpdateUserContext();
+	const { api } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const navigate = useNavigate();
 	const [detailViewState, setDetailViewState] = useState(false);
@@ -76,14 +75,13 @@ const MeetingItem = ({ meeting }) => {
 		marginLeft: "8px",
 	};
 
-	const updateMeeting = async () => {
+	const updateMeeting = async (api) => {
 		try {
 			const participantList = [];
 			participants.forEach((participant) => {
 				participantList.push(participant._id);
 			});
-			setHeader();
-			const { data } = await axios.post(
+			const { data } = await api.post(
 				SERVER_URL + "/meeting/meeting/update",
 				{
 					meetingID: meeting._id,
@@ -101,8 +99,7 @@ const MeetingItem = ({ meeting }) => {
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
-				setHeader();
-				const users = await fetchUsers();
+				const users = await fetchUsers(api);
 				setUsers(users);
 			} catch (error) {
 				console.error("Error fetching meetings", error);
@@ -111,7 +108,7 @@ const MeetingItem = ({ meeting }) => {
 			}
 		};
 		getUsers();
-	}, [setHeader]);
+	}, [api]);
 
 	return (
 		<div className="meeting_item">

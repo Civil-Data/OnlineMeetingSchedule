@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { SERVER_URL } from "../config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
@@ -13,7 +12,7 @@ const Login = () => {
 		password: "",
 	});
 	const { email, password } = inputValue;
-	const { saveUser, updateLoginStatus, setAuthToken } =
+	const { saveUser, updateLoginStatus, setAuthToken, api } =
 		useUpdateUserContext();
 
 	// Handle changes in input fields
@@ -39,9 +38,8 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
-			// setHeader();
 			// Send a POST request to login
-			const { data } = await axios.post(
+			const { data } = await api.post(
 				SERVER_URL + "/user/login",
 				{
 					...inputValue,

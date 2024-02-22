@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema({
 		type: String,
 	},
 	telephone: {
-		type: Number,
-		default: 46700000000,
+		type: String,
+		default: "",
 	},
 	gender: {
 		type: String,
@@ -40,9 +40,9 @@ const userSchema = new mongoose.Schema({
 	},
 	createdAt: {
 		type: Date,
-		default: `${new Date().toLocaleDateString(
+		default: `${new Date().toLocaleDateString("sv-SE")} ${new Date().toLocaleTimeString(
 			"sv-SE"
-		)} ${new Date().toLocaleTimeString("sv-SE")}`,
+		)}`,
 	},
 });
 module.exports = mongoose.model("User", userSchema);

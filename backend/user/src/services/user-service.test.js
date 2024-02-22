@@ -8,7 +8,7 @@ describe("UserService", () => {
 		test("Validate response", async () => {});
 	});
 	// Which function
-	describe("Register", () => {
+	describe("SignUp", () => {
 		// Which Scenario we are testing
 		test("validate user inputs", () => {});
 

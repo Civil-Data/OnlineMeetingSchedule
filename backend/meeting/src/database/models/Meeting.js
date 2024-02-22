@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const User = require("../models/user.model");
 
 // Define a schema for the "Meeting" model
 const meetingchema = new mongoose.Schema({

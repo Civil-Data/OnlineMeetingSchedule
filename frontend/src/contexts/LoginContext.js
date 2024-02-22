@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import serverUrl from "../utils/config";
+import { SERVER_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 
 const userContext = React.createContext();
@@ -30,7 +30,7 @@ export const LoginProvider = ({ children }) => {
 	const [logoutPressed, setLogoutPressed] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [cookies, removeCookie] = useCookies([]);
-	const [justRegistered, setJustRegistered] = useState(false);
+	const [justSignedUp, setJustSignedUp] = useState(false);
 	const navigate = useNavigate();
 
 	function updateLoginStatus(status) {
@@ -53,7 +53,7 @@ export const LoginProvider = ({ children }) => {
 					!logoutPressed &&
 					window.location.pathname !== "/" &&
 					window.location.pathname !== "/login" &&
-					window.location.pathname !== "/register"
+					window.location.pathname !== "/signup"
 				) {
 					updateLoginStatus(true);
 					updateLogoutPressed(false);
@@ -61,11 +61,7 @@ export const LoginProvider = ({ children }) => {
 					removeCookie("token");
 					updateLoginStatus(false);
 				}
-				const { data } = await axios.post(
-					serverUrl + "/",
-					{},
-					{ withCredentials: true }
-				);
+				const { data } = await axios.post(SERVER_URL + "/", {}, { withCredentials: true });
 				const { status, user } = data;
 				status ? saveUser(user) : removeCookie("token");
 			} catch (error) {
@@ -78,15 +74,13 @@ export const LoginProvider = ({ children }) => {
 	}, [cookies.token, logoutPressed, removeCookie, navigate]);
 
 	return (
-		<userContext.Provider
-			value={{ user, loginStatus, logoutPressed, justRegistered }}
-		>
+		<userContext.Provider value={{ user, loginStatus, logoutPressed, justSignedUp }}>
 			<updateUserContext.Provider
 				value={{
 					saveUser,
 					updateLoginStatus,
 					updateLogoutPressed,
-					setJustRegistered,
+					setJustSignedUp,
 				}}
 			>
 				{isLoading ? <></> : children}

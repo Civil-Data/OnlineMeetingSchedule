@@ -1,5 +1,5 @@
 const { UserRepository } = require("../database");
-const { createSecretToken } = require("../utils/secretToken");
+// const { createSecretToken } = require("../utils/secretToken");
 const { TOKEN_KEY } = require("../config/");
 const jwt = require("jsonwebtoken");
 const {
@@ -8,67 +8,90 @@ const {
 	GenerateSalt,
 	GenerateSignature,
 	ValidatePassword,
+	ValidateUserInput,
 } = require("../utils");
+const { APIError, NotFoundError, ValidationError } = require("../utils/error/app-errors");
 
-// All Business logic will be here
 class UserService {
 	constructor() {
 		this.repository = new UserRepository();
 	}
 
-	async LogIn(userInputs) {
-		const { email, password } = userInputs;
+	async LogIn({ email, password }) {
+		const existingUser = await this.repository.FindUser(email);
 
-		const existingUser = await this.repository.FindUser({ email });
+		if (!existingUser) throw new NotFoundError("User not found.");
 
-		if (existingUser) {
-			const validPassword = await ValidatePassword(
-				password,
-				existingUser.password,
-				existingUser.salt
-			);
-			if (validPassword) {
-				const token = await GenerateSignature({
-					email: existingUser.email,
-					_id: existingUser._id,
-				});
-				return FormateData({ id: existingUser._id, token });
-			}
-		}
+		const validPassword = await ValidatePassword(
+			password,
+			existingUser.password,
+			existingUser.salt
+		);
+		if (!validPassword) throw new ValidationError("Passwords do not match.");
 
-		return FormateData(null);
+		const token = await GenerateSignature({
+			email: existingUser.email,
+			_id: existingUser._id,
+		});
+
+		return { existingUser, token };
 	}
 
-	async Register(userInputs) {
-		const { email, password, firstName, lastName } = userInputs;
+	async SignUp({ firstName, lastName, email, password }) {
+		const existingUser = await this.repository.FindUser(email);
 
-		// create salt
-		let salt = await GenerateSalt();
+		if (existingUser)
+			throw new ValidationError("A user with this email already exist. Try to log in.");
 
-		let userPassword = await GeneratePassword(password, salt);
+		await ValidateUserInput("SIGNUP", { firstName, lastName, email, password });
 
-		const existingUser = await this.repository.CreateUser({
-			email,
-			password: userPassword,
+		// Create salt
+		const salt = await GenerateSalt();
+		const userPassword = await GeneratePassword(password, salt);
+
+		const user = await this.repository.CreateUser({
 			firstName,
 			lastName,
+			email,
+			password: userPassword,
 			salt,
 		});
 
 		const token = await GenerateSignature({
 			email: email,
-			_id: existingUser._id,
+			_id: user._id,
 		});
-		const cookieToken = createSecretToken(existingUser._id);
-		return FormateData({ id: existingUser._id, token, cookieToken });
+
+		if (!user) throw new APIError("Something went wrong during user sign up.");
+		if (!token) throw new APIError("Unable to generate JSON web token.");
+
+		return { user, token };
 	}
 
-	async UpdateUser(userInputs) {
-		const { id, firstName, lastName, email, password } = userInputs;
+	async UpdateUser({
+		id,
+		firstName,
+		lastName,
+		email,
+		password,
+		telephone,
+		gender,
+		description,
+		age,
+	}) {
+		await ValidateUserInput("UPDATE", {
+			firstName,
+			lastName,
+			email,
+			password,
+			telephone,
+			gender,
+			description,
+			age,
+		});
 
-		let salt = await GenerateSalt();
-
-		let userPassword = await GeneratePassword(password, salt);
+		const salt = await GenerateSalt();
+		const userPassword = await GeneratePassword(password, salt);
 
 		const existingUser = await this.repository.UpdateUserById({
 			id,
@@ -79,33 +102,22 @@ class UserService {
 			salt,
 		});
 
-		return FormateData(existingUser);
+		return existingUser;
 	}
 
 	//get all users
 	async GetUsers() {
 		const existingUsers = await this.repository.GetUsers();
+		if (!existingUsers) throw new NotFoundError("No users found.");
 
-		return FormateData(existingUsers);
+		return existingUsers;
 	}
 
 	//get user
-	async GetUser(userInputs) {
-		const { id } = userInputs;
-
-		const existingUser = await this.repository.GetUserById({ id });
-		return FormateData(existingUser);
-	}
-	//validate token
-	async ValidateToken(req) {
-		const token = req.cookie.token;
-
-		// Verify the token using the secret key from environment variables
-		jwt.verify(token, TOKEN_KEY, async (data) => {
-			const existingUser = await this.repository.GetUserById(data.id);
-
-			return FormateData(existingUser);
-		});
+	async GetUser(id) {
+		const existingUser = await this.repository.GetUserById(id);
+		if (!existingUser) throw new NotFoundError("No user found.");
+		return existingUser;
 	}
 }
 

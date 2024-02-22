@@ -12,11 +12,10 @@ class UserRepository {
 			salt,
 		});
 
-		const userResult = await user.save();
-		return userResult;
+		return await user.save();
 	}
 
-	async FindUser({ email }) {
+	async FindUser(email) {
 		const existingUser = await UserModel.findOne({ email: email });
 		return existingUser;
 	}

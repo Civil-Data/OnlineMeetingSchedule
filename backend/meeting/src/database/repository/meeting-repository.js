@@ -1,7 +1,6 @@
-// const mongoose = require("mongoose");
 const { MeetingModel } = require("../models");
 
-//Dealing with data base operations
+// Dealing with data base operations
 class MeetingRepository {
 	async CreateMeeting({
 		organizer,
@@ -9,14 +8,14 @@ class MeetingRepository {
 		startTime,
 		endTime,
 		startDate,
-		salt,
 		endDate,
 		location,
 		title,
 		description,
 		hasPassed,
 	}) {
-		const user = new MeetingModel({
+		const meeting = new MeetingModel({
+			organizer,
 			participants,
 			startTime,
 			endTime,
@@ -26,31 +25,23 @@ class MeetingRepository {
 			title,
 			description,
 			hasPassed,
-			organizer,
-			salt,
 		});
-
-		const meetingResult = await user.save();
-		return meetingResult;
+		return await meeting.save();
 	}
 
-	async FindMeetingByUserId({ userId }) {
+	async GetMeetingsByUserId(userId) {
 		const existingMeeting = await MeetingModel.find({
 			$or: [{ organizer: userId }, { participants: { $in: [userId] } }],
 		});
-
 		return existingMeeting;
 	}
 
-	// delete meeting by id
-	async DeleteMeetingById({ meetingId }) {
-		const existingMeeting = await MeetingModel.findByIdAndDelete(meetingId);
-
+	async GetMeetingsByDate(date) {
+		const existingMeeting = await MeetingModel.find({ startDate: date });
 		return existingMeeting;
 	}
 
-	// update meeting by id
-	async UpdateMeetingById({
+	async UpdateMeeting({
 		meetingId,
 		participants,
 		startTime,
@@ -62,7 +53,7 @@ class MeetingRepository {
 		description,
 		hasPassed,
 	}) {
-		const existingMeeting = await MeetingModel.findByIdAndUpdate(
+		const updatedMeeting = await MeetingModel.findByIdAndUpdate(
 			meetingId,
 			{
 				participants,
@@ -77,8 +68,12 @@ class MeetingRepository {
 			},
 			{ new: true }
 		);
+		return updatedMeeting;
+	}
 
-		return existingMeeting;
+	async DeleteMeeting(meetingId) {
+		const deletedMeeting = await MeetingModel.findByIdAndDelete(meetingId);
+		return deletedMeeting;
 	}
 }
 

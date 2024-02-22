@@ -1,58 +1,45 @@
 const { MeetingRepository } = require("../database");
-const { FormateData } = require("../utils");
+const { NotFoundError, APIError } = require("../utils/error/app-errors");
 
-// All Business logic will be here
+// Handles the different services that the API provides
 class MeetingService {
 	constructor() {
 		this.repository = new MeetingRepository();
 	}
 
-	async CreateMeeting(payload) {
-		const meeting = await this.repository.CreateMeeting(payload);
-		return FormateData(meeting);
+	async CreateMeeting(meetingData) {
+		const meeting = await this.repository.CreateMeeting(meetingData);
+		if (!meeting) throw new APIError("Something went wrong when creating a meeting.");
+		return meeting;
 	}
 
-	async GetMeeting(payload) {
-		const { meetingId } = payload;
-		const meeting = await this.repository.GetMeeting({ meetingId });
-		return FormateData(meeting);
+	async GetMeetingsByUserId(userId) {
+		const meeting = await this.repository.GetMeetingsByUserId(userId);
+		if (!meeting) throw new NotFoundError("No meetings found.");
+		return meeting;
 	}
 
-	async UpdateMeeting(payload) {
-		const { meetingId, meetingPassword } = payload;
-		const meeting = await this.repository.UpdateMeeting({
-			meetingId,
-			meetingPassword,
-		});
-		return FormateData(meeting);
+	async GetMeetingsByDate(date) {
+		const meeting = await this.repository.GetMeetingsByDate(date);
+		if (!meeting) throw new NotFoundError("No meetings found.");
+		return meeting;
 	}
 
-	async DeleteMeeting(payload) {
-		const { meetingId } = payload;
-		const meeting = await this.repository.DeleteMeeting({ meetingId });
-		return FormateData(meeting);
+	async UpdateMeeting(meetingData) {
+		const updatedMeeting = await this.repository.UpdateMeeting(meetingData);
+		if (!updatedMeeting)
+			throw new APIError(
+				`Something went wrong when updating meeting: ${meetingData.title} - (${meetingData.meetingId})`
+			);
+		return updatedMeeting;
 	}
 
-	// async SubscribeEvents(payload){
-
-	// 	console.log("Triggering.... User Events");
-
-	// 	payload = JSON.parse(payload);
-
-	// 	const { event, data } =  payload;
-
-	// 	const { userId} = data;
-
-	// 	switch(event){
-	// 	case "Login":
-	// 		break;
-	// 	case "Register":
-	// 		break;
-	// 	default:
-	// 		break;
-	// 	}
-
-	// }
+	async DeleteMeeting(meetingId) {
+		const deletedMeeting = await this.repository.DeleteMeeting(meetingId);
+		if (!deletedMeeting)
+			throw new APIError("Something went wrong when trying to delete meeting.");
+		return deletedMeeting;
+	}
 }
 
 module.exports = MeetingService;

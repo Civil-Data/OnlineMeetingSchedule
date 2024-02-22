@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import serverUrl from "../utils/config";
+import { SERVER_URL } from "../config";
 import { useUpdateUserContext } from "../contexts/LoginContext";
 
 //Component for Login validation
@@ -16,7 +16,7 @@ const Login = () => {
 	const { saveUser, updateLoginStatus } = useUpdateUserContext();
 
 	// Handle changes in input fields
-	const handleOnChange = (e) => {
+	const handleOnChange = e => {
 		const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
@@ -24,23 +24,23 @@ const Login = () => {
 		});
 	};
 
-	const handleError = (err) =>
+	const handleError = err =>
 		toast.error(err, {
 			position: "bottom-left",
 		});
 
-	const handleSuccess = (msg) =>
+	const handleSuccess = msg =>
 		toast.success(msg, {
 			position: "bottom-right",
 		});
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async e => {
 		e.preventDefault();
 
 		try {
 			// Send a POST request to login
 			const { data } = await axios.post(
-				serverUrl + "/user/login",
+				SERVER_URL + "/user/login",
 				{
 					...inputValue,
 				},
@@ -103,17 +103,13 @@ const Login = () => {
 					onChange={handleOnChange}
 				/>
 				<div>
-					<button
-						type="submit"
-						id="confirmation_btn"
-						className="links"
-					>
+					<button type="submit" id="confirmation_btn" className="links">
 						Login
 					</button>
 				</div>
 				<span>
 					No account?{" "}
-					<Link className="links" id="signUp-signIn" to={"/register"}>
+					<Link className="links" id="signUp-signIn" to={"/signup"}>
 						Sign up
 					</Link>
 				</span>

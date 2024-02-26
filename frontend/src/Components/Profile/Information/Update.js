@@ -11,11 +11,11 @@ import { useToastUpdate } from "../../../contexts/PageContext";
 const Update = () => {
 	const { user } = useUserContext();
 	const { sendToastSuccess, sendToastError } = useToastUpdate();
-
-	const iconRef = useRef();
 	const { showUpdateView } = useProfileUpdate();
 	const { saveUser } = useUpdateUserContext();
-	// let emailChanged = false;
+
+	const iconRef = useRef();
+
 	const [inputValue, setInputValue] = useState({
 		id: user.id,
 		newFirstName: user.firstName,
@@ -51,21 +51,11 @@ const Update = () => {
 	};
 
 	const handleOnChange = (name, value) => {
-		// const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
 			[name]: value,
 		});
 	};
-
-	// const handleError = err =>
-	// 	toast.error(err, {
-	// 		position: "bottom-left",
-	// 	});
-	// const handleSuccess = msg =>
-	// 	toast.success(msg, {
-	// 		position: "bottom-right",
-	// 	});
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -106,9 +96,6 @@ const Update = () => {
 			return sendToastError("Password should be at least 8 characters");
 		}
 
-		// if (newEmail !== user.email) {
-		// 	emailChanged = true;
-		// }
 		// Send a POST request to update user information
 		try {
 			const api = new APIHandler();
@@ -125,11 +112,9 @@ const Update = () => {
 					newAge,
 					newDescription,
 					newPassword,
-					// emailChanged,
 				},
 				{ withCredentials: true }
 			);
-			// emailChanged = false;
 			sendToastSuccess(data.message);
 			saveUser(data.user);
 			showUpdateView(false);

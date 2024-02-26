@@ -5,7 +5,6 @@ import NavigationBar from "./Components/NavigationBar";
 import { ProfileProvider } from "./contexts/ProfileContext";
 import Login from "./views/Login";
 import { MeetingProvider } from "./contexts/MeetingContext";
-// import Pages from "./Components/Pages";
 import NotFound from "./views/NotFound";
 import { PageProvider } from "./contexts/PageContext";
 

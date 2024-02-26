@@ -38,7 +38,9 @@ module.exports.GenerateSignature = async payload => {
 module.exports.ValidateSignature = async req => {
 	try {
 		const signature = req.get("Authorization");
-		console.log(signature);
+		if (signature === undefined) {
+			throw new ValidationError("No valid session token provided.");
+		}
 		const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
 		req.user = payload;
 		return true;
@@ -77,7 +79,6 @@ module.exports.ValidateUserInput = async (
 			throw new ValidationError("Not a valid telephone number.");
 
 		// Check if a gender option is specified
-		console.log(newGender);
 		if (
 			newGender !== "Male" &&
 			newGender !== "Female" &&

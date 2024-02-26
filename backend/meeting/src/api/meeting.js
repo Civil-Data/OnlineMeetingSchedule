@@ -1,5 +1,5 @@
 const MeetingService = require("../services/meeting-service");
-const { SubscribeMessage, ValidateMeetingInput } = require("../utils");
+const { SubscribeMessage, ValidateMeetingInput, PrintFormattedMessage } = require("../utils");
 const UserAuth = require("./middlewares/auth");
 
 module.exports = (app, channel) => {
@@ -17,9 +17,12 @@ module.exports = (app, channel) => {
 			// Create a new meeting in the database
 			const meeting = await service.CreateMeeting(meetingData);
 
+			const message = `Meeting: ${meeting.title} was successfully created!`;
+			PrintFormattedMessage(message);
+
 			// Send a success response with the created meeting data
 			res.status(201).json({
-				message: `Meeting: ${meeting.title} was successfully created!`,
+				message,
 				meeting,
 			});
 		} catch (error) {
@@ -32,7 +35,6 @@ module.exports = (app, channel) => {
 		try {
 			const userId = req.params.userId;
 			const meeting = await service.GetMeetingsByUserId(userId);
-			console.log("Meeting was found");
 			res.status(200).json(meeting);
 		} catch (error) {
 			next(error);
@@ -59,9 +61,11 @@ module.exports = (app, channel) => {
 			// Update the meeting with the provided id in the database
 			const updatedMeeting = await service.UpdateMeeting(meetingData);
 
+			const message = `Meeting: ${updatedMeeting.title} was successfully updated!`;
+			PrintFormattedMessage(message);
 			// Send a success response with the updated meeting data
 			res.status(200).json({
-				message: `Meeting: ${updatedMeeting.title} was successfully updated!`,
+				message,
 				updatedMeeting,
 			});
 		} catch (error) {
@@ -75,8 +79,10 @@ module.exports = (app, channel) => {
 			const meetingId = req.params.meetingId;
 			const deletedMeeting = await service.DeleteMeeting(meetingId);
 
+			const message = `Meeting: ${deletedMeeting.title} was successfully deleted!`;
+			PrintFormattedMessage(message);
 			res.status(200).json({
-				message: `Meeting: ${deletedMeeting.title} was successfully deleted!`,
+				message,
 			});
 		} catch (error) {
 			next(error);

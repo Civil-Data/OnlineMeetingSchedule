@@ -18,10 +18,10 @@ export function useUserContext() {
 	return useContext(userContext);
 }
 
-const validateUserSession = async () => {
+const validateUserSession = async user => {
 	try {
 		// const token = localStorage.getItem("token");
-		const user = JSON.parse(localStorage.getItem("user"));
+		// const user = JSON.parse(localStorage.getItem("user"));
 		// console.log(token);
 		// console.log(user);
 		// saveUser(user);
@@ -30,7 +30,8 @@ const validateUserSession = async () => {
 		// if (token) {
 		const api = new APIHandler();
 		const res = await api.PostData("/user/", { user: user ? user.firstName : "User" });
-		console.log(res);
+		// console.log(res);
+		console.log(res.data.message);
 		// }
 		// if (user) return user;
 		// else return null;
@@ -74,8 +75,8 @@ export const LoginProvider = ({ children }) => {
 	// });
 
 	const [loginStatus, setLoginStatus] = useState(false);
-	const [logoutPressed, setLogoutPressed] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
+	// const [logoutPressed, setLogoutPressed] = useState(false);
+	const [isDataSaved, setIsDataSaved] = useState(false);
 	// const [cookies, removeCookie] = useCookies([]);
 	const [justSignedUp, setJustSignedUp] = useState(false);
 	// const navigate = useNavigate();
@@ -85,18 +86,20 @@ export const LoginProvider = ({ children }) => {
 	//     headers:
 	// }));
 
-	function updateLoginStatus(status) {
-		setLoginStatus(status);
-		// Redirect to the "/profile" route after successful login
+	function updateLogin(status) {
+		if (status) {
+			setLoginStatus(true);
+		} else {
+			setLoginStatus(false);
+			localStorage.setItem("token", "");
+		}
 	}
 
 	function saveUser(user) {
 		console.log(user);
 		setUser(user);
-	}
-
-	function updateLogoutPressed(logout) {
-		setLogoutPressed(logout);
+		setIsDataSaved(true);
+		updateLogin(true);
 	}
 
 	function setAuthToken(token) {
@@ -112,60 +115,51 @@ export const LoginProvider = ({ children }) => {
 
 	useEffect(() => {
 		localStorage.setItem("user", JSON.stringify(user));
+		console.log(user);
+		// isDataSaved(false);
+		// setIsDataSaved(false);
 		const verifyCookie = async () => {
 			try {
-				console.log("I run");
-				const result = await validateUserSession();
+				await validateUserSession(user);
 
 				// if (result) {
 				// const user = await getUser();
 				// if (!user) setUser(user);
-				if (
-					!logoutPressed &&
-					window.location.pathname !== "/" &&
-					window.location.pathname !== "/login" &&
-					window.location.pathname !== "/signup"
-				) {
-					updateLoginStatus(true);
-					updateLogoutPressed(false);
-				} else {
-					updateLoginStatus(false);
-				}
+				// if (
+				// 	!logoutPressed &&
+				// 	window.location.pathname !== "/" &&
+				// 	window.location.pathname !== "/login" &&
+				// 	window.location.pathname !== "/signup"
+				// ) {
+				// 	updateLogin(true);
+				// 	updateLogoutPressed(false);
+				// } else {
+				// 	updateLogin(false);
+				// }
 				// }
 				// const { data } = await axios.post(SERVER_URL + "/", {}, { withCredentials: true });
 				// const { status, user } = data;
 				// status ? saveUser(user) : removeCookie("token");
 			} catch (error) {
 				console.error(error);
-			} finally {
-				setIsLoading(false);
 			}
 		};
 		verifyCookie();
-	}, [logoutPressed, user]);
+	}, [user]);
 
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		navigate("/profile");
-	// 	}, 2000);
-	// }, [loginStatus, navigate]);
-
-	return isLoading ? (
-		<></>
-	) : (
-		<userContext.Provider value={{ user, loginStatus, logoutPressed, justSignedUp }}>
+	return (
+		<userContext.Provider value={{ user, loginStatus, justSignedUp }}>
 			<updateUserContext.Provider
 				value={{
+					isDataSaved,
 					saveUser,
-					updateLoginStatus,
-					updateLogoutPressed,
+					updateLogin,
 					setJustSignedUp,
-					// setHeader,
 					setAuthToken,
 				}}
 			>
 				{children}
-				{/* {isLoading ? <></> : children} */}
+				{/* {isDataSaved ? <></> : children} */}
 			</updateUserContext.Provider>
 		</userContext.Provider>
 	);

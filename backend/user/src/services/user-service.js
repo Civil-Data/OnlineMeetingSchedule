@@ -126,12 +126,12 @@ class UserService {
 		return existingUser;
 	}
 
-	//get user
-	async AuthStatus(token) {
-		const existingUser = await ValidatePassword();
-		if (!existingUser) throw new NotFoundError("No user found.");
-		return existingUser;
-	}
+	// //get user
+	// async AuthStatus(token) {
+	// 	const existingUser = await ValidatePassword();
+	// 	if (!existingUser) throw new NotFoundError("No user found.");
+	// 	return existingUser;
+	// }
 }
 
 module.exports = UserService;

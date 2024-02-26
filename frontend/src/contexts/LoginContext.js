@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
+import APIHandler from "../utils/api-methods";
 // import { useCookies } from "react-cookie";
 // import axios from "axios";
 // import { SERVER_URL } from "../config";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 // import axios from "axios";
-import APIHandler from "../utils/api-methods";
+// import APIHandler from "../utils/api-methods";
 
 const userContext = React.createContext();
 const updateUserContext = React.createContext();
@@ -17,38 +18,61 @@ export function useUserContext() {
 	return useContext(userContext);
 }
 
-const getUser = async navigate => {
+const validateUserSession = async () => {
 	try {
-		const token = localStorage.getItem("token");
-		const user = localStorage.getItem("user");
-		console.log(token);
-		console.log(user);
+		// const token = localStorage.getItem("token");
+		const user = JSON.parse(localStorage.getItem("user"));
+		// console.log(token);
+		// console.log(user);
 		// saveUser(user);
-		if (token) {
-			const api = new APIHandler();
-			const res = await api.PostData("/user/", { body: token });
-			console.log(res);
-		}
-		if (user) return user;
-		else return null;
+
+		// Verify jwt token
+		// if (token) {
+		const api = new APIHandler();
+		const res = await api.PostData("/user/", { user: user ? user.firstName : "User" });
+		console.log(res);
+		// }
+		// if (user) return user;
+		// else return null;
+		return true;
 	} catch (error) {
+		localStorage.setItem("token", "");
 		console.log(error);
+		console.log("No user session currently active");
 		// navigate("/");
 	}
 };
 
 export const LoginProvider = ({ children }) => {
-	const navigate = useNavigate();
-	const [user, setUser] = useState({
-		firstName: "",
-		lastName: "",
-		email: "",
-		age: "",
-		telephone: "",
-		gender: "",
-		description: "",
-		password: "",
+	// const navigate = useNavigate();
+	const [user, setUser] = useState(() => {
+		const storedUser = localStorage.getItem("user");
+		// console.log(storedUser);
+		return storedUser && storedUser !== undefined
+			? JSON.parse(storedUser)
+			: {
+					firstName: "",
+					lastName: "",
+					email: "",
+					age: "",
+					telephone: "",
+					gender: "",
+					description: "",
+					password: "",
+			  };
 	});
+
+	// const [user, setUser] = useState({
+	// 	firstName: "",
+	// 	lastName: "",
+	// 	email: "",
+	// 	age: "",
+	// 	telephone: "",
+	// 	gender: "",
+	// 	description: "",
+	// 	password: "",
+	// });
+
 	const [loginStatus, setLoginStatus] = useState(false);
 	const [logoutPressed, setLogoutPressed] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
@@ -63,10 +87,11 @@ export const LoginProvider = ({ children }) => {
 
 	function updateLoginStatus(status) {
 		setLoginStatus(status);
+		// Redirect to the "/profile" route after successful login
 	}
 
 	function saveUser(user) {
-		localStorage.setItem("user", user);
+		console.log(user);
 		setUser(user);
 	}
 
@@ -86,10 +111,15 @@ export const LoginProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
+		localStorage.setItem("user", JSON.stringify(user));
 		const verifyCookie = async () => {
 			try {
-				const user = await getUser(navigate);
-				if (!user) setUser(user);
+				console.log("I run");
+				const result = await validateUserSession();
+
+				// if (result) {
+				// const user = await getUser();
+				// if (!user) setUser(user);
 				if (
 					!logoutPressed &&
 					window.location.pathname !== "/" &&
@@ -101,6 +131,7 @@ export const LoginProvider = ({ children }) => {
 				} else {
 					updateLoginStatus(false);
 				}
+				// }
 				// const { data } = await axios.post(SERVER_URL + "/", {}, { withCredentials: true });
 				// const { status, user } = data;
 				// status ? saveUser(user) : removeCookie("token");
@@ -111,9 +142,17 @@ export const LoginProvider = ({ children }) => {
 			}
 		};
 		verifyCookie();
-	}, [logoutPressed, navigate]);
+	}, [logoutPressed, user]);
 
-	return (
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		navigate("/profile");
+	// 	}, 2000);
+	// }, [loginStatus, navigate]);
+
+	return isLoading ? (
+		<></>
+	) : (
 		<userContext.Provider value={{ user, loginStatus, logoutPressed, justSignedUp }}>
 			<updateUserContext.Provider
 				value={{
@@ -125,7 +164,8 @@ export const LoginProvider = ({ children }) => {
 					setAuthToken,
 				}}
 			>
-				{isLoading ? <></> : children}
+				{children}
+				{/* {isLoading ? <></> : children} */}
 			</updateUserContext.Provider>
 		</userContext.Provider>
 	);

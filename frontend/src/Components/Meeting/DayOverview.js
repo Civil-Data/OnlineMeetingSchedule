@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MeetingItem from "../Profile/MeetingItem";
+import MeetingItem from "../Profile/Meetings/Item";
 import { useMeetingPopUp } from "../../contexts/MeetingContext";
 import { v4 as uuidv4 } from "uuid";
 // import { SERVER_URL } from "../../config";

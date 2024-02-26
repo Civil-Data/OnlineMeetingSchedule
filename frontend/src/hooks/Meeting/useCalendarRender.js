@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDayViewUpdate } from "../../contexts/MeetingContext";
 import { useDateContext } from "../../contexts/DateContext";
 import { v4 as uuidv4 } from "uuid";
-import DateButtons from "../../Components/DateButtons";
+import DateButtons from "../../Components/Meeting/DateButtons";
 
 const useCalendarRender = () => {
 	const { monthToDisplay, yearToDisplay } = useDayViewUpdate();
@@ -16,21 +16,13 @@ const useCalendarRender = () => {
 	const [dateElementList, setDateElementList] = useState([]);
 
 	const renderDates = useCallback(() => {
-		const days = [
-			"Monday",
-			"Tuesday",
-			"Wednesday",
-			"Thursday",
-			"Friday",
-			"Saturday",
-			"Sunday",
-		];
+		const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 		const dateObj = getDate(yearToDisplay, monthToDisplay);
 		setMonthString(dateObj.monthString);
 		const daysInMonth = dateObj.daysInMonth;
 		const startDay = dateObj.startDayOfMonth;
 
-		const startOfGreyDays = days.findIndex((day) => day === startDay);
+		const startOfGreyDays = days.findIndex(day => day === startDay);
 
 		let dateBlocks = 35; // Default displayed calender size
 		const dateList = [];
@@ -85,10 +77,7 @@ const useCalendarRender = () => {
 					date={dateNum}
 					month={dateObj.month + 1 + month}
 					year={yearToDisplay}
-					dayString={
-						getDate(dateObj.year, dateObj.month + month, dateNum)
-							.dayString
-					}
+					dayString={getDate(dateObj.year, dateObj.month + month, dateNum).dayString}
 					theme={bgd}
 				/>
 			);

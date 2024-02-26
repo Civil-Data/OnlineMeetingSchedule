@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-// import { SERVER_URL } from "../../config";
-import APIHandler from "../../utils/api-methods";
-
-const api = new APIHandler();
-// import { useUpdateUserContext } from "../../contexts/LoginContext";
+import APIHandler from "../../../utils/api-methods";
 
 //Component for Profile contacts
 const ProfileContacts = () => {
 	const [users, setUsers] = useState([]);
-	// const { api } = useUpdateUserContext();
 
 	const contacts = async () => {
 		try {
 			// Send a GET request to get all users
+			const api = new APIHandler();
 			const existingUser = await api.GetData("/user/users");
 			setUsers(existingUser.data);
 		} catch (error) {

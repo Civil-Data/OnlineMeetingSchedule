@@ -3,6 +3,7 @@
 
 :root {
 	--iconSize: 20px;
+	--date_num_size: 22px;
 }
 
 * {
@@ -123,6 +124,13 @@ video {
 	}
 }
 
+.form_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 100px;
+}
+
 #confirmation_btn,
 .confirm_meeting {
 	font-family: "Raleway", sans-serif;
@@ -134,6 +142,9 @@ video {
 	font-size: 20px;
 	font-weight: bold;
 	margin: 15px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .confirm_meeting {
 	opacity: 0.3;
@@ -157,7 +168,9 @@ video {
 	font-weight: bold;
 }
 
-input {
+input,
+textarea,
+select {
 	border: rgb(255, 187, 14) 2px solid;
 	font-size: 30px;
 	font-weight: bold;
@@ -165,11 +178,21 @@ input {
 	border-radius: 3px;
 	outline-style: none;
 }
+textarea {
+	font-family: "Raleway", sans-serif;
+	font-size: x-large;
+	min-width: 20vw;
+	max-width: 45vw;
+	max-height: 35vh;
+	min-height: 10vw;
+}
+
 input.input_margin {
 	margin: 10px 0 40px 0;
 }
 .profile_info > input {
 	font-size: 25px;
+	margin: 0;
 }
 
 .input_label {
@@ -577,10 +600,6 @@ th {
 	margin-left: 50px;
 }
 
-.profile_info > input {
-	margin: 0;
-}
-
 .icon {
 	cursor: pointer;
 	padding: 15px;
@@ -606,8 +625,8 @@ th {
 	text-align: center;
 }
 
-.meeting_details {
-}
+/* .meeting_details {
+} */
 
 .MuiTablePagination-displayedRows {
 	color: white;
@@ -696,11 +715,17 @@ th {
 
 #gender_container {
 	font-size: 25px;
-	border: rgb(255, 187, 14) 2px solid;
+	/* font-family: "Raleway", sans-serif; */
+
+	/* border: rgb(255, 187, 14) 2px solid; */
+	/* font-weight: bold; */
+	/* background-color: rgb(218, 208, 186); */
+	/* border-radius: 3px; */
+	/* outline-style: none; */
+}
+#gender_container > option {
 	font-weight: bold;
-	background-color: rgb(218, 208, 186);
-	border-radius: 3px;
-	outline-style: none;
+	font-family: "Raleway", sans-serif;
 }
 
 .edit_meeting_fields {
@@ -746,4 +771,53 @@ th {
 
 .edit_button:hover {
 	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.my-meetings {
+	font-size: xx-large;
+	text-align: center;
+	margin-top: 20vh;
+}
+
+.saveProfile-container {
+	margin-top: 5vh;
+	display: flex;
+	justify-content: center;
+}
+/* 
+#saveIcon {
+	margin: 0 10px;
+}
+#saveIcon:hover {
+	stroke: black;
+	background-color: black;
+} */
+
+.description_area {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* justify-content: center; */
+}
+
+.today {
+	margin-top: 2px;
+	width: var(--date_num_size);
+	height: var(--date_num_size);
+	/* padding: 5px; */
+	position: relative;
+
+	font-size: 11pt;
+	border-radius: 50%;
+}
+
+.today.active {
+	color: black;
+	background-color: goldenrod;
+}
+
+.place-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

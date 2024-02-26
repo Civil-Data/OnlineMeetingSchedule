@@ -5,8 +5,9 @@ import NavigationBar from "./Components/NavigationBar";
 import { ProfileProvider } from "./contexts/ProfileContext";
 import Login from "./views/Login";
 import { MeetingProvider } from "./contexts/MeetingContext";
-import Pages from "./Components/Pages";
+// import Pages from "./Components/Pages";
 import NotFound from "./views/NotFound";
+import { PageProvider } from "./contexts/PageContext";
 
 function App() {
 	return (
@@ -16,7 +17,7 @@ function App() {
 			{window.location.pathname === "/signup" && <NavigationBar />}
 			{window.location.pathname === "/meeting" && <NavigationBar />}
 			{window.location.pathname === "/profile" && <NavigationBar />}
-			<Pages>
+			<PageProvider>
 				<Routes>
 					<Route path="/meeting" element={<MeetingProvider />} />
 					<Route path="/profile" element={<ProfileProvider />} />
@@ -25,7 +26,7 @@ function App() {
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
-			</Pages>
+			</PageProvider>
 		</>
 	);
 }

@@ -38,6 +38,7 @@ module.exports.GenerateSignature = async payload => {
 module.exports.ValidateSignature = async req => {
 	try {
 		const signature = req.get("Authorization");
+		console.log(signature);
 		const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
 		req.user = payload;
 		return true;
@@ -72,16 +73,37 @@ module.exports.ValidateUserInput = async (
 
 	if (type === "UPDATE") {
 		// Validate telephone number
-		if (!isMobilePhone(newTelephone))
+		if (!isMobilePhone(newTelephone) && newTelephone != "")
 			throw new ValidationError("Not a valid telephone number.");
 
 		// Check if a gender option is specified
-		if (newGender !== "Male" || newGender !== "Female" || newGender !== "Other")
+		console.log(newGender);
+		if (
+			newGender !== "Male" &&
+			newGender !== "Female" &&
+			newGender !== "Other" &&
+			newGender !== ""
+		)
 			throw new ValidationError("Invalid gender input.");
 
-		// Check if the newPassword meets the minimum length requirement
-		if (isNaN(+newAge) || +newAge < 0) throw new ValidationError("Invalid age input.");
+		// Check if age is valid
+		if (newAge != 0 && isNaN(+newAge) && +newAge < 0)
+			throw new ValidationError("Invalid age input.");
 	}
+};
+
+module.exports.PrintFormattedMessage = message => {
+	const currentDate = new Date();
+
+	// Get hours, minutes, day, month, and year
+	const hours = currentDate.getHours().toString().padStart(2, "0");
+	const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+	const day = currentDate.getDate().toString().padStart(2, "0");
+	const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+	const year = currentDate.getFullYear();
+
+	const formattedMessage = `[${hours}:${minutes} - ${year}-${month}-${day}]: ${message}`;
+	console.log(formattedMessage);
 };
 
 /* ==================== Utility functions ========================== */

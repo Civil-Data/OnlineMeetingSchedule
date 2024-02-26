@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import MeetingItem from "./MeetingItem";
+import MeetingItem from "./Item";
 import { v4 as uuidv4 } from "uuid";
 
-import { useUserContext } from "../../contexts/LoginContext";
+import { useUserContext } from "../../../contexts/LoginContext";
 // import { SERVER_URL } from "../../config";
 // import { useUpdateUserContext } from "../../contexts/LoginContext";
-import APIHandler from "../../utils/api-methods";
+import APIHandler from "../../../utils/api-methods";
 
 const api = new APIHandler();
 
@@ -17,6 +17,7 @@ const GetMeetings = async user => {
 		return data;
 	} catch (error) {
 		console.error(error);
+		return [];
 	}
 	//if participant in meeting then show
 };
@@ -30,13 +31,16 @@ const ProfileMeetings = () => {
 
 	useEffect(() => {
 		const fetchMeetings = async () => {
-			try {
-				const meeting = await GetMeetings(user);
-				setMeetings(meeting);
-			} catch (error) {
-				console.error("Error fetching meetings", error);
-			} finally {
-				setIsLoading(false);
+			if (user) {
+				console.log(user);
+				try {
+					const meeting = await GetMeetings(user);
+					setMeetings(meeting);
+				} catch (error) {
+					console.error("Error fetching meetings", error);
+				} finally {
+					setIsLoading(false);
+				}
 			}
 		};
 		fetchMeetings();
@@ -47,9 +51,13 @@ const ProfileMeetings = () => {
 			<div className="profile_container">
 				{/* <div className="top_section"> */}
 				{!isLoading ? (
-					meetings.map(meeting => {
-						return <MeetingItem key={uuidv4()} meeting={meeting} />;
-					})
+					meetings.length > 0 ? (
+						meetings.map(meeting => {
+							return <MeetingItem key={uuidv4()} meeting={meeting} />;
+						})
+					) : (
+						<p className="my-meetings">No booked meetings.</p>
+					)
 				) : (
 					<></>
 				)}

@@ -1,5 +1,5 @@
 const UserService = require("../services/user-service");
-const { SubscribeMessage } = require("../utils");
+const { SubscribeMessage, PrintFormattedMessage } = require("../utils");
 const UserAuth = require("./middlewares/auth");
 
 module.exports = (app, channel) => {
@@ -68,6 +68,7 @@ module.exports = (app, channel) => {
 		try {
 			const userInput = req.body;
 			const user = await service.UpdateUser(userInput);
+			PrintFormattedMessage(`${user.firstName}'s personal info was updated.`);
 			res.status(200).json({
 				user,
 				message: "User updated successfully",
@@ -79,8 +80,11 @@ module.exports = (app, channel) => {
 
 	app.post("/", async (req, res, next) => {
 		try {
-			await UserAuth(req);
-			res.status(200).json({ message: "User is still logged in." });
+			await UserAuth(req, res, next);
+			// console.log("User is still logged in.");
+			const message = `${req.body.user} is still logged in.`;
+			PrintFormattedMessage(message);
+			res.status(200).json({ message: message });
 		} catch (error) {
 			next(error);
 		}

@@ -46,13 +46,13 @@ jobs:
 
       # Builds the Docker image.
       - name: Build
-        run: docker build -t CONTAINER_REGISTRY_LOGIN_SERVER/meeting:VERSION --file ./Dockerfile .
+        run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/meeting:$VERSION --file ./Dockerfile .
 
       # Publishes the Docker image to the Azure Container Registry.
       - name: Publish
         run: |
           echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
-          docker push CONTAINER_REGISTRY_LOGIN_SERVER/meeting:VERSION
+          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/meeting:$VERSION
 
       # Installs Kubectl and connects it to the Azure Kubernetes Service (AKS) cluster.
       # https://github.com/marketplace/actions/kubernetes-cli-kubectl

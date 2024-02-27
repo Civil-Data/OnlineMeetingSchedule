@@ -24,7 +24,7 @@ const Signup = () => {
 		confirmPassword: "",
 	});
 	const { firstName, lastName, email, confirmEmail, password, confirmPassword } = inputValue;
-	const { saveUser, updateLoginStatus, setJustSignedUp, setAuthToken } = useUpdateUserContext();
+	const { saveUser, updateLogin, setJustSignedUp, setAuthToken } = useUpdateUserContext();
 
 	const handleOnChange = e => {
 		const { name, value } = e.target;
@@ -72,7 +72,7 @@ const Signup = () => {
 			// Set the token in local storage
 			await setAuthToken(data.token);
 			sendToastSuccess(data.message);
-			// updateLoginStatus(true);
+			// updateLogin(true);
 			setJustSignedUp(true);
 			saveUser(data.user);
 			setTimeout(() => {

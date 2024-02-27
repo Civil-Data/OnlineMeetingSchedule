@@ -11,11 +11,11 @@ import { useToastUpdate } from "../../../contexts/PageContext";
 const Update = () => {
 	const { user } = useUserContext();
 	const { sendToastSuccess, sendToastError } = useToastUpdate();
-
-	const iconRef = useRef();
 	const { showUpdateView } = useProfileUpdate();
 	const { saveUser } = useUpdateUserContext();
-	// let emailChanged = false;
+
+	const iconRef = useRef();
+
 	const [inputValue, setInputValue] = useState({
 		id: user.id,
 		newFirstName: user.firstName,
@@ -51,21 +51,11 @@ const Update = () => {
 	};
 
 	const handleOnChange = (name, value) => {
-		// const { name, value } = e.target;
 		setInputValue({
 			...inputValue,
 			[name]: value,
 		});
 	};
-
-	// const handleError = err =>
-	// 	toast.error(err, {
-	// 		position: "bottom-left",
-	// 	});
-	// const handleSuccess = msg =>
-	// 	toast.success(msg, {
-	// 		position: "bottom-right",
-	// 	});
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -106,9 +96,6 @@ const Update = () => {
 			return sendToastError("Password should be at least 8 characters");
 		}
 
-		// if (newEmail !== user.email) {
-		// 	emailChanged = true;
-		// }
 		// Send a POST request to update user information
 		try {
 			const api = new APIHandler();
@@ -125,11 +112,9 @@ const Update = () => {
 					newAge,
 					newDescription,
 					newPassword,
-					// emailChanged,
 				},
 				{ withCredentials: true }
 			);
-			// emailChanged = false;
 			sendToastSuccess(data.message);
 			saveUser(data.user);
 			showUpdateView(false);
@@ -142,9 +127,12 @@ const Update = () => {
 		<form onSubmit={handleSubmit}>
 			<div className="user_information">
 				<div className="profile_info">
-					<label className="user_info_label">First name:</label>
+					<label htmlFor="newFirstName" className="user_info_label">
+						First name:
+					</label>
 					<input
 						type="text"
+						id="newFirstName"
 						name="newFirstName"
 						autoComplete="on"
 						value={newFirstName}
@@ -152,9 +140,12 @@ const Update = () => {
 						onChange={e => handleOnChange(e.target.name, e.target.value)}
 					/>
 
-					<label className="user_info_label">Last name:</label>
+					<label htmlFor="newLastName" className="user_info_label">
+						Last name:
+					</label>
 					<input
 						type="text"
+						id="newLastName"
 						name="newLastName"
 						autoComplete="on"
 						value={newLastName}
@@ -162,7 +153,9 @@ const Update = () => {
 						onChange={e => handleOnChange(e.target.name, e.target.value)}
 					/>
 
-					<label className="user_info_label">Gender:</label>
+					<label htmlFor="gender_container" className="user_info_label">
+						Gender:
+					</label>
 					<select
 						id="gender_container"
 						name="newGender"
@@ -175,8 +168,11 @@ const Update = () => {
 						<option value="Other">Other</option>
 					</select>
 
-					<label className="user_info_label">Email:</label>
+					<label htmlFor="newEmail" className="user_info_label">
+						Email:
+					</label>
 					<input
+						id="newEmail"
 						name="newEmail"
 						type="email"
 						autoComplete="on"
@@ -185,8 +181,11 @@ const Update = () => {
 						onChange={e => handleOnChange(e.target.name, e.target.value)}
 					/>
 
-					<label className="user_info_label">Confirm email:</label>
+					<label htmlFor="newConfirmEmail" className="user_info_label">
+						Confirm email:
+					</label>
 					<input
+						id="newConfirmEmail"
 						name="newConfirmEmail"
 						type="email"
 						autoComplete="on"
@@ -195,8 +194,11 @@ const Update = () => {
 						onChange={e => handleOnChange(e.target.name, e.target.value)}
 					/>
 
-					<label className="user_info_label">Phone number:</label>
+					<label htmlFor="newTelephone" className="user_info_label">
+						Phone number:
+					</label>
 					<input
+						id="newTelephone"
 						name="newTelephone"
 						type="tel"
 						autoComplete="on"
@@ -205,8 +207,11 @@ const Update = () => {
 						placeholder={user.telephone ? "" : "XXX-XXX XX XX"}
 					/>
 
-					<label className="user_info_label">Age:</label>
+					<label htmlFor="newAge" className="user_info_label">
+						Age:
+					</label>
 					<input
+						id="newAge"
 						name="newAge"
 						type="number"
 						autoComplete="on"
@@ -215,8 +220,11 @@ const Update = () => {
 						onChange={e => handleOnChange(e.target.name, e.target.value)}
 					/>
 
-					<label className="user_info_label">Password:</label>
+					<label htmlFor="newPassword" className="user_info_label">
+						Password:
+					</label>
 					<input
+						id="newPassword"
 						name="newPassword"
 						type="password"
 						autoComplete="on"
@@ -225,8 +233,11 @@ const Update = () => {
 						onChange={e => handleOnChange(e.target.name, e.target.value)}
 					/>
 
-					<label className="user_info_label">Confirm password:</label>
+					<label htmlFor="newConfirmPassword" className="user_info_label">
+						Confirm password:
+					</label>
 					<input
+						id="newConfirmPassword"
 						name="newConfirmPassword"
 						type="password"
 						autoComplete="on"
@@ -237,10 +248,11 @@ const Update = () => {
 				</div>
 
 				<div className="description_area">
-					<label className="user_info_label">
+					<label htmlFor="newDescription" className="user_info_label">
 						<h3>Here is a description about me:</h3>
 					</label>
 					<textarea
+						id="newDescription"
 						name="newDescription"
 						type="text"
 						autoComplete="on"

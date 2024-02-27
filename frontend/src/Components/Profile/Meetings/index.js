@@ -12,7 +12,6 @@ const api = new APIHandler();
 const GetMeetings = async user => {
 	try {
 		const { data } = await api.GetData(`/meeting/my-meetings/${user._id}`);
-		console.log(data);
 
 		return data;
 	} catch (error) {
@@ -24,7 +23,6 @@ const GetMeetings = async user => {
 
 //Component for Meeting overview
 const ProfileMeetings = () => {
-	// const { api } = useUpdateUserContext();
 	const { user } = useUserContext();
 	const [meetings, setMeetings] = useState([{}]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +30,6 @@ const ProfileMeetings = () => {
 	useEffect(() => {
 		const fetchMeetings = async () => {
 			if (user) {
-				console.log(user);
 				try {
 					const meeting = await GetMeetings(user);
 					setMeetings(meeting);

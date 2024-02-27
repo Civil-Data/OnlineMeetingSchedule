@@ -2,4 +2,3 @@ node_modules
 fish-commands.txt
 .conda
 *.ipynb
-*.yaml

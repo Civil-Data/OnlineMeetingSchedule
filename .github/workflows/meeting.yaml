@@ -65,3 +65,6 @@ jobs:
             # and deploys the microservice to the Azure Kubernetes Service (AKS) cluster.
             - name: Deploy
               run: envsubst < kubernetes/deploy.yaml | kubectl apply -f -
+
+            - name: probe-meeting
+              run: envsubst < kubernetes/probe.yaml | kubectl apply -f -

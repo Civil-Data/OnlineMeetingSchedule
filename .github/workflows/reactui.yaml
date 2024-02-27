@@ -5,7 +5,7 @@ on:
     # Deploys the microservice on push to subfolder reactui on the main branch of this code repository.
     push:
         branches:
-            - fix/yamlFiles
+            - main
         paths:
             - "frontend/**" # Only trigger on push to reactui subfolder.
 

@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/proxy # Sets default path for "run" commands to the nginx subfolder.
+        working-directory: ./proxy # Sets default path for "run" commands to the nginx subfolder.
 
     # Sets environment variables with values extracted from GitHub Actions Repository Secrets.
     env:

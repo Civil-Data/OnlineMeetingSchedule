@@ -22,9 +22,9 @@ spec:
         target:
           type: AverageValue
           averageValue: 50Mi
-  behavior: # This scaling behavior is only used during the exercise so we don't have to wait
-    scaleDown: # too long when scaling pods, but choose more appropriate values for production:
-      stabilizationWindowSeconds: 0 # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
       policies:
         - type: Percent
           value: 100

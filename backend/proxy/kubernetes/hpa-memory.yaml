@@ -10,22 +10,22 @@ spec:
     kind: Deployment
     name: nginx-deployment
   metrics:
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: AverageValue
-        averageValue: 50Mi
-  behavior:                              # This scaling behavior is only used during the exercise so we don't have to wait
-    scaleDown:                           # too long when scaling pods, but choose more appropriate values for production:
-      stabilizationWindowSeconds: 0      # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: AverageValue
+          averageValue: 50Mi
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
       policies:
-      - type: Percent
-        value: 100
-        periodSeconds: 5
+        - type: Percent
+          value: 100
+          periodSeconds: 5
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
-      - type: Percent
-        value: 100
-        periodSeconds: 5
+        - type: Percent
+          value: 100
+          periodSeconds: 5

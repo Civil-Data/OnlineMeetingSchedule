@@ -19,7 +19,11 @@ class BaseError extends Error {
 // 500 Internal Error
 class APIError extends BaseError {
 	constructor(description = "Api error") {
-		super("Api internal server error", STATUS_CODES.INTERNAL_ERROR, description);
+		super(
+			"Api internal server error",
+			STATUS_CODES.INTERNAL_ERROR,
+			description
+		);
 	}
 }
 

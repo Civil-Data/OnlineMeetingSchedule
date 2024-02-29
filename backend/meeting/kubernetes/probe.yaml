@@ -6,8 +6,8 @@ metadata:
         app: probe-meeting
 spec:
     containers:
-        - name: probe-meeting
-          image: probe-meeting:latest
+        - name: meeting
+          image: meeting:latest
           imagePullPolicy: IfNotPresent
           ports:
               - containerPort: 5002

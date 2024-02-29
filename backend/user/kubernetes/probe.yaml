@@ -6,8 +6,8 @@ metadata:
         app: probe-user
 spec:
     containers:
-        - name: probe-user
-          image: probe-user:latest
+        - name: user
+          image: user:latest
           imagePullPolicy: IfNotPresent
           ports:
               - containerPort: 5001

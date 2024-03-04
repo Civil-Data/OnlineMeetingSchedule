@@ -35,14 +35,14 @@ class UserRepository {
 		const existingUser = await UserModel.findByIdAndUpdate(
 			newId,
 			{
-				newFirstName,
-				newLastName,
-				newEmail,
-				password,
-				newTelephone,
-				newGender,
-				newDescription,
-				newAge,
+				firstName: newFirstName,
+				lastName: newLastName,
+				email: newEmail,
+				password: password,
+				telephone: newTelephone,
+				gender: newGender,
+				description: newDescription,
+				age: newAge,
 			},
 			{ new: true }
 		);

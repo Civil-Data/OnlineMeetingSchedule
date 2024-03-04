@@ -112,13 +112,13 @@ Write-Host "CONTAINER_REGISTRY_USERNAME: $CONTAINER_REGISTRY_USERNAME"
 Write-Host "CONTAINER_REGISTRY_PASSWORD: $CONTAINER_REGISTRY_PASSWORD"
 
 # Use Azure CLI to get the name of the first storage account in the list
-$STORAGE_ACCOUNT_NAME = az storage account list --query [0].name -o tsv
+# $STORAGE_ACCOUNT_NAME = az storage account list --query [0].name -o tsv
 # Get the access key for the storage account associated with APP_NAME
-$STORAGE_ACCESS_KEY = az storage account keys list --account-name $APP_NAME --resource-group $APP_NAME --query [0].value -o tsv
+# $STORAGE_ACCESS_KEY = az storage account keys list --account-name $APP_NAME --resource-group $APP_NAME --query [0].value -o tsv
 
 # Print the storage account name and access key
-Write-Host "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
-Write-Host "STORAGE_ACCESS_KEY: $STORAGE_ACCESS_KEY"
+# Write-Host "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
+# Write-Host "STORAGE_ACCESS_KEY: $STORAGE_ACCESS_KEY"
 
 # Copy the .kube\config file to a backup
 Copy-Item "$env:USERPROFILE\.kube\config" "$env:USERPROFILE\.kube\config.bak"
@@ -143,15 +143,18 @@ Write-Host $KUBE_CONFIG
 gh secret set CONTAINER_REGISTRY_LOGIN_SERVER --body $CONTAINER_REGISTRY_LOGIN_SERVER
 gh secret set CONTAINER_REGISTRY_USERNAME --body $CONTAINER_REGISTRY_USERNAME
 gh secret set CONTAINER_REGISTRY_PASSWORD --body $CONTAINER_REGISTRY_PASSWORD
-gh secret set STORAGE_ACCOUNT_NAME --body $STORAGE_ACCOUNT_NAME
-gh secret set STORAGE_ACCESS_KEY --body $STORAGE_ACCESS_KEY
+# gh secret set STORAGE_ACCOUNT_NAME --body $STORAGE_ACCOUNT_NAME
+# gh secret set STORAGE_ACCESS_KEY --body $STORAGE_ACCESS_KEY
 gh secret set KUBE_CONFIG --body $KUBE_CONFIG
 
 # Print the GitHub secrets
 gh secret list
 gh workflow run "Deploy meeting microservice"
 gh workflow run "Deploy user microservice"
-gh workflow run "Deploy frontend microservice"
+gh workflow run "Deploy reactui microservice"
+gh workflow run "Deploy nginx microservice"
+gh workflow run "Deploy gateway microservice"
+```
 
 
 # Get the public IP address of the load balancer

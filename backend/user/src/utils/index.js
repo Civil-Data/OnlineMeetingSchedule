@@ -3,7 +3,12 @@ const jwt = require("jsonwebtoken");
 const amqplib = require("amqplib");
 const { isAlpha, isEmail, isMobilePhone } = require("validator");
 
-const { APP_SECRET, EXCHANGE_NAME, USER_SERVICE, MSG_QUEUE_URL } = require("../config");
+const {
+	APP_SECRET,
+	EXCHANGE_NAME,
+	USER_SERVICE,
+	MSG_QUEUE_URL,
+} = require("../config");
 const { ValidationError } = require("./error/app-errors");
 
 /* ==================== Utility functions ========================== */
@@ -20,11 +25,17 @@ module.exports.GeneratePassword = async (password, salt) => {
 	return newPassword;
 };
 
-module.exports.ValidatePassword = async (enteredPassword, savedPassword, salt) => {
-	return (await this.GeneratePassword(enteredPassword, salt)) === savedPassword;
+module.exports.ValidatePassword = async (
+	enteredPassword,
+	savedPassword,
+	salt
+) => {
+	return (
+		(await this.GeneratePassword(enteredPassword, salt)) === savedPassword
+	);
 };
 
-module.exports.GenerateSignature = async payload => {
+module.exports.GenerateSignature = async (payload) => {
 	try {
 		return await jwt.sign(payload, APP_SECRET, {
 			expiresIn: "2h",
@@ -35,7 +46,7 @@ module.exports.GenerateSignature = async payload => {
 	}
 };
 
-module.exports.ValidateSignature = async req => {
+module.exports.ValidateSignature = async (req) => {
 	try {
 		const signature = req.get("Authorization");
 		if (signature === undefined) {
@@ -51,7 +62,15 @@ module.exports.ValidateSignature = async req => {
 
 module.exports.ValidateUserInput = async (
 	type = "SIGNUP",
-	{ newFirstName, newLastName, newEmail, newPassword, newAge, newGender, newTelephone }
+	{
+		newFirstName,
+		newLastName,
+		newEmail,
+		newPassword,
+		newAge,
+		newGender,
+		newTelephone,
+	}
 ) => {
 	// Check if all required fields are provided
 	if (!newFirstName || !newLastName || !newEmail || !newPassword) {
@@ -93,7 +112,7 @@ module.exports.ValidateUserInput = async (
 	}
 };
 
-module.exports.PrintFormattedMessage = message => {
+module.exports.PrintFormattedMessage = (message) => {
 	const currentDate = new Date();
 
 	// Get hours, minutes, day, month, and year
@@ -131,7 +150,7 @@ module.exports.SubscribeMessage = async (channel, service) => {
 
 	channel.consume(
 		q.queue,
-		msg => {
+		(msg) => {
 			if (msg.content) {
 				console.log("the message is:", msg.content.toString());
 				service.SubscribeEvents(msg.content.toString());

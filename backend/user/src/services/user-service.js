@@ -21,7 +21,6 @@ class UserService {
 		const existingUser = await this.repository.FindUser(email);
 
 		if (!existingUser) throw new NotFoundError("User not found.");
-
 		const validPassword = await ValidatePassword(
 			password,
 			existingUser.password,
@@ -34,7 +33,6 @@ class UserService {
 			email: existingUser.email,
 			_id: existingUser._id,
 		});
-
 		return { existingUser, token };
 	}
 

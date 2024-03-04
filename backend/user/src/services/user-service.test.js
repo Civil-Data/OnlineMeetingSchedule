@@ -1,45 +1,68 @@
 const UserService = require("./user-service");
 const User = require("../database/models/User"); // Assuming you have a Mongoose model for your users
+const bcrypt = require("bcryptjs");
 
 const service = new UserService();
+const { MongoMemoryServer } = require("mongodb-memory-server");
+const mongoose = require("mongoose");
+let mongoServer;
 
 describe("UserService", () => {
-	// beforeAll(async () => {
-	// 	// Create test users
-	// 	await User.create({
-	// 		firstName: "test",
-	// 		lastName: "testsson",
-	// 		email: "test1@test.com",
-	// 		password: "Password12345",
-	// 	});
+	beforeEach(async () => {
+		mongoServer = new MongoMemoryServer();
+		await mongoServer.start();
+		const uri = await mongoServer.getUri();
+		await mongoose.connect(uri, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		});
 
-	// 	await User.create({
-	// 		firstName: "test",
-	// 		lastName: "testsson",
-	// 		email: "test2@test.com",firstName, lastName, email, password
-	// 		password: "Password123",
-	// 	});
-	// });
+		// Generate a salt for the users
+		const salt = await bcrypt.genSalt();
+		// Hash the password
+		const password1 = await bcrypt.hash("Password12345", salt);
+		const password2 = await bcrypt.hash("Password123", salt);
+
+		// Create a few users
+		await User.create([
+			{
+				firstName: "test",
+				lastName: "testsson",
+				email: "test1@test.com",
+				password: password1,
+				salt: salt,
+			},
+			{
+				firstName: "test",
+				lastName: "testsson",
+				email: "test2@test.com",
+				password: password2,
+				salt: salt,
+			},
+		]);
+	});
+
+	afterEach(async () => {
+		await mongoose.disconnect();
+		await mongoServer.stop();
+	});
 
 	describe("LogIn", () => {
 		test("validate user inputs", async () => {
 			const email = "test1@test.com";
 			const password = "Password12345";
 
-			const user = await service.LogIn({ email, password });
-
-			expect(user.email).toBe(email);
-			expect(user.password).toBe(password);
+			const { existingUser } = await service.LogIn({ email, password });
+			expect(existingUser.email).toBe(email);
 		});
 
 		test("validate user inputs", async () => {
 			const email = "test2@test.com";
 			const password = "Password123";
 
-			const user = await service.LogIn({ email, password });
+			const { existingUser } = await service.LogIn({ email, password });
 
-			expect(user.email).toBe(email);
-			expect(user.password).toBe(password);
+			expect(existingUser.email).toBe(email);
 		});
 
 		test("reject invalid password", async () => {
@@ -64,7 +87,6 @@ describe("UserService", () => {
 				const lastName = "testsson";
 				const email = "test3@test.com";
 				const password = "Password123";
-				console.log("I run");
 
 				const { user } = await service.SignUp({
 					firstName,
@@ -72,7 +94,7 @@ describe("UserService", () => {
 					email,
 					password,
 				});
-				console.log("I run2 for fuck sake");
+
 				// Verify that the user was created in the database
 				const dbUser = await User.findOne({ email: user.email });
 				expect(dbUser).not.toBeNull();
@@ -101,6 +123,7 @@ describe("UserService", () => {
 				).rejects.toThrow();
 			});
 
+			// Test for invalid email, should throw ValidationError
 			test("reject invalid email", async () => {
 				const firstName = "test";
 				const lastName = "testsson";
@@ -112,11 +135,12 @@ describe("UserService", () => {
 				).rejects.toThrow();
 			});
 
+			// Test for too short password, should throw ValidationError
 			test("reject invalid password", async () => {
 				const firstName = "test";
 				const lastName = "testsson";
 				const email = "test5@test.com";
-				const password = "password123";
+				const password = "Passwo";
 
 				await expect(
 					service.SignUp({ firstName, lastName, email, password })

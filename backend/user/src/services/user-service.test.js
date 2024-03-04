@@ -1,30 +1,32 @@
 const UserService = require("./user-service");
 const User = require("../database/models/User"); // Assuming you have a Mongoose model for your users
 
-describe("UserService", () => {
-	beforeAll(async () => {
-		// Create test users
-		await User.create({
-			firstName: "test",
-			lastName: "testsson",
-			email: "test1@test.com",
-			password: "Password12345",
-		});
+const service = new UserService();
 
-		await User.create({
-			firstName: "test",
-			lastName: "testsson",
-			email: "test2@test.com",
-			password: "Password123",
-		});
-	});
+describe("UserService", () => {
+	// beforeAll(async () => {
+	// 	// Create test users
+	// 	await User.create({
+	// 		firstName: "test",
+	// 		lastName: "testsson",
+	// 		email: "test1@test.com",
+	// 		password: "Password12345",
+	// 	});
+
+	// 	await User.create({
+	// 		firstName: "test",
+	// 		lastName: "testsson",
+	// 		email: "test2@test.com",firstName, lastName, email, password
+	// 		password: "Password123",
+	// 	});
+	// });
 
 	describe("LogIn", () => {
 		test("validate user inputs", async () => {
 			const email = "test1@test.com";
 			const password = "Password12345";
 
-			const user = await UserService.login(email, password);
+			const user = await service.LogIn({ email, password });
 
 			expect(user.email).toBe(email);
 			expect(user.password).toBe(password);
@@ -34,7 +36,7 @@ describe("UserService", () => {
 			const email = "test2@test.com";
 			const password = "Password123";
 
-			const user = await UserService.login(email, password);
+			const user = await service.LogIn({ email, password });
 
 			expect(user.email).toBe(email);
 			expect(user.password).toBe(password);
@@ -44,27 +46,35 @@ describe("UserService", () => {
 			const email = "test1@test.com";
 			const password = "short";
 
-			await expect(UserService.login(email, password)).rejects.toThrow();
+			await expect(service.LogIn({ email, password })).rejects.toThrow();
 		});
 
 		test("reject invalid password", async () => {
 			const email = "test2test.com";
 			const password = "Password123";
 
-			await expect(UserService.login(email, password)).rejects.toThrow();
+			await expect(service.LogIn({ email, password })).rejects.toThrow();
 		});
 	});
 
-	describe("UserService", () => {
+	describe("service", () => {
 		describe("SignUp", () => {
 			test("create a new user", async () => {
+				const firstName = "test";
+				const lastName = "testsson";
 				const email = "test3@test.com";
 				const password = "Password123";
+				console.log("I run");
 
-				const user = await UserService.signup(email, password);
-
+				const { user } = await service.SignUp({
+					firstName,
+					lastName,
+					email,
+					password,
+				});
+				console.log("I run2 for fuck sake");
 				// Verify that the user was created in the database
-				const dbUser = await User.findOne({ email });
+				const dbUser = await User.findOne({ email: user.email });
 				expect(dbUser).not.toBeNull();
 
 				// Verify that the returned user has the correct email
@@ -72,33 +82,44 @@ describe("UserService", () => {
 			});
 
 			test("reject duplicate email", async () => {
-				const email = "test@test.com";
-				const password = "password123";
+				const firstName = "test";
+				const lastName = "testsson";
+				const email = "test4@test.com";
+				const password = "Password123";
 
 				// First registration should succeed
-				await UserService.signup(email, password);
+				await service.SignUp({
+					firstName,
+					lastName,
+					email,
+					password,
+				});
 
 				// Second registration with the same email should fail
 				await expect(
-					UserService.signup(email, password)
+					service.SignUp({ firstName, lastName, email, password })
 				).rejects.toThrow();
 			});
 
 			test("reject invalid email", async () => {
-				const email = "not-an-email";
-				const password = "password123";
+				const firstName = "test";
+				const lastName = "testsson";
+				const email = "notAnEmail";
+				const password = "Password123";
 
 				await expect(
-					UserService.signup(email, password)
+					service.SignUp({ firstName, lastName, email, password })
 				).rejects.toThrow();
 			});
 
 			test("reject invalid password", async () => {
-				const email = "test@test.com";
-				const password = "short";
+				const firstName = "test";
+				const lastName = "testsson";
+				const email = "test5@test.com";
+				const password = "password123";
 
 				await expect(
-					UserService.signup(email, password)
+					service.SignUp({ firstName, lastName, email, password })
 				).rejects.toThrow();
 			});
 		});

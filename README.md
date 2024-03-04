@@ -158,7 +158,12 @@ gh workflow run "Deploy gateway microservice"
 
 
 # Get the public IP address of the load balancer
-$LOAD_BALANCER_PUBLIC_IP = kubectl get service user -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+$LOAD_BALANCER_PUBLIC_IP = kubectl get service frontend -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+# Print the value of LOAD_BALANCER_PUBLIC_IP
+Write-Host "LOAD_BALANCER_PUBLIC_IP: $LOAD_BALANCER_PUBLIC_IP"
+
+# Get the public IP address of the load balancer
+$LOAD_BALANCER_PUBLIC_IP = kubectl get service gateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 # Print the value of LOAD_BALANCER_PUBLIC_IP
 Write-Host "LOAD_BALANCER_PUBLIC_IP: $LOAD_BALANCER_PUBLIC_IP"
 
@@ -180,11 +185,12 @@ kubectl config current-context
 ```github
 gh workflow run "Deploy meeting microservice"
 gh workflow run "Deploy user microservice"
+gh workflow run "Deploy reactui microservice"
+gh workflow run "Deploy nginx microservice"
+gh workflow run "Deploy gateway microservice"
 ```
 
 ```kubectl
-kubectl describe pod meeting-7f6c9745b5-cqdt6
-kubectl describe pod user-b787f8f8b-v6h4q
-kubectl logs meeting-7f6c9745b5-cqdt6
-kubectl logs user-b787f8f8b-v6h4q
+kubectl describe pod 
+kubectl logs 
 ```

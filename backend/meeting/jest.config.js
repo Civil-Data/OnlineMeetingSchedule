@@ -7,4 +7,5 @@ module.exports = {
 
 	// The test environment that will be used for testing
 	testEnvironment: "node",
+	setupFilesAfterEnv: ["../tests/setup.js"], // Path to your setup file
 };

@@ -22,8 +22,6 @@ app.use("/user", proxy("http://108.141.250.5:5001"));
 
 app.use("/meeting", proxy("http://108.141.250.5:5002"));
 
-// app.use("/", proxy("http://108.141.250.5:5001")); // user service
-
 app.listen(5000, () => {
 	console.log("Gateway is Listening to Port 5000");
 });

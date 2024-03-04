@@ -3,6 +3,7 @@
 [![Deploy meeting microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/meeting.yaml)
 [![Deploy user microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/user.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/user.yaml)
 [![Deploy reactui microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/reactui.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/reactui.yaml)
+[![Deploy nginx microservice](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/nginx.yaml/badge.svg)](https://github.com/JoelScarinius/MeetingScheduler/actions/workflows/nginx.yaml)
 
 This is an OnlineMeetingSchedule tool inspired by Calendly.
 It is an easy way to book meetings, invite people and create event.

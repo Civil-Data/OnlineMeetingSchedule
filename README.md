@@ -155,7 +155,11 @@ gh workflow run "Deploy frontend microservice"
 
 
 # Get the public IP address of the load balancer
-$LOAD_BALANCER_PUBLIC_IP = kubectl get service user -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+$LOAD_BALANCER_PUBLIC_IP = kubectl get service frontend -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+# Print the value of LOAD_BALANCER_PUBLIC_IP
+Write-Host "LOAD_BALANCER_PUBLIC_IP: $LOAD_BALANCER_PUBLIC_IP"
+# Get the public IP address of the load balancer
+$LOAD_BALANCER_PUBLIC_IP = kubectl get service nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 # Print the value of LOAD_BALANCER_PUBLIC_IP
 Write-Host "LOAD_BALANCER_PUBLIC_IP: $LOAD_BALANCER_PUBLIC_IP"
 

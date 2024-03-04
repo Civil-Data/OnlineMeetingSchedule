@@ -1,23 +1,36 @@
-// which service it is
+const UserService = require("./user-service"); // Path to your user service file
+const db = require("./db"); // Path to your database file
+
+jest.mock("./db"); // Mock the database
 
 describe("UserService", () => {
-	// Which function
-
 	describe("LogIn", () => {
-		// Which Scenario we are testing
+		test("validate user inputs", async () => {
+			const email = "joel@ju.se";
+			const password = "Password123";
 
-		test("validate user inputs", () => {});
+			db.getUser.mockResolvedValue({ email, password }); // Mock the getUser function in db
 
-		test("Validate response", async () => {});
-	});
+			const user = await UserService.login(email, password);
 
-	// Which function
+			expect(user.email).toBe(email);
+			expect(user.password).toBe(password);
+		});
 
-	describe("SignUp", () => {
-		// Which Scenario we are testing
+		test("Validate response", async () => {
+			const email = "joel@ju.se";
+			const password = "Password123";
+			const token = "token123";
 
-		test("validate user inputs", () => {});
+			db.getUser.mockResolvedValue({ email, password, token }); // Mock the getUser function in db
 
-		test("Validate response", async () => {});
+			const { existingUser, userToken } = await UserService.login(
+				email,
+				password
+			);
+
+			expect(existingUser.email).toBe(email);
+			expect(userToken).toBe(token);
+		});
 	});
 });

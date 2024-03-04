@@ -16,15 +16,15 @@ export function useProfileUpdate() {
 export const ProfileProvider = ({ children }) => {
 	const { justSignedUp } = useUserContext();
 	const [openTab, setOpenTab] = useState(justSignedUp ? "info" : "my_meetings");
-	const [clickedIcon, setClickedIcon] = useState(false);
+	const [isUpdateView, setIsUpdateView] = useState(false);
 	const [details, setDetails] = useState("upcoming");
 
 	function updateTabContext(tab) {
 		setOpenTab(tab);
 	}
 
-	function updateClickedIcon(clickedIcon) {
-		setClickedIcon(clickedIcon);
+	function showUpdateView(isClicked) {
+		setIsUpdateView(isClicked);
 	}
 
 	function updateSubTabContext(details) {
@@ -36,8 +36,8 @@ export const ProfileProvider = ({ children }) => {
 			<ProfileUpdateContext.Provider
 				value={{
 					updateTabContext,
-					updateClickedIcon,
-					clickedIcon,
+					showUpdateView,
+					isUpdateView,
 					details,
 					updateSubTabContext,
 				}}

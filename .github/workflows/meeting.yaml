@@ -2,66 +2,69 @@
 name: Deploy meeting microservice
 
 on:
-    # Deploys the microservice on push to subfolder meeting on the main branch of this code repository.
-    push:
-        branches:
-            - main
-        paths:
-            - "backend/meeting/**" # Only trigger on push to meeting subfolder.
+  # Deploys the microservice on push to subfolder meeting on the main branch of this code repository.
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/meeting/**" # Only trigger on push to meeting subfolder.
 
-    # Allows workflow to be invoked manually through the GitHub Actions user interface.
-    workflow_dispatch:
+  # Allows workflow to be invoked manually through the GitHub Actions user interface.
+  workflow_dispatch:
 
 jobs:
-    meeting:
-        runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: ./backend/meeting # Sets default path for "run" commands to the meeting subfolder.
+  meeting:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/meeting # Sets default path for "run" commands to the meeting subfolder.
 
-        # Sets environment variables with values extracted from GitHub Actions Repository Secrets.
-        env:
-            VERSION: ${{ github.sha }}
-            CONTAINER_REGISTRY_LOGIN_SERVER: ${{ secrets.CONTAINER_REGISTRY_LOGIN_SERVER }}
-            CONTAINER_REGISTRY_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
-            CONTAINER_REGISTRY_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+    # Sets environment variables with values extracted from GitHub Actions Repository Secrets.
+    env:
+      VERSION: ${{ github.sha }}
+      CONTAINER_REGISTRY_LOGIN_SERVER: ${{ secrets.CONTAINER_REGISTRY_LOGIN_SERVER }}
+      CONTAINER_REGISTRY_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+      CONTAINER_REGISTRY_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
 
-        steps:
-            # Checks-out repository under $GITHUB_WORKSPACE.
-            - uses: actions/checkout@v4
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE.
+      - uses: actions/checkout@v4
 
-            # Installs Node.js.
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: 19.9.0
-                  cache: "npm"
-                  cache-dependency-path: "backend/meeting/package-lock.json" # Path to package-lock.json in meeting subfolder.
+      # Installs Node.js.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 19.9.0
+          cache: "npm"
+          cache-dependency-path: "backend/meeting/package-lock.json" # Path to package-lock.json in meeting subfolder.
 
-            # (To be implemented)
-            # Installs NPM packages and tests the microservice.
-            # - name: Test
-            #   run: |
-            #       npm ci
-            #       npm test
+      # (To be implemented)
+      # Installs NPM packages and tests the microservice.
+      # - name: Test
+      #   run: |
+      #       npm ci
+      #       npm test
 
-            # Builds the Docker image.
-            - name: Build
-              run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/meeting:$VERSION --file ./Dockerfile .
+      # Builds the Docker image.
+      - name: Build
+        run: docker build -t $CONTAINER_REGISTRY_LOGIN_SERVER/meeting:$VERSION --file ./Dockerfile .
 
-            # Publishes the Docker image to the Azure Container Registry.
-            - name: Publish
-              run: |
-                  echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
-                  docker push $CONTAINER_REGISTRY_LOGIN_SERVER/meeting:$VERSION
+      # Publishes the Docker image to the Azure Container Registry.
+      - name: Publish
+        run: |
+          echo $CONTAINER_REGISTRY_PASSWORD | docker login $CONTAINER_REGISTRY_LOGIN_SERVER --username $CONTAINER_REGISTRY_USERNAME --password-stdin
+          docker push $CONTAINER_REGISTRY_LOGIN_SERVER/meeting:$VERSION
 
-            # Installs Kubectl and connects it to the Azure Kubernetes Service (AKS) cluster.
-            # https://github.com/marketplace/actions/kubernetes-cli-kubectl
-            - uses: tale/kubectl-action@v1
-              with:
-                  base64-kube-config: ${{ secrets.KUBE_CONFIG }}
-                  kubectl-version: v1.24.2
+      # Installs Kubectl and connects it to the Azure Kubernetes Service (AKS) cluster.
+      # https://github.com/marketplace/actions/kubernetes-cli-kubectl
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+          kubectl-version: v1.24.2
 
-            # Expands the manifest YAML file (i.e. replaces placeholders in the YAML file with environment variable values)
-            # and deploys the microservice to the Azure Kubernetes Service (AKS) cluster.
-            - name: Deploy
-              run: envsubst < kubernetes/deploy.yaml | kubectl apply -f -
+      # Expands the manifest YAML file (i.e. replaces placeholders in the YAML file with environment variable values)
+      # and deploys the microservice to the Azure Kubernetes Service (AKS) cluster.
+      - name: Deploy
+        run: envsubst < kubernetes/deploy.yaml | kubectl apply -f -
+
+      - name: probe-meeting
+        run: envsubst < kubernetes/probe.yaml | kubectl apply -f -

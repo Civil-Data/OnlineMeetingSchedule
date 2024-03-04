@@ -10,7 +10,10 @@ const { ValidationError } = require("./error/app-errors");
 module.exports.ValidateSignature = async req => {
 	try {
 		const signature = req.get("Authorization");
-		console.log(signature);
+
+		if (signature === undefined) {
+			throw new ValidationError("No valid session token provided.");
+		}
 		const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
 		req.user = payload;
 		return true;
@@ -36,6 +39,20 @@ module.exports.ValidateMeetingInput = async ({
 
 	if (endDate === startDate && startTime > endTime)
 		throw new ValidationError("Start time cannot be after (greater than) end time.");
+};
+
+module.exports.PrintFormattedMessage = message => {
+	const currentDate = new Date();
+
+	// Get hours, minutes, day, month, and year
+	const hours = currentDate.getHours().toString().padStart(2, "0");
+	const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+	const day = currentDate.getDate().toString().padStart(2, "0");
+	const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+	const year = currentDate.getFullYear();
+
+	const formattedMessage = `[${hours}:${minutes} - ${year}-${month}-${day}]: ${message}`;
+	console.log(formattedMessage);
 };
 
 /* ==================== Utility functions ========================== */

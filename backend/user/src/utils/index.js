@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const amqplib = require("amqplib");
-const { isAlpha, isEmail, isNumeric, isMobilePhone } = require("validator");
+const { isAlpha, isEmail, isMobilePhone } = require("validator");
 
 const { APP_SECRET, EXCHANGE_NAME, USER_SERVICE, MSG_QUEUE_URL } = require("../config");
 const { ValidationError } = require("./error/app-errors");
@@ -13,20 +13,21 @@ module.exports.GenerateSalt = async () => {
 };
 
 module.exports.GeneratePassword = async (password, salt) => {
-	return await bcrypt.hash(password, salt);
+	if (!password) {
+		throw new Error("Password is undefined");
+	}
+	const newPassword = await bcrypt.hash(password, salt);
+	return newPassword;
 };
 
 module.exports.ValidatePassword = async (enteredPassword, savedPassword, salt) => {
-	console.log(enteredPassword);
-	console.log(savedPassword);
-	console.log(salt);
 	return (await this.GeneratePassword(enteredPassword, salt)) === savedPassword;
 };
 
 module.exports.GenerateSignature = async payload => {
 	try {
 		return await jwt.sign(payload, APP_SECRET, {
-			expiresIn: "2min",
+			expiresIn: "2h",
 		});
 	} catch (error) {
 		console.log(error);
@@ -37,6 +38,9 @@ module.exports.GenerateSignature = async payload => {
 module.exports.ValidateSignature = async req => {
 	try {
 		const signature = req.get("Authorization");
+		if (signature === undefined) {
+			throw new ValidationError("No valid session token provided.");
+		}
 		const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
 		req.user = payload;
 		return true;
@@ -47,39 +51,60 @@ module.exports.ValidateSignature = async req => {
 
 module.exports.ValidateUserInput = async (
 	type = "SIGNUP",
-	{ firstName, lastName, email, password, telephone, gender, age }
+	{ newFirstName, newLastName, newEmail, newPassword, newAge, newGender, newTelephone }
 ) => {
 	// Check if all required fields are provided
-	if (!firstName || !lastName || !email || !password) {
+	if (!newFirstName || !newLastName || !newEmail || !newPassword) {
 		throw new ValidationError("All fields are required");
 	}
 
 	// Check if the first name and last name are letters
-	if (!isAlpha(firstName) || !isAlpha(lastName)) {
+	if (!isAlpha(newFirstName) || !isAlpha(newLastName)) {
 		throw new ValidationError("First name and last name should be letters");
 	}
 
-	// Check if the email format is valid
-	if (!isEmail(email)) {
+	// Check if the newEmail format is valid
+	if (!isEmail(newEmail)) {
 		throw new ValidationError("Email is not valid");
 	}
 
-	// Check if the password meets the minimum length requirement
-	if (password.length < 8) {
+	// Check if the newPassword meets the minimum length requirement
+	if (newPassword.length < 8) {
 		throw new ValidationError("Password should be at least 8 characters");
 	}
 
 	if (type === "UPDATE") {
 		// Validate telephone number
-		if (!isMobilePhone(telephone)) throw new ValidationError("Not a valid telephone number.");
+		if (!isMobilePhone(newTelephone) && newTelephone != "")
+			throw new ValidationError("Not a valid telephone number.");
 
 		// Check if a gender option is specified
-		if (gender !== "Male" || gender !== "Female" || gender !== "Other")
+		if (
+			newGender !== "Male" &&
+			newGender !== "Female" &&
+			newGender !== "Other" &&
+			newGender !== ""
+		)
 			throw new ValidationError("Invalid gender input.");
 
-		// Check if the password meets the minimum length requirement
-		if (isNaN(+age) || +age < 0) throw new ValidationError("Invalid age input.");
+		// Check if age is valid
+		if (newAge != 0 && isNaN(+newAge) && +newAge < 0)
+			throw new ValidationError("Invalid age input.");
 	}
+};
+
+module.exports.PrintFormattedMessage = message => {
+	const currentDate = new Date();
+
+	// Get hours, minutes, day, month, and year
+	const hours = currentDate.getHours().toString().padStart(2, "0");
+	const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+	const day = currentDate.getDate().toString().padStart(2, "0");
+	const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+	const year = currentDate.getFullYear();
+
+	const formattedMessage = `[${hours}:${minutes} - ${year}-${month}-${day}]: ${message}`;
+	console.log(formattedMessage);
 };
 
 /* ==================== Utility functions ========================== */

@@ -2,13 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDayViewUpdate } from "../../contexts/MeetingContext";
 import { useDateContext } from "../../contexts/DateContext";
 import { v4 as uuidv4 } from "uuid";
-import DateButtons from "../../Components/DateButtons";
+import DateButtons from "../../Components/Meeting/DateButtons";
 
 const useCalendarRender = () => {
 	const { monthToDisplay, yearToDisplay } = useDayViewUpdate();
 
 	const { getDate } = useDateContext();
-	// console.log(getDate());
 
 	const [monthString, setMonthString] = useState(
 		getDate(yearToDisplay, monthToDisplay).monthString

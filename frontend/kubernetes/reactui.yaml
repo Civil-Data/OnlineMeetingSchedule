@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reactui
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: reactui
+      app: frontend
   template:
     metadata:
       labels:
-        app: reactui
+        app: frontend
     spec:
       containers:
-        - name: reactui
-          image: $CONTAINER_REGISTRY_LOGIN_SERVER/reactui:$VERSION
+        - name: frontend
+          image: $CONTAINER_REGISTRY_LOGIN_SERVER/frontend:$VERSION
           imagePullPolicy: IfNotPresent
           env:
             - name: PORT
@@ -22,21 +22,21 @@ spec:
           resources:
             requests:
               cpu: 126m
-              memory: 126Mi
+              memory: 1024Mi
             limits:
               cpu: 256m
-              memory: 256Mi
+              memory: 2048Mi
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: reactui
+  name: frontend
 spec:
   selector:
-    app: reactui
+    app: frontend
   type: LoadBalancer
   ports:
-    - name: reactui
+    - name: frontend
       port: 80
       targetPort: 3000

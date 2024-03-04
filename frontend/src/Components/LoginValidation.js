@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import { SERVER_URL } from "../config";
+import { Link, Navigate } from "react-router-dom";
 import { useUpdateUserContext } from "../contexts/LoginContext";
+import APIHandler from "../utils/api-methods";
+import { useToastUpdate } from "../contexts/PageContext";
 
 //Component for Login validation
 const Login = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
+	const { sendToastSuccess, sendToastError } = useToastUpdate();
+	const { saveUser, isDataSaved, setAuthToken } = useUpdateUserContext();
+
 	const [inputValue, setInputValue] = useState({
 		email: "",
 		password: "",
 	});
 	const { email, password } = inputValue;
-	const { saveUser, updateLoginStatus } = useUpdateUserContext();
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	// Handle changes in input fields
 	const handleOnChange = e => {
@@ -24,43 +26,33 @@ const Login = () => {
 		});
 	};
 
-	const handleError = err =>
-		toast.error(err, {
-			position: "bottom-left",
-		});
-
-	const handleSuccess = msg =>
-		toast.success(msg, {
-			position: "bottom-right",
-		});
-
 	const handleSubmit = async e => {
 		e.preventDefault();
 
 		try {
 			// Send a POST request to login
-			const { data } = await axios.post(
-				SERVER_URL + "/user/login",
-				{
-					...inputValue,
-				},
+			const api = new APIHandler();
+			const { data } = await api.PostData(
+				"/user/login",
+				{ ...inputValue },
 				{ withCredentials: true }
 			);
-			const { success, message } = data;
-			if (success) {
-				handleSuccess(message);
-				saveUser(data.user);
-				updateLoginStatus(true);
-				// Redirect to the "/profile" route after successful login
-				setTimeout(() => {
-					navigate("/profile");
-				}, 2000);
-			} else {
-				handleError(message);
-			}
+			// Set the token in local storage
+			await setAuthToken(data.token);
+			sendToastSuccess(data.message);
+			saveUser(data.existingUser);
+			// updateLogin(true);
+			setIsLoggedIn(true);
+
+			// Redirect to the "/profile" route after successful login
+			// setTimeout(() => {
+			// 	navigate("/profile");
+			// }, 2000);
 		} catch (error) {
 			console.error(error);
+			sendToastError(error.response.data);
 		}
+
 		// Clear the password input field
 		setInputValue({
 			...inputValue,
@@ -69,8 +61,8 @@ const Login = () => {
 	};
 
 	return (
-		<div className="form_container">
-			<form onSubmit={handleSubmit}>
+		<>
+			<form onSubmit={handleSubmit} className="form_container">
 				<div>
 					<label htmlFor="email" className="input_label">
 						Enter your email
@@ -102,20 +94,18 @@ const Login = () => {
 					value={password}
 					onChange={handleOnChange}
 				/>
-				<div>
-					<button type="submit" id="confirmation_btn" className="links">
-						Login
-					</button>
-				</div>
+				<button type="submit" id="confirmation_btn" className="links">
+					Login
+				</button>
 				<span>
-					No account?{" "}
+					{"No account? "}
 					<Link className="links" id="signUp-signIn" to={"/signup"}>
 						Sign up
 					</Link>
 				</span>
 			</form>
-			<ToastContainer />
-		</div>
+			{isDataSaved && isLoggedIn && <Navigate to={"/profile"} />}
+		</>
 	);
 };
 

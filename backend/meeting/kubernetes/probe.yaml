@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: probe-meeting
+    labels:
+        app: probe-meeting
+spec:
+    containers:
+        - name: meeting
+          image: meeting:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+              - containerPort: 5002
+          startupProbe:
+              exec:
+                  command:
+                      - cat
+                      - /tmp/started
+              initialDelaySeconds: 5
+              periodSeconds: 4
+              failureThreshold: 10
+          readinessProbe:
+              tcpSocket:
+                  port: 5002
+              initialDelaySeconds: 5
+              periodSeconds: 2
+              failureThreshold: 10
+          livenessProbe:
+              httpGet:
+                  path: /healthz
+                  port: 5002
+              initialDelaySeconds: 25
+              periodSeconds: 2
+              failureThreshold: 6
+          resources:
+              requests:
+                  cpu: 100m
+                  memory: 128Mi
+              limits:
+                  cpu: 250m
+                  memory: 256Mi

@@ -2,17 +2,19 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useUserContext, useUpdateUserContext } from "../contexts/LoginContext";
+import { useToastUpdate } from "../contexts/PageContext";
 
 //Component for navigation bar
 const NavigationBar = () => {
 	const { loginStatus, user } = useUserContext();
-	const { updateLoginStatus, updateLogoutPressed } = useUpdateUserContext();
+	const { updateLogin } = useUpdateUserContext();
+	const { sendToastInfo } = useToastUpdate();
 
 	const iconSize = "27px";
 
 	const Logout = () => {
-		updateLoginStatus(false);
-		updateLogoutPressed(true);
+		updateLogin(false);
+		sendToastInfo(`${user.firstName} successfully logged out!`);
 	};
 
 	return (
@@ -39,7 +41,7 @@ const NavigationBar = () => {
 			</div>
 			{loginStatus ? (
 				<div id="navButtons" className="flex-se right">
-					<span id="logged_in">{user.firstName + " " + user.lastName}</span>
+					<span id="logged_in">{`${user.firstName} ${user.lastName}`}</span>
 
 					<Link className="nav-buttons" to="/" type="button">
 						<span onClick={() => Logout()}>Log out</span>

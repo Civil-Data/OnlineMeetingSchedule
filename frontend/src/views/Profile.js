@@ -1,12 +1,12 @@
 import React from "react";
-import ProfileContacts from "../Components/Profile/ProfileContacts";
-import ProfileInformation from "../Components/Profile/ProfileInformation";
+import ProfileContacts from "../Components/Profile/Contacts";
+import ProfileInformation from "../Components/Profile/Information";
 import ProfileTab from "../Components/Profile/ProfileTab";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddSharpIcon from "@mui/icons-material/PersonAddSharp";
 import { useProfileUpdate, useTabContext } from "../contexts/ProfileContext";
 import { useUserContext } from "../contexts/LoginContext";
-import ProfileMeetings from "../Components/Profile/ProfileMeetings";
+import ProfileMeetings from "../Components/Profile/Meetings";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -14,22 +14,20 @@ import ClearIcon from "@mui/icons-material/Clear";
 const Profile = () => {
 	const { user, loginStatus } = useUserContext();
 	const tabContext = useTabContext();
-	const { updateClickedIcon, clickedIcon } = useProfileUpdate();
+	const { showUpdateView, isUpdateView } = useProfileUpdate();
 
 	return (
 		<>
 			<div className="profile_container">
 				<div className="top_section">
-					{loginStatus && (
-						<span>{user.firstName + " " + user.lastName}</span>
-					)}
+					{loginStatus && <span>{user.firstName + " " + user.lastName}</span>}
 					{tabContext === "info" && (
 						<>
-							{clickedIcon ? (
+							{isUpdateView ? (
 								<div style={{ display: "flex" }}>
 									<div
 										onClick={() => {
-											updateClickedIcon(false);
+											showUpdateView(false);
 										}}
 										className="icon"
 									>
@@ -39,7 +37,7 @@ const Profile = () => {
 							) : (
 								<div
 									onClick={() => {
-										updateClickedIcon(true);
+										showUpdateView(true);
 									}}
 									className="icon"
 								>

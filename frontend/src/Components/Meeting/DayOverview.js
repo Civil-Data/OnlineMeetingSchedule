@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import MeetingItem from "../Profile/MeetingItem";
+import MeetingItem from "../Profile/Meetings/Item";
 import { useMeetingPopUp } from "../../contexts/MeetingContext";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
-import { SERVER_URL } from "../../config";
+// import { SERVER_URL } from "../../config";
+// import { useUpdateUserContext } from "../../contexts/LoginContext";
+import APIHandler from "../../utils/api-methods";
+
+const api = new APIHandler();
 
 const fetchDayMeeting = async (date, monthToDisplay, yearToDisplay) => {
 	try {
 		const dateString = `${String(yearToDisplay).padStart(2, "0")}-${String(
 			monthToDisplay
 		).padStart(2, "0")}-${String(date).padStart(2, "0")}`;
-		const { data } = await axios.get(SERVER_URL + `/meeting/meeting/date?date=${dateString}`);
+		const { data } = await api.GetData(`/meeting/${dateString}`);
 
 		return data;
 	} catch (error) {
@@ -22,8 +25,7 @@ const DayOverview = () => {
 	const { date, clickedMonth, yearToDisplay } = useMeetingPopUp();
 	const [isLoading, setIsLoading] = useState(true);
 	const [meetings, setMeetings] = useState();
-
-	// TODO: FETCH Meetings based on the date clicked (use MeetingContext, popUpProvider perhaps)
+	// const { api } = useUpdateUserContext();
 
 	useEffect(() => {
 		const renderDayMeetings = async () => {

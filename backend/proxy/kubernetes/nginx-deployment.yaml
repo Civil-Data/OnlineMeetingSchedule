@@ -14,7 +14,8 @@ spec:
         spec:
             containers:
                 - name: nginx
-                  image: nginx:alpine
+                  image: $CONTAINER_REGISTRY_LOGIN_SERVER/proxy:$VERSION
+                  imagePullPolicy: IfNotPresent
                   ports:
                       - containerPort: 80
                   resources:

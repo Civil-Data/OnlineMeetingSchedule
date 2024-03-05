@@ -1,52 +1,10 @@
+require("./setup");
 const UserService = require("../src/services/user-service");
 const User = require("../src/database/models/User"); // Assuming you have a Mongoose model for your users
-const bcrypt = require("bcryptjs");
 
 const service = new UserService();
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const mongoose = require("mongoose");
-let mongoServer;
 
 describe("UserService", () => {
-	beforeEach(async () => {
-		mongoServer = new MongoMemoryServer();
-		await mongoServer.start();
-		const uri = await mongoServer.getUri();
-		await mongoose.connect(uri, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		});
-
-		// Generate a salt for the users
-		const salt = await bcrypt.genSalt();
-		// Hash the password
-		const password1 = await bcrypt.hash("Password12345", salt);
-		const password2 = await bcrypt.hash("Password123", salt);
-
-		// Create a few users
-		await User.create([
-			{
-				firstName: "test",
-				lastName: "testsson",
-				email: "test1@test.com",
-				password: password1,
-				salt: salt,
-			},
-			{
-				firstName: "test",
-				lastName: "testsson",
-				email: "test2@test.com",
-				password: password2,
-				salt: salt,
-			},
-		]);
-	});
-
-	afterEach(async () => {
-		await mongoose.disconnect();
-		await mongoServer.stop();
-	});
-
 	describe("LogIn", () => {
 		test("validate user inputs", async () => {
 			const email = "test1@test.com";

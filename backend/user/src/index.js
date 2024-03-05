@@ -88,3 +88,5 @@ const StartServer = async () => {
 };
 
 StartServer();
+
+module.exports = { StartServer };

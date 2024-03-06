@@ -6,6 +6,7 @@ module.exports = async (req, res, next) => {
 		const isAuthorized = await ValidateSignature(req);
 
 		if (!isAuthorized) throw new AuthenticationError("Not authorized.");
+
 		next();
 	} catch (error) {
 		next(error);

@@ -40,9 +40,9 @@ const userSchema = new mongoose.Schema({
 	},
 	createdAt: {
 		type: Date,
-		default: `${new Date().toLocaleDateString("sv-SE")} ${new Date().toLocaleTimeString(
+		default: `${new Date().toLocaleDateString(
 			"sv-SE"
-		)}`,
+		)} ${new Date().toLocaleTimeString("sv-SE")}`,
 	},
 });
 module.exports = mongoose.model("User", userSchema);

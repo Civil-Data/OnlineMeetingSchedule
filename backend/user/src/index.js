@@ -12,7 +12,7 @@ const fs = require("node:fs");
 
 const HEALTHZ_TIME = 40000; // 40000 milliseconds
 
-const StartServer = async () => {
+const StartServer = async (port = PORT) => {
 	const app = express();
 
 	await databaseConnection();
@@ -72,8 +72,8 @@ const StartServer = async () => {
 		console.error(err);
 	}
 
-	app.listen(PORT, () => {
-		console.log(`listening to port ${PORT}`);
+	app.listen(port, () => {
+		console.log(`listening to port ${port}`);
 	})
 
 		.on("error", (err) => {
@@ -87,6 +87,9 @@ const StartServer = async () => {
 		});
 };
 
-StartServer();
+StartServer(PORT);
 
-module.exports = { StartServer };
+// Export the module to access the function from other modules
+module.exports = {
+	StartServer,
+};

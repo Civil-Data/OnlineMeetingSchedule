@@ -9,7 +9,8 @@ class MeetingService {
 
 	async CreateMeeting(meetingData) {
 		const meeting = await this.repository.CreateMeeting(meetingData);
-		if (!meeting) throw new APIError("Something went wrong when creating a meeting.");
+		if (!meeting)
+			throw new APIError("Something went wrong when creating a meeting.");
 		return meeting;
 	}
 
@@ -37,7 +38,9 @@ class MeetingService {
 	async DeleteMeeting(meetingId) {
 		const deletedMeeting = await this.repository.DeleteMeeting(meetingId);
 		if (!deletedMeeting)
-			throw new APIError("Something went wrong when trying to delete meeting.");
+			throw new APIError(
+				"Something went wrong when trying to delete meeting."
+			);
 		return deletedMeeting;
 	}
 }

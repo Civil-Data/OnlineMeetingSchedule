@@ -1,17 +1,14 @@
 const bcrypt = require("bcryptjs");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
-const User = require("../user/src/database/models/User");
+const User = require("../src/database/models/User");
 let mongoServer;
 
 beforeEach(async () => {
 	mongoServer = new MongoMemoryServer();
 	await mongoServer.start();
 	const uri = await mongoServer.getUri();
-	await mongoose.connect(uri, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	});
+	await mongoose.connect(uri, {});
 
 	// Generate a salt for the users
 	const salt = await bcrypt.genSalt();

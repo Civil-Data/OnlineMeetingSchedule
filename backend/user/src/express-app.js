@@ -12,7 +12,7 @@ module.exports = async (app) => {
 			credentials: true,
 		})
 	);
-	app.use(express.static(__dirname + "/public"));
+	// app.use(express.static(__dirname + "/public"));
 
 	const channel = await CreateChannel();
 

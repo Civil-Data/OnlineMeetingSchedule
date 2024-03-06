@@ -1,15 +1,9 @@
 const express = require("express");
-
 const { PORT } = require("./config");
-
 const { databaseConnection } = require("./database");
-
 const expressApp = require("./express-app");
-
 const { CreateChannel } = require("./utils");
-
 const fs = require("node:fs");
-
 const HEALTHZ_TIME = 40000; // 40000 milliseconds
 
 const StartServer = async () => {
@@ -25,7 +19,6 @@ const StartServer = async () => {
 
 	app.use((error, req, res, next) => {
 		const STATUS_CODE = error.statusCode || 500;
-
 		const data = error.data || error.message;
 
 		return res.status(STATUS_CODE).json(data);
@@ -88,3 +81,5 @@ const StartServer = async () => {
 };
 
 StartServer();
+
+// module.exports = { StartServer };

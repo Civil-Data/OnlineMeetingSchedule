@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-    name: meeting
+    name: probe-meeting
     labels:
-        app: meeting
+        app: probe-meeting
 spec:
     containers:
-        - name: meeting
+        - name: probe-meeting
           image: $CONTAINER_REGISTRY_LOGIN_SERVER/meeting:$VERSION
           imagePullPolicy: IfNotPresent
           ports:

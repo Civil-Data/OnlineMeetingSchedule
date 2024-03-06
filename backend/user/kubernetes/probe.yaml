@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-    name: user
+    name: probe-user
     labels:
-        app: user
+        app: probe-user
 spec:
     containers:
-        - name: user
+        - name: probe-user
           image: $CONTAINER_REGISTRY_LOGIN_SERVER/user:$VERSION
           imagePullPolicy: IfNotPresent
           ports:

@@ -37,12 +37,11 @@ jobs:
           cache: "npm"
           cache-dependency-path: "backend/meeting/package-lock.json" # Path to package-lock.json in meeting subfolder.
 
-      # (To be implemented)
       # Installs NPM packages and tests the microservice.
-      # - name: Test
-      #   run: |
-      #       npm ci
-      #       npm test
+      - name: Test
+        run: |
+          npm ci
+          npm test
 
       # Builds the Docker image.
       - name: Build

@@ -5,7 +5,7 @@ on:
   # Deploys the microservice on push to subfolder nginx on the main branch of this code repository.
   push:
     branches:
-      - fix/api-calls
+      - main
     paths:
       - "gateway/**" # Only trigger on push to gateway subfolder.
 

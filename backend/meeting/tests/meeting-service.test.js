@@ -1,6 +1,8 @@
-// require("./setup");
+require("./setup");
 const { MeetingService } = require("../src/services/meeting-service");
 const { MeetingRepository } = require("../src/database/models/Meeting");
+
+const service = new MeetingService();
 // const {
 // 	NotFoundError,
 // 	APIError,
@@ -9,12 +11,6 @@ const { MeetingRepository } = require("../src/database/models/Meeting");
 jest.mock("../src/database/models/Meeting");
 
 describe("MeetingService", () => {
-	let service;
-
-	beforeEach(() => {
-		service = new MeetingService();
-	});
-
 	test("CreateMeeting calls repository and returns result", async () => {
 		const mockMeeting = { title: "Test Meeting" };
 		MeetingRepository.prototype.CreateMeeting.mockResolvedValue(

@@ -105,5 +105,108 @@ describe("UserService", () => {
 				).rejects.toThrow();
 			});
 		});
+		describe("UpdateUser", () => {
+			test("validate user inputs", async () => {
+				const newFirstName = "Updated";
+				const newLastName = "Updatedsson";
+				const newEmail = "test2@test.com";
+				const newPassword = "UpdatedPassword12345";
+				const newDescription = "Updated description";
+				const newAge = 25;
+				const newGender = "Male";
+				const newTelephone = "1234567890";
+				const emailChanged = false;
+
+				const dbUser = await User.findOne({ email: newEmail });
+
+				const newId = dbUser._id;
+
+				const existingUser = await service.UpdateUser({
+					newId,
+					newFirstName,
+					newLastName,
+					newEmail,
+					newPassword,
+					newDescription,
+					newAge,
+					newGender,
+					newTelephone,
+					emailChanged,
+				});
+				expect(existingUser.firstName).toBe(newFirstName);
+				expect(existingUser.lastName).toBe(newLastName);
+				expect(existingUser.email).toBe(newEmail);
+				expect(existingUser.description).toBe(newDescription);
+				expect(existingUser.age).toBe(newAge);
+				expect(existingUser.gender).toBe(newGender);
+				expect(existingUser.telephone).toBe(newTelephone);
+			});
+		});
+
+		test("handle update error", async () => {
+			const newFirstName = "Updated";
+			const newLastName = "Updatedsson";
+			const newEmail = "nonexistent@test.com"; // Email of a non-existent user
+			const newPassword = "UpdatedPassword12345";
+			const newDescription = "Updated description";
+			const newAge = 25;
+			const newGender = "Male";
+			const newTelephone = "1234567890";
+			const emailChanged = false;
+
+			try {
+				const dbUser = await User.findOne({ email: newEmail });
+
+				const newId = dbUser._id;
+
+				await service.UpdateUser({
+					newId,
+					newFirstName,
+					newLastName,
+					newEmail,
+					newPassword,
+					newDescription,
+					newAge,
+					newGender,
+					newTelephone,
+					emailChanged,
+				});
+			} catch (e) {
+				expect(e).toBeTruthy(); // Expect an error to be thrown
+			}
+		});
+
+		test("handle invalid arguments", async () => {
+			const newFirstName = "Updated";
+			const newLastName = "Updatedsson";
+			const newEmail = "test2@test.com";
+			const newPassword = "UpdatedPassword12345";
+			const newDescription = "Updated description";
+			const newAge = "invalid"; // Invalid age
+			const newGender = "Male";
+			const newTelephone = "1234567890";
+			const emailChanged = false;
+
+			try {
+				const dbUser = await User.findOne({ email: newEmail });
+
+				const newId = dbUser._id;
+
+				await service.UpdateUser({
+					newId,
+					newFirstName,
+					newLastName,
+					newEmail,
+					newPassword,
+					newDescription,
+					newAge,
+					newGender,
+					newTelephone,
+					emailChanged,
+				});
+			} catch (e) {
+				expect(e).toBeTruthy(); // Expect an error to be thrown
+			}
+		});
 	});
 });

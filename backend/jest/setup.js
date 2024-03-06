@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
-const User = require("../src/database/models/User");
+const User = require("../user/src/database/models/User");
 let mongoServer;
 
 beforeEach(async () => {

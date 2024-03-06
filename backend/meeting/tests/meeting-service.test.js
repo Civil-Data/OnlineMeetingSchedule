@@ -1,4 +1,4 @@
-require("../../user/tests/setup");
+require("./setup");
 const { MeetingService } = require("../src/services/meeting-service");
 const { MeetingRepository } = require("../src/database/models/Meeting");
 // const {

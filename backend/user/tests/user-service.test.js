@@ -1,4 +1,4 @@
-require("./setup");
+require("../../jest/setup");
 const UserService = require("../src/services/user-service");
 const User = require("../src/database/models/User"); // Assuming you have a Mongoose model for your users
 
